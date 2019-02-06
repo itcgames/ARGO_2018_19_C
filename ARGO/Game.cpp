@@ -25,13 +25,22 @@ void Game::initialise()
 		printf("Failed to load dot texture!\n");
 
 	}
+	if (!wallTxt.loadFromFile("wall.bmp", m_renderer))
+	{
+		printf("Failed to load wall texture!\n");
+	}
 
 	Entity player("Player");
 	player.addComponent(new HealthComponent(200));
 	player.addComponent(new PositionComponent(100, 100));
 	player.addComponent(new ControlComponent());
 	player.addComponent(new SpriteComponent(m_texture, m_renderer));
+	player.addComponent(new CollisionComponent());
 
+	Entity wall("Wall");
+	wall.addComponent(new PositionComponent(200, 200));
+	wall.addComponent(new CollisionComponent());
+	//wall.addComponent(new SpriteComponent(wallTxt, m_renderer));
 
 	Entity alien("Alien");
 	alien.addComponent(new HealthComponent(60));
@@ -54,6 +63,7 @@ void Game::initialise()
 
 
 	rs.addEntity(player);
+	//rs.addEntity(wall);
 	//rs.addEntity(alien);
 	//rs.addEntity(dog);
 	//rs.addEntity(cat);
@@ -63,7 +73,8 @@ void Game::initialise()
 	ais.addEntity(cat);
 
 	cs.addEntity(player);
-
+	Colls.addEntity(player);
+	Colls.addEntity(wall);
 	
 }
 
@@ -121,7 +132,7 @@ void Game::processEvents()
 void Game::update()
 {
 	//hs.update();
-
+	Colls.update();
 }
 
 void Game::render()
@@ -131,13 +142,10 @@ void Game::render()
 		SDL_Log("Could not create a renderer: %s", SDL_GetError());
 	}
 
-	
-	
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 	SDL_RenderClear(m_renderer);
 	rs.update(m_renderer);
-	//m_playerDot->render(m_renderer);
-	//m_texture.render(100, 100, m_renderer);
+	wallTxt.render(200, 200, m_renderer);
 	SDL_RenderPresent(m_renderer);
-
+	
 }

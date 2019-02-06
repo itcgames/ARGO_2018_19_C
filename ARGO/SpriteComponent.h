@@ -28,7 +28,6 @@ public:
 
 	}
 	void render(SDL_Renderer *m_renderer) {
-
 		m_texture.render(mPosX, mPosY, m_renderer);
 	}
 
