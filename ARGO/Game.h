@@ -16,6 +16,7 @@
 #include "AiSystem.h"
 #include "ParticleSystem.h"
 #include "Dot.h"
+#include "PhysicsSystem.h"
 
 //Jamie
 #include "Particle.h"
@@ -62,6 +63,7 @@ private:
 	AiSystem ais;
 	ParticleSystem ps;
 	ControlSystem cs;
+	PhysicsSystem ps;
 	LTexture m_texture;
 
 

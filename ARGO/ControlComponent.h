@@ -28,10 +28,12 @@ public:
 	Direction getDirection() {
 		return m_currentDirection;
 	}
-
+	Direction m_currentDirection = Idle;
+	int jump = 0;
+	int moveLeft = 0, moveRight = 0;
 private:
 	std::string id = "Control";
-	Direction m_currentDirection = Idle;
+	
 
 };
 

@@ -12,12 +12,13 @@ class ControlSystem
 public:
 	ControlSystem();
 	void addEntity(Entity e);
-	void update();
+	void idle();
 	void input(SDL_Event & e);
+	void keyUp(SDL_Event & e);
 private:
 	std::vector<Entity> entities;
 
-
+	ControlComponent * controlComp;
 	float x = 0;
 	float y = 0;
 	float speed = 2;
