@@ -11,7 +11,6 @@ void RenderSystem::addEntity(Entity e) {
 void RenderSystem::update(SDL_Renderer *m_renderer) {
 
 
-	std::cout << "RENDER SYSTEM:" << std::endl;
 	for (Entity & entity : entities) {
 
 		/*for (Component * component : entity.getComponents()) {
@@ -40,7 +39,5 @@ void RenderSystem::update(SDL_Renderer *m_renderer) {
 		//sc.render(pc->getPositionX(), pc->getPositionY(), m_renderer);
 		
 	}
-	std::cout << std::endl;
-	std::cout << std::endl;
 
 }

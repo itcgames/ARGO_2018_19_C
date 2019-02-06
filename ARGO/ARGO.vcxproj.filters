@@ -80,6 +80,12 @@
     <ClInclude Include="Dot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="dot.bmp">

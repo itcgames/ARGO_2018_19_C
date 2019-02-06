@@ -15,6 +15,9 @@
 #include "ControlSystem.h"
 #include "AiSystem.h"
 #include "Dot.h"
+#include "Factory.h"
+#include <iterator>
+
 
 using namespace std;
 
@@ -57,6 +60,9 @@ private:
 	AiSystem ais;
 	ControlSystem cs;
 	LTexture m_texture;
+
+	Factory* m_factory;
+	std::vector<PowerUp*> m_powerUps;
 
 };
 

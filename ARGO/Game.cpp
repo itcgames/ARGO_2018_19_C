@@ -11,10 +11,13 @@ Game::Game()
 	{
 		cout << "Error: " << IMG_GetError() << endl;
 	}
+	m_factory = new PowerUpFactory;
+
 
 	initialise();
 	m_playerDot = new Dot(false, 100, 100);
 	m_playerDot->Init(m_renderer);
+
 }
 
 
@@ -25,6 +28,9 @@ void Game::initialise()
 		printf("Failed to load dot texture!\n");
 
 	}
+
+	m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
+	m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
 
 	Entity player("Player");
 	player.addComponent(new HealthComponent(200));
@@ -120,8 +126,17 @@ void Game::processEvents()
 
 void Game::update()
 {
-	//hs.update();
-
+	for (int i = m_powerUps.size() - 1; i >= 0; i--)
+	{
+		if (m_powerUps[i]->getAlive())
+		{
+			m_powerUps[i]->update();
+		}
+		else
+		{
+			m_powerUps.erase(m_powerUps.begin() + i);
+		}
+	}
 }
 
 void Game::render()
@@ -136,6 +151,11 @@ void Game::render()
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 	SDL_RenderClear(m_renderer);
 	rs.update(m_renderer);
+
+	for (int i = m_powerUps.size() - 1; i >= 0; i--)
+	{
+			m_powerUps[i]->draw(m_renderer);
+	}
 	//m_playerDot->render(m_renderer);
 	//m_texture.render(100, 100, m_renderer);
 	SDL_RenderPresent(m_renderer);
