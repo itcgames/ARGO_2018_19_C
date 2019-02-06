@@ -15,6 +15,7 @@
 #include "ControlSystem.h"
 #include "AiSystem.h"
 #include "Dot.h"
+#include "PhysicsSystem.h"
 
 using namespace std;
 
@@ -56,6 +57,7 @@ private:
 	RenderSystem rs;
 	AiSystem ais;
 	ControlSystem cs;
+	PhysicsSystem ps;
 	LTexture m_texture;
 
 };

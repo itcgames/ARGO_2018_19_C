@@ -64,6 +64,8 @@ void Game::initialise()
 
 	cs.addEntity(player);
 
+	ps.addEntity(player);
+
 	
 }
 
@@ -105,9 +107,15 @@ void Game::processEvents()
 
 
 	while (SDL_PollEvent(&event)) {
+	
 		switch (event.type) {
 		case SDL_QUIT:
 			exit = true;
+			break;
+		
+		case SDL_KEYUP:
+			cs.idle();
+			cs.keyUp(event);
 			break;
 		case SDL_KEYDOWN:
 			cs.input(event);
@@ -115,12 +123,15 @@ void Game::processEvents()
 				exit = true;
 			break;
 		}
+
+		
 	}
 }
 
 void Game::update()
 {
 	//hs.update();
+	ps.update();
 
 }
 
