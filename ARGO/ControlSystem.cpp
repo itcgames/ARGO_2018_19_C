@@ -12,7 +12,7 @@ void ControlSystem::input(SDL_Event &e) {
 
 	for (Entity& entity : entities) {
 		
-		ControlComponent * controlComp = (ControlComponent*)entity.getCompByType("Control");
+		controlComp = (ControlComponent*)entity.getCompByType("Control");
 		switch (e.type)
 		{
 		case SDL_KEYDOWN:
@@ -35,8 +35,23 @@ void ControlSystem::input(SDL_Event &e) {
 				break;
 
 			}
+		
 
-			update();
+		case SDL_KEYUP:
+			switch (e.key.keysym.sym)
+			{
+			case SDLK_UP:
+				controlComp->jump = 0;
+				break;
+			case SDLK_LEFT:
+				controlComp->moveLeft = 0;
+				break;
+			case SDLK_RIGHT:
+				controlComp->moveRight = 0;
+				break;
+		
+			}
+			
 
 		}
 	}
@@ -47,42 +62,7 @@ void ControlSystem::input(SDL_Event &e) {
 }
 
 
-void ControlSystem::update() {
-	
-	std::cout << "CONTROL SYSTEM: " << std::endl;
-	int index = 0;
-	for (Entity& entity : entities) {
+void ControlSystem::idle() {
 
-		PositionComponent * posComp = (PositionComponent*)entity.getCompByType("Position");
-		ControlComponent * controlComp = (ControlComponent*)entity.getCompByType("Control");
-
-		index++;
-		x = posComp->getPositionX();
-		y = posComp->getPositionY();
-
-		
-		if (controlComp->getDirection() == controlComp->Up) {
-			y -= speed;
-		}
-
-		if (controlComp->getDirection() == controlComp->Down) {
-			y += speed;
-		}
-
-		if (controlComp->getDirection() == controlComp->Right) {
-			x += speed;
-		}
-
-		if (controlComp->getDirection() == controlComp->Left) {
-			x -= speed;
-		}
-
-		posComp->setPosition(x, y);
-		
-		std::cout << "Updated position component of entity: " << entity.getName() << std::endl;
-		std::cout << "PosX: " << posComp->getPositionX() << " PosY: " << posComp->getPositionY() << std::endl;
-
-	}
-	std::cout << std::endl;
-	std::cout << std::endl;
+	controlComp->setDirection(controlComp->Idle);
 }

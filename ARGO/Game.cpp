@@ -64,6 +64,8 @@ void Game::initialise()
 
 	cs.addEntity(player);
 
+	ps.addEntity(player);
+
 	
 }
 
@@ -109,18 +111,25 @@ void Game::processEvents()
 		case SDL_QUIT:
 			exit = true;
 			break;
+		
+		case SDL_KEYUP:
+			cs.idle();
+			break;
 		case SDL_KEYDOWN:
 			cs.input(event);
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				exit = true;
 			break;
 		}
+
+		
 	}
 }
 
 void Game::update()
 {
 	//hs.update();
+	ps.update();
 
 }
 
