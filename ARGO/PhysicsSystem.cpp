@@ -16,9 +16,11 @@ void PhysicsSystem::update() {
 
 		cc = (ControlComponent*)entity.getCompByType("Control");
 		pc = (PositionComponent*)entity.getCompByType("Position");
+		//collide
 
 		if (cc->getDirection() == cc->Left)
 		{
+			//if(!collide)
 			moveLeft();
 			
 		}

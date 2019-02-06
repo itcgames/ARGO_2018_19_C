@@ -18,7 +18,20 @@
 #include "PhysicsSystem.h"
 
 using namespace std;
+enum class
+	GameState
+{
+	None,
+	License,
+	Splash,
+	MainMenu,
+	GameScreen,
+	CoopScreen,
+	Options,
+	Credits,
+	Help
 
+};
 class Game {
 
 public:
@@ -33,6 +46,7 @@ private:
 	void update();
 	void render();
 	void initialise();
+	void setGameState(GameState gameState);
 
 	SDL_Window *m_window;
 	SDL_Renderer *m_renderer;
@@ -59,6 +73,8 @@ private:
 	ControlSystem cs;
 	PhysicsSystem ps;
 	LTexture m_texture;
+	GameState m_currentGameState;
+	GameState m_previousGameState;
 
 };
 

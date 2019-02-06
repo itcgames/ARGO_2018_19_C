@@ -5,6 +5,8 @@ Game::Game()
 	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1200, 700, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
+	m_currentGameState = (GameState::GameScreen);
+
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 
 	if (IMG_Init(imgFlags) != imgFlags)
@@ -127,16 +129,57 @@ void Game::processEvents()
 		
 	}
 }
+void Game::setGameState(GameState gameState)
+{
+	m_currentGameState = gameState;
+}
 
 void Game::update()
 {
 	//hs.update();
-	ps.update();
+	
+
+	switch (m_currentGameState)
+	{
+	case GameState::None:
+		break;
+	case GameState::Splash:
+		break;
+	case GameState::MainMenu:
+		break;
+	case GameState::Options:
+		break;
+	case GameState::GameScreen:
+		ps.update();
+		break;
+	case GameState::Credits:
+		break;
+	default:
+		break;
+	}
 
 }
 
 void Game::render()
 {
+	switch (m_currentGameState)
+	{
+	case GameState::None:
+		break;
+	case GameState::Splash:
+		break;
+	case GameState::MainMenu:
+		break;
+	case GameState::Options:
+		break;
+	case GameState::GameScreen:
+		break;
+	case GameState::Credits:
+		break;
+	default:
+		break;
+	}
+
 	if (m_renderer == nullptr)
 	{
 		SDL_Log("Could not create a renderer: %s", SDL_GetError());
