@@ -17,6 +17,7 @@
 #include "CollisionSystem.h"
 #include "AiSystem.h"
 #include "Dot.h"
+#include "PhysicsSystem.h"
 
 using namespace std;
 
@@ -61,6 +62,8 @@ private:
 	ControlSystem cs;
 	CollisionSystem Colls;
 	LTexture m_texture, wallTxt;
+	PhysicsSystem ps;
+
 
 };
 

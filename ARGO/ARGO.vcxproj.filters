@@ -36,7 +36,11 @@
     <ClCompile Include="Dot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="CollisionSystem.cpp">
+=======
+    <ClCompile Include="PhysicsSystem.cpp">
+>>>>>>> f2a6358c8918e99ff3cd940aff9110b0cb02473d
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,10 +87,14 @@
     <ClInclude Include="Dot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="CollisionComp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CollisionSystem.h">
+=======
+    <ClInclude Include="PhysicsSystem.h">
+>>>>>>> f2a6358c8918e99ff3cd940aff9110b0cb02473d
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

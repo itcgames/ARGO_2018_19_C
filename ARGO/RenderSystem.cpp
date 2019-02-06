@@ -13,15 +13,13 @@ void RenderSystem::update(SDL_Renderer *m_renderer) {
 
 	std::cout << "RENDER SYSTEM:" << std::endl;
 	for (Entity & entity : entities) {
-		if (entity.getName() == "Player")
-		{
-			SpriteComponent * sc = (SpriteComponent*)entity.getCompByType("Sprite");
-			PositionComponent* pc = (PositionComponent*)entity.getCompByType("Position");
 
-			sc->setPosition(pc->getPositionX(), pc->getPositionY());
+		SpriteComponent *sc = (SpriteComponent*)entity.getCompByType("Sprite");
+		PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");
 
-			sc->render(m_renderer);
-		}
+		sc->setPosition(pc->getPositionX(), pc->getPositionY());
+
+		sc->render(m_renderer);
 	}
 	std::cout << std::endl;
 	std::cout << std::endl;
