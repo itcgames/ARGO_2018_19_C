@@ -10,48 +10,33 @@ void ControlSystem::addEntity(Entity e) {
 
 void ControlSystem::input(SDL_Event &e) {
 
-	for (Entity& entity : entities) {
+	for (Entity& entity : entities) 
+	{
 		
 		controlComp = (ControlComponent*)entity.getCompByType("Control");
 		switch (e.type)
 		{
 		case SDL_KEYDOWN:
-			switch (e.key.keysym.sym)
+
+			if (e.key.keysym.sym == SDLK_UP)
 			{
-			case SDLK_UP:
 				controlComp->setDirection(controlComp->Up);
-				break;
-			case SDLK_DOWN:
-				controlComp->setDirection(controlComp->Down);
-				break;
-			case SDLK_LEFT:
-				controlComp->setDirection(controlComp->Left);
-				break;
-			case SDLK_RIGHT:
-				controlComp->setDirection(controlComp->Right);
-				break;
-			default:
-				controlComp->setDirection(controlComp->Idle);
-				break;
-
+				
 			}
-		
-
-		case SDL_KEYUP:
-			switch (e.key.keysym.sym)
+			if (e.key.keysym.sym == SDLK_DOWN)
 			{
-			case SDLK_UP:
-				controlComp->jump = 0;
-				break;
-			case SDLK_LEFT:
-				controlComp->moveLeft = 0;
-				break;
-			case SDLK_RIGHT:
-				controlComp->moveRight = 0;
-				break;
-		
+				controlComp->setDirection(controlComp->Down);
 			}
-			
+			if (e.key.keysym.sym == SDLK_LEFT)
+			{
+				controlComp->setDirection(controlComp->Left);
+				controlComp->moveLeft = 1;
+			}
+			if (e.key.keysym.sym == SDLK_RIGHT)
+			{
+				controlComp->setDirection(controlComp->Right);
+				controlComp->moveRight = 1;
+			}
 
 		}
 	}
@@ -60,7 +45,29 @@ void ControlSystem::input(SDL_Event &e) {
 	
 
 }
+void ControlSystem::keyUp(SDL_Event &e) {
 
+	switch (e.type)
+	{
+
+	case SDL_KEYUP:
+		
+		if (e.key.keysym.sym == SDLK_UP)
+		{
+			controlComp->jump = 0;
+		}
+		if (e.key.keysym.sym == SDLK_RIGHT)
+		{
+			controlComp->moveRight = 0;
+		}
+		if (e.key.keysym.sym == SDLK_LEFT)
+		{
+			controlComp->moveLeft = 0;
+		}
+
+
+	}
+}
 
 void ControlSystem::idle() {
 

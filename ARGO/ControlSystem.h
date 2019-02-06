@@ -14,6 +14,7 @@ public:
 	void addEntity(Entity e);
 	void idle();
 	void input(SDL_Event & e);
+	void keyUp(SDL_Event & e);
 private:
 	std::vector<Entity> entities;
 

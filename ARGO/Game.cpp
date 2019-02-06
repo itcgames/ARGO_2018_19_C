@@ -107,6 +107,7 @@ void Game::processEvents()
 
 
 	while (SDL_PollEvent(&event)) {
+	
 		switch (event.type) {
 		case SDL_QUIT:
 			exit = true;
@@ -114,6 +115,7 @@ void Game::processEvents()
 		
 		case SDL_KEYUP:
 			cs.idle();
+			cs.keyUp(event);
 			break;
 		case SDL_KEYDOWN:
 			cs.input(event);

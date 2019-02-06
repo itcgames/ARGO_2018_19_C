@@ -36,10 +36,9 @@ void PhysicsSystem::update() {
 			moveDown();
 		}
 
-		if (cc->getDirection() == cc->Idle && collision == 1 && vecY == 0)
+		if (cc->moveLeft == 0 && cc->moveRight == 0)
 		{
 			vecX = 0;
-
 
 		}
 		
@@ -79,8 +78,7 @@ void PhysicsSystem::update() {
 }
 void PhysicsSystem::moveLeft() {
 
-	
-	if (vecX > -maxX )
+	if (vecX > -maxX && cc->moveLeft == 1)
 	{
 		int posX = pc->getPositionX();
 		int posY = pc->getPositionY();
@@ -89,12 +87,10 @@ void PhysicsSystem::moveLeft() {
 
 		pc->setPosition(posX, posY);
 	}
-
-
 }
 void PhysicsSystem::moveRight() {
 	
-	if (vecX < maxX )
+	if (vecX < maxX && cc->moveRight == 1)
 	{
 		int posX = pc->getPositionX();
 		int posY = pc->getPositionY();
@@ -107,7 +103,7 @@ void PhysicsSystem::moveRight() {
 }
 void PhysicsSystem::moveUp() {
 
-	if (cc->jump == 0)
+	if (cc->jump == 0 && collision == true)
 	{
 		int posX = pc->getPositionX();
 		int posY = pc->getPositionY();
