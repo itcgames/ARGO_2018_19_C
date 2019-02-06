@@ -70,6 +70,7 @@ void Game::initialise()
 	cs.addEntity(player);
 
 	ps.addEntity(player);
+	phs.addEntity(player);
 
 	
 }
@@ -136,7 +137,7 @@ void Game::processEvents()
 void Game::update()
 {
 	//hs.update();
-	ps.update();
+	phs.update();
 
 }
 

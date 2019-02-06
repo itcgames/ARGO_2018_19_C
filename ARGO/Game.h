@@ -63,7 +63,7 @@ private:
 	AiSystem ais;
 	ParticleSystem ps;
 	ControlSystem cs;
-	PhysicsSystem ps;
+	PhysicsSystem phs;
 	LTexture m_texture;
 
 
