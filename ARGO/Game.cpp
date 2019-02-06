@@ -13,8 +13,10 @@ Game::Game()
 	}
 
 	initialise();
+	ps.initialise();
 	m_playerDot = new Dot(false, 100, 100);
 	m_playerDot->Init(m_renderer);
+
 }
 
 
@@ -30,6 +32,9 @@ void Game::initialise()
 	player.addComponent(new HealthComponent(200));
 	player.addComponent(new PositionComponent(100, 100));
 	player.addComponent(new ControlComponent());
+
+	//pass in player pos 
+	//player.addComponent(new ParticleComponent(100, 100, m_renderer));
 	player.addComponent(new SpriteComponent(m_texture, m_renderer));
 
 
@@ -147,8 +152,10 @@ void Game::render()
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 	SDL_RenderClear(m_renderer);
 	rs.update(m_renderer);
+	ps.update(m_renderer);
 	//m_playerDot->render(m_renderer);
 	//m_texture.render(100, 100, m_renderer);
+
 	SDL_RenderPresent(m_renderer);
 
 }

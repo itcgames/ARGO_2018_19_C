@@ -5,6 +5,7 @@
 #include "PositionComponent.h"
 #include "ControlComponent.h"
 #include "SpriteComponent.h"
+#include "ParticleComponent.h"
 #include <string>
 #include <iostream>
 #include <sdl.h>
