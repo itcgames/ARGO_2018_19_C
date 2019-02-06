@@ -14,7 +14,11 @@
 #include "RenderSystem.h"
 #include "ControlSystem.h"
 #include "AiSystem.h"
+#include "ParticleSystem.h"
 #include "Dot.h"
+
+//Jamie
+#include "Particle.h"
 
 using namespace std;
 
@@ -39,6 +43,7 @@ private:
 	bool exit;
 	Dot* m_playerDot;
 
+
 	Entity* m_player;
 	Entity* m_cat;
 	Entity* m_alien;
@@ -50,13 +55,16 @@ private:
 	HealthComponent* m_healthComponentFour;
 	ControlComponent* m_ctrlComponent;
 	PositionComponent* m_posComponent;
-
+	ParticleComponent* m_partComponent;
 
 	HealthSystem hs;
 	RenderSystem rs;
 	AiSystem ais;
+	ParticleSystem ps;
 	ControlSystem cs;
 	LTexture m_texture;
+
+
 
 };
 

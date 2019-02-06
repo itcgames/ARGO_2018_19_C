@@ -49,7 +49,7 @@ void ControlSystem::input(SDL_Event &e) {
 
 void ControlSystem::update() {
 	
-	std::cout << "CONTROL SYSTEM: " << std::endl;
+	///std::cout << "CONTROL SYSTEM: " << std::endl;
 	int index = 0;
 	for (Entity& entity : entities) {
 
@@ -79,10 +79,10 @@ void ControlSystem::update() {
 
 		posComp->setPosition(x, y);
 		
-		std::cout << "Updated position component of entity: " << entity.getName() << std::endl;
-		std::cout << "PosX: " << posComp->getPositionX() << " PosY: " << posComp->getPositionY() << std::endl;
+		//std::cout << "Updated position component of entity: " << entity.getName() << std::endl;
+		//std::cout << "PosX: " << posComp->getPositionX() << " PosY: " << posComp->getPositionY() << std::endl;
 
 	}
-	std::cout << std::endl;
-	std::cout << std::endl;
+	//std::cout << std::endl;
+	//std::cout << std::endl;
 }
