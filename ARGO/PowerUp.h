@@ -6,29 +6,94 @@
 class PowerUp
 {
 public:
-	PowerUp() { m_alive = true; };
+	PowerUp() { 
+		m_alive = true;
+		m_x = 200;
+		m_y = 200;
+		m_xSpeed = 1.0f;
+		m_ySpeed = 1.0f;
+	};
 	~PowerUp() {};
 	virtual void draw(SDL_Renderer *m_renderer) = 0;
 	void update() {
-
-		m_x = 200;
-		m_y = 200;
-		std::cout << "Power Up update: " << std::to_string(m_timer) << std::endl;
+		//std::cout << "Timer: " << std::to_string(m_timer) << std::endl;
+		if (m_headLeft)
+		{
+			moveLeft();
+		}
+		else
+		{
+			moveRight();
+		}
+		
+		if (m_headUp)
+		{
+			moveUp();
+		}
+		else
+		{
+			moveDown();
+		}
+		
 		m_timer++;
 		if (m_timer >= m_timerLimit)
 		{
 			m_alive = false;
 		}
 	};
+	void moveUp() 
+	{ 
+		m_y -= m_ySpeed; 
+		if (m_y <= 0)
+		{
+			m_ySpeed = 0.5f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 2.0f));
+			m_headUp = false;
+		}
+	};
+	void moveDown() 
+	{ 
+		m_y += m_ySpeed; 
+		if (m_y + getHeight() >= 700)
+		{
+			m_ySpeed = 0.5f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 2.0f));
+			m_headUp = true;
+		}
+	};
+	void moveLeft() 
+	{ 
+		m_x -= m_xSpeed; 
+		if (m_x <= 0)
+		{
+			m_xSpeed = 0.5f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 2.0f));
+			m_headLeft = false;
+		}
+	};
+	void moveRight()
+	{
+		m_x += m_xSpeed; 
+		if (m_x + m_texture.getWidth() >= 1200)
+		{
+			m_xSpeed = 0.5f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 2.0f));
+			m_headLeft = true;
+		}
+	};
 	int getID() { return m_id; };
 	bool getAlive() { return m_alive; };
+	float getX() { return m_x; };
+	float getY() { return m_y; };
+	int getWidth() { return m_texture.getWidth(); };
+	int getHeight() { return m_texture.getHeight(); };
+
 protected:
+	bool m_headLeft;
+	bool m_headUp;
 	int m_id;
 	bool m_alive;
 	LTexture m_texture;
-	int m_x, m_y;
+	float m_xSpeed, m_ySpeed;
+	float m_x, m_y;
 	int m_timer;
-	const int m_timerLimit = 600;
+	const int m_timerLimit = 1200;
 
 };
 
