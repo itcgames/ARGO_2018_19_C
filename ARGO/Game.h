@@ -13,6 +13,7 @@
 #include "HealthSystem.h"
 #include "RenderSystem.h"
 #include "ControlSystem.h"
+#include "CollisionSystem.h"
 #include "AiSystem.h"
 #include "ParticleSystem.h"
 #include "Dot.h"
@@ -56,6 +57,7 @@ private:
 	HealthComponent* m_healthComponentFour;
 	ControlComponent* m_ctrlComponent;
 	PositionComponent* m_posComponent;
+	CollisionComponent* CollisionComp;
 	ParticleComponent* m_partComponent;
 
 	HealthSystem hs;
@@ -63,8 +65,10 @@ private:
 	AiSystem ais;
 	ParticleSystem ps;
 	ControlSystem cs;
+	CollisionSystem Colls;
+	LTexture m_texture, wallTxt;
+
 	PhysicsSystem phs;
-	LTexture m_texture;
 
 
 
