@@ -9,17 +9,11 @@ class SpriteComponent : public Component
 public:
 	SpriteComponent(LTexture texture, SDL_Renderer *m_renderer) : m_texture(texture)
 	{
-		
-		////SDL_Texture* texture = IMG_LoadTexture(m_renderer, file.c_str());
-
-		//if (!m_texture.loadFromFile("dot.bmp", m_renderer))
-		//{
-		//	printf("Failed to load dot texture!\n");
-
-		//}
-	
 	
 	};
+
+	float m_Width = m_texture.getWidth();
+	float m_Height = m_texture.getHeight();
 
 	void setPosition(int posX, int posY) {
 
@@ -35,6 +29,14 @@ public:
 	{
 		return id;
 	}
+
+	float getWidth()
+	{
+		return m_Width;
+	}
+
+	float getHeight() { return m_Height; }
+
 	LTexture getTexture()
 	{
 		return m_texture;

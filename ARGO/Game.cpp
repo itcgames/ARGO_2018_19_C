@@ -38,7 +38,7 @@ void Game::initialise()
 	player.addComponent(new CollisionComponent());
 
 	Entity wall("Wall");
-	wall.addComponent(new PositionComponent(200, 200));
+	wall.addComponent(new PositionComponent(400, 500));
 	wall.addComponent(new CollisionComponent());
 	//wall.addComponent(new SpriteComponent(wallTxt, m_renderer));
 
@@ -157,7 +157,7 @@ void Game::render()
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 	SDL_RenderClear(m_renderer);
 	rs.update(m_renderer);
-	wallTxt.render(200, 200, m_renderer);
+	wallTxt.render(400, 500, m_renderer);
 	SDL_RenderPresent(m_renderer);
 	
 }
