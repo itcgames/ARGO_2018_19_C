@@ -6,6 +6,7 @@
 #include "ControlComponent.h"
 #include "SpriteComponent.h"
 #include "CollisionComp.h"
+#include "ParticleComponent.h"
 #include <string>
 #include <iostream>
 #include <sdl.h>

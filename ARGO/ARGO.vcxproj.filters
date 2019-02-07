@@ -2,31 +2,34 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="AISystem.cpp">
-      <Filter>Source</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="CollisionSystem.cpp">
-      <Filter>Source</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="ControlSystem.cpp">
-      <Filter>Source</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Dot.cpp">
-      <Filter>Source</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Source</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="LTexture.cpp">
-      <Filter>Source</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source</Filter>
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Source</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
-      <Filter>Source</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +51,9 @@
     <ClInclude Include="ControlSystem.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Dot.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
     <ClInclude Include="EntityComponent.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -61,6 +67,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="LTexture.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsSystem.h">
@@ -78,24 +90,16 @@
     <ClInclude Include="SpriteComponent.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Dot.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="dot.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
-      <UniqueIdentifier>{db01a51b-d197-41f9-bfc9-c59f60fe8d3b}</UniqueIdentifier>
+      <UniqueIdentifier>{5c2d6b5b-54a9-4f04-8bf9-3d680a1b571e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source">
-      <UniqueIdentifier>{13b17a32-4bea-4f6f-bdf5-b56cdb87ff46}</UniqueIdentifier>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{231d3f3f-f0bd-49c7-821c-ec5105eb52c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{ba59e5c9-484e-4c56-a361-4931c21a3707}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="dot.bmp">
-      <Filter>Resources</Filter>
-    </Image>
   </ItemGroup>
 </Project>

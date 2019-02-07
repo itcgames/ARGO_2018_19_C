@@ -26,6 +26,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LTexture.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
   </ItemGroup>
@@ -42,6 +43,8 @@
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthSystem.h" />
     <ClInclude Include="LTexture.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="PositionSystem.h" />
@@ -104,7 +107,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\SDL2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
@@ -112,7 +115,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\SDL2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
