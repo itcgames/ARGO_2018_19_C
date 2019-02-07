@@ -25,24 +25,29 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LTexture.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="splash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControlComponent.h" />
     <ClInclude Include="ControlSystem.h" />
+    <ClInclude Include="credits.h" />
     <ClInclude Include="Dot.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthSystem.h" />
     <ClInclude Include="LTexture.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="PositionSystem.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="splash.h" />
     <ClInclude Include="SpriteComponent.h" />
   </ItemGroup>
   <ItemGroup>
