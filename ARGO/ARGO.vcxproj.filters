@@ -90,6 +90,12 @@
     <ClInclude Include="SpriteComponent.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Factory.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="dot.bmp" />

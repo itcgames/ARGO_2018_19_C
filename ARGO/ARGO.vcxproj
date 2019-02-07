@@ -39,6 +39,7 @@
     <ClInclude Include="ControlSystem.h" />
     <ClInclude Include="Dot.h" />
     <ClInclude Include="EntityComponent.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthSystem.h" />
@@ -48,6 +49,7 @@
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="PositionSystem.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SpriteComponent.h" />
   </ItemGroup>
@@ -106,20 +108,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -127,10 +129,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SDL_SDK)include;%(SDL_IMG_SDK)include;%(SDL_MIX_SDK)include;C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(SDL_SDK)lib\x86;%(SDL_IMG_SDK)lib\x86;%(SDL_MIX_SDK)lib\x86;C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -141,10 +143,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SDL_SDK)include;%(SDL_IMG_SDK)include;%(SDL_MIX_SDK)include;C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(SDL_SDK)lib\x86;%(SDL_IMG_SDK)lib\x86;%(SDL_MIX_SDK)lib\x86;C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -157,12 +159,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SDL_SDK)include;%(SDL_IMG_SDK)include;%(SDL_MIX_SDK)include;C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(SDL_SDK)lib\x86;%(SDL_IMG_SDK)lib\x86;%(SDL_MIX_SDK)lib\x86;C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -175,12 +177,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SDL_SDK)include;%(SDL_IMG_SDK)include;%(SDL_MIX_SDK)include;C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(SDL_SDK)lib\x86;%(SDL_IMG_SDK)lib\x86;%(SDL_MIX_SDK)lib\x86;C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>

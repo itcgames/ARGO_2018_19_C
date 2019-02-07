@@ -22,6 +22,10 @@
 //Jamie
 #include "Particle.h"
 
+#include "Factory.h"
+#include <iterator>
+
+
 using namespace std;
 
 class Game {
@@ -71,6 +75,13 @@ private:
 	PhysicsSystem phs;
 
 
+
+	Factory* m_factory;
+	std::vector<PowerUp*> m_powerUps;
+
+	int m_timerSpawn;
+	const int m_spawnTimeLimit = 2000;
+	const int m_numOfPowerUps = 2;
 
 };
 

@@ -11,6 +11,8 @@ Game::Game()
 	{
 		cout << "Error: " << IMG_GetError() << endl;
 	}
+	m_factory = new PowerUpFactory;
+
 
 	initialise();
 	ps.initialise();
@@ -22,6 +24,8 @@ Game::Game()
 
 void Game::initialise()
 {
+
+	m_timerSpawn = 0;
 	if (!m_texture.loadFromFile("dot.bmp", m_renderer))
 	{
 		printf("Failed to load dot texture!\n");
@@ -151,12 +155,37 @@ void Game::processEvents()
 
 void Game::update()
 {
-	//hs.update();
 
 	Colls.update();
 	phs.update();
 
+	// Power ups
+	m_timerSpawn++;
+	if (m_timerSpawn >= m_spawnTimeLimit)
+	{
+		switch (rand() % m_numOfPowerUps)
+		{
+		case 0:
+			m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
+			break;
 
+		case 1:
+			m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
+			break;
+		}
+		m_timerSpawn = 0;
+	}
+	for (int i = m_powerUps.size() - 1; i >= 0; i--)
+	{
+		if (m_powerUps[i]->getAlive())
+		{
+			m_powerUps[i]->update();
+		}
+		else
+		{
+			m_powerUps.erase(m_powerUps.begin() + i);
+		}
+	}
 }
 
 void Game::render()
@@ -171,8 +200,11 @@ void Game::render()
 	rs.update(m_renderer);
 	wallTxt.render(400, 500, m_renderer);
 	ps.update(m_renderer);
-	//m_playerDot->render(m_renderer);
-	//m_texture.render(100, 100, m_renderer)
+
+	for (int i = m_powerUps.size() - 1; i >= 0; i--)
+	{
+			m_powerUps[i]->draw(m_renderer);
+	}
 	SDL_RenderPresent(m_renderer);
 	
 }
