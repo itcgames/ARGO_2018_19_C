@@ -23,14 +23,13 @@ Game::Game()
 
 void Game::initialise()
 {
+
+	m_timerSpawn = 0;
 	if (!m_texture.loadFromFile("dot.bmp", m_renderer))
 	{
 		printf("Failed to load dot texture!\n");
 
 	}
-
-	m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
-	m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
 
 	Entity player("Player");
 	player.addComponent(new HealthComponent(200));
@@ -126,6 +125,22 @@ void Game::processEvents()
 
 void Game::update()
 {
+	m_timerSpawn++;
+
+	if (m_timerSpawn >= m_spawnTimeLimit)
+	{
+		switch (rand() % m_numOfPowerUps)
+		{
+		case 0:
+			m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
+			break;
+
+		case 1:
+			m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
+			break;
+		}
+		m_timerSpawn = 0;
+	}
 	for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{
 		if (m_powerUps[i]->getAlive())

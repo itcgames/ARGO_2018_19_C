@@ -8,10 +8,32 @@ class PowerUp
 public:
 	PowerUp() { 
 		m_alive = true;
-		m_x = 200;
-		m_y = 200;
-		m_xSpeed = 1.0f;
-		m_ySpeed = 1.0f;
+		m_x = 50.0f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1100.0f));
+		m_y = 50.0f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 650.0f));
+		m_xSpeed = 0.5f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 2.0f));
+		m_ySpeed = 0.5f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 2.0f));
+		
+		switch (rand() % 2)
+		{
+		case 0:
+			m_headLeft = true;
+			break;
+
+		case 1:
+			m_headLeft = false;
+			break;
+		}
+
+		switch (rand() % 2)
+		{
+		case 0:
+			m_headUp = true;
+			break;
+
+		case 1:
+			m_headUp = false;
+			break;
+		}
 	};
 	~PowerUp() {};
 	virtual void draw(SDL_Renderer *m_renderer) = 0;
@@ -93,7 +115,7 @@ protected:
 	float m_xSpeed, m_ySpeed;
 	float m_x, m_y;
 	int m_timer;
-	const int m_timerLimit = 1200;
+	const int m_timerLimit = 1800;
 
 };
 
