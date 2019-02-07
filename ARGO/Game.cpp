@@ -33,6 +33,7 @@ void Game::initialise()
 	player.addComponent(new PositionComponent(100, 100));
 	player.addComponent(new ControlComponent());
 	player.addComponent(new SpriteComponent(m_texture, m_renderer));
+	player.addComponent(new AnimationComponent());
 
 
 	Entity alien("Alien");

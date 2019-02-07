@@ -11,11 +11,13 @@ void PhysicsSystem::addEntity(Entity e) {
 void PhysicsSystem::update() {
 
 
-	std::cout << "PHYSICS SYSTEM:" << std::endl;
+	//std::cout << "PHYSICS SYSTEM:" << std::endl;
 	for (Entity & entity : entities) {
 
 		cc = (ControlComponent*)entity.getCompByType("Control");
 		pc = (PositionComponent*)entity.getCompByType("Position");
+		ac = (AnimationComponent*)entity.getCompByType("Animation");
+		
 		//collide
 
 		if (cc->getDirection() == cc->Left)
@@ -34,17 +36,15 @@ void PhysicsSystem::update() {
 			moveUp();
 		}
 
-		if (cc->getDirection() == cc->Down) {
-			moveDown();
-		}
-
 		if (cc->moveLeft == 0 && cc->moveRight == 0)
 		{
+			cc->setDirection(cc->Idle);
 			vecX = 0;
+			ac->idle();
 
 		}
 		
-		std::cout << vecY <<std::endl;
+		//std::cout << vecY <<std::endl;
 
 		if (pc->getPositionY() < 500 ) {
 			
@@ -54,6 +54,14 @@ void PhysicsSystem::update() {
 			posY += vecY;
 			pc->setPosition(posX, posY);
 			collision = 0;
+
+			if (cc->Left) {
+				ac->leftJump();
+			}
+			 if (cc->Right)
+			{
+				ac->rightJump();
+			}
 
 
 			
@@ -72,16 +80,13 @@ void PhysicsSystem::update() {
 
 	}
 
-	
-
-	std::cout << std::endl;
-	std::cout << std::endl;
 
 }
 void PhysicsSystem::moveLeft() {
 
 	if (vecX > -maxX && cc->moveLeft == 1)
 	{
+		ac->left();
 		int posX = pc->getPositionX();
 		int posY = pc->getPositionY();
 		vecX = -7;
@@ -94,6 +99,7 @@ void PhysicsSystem::moveRight() {
 	
 	if (vecX < maxX && cc->moveRight == 1)
 	{
+		ac->right();
 		int posX = pc->getPositionX();
 		int posY = pc->getPositionY();
 		vecX = 7;
@@ -120,12 +126,5 @@ void PhysicsSystem::moveUp() {
 	
 
 }
-void PhysicsSystem::moveDown() {
-	int posX = pc->getPositionX();
-	int posY = pc->getPositionY();
-	vecY = +7;
-	posY += vecY;
-	pc->setPosition(posX, posY);
 
-}
 

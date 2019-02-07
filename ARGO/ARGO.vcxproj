@@ -20,18 +20,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AISystem.cpp" />
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="Dot.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Idle.cpp" />
+    <ClCompile Include="JumpLeft.cpp" />
+    <ClCompile Include="JumpRight.cpp" />
+    <ClCompile Include="Left.cpp" />
     <ClCompile Include="LTexture.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="Right.cpp" />
     <ClCompile Include="splash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AISystem.h" />
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControlComponent.h" />
     <ClInclude Include="ControlSystem.h" />
@@ -41,14 +48,20 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthSystem.h" />
+    <ClInclude Include="Idle.h" />
+    <ClInclude Include="JumpLeft.h" />
+    <ClInclude Include="JumpRight.h" />
+    <ClInclude Include="Left.h" />
     <ClInclude Include="LTexture.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="PositionSystem.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="Right.h" />
     <ClInclude Include="splash.h" />
     <ClInclude Include="SpriteComponent.h" />
+    <ClInclude Include="State.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="dot.bmp" />
