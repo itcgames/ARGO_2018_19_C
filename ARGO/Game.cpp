@@ -6,7 +6,6 @@ Game::Game()
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
-
 	if (IMG_Init(imgFlags) != imgFlags)
 	{
 		cout << "Error: " << IMG_GetError() << endl;
@@ -85,9 +84,6 @@ void Game::initialise()
 
 	ps.addEntity(player);
 	phs.addEntity(player);
-
-
-	
 }
 
 Game::~Game()

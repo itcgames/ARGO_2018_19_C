@@ -19,6 +19,7 @@
 #include "Dot.h"
 #include "PhysicsSystem.h"
 
+
 //Jamie
 #include "Particle.h"
 
@@ -38,6 +39,7 @@ private:
 	void update();
 	void render();
 	void initialise();
+	
 
 	SDL_Window *m_window;
 	SDL_Renderer *m_renderer;
@@ -70,7 +72,7 @@ private:
 
 	PhysicsSystem phs;
 
-
+	
 
 };
 

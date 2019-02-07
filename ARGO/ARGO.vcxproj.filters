@@ -31,6 +31,10 @@
     <ClCompile Include="RenderSystem.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AISystem.h">
@@ -90,6 +94,10 @@
     <ClInclude Include="SpriteComponent.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="dot.bmp" />
