@@ -82,6 +82,15 @@ void PhysicsSystem::update() {
 			ac->idle();
 
 		}
+
+		if (ac->m_currentState == ac->idleS && cc->moveLeft == 1)
+		{
+			ac->left();
+		}
+		else if (ac->m_currentState == ac->idleS && cc->moveRight == 1)
+		{
+			ac->right();
+		}
 		
 
 
