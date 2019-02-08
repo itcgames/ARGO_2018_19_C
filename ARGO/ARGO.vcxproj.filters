@@ -35,7 +35,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-     <ClInclude Include="Level.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Assets.h" />
     <ClInclude Include="AISystem.h">
       <Filter>Headers</Filter>
@@ -100,9 +100,7 @@
     <ClInclude Include="Factory.h">
       <Filter>Headers</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="dot.bmp" />
+    <ClInclude Include="ParticleComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
