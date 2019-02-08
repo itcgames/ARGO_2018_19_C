@@ -22,7 +22,12 @@
 
 
 //Jamie
+#include "Level.h"
 #include "Particle.h"
+
+#include "Factory.h"
+#include <iterator>
+
 
 using namespace std;
 
@@ -47,6 +52,7 @@ private:
 	SDL_Event event;
 	bool exit;
 	Dot* m_playerDot;
+	level* m_level;
 
 
 	Entity* m_player;
@@ -73,6 +79,22 @@ private:
 
 	PhysicsSystem phs;
 
+	Factory* m_factory;
+	std::vector<PowerUp*> m_powerUps;
+
+	int m_timerSpawn;
+	const int m_spawnTimeLimit = 2000;
+	const int m_numOfPowerUps = 2;
+
+	void rumble();
+	void resetCamera();
+	int rTimer = 0;
+	int SCREEN_WIDTH = 1500;
+	int SCREEN_HEIGHT = 900;
+	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
+
+	Entity player;
 };
 
 #endif // !GAME
