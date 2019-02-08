@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1400, 700, SDL_WINDOW_OPENGL);
+	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
@@ -28,7 +28,7 @@ Game::Game()
 
 void Game::initialise()
 {
-	if (!m_texture.loadFromFile("dot.bmp", m_renderer))
+	if (!m_texture.loadFromFile("dot1.bmp", m_renderer))
 	{
 		printf("Failed to load dot texture!\n");
 
