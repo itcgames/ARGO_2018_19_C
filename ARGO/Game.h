@@ -14,6 +14,7 @@
 #include "RenderSystem.h"
 #include "ControlSystem.h"
 #include "CollisionSystem.h"
+#include "AudioManager.h"
 #include "AiSystem.h"
 #include "ParticleSystem.h"
 #include "Dot.h"
@@ -72,10 +73,6 @@ private:
 
 	PhysicsSystem phs;
 
-	
-
 };
-
-
 
 #endif // !GAME

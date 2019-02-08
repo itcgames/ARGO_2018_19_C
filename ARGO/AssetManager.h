@@ -1,8 +1,8 @@
-#ifndef _ASSETMANAGER_H
-#define _ASSETMANAGER_H
+#pragma once
+#include "Game.h"
 #include <map>
 #include <SDL_mixer.h>
-#include "Game.h"
+
 class AssetManager
 {
 public:
@@ -16,9 +16,8 @@ public:
 	static void Release();
 
 private:
-	
+
 	static AssetManager* sInstance;
 	std::map<std::string, Mix_Music*> soundtrack;
 	std::map<std::string, Mix_Chunk*> m_SFX;
 };
-#endif

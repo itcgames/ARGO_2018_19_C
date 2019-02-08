@@ -1,6 +1,14 @@
-#ifndef _AUDIOMANAGER_H
-#define _AUDIOMANAGER_H
-#include "AssetManager.h"
+#pragma once
+
+#include <iostream>
+#include <map>
+#include <string>
+#include <SDL_mixer.h>
+
+enum sound_type {
+	SOUND_MUSIC = 1,
+	SOUND_SFX = 1
+};
 
 class AudioManager
 {
@@ -8,21 +16,29 @@ public:
 	static AudioManager* Instance();
 
 	static void Release();
+	bool load(std::string fileName, std::string id, sound_type type);
 
-
-	void PlayMusic(std::string filename, int loops = -1);
+	void PlayMusic(std::string filename, int loops);
+	void PlaySFX(std::string filename, int loops);
+	void clearSoundMap();
 	void PauseMusic();
 	void ResumeMusic();
 
-	void PlaySFX(std::string filename, int loops = 0, int channel = 0);
+	
 
 private:
 	static AudioManager* sInstance;
-	AssetManager* m_asset;
+
+	std::map<std::string, Mix_Chunk*> m_SFX;
+	std::map<std::string, Mix_Music*> m_Music;
+
 	AudioManager();
 	~AudioManager();
 
+	AudioManager(const AudioManager&);
+	AudioManager& operator=(const AudioManager&);
 };
 
-#endif // !_AUDIOMANAGER_H
+typedef AudioManager theAudioManager;
+
 

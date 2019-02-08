@@ -1,6 +1,6 @@
 #include "AudioManager.h"
 
-AudioManager* AudioManager::sInstance = NULL;
+AudioManager* AudioManager::sInstance;
 
 AudioManager* AudioManager::Instance()
 {
@@ -19,8 +19,8 @@ void AudioManager::Release()
 
 AudioManager::AudioManager()
 {
-	m_asset = AssetManager::Instance();
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
+	
+	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) != 0)
 	{
 		printf("Mixer Initializattion Error: %s\n", Mix_GetError());
 	}
@@ -28,13 +28,47 @@ AudioManager::AudioManager()
 
 AudioManager::~AudioManager()
 {
-	m_asset = NULL;
-	Mix_Quit();
+	
+	Mix_CloseAudio();
+}
+
+bool AudioManager::load(std::string filename, std::string id, sound_type type)
+{
+	filename = "Sounds/" + filename;
+	if (type == SOUND_MUSIC)
+	{
+		Mix_Music* musFile = Mix_LoadMUS(filename.c_str());
+		if (musFile == 0)
+		{
+			std::cout << "Could not load music: ERROR - " << Mix_GetError() << std::endl;
+			return false;
+		}
+
+		m_Music[id] = musFile;
+		return true;
+	}
+	else if (type == SOUND_SFX)
+	{
+		Mix_Chunk* sfxFile = Mix_LoadWAV(filename.c_str());
+		if (sfxFile == 0)
+		{
+			std::cout << "Could not load SFX file: ERROR - " << Mix_GetError() << std::endl;
+			return false;
+		}
+		m_SFX[id] = sfxFile;
+		return true;
+	}
+	return false;
 }
 
 void AudioManager::PlayMusic(std::string filename, int loops)
 {
-	Mix_PlayMusic(m_asset->GetMusic(filename), loops);
+	Mix_PlayMusic(m_Music[filename], loops);
+}
+
+void AudioManager::PlaySFX(std::string filename, int loops)
+{
+	Mix_PlayChannel(-1, m_SFX[filename], loops);
 }
 
 void AudioManager::PauseMusic()
@@ -53,7 +87,25 @@ void AudioManager::ResumeMusic()
 	}
 }
 
-void AudioManager::PlaySFX(std::string filename, int loops, int channel)
-{
-	Mix_PlayChannel(channel, m_asset->GetSFX(filename), loops);
-}
+//void AudioManager::clearSoundMap()
+//{
+//	for (auto i = m_Music.begin(); i!=m_Music.end(); i++)
+//	{
+//		if (i->second != nullptr)
+//		{
+//			Mix_FreeMusic(i->second);
+//			i->second = nullptr;
+//		}
+//	}
+//	m_Music.clear();
+//
+//	for (auto j = m_SFX.begin(); j != m_SFX.end(); j++)
+//	{
+//		if (j->second != nullptr)
+//		{
+//			Mix_FreeChunk(j->second);
+//			j->second = nullptr;
+//		}
+//	}
+//	m_SFX.clear();
+//}
