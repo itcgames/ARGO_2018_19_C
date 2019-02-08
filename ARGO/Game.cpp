@@ -4,9 +4,7 @@ Game::Game(): player("Player")
 {
 	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
-
 	if (IMG_Init(imgFlags) != imgFlags)
 	{
 		cout << "Error: " << IMG_GetError() << endl;
@@ -19,17 +17,17 @@ Game::Game(): player("Player")
 	m_playerDot = new Dot(false, 100, 100);
 	m_playerDot->Init(m_renderer);
 
-
 	const auto MAP_PATH = "assets/maps/example.tmx";
 
 	m_level = new level("Main Level");
 	m_level->load(MAP_PATH, m_renderer);
-
 }
 
 
 void Game::initialise()
 {
+	SDL_INIT_AUDIO;
+
 
 	m_timerSpawn = 0;
 	if (!m_texture.loadFromFile("dot.bmp", m_renderer))
@@ -42,8 +40,8 @@ void Game::initialise()
 	{
 		printf("Failed to load wall texture!\n");
 	}
-
 	
+	Entity player("Player");
 	player.addComponent(new HealthComponent(200));
 	player.addComponent(new PositionComponent(100, 100));
 	player.addComponent(new ControlComponent());
@@ -97,12 +95,15 @@ void Game::initialise()
 	ps.addEntity(player);
 	phs.addEntity(player);
 
+	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
+	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
+	AudioManager::Instance()->PlayMusic("song1", -1);
 
-	
 }
 
 Game::~Game()
 {
+	AudioManager::Release();
 }
 
 void Game::run()

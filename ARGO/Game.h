@@ -14,10 +14,14 @@
 #include "RenderSystem.h"
 #include "ControlSystem.h"
 #include "CollisionSystem.h"
+#include "AudioManager.h"
 #include "AiSystem.h"
 #include "ParticleSystem.h"
 #include "Dot.h"
 #include "PhysicsSystem.h"
+
+
+//Jamie
 #include "Level.h"
 #include "Particle.h"
 
@@ -41,6 +45,7 @@ private:
 	void update();
 	void render();
 	void initialise();
+	
 
 	SDL_Window *m_window;
 	SDL_Renderer *m_renderer;
@@ -90,10 +95,6 @@ private:
 
 
 	Entity player;
-
-
 };
-
-
 
 #endif // !GAME
