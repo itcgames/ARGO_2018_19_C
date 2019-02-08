@@ -47,7 +47,12 @@ bool AudioManager::load(std::string filename, std::string id, sound_type type)
 		m_Music[id] = musFile;
 		return true;
 	}
-	else if (type == SOUND_SFX)
+}
+
+bool AudioManager::loadSFX(std::string filename, std::string id, sound_type type)
+{
+	filename = "Sounds/" + filename;
+	if (type == SOUND_SFX)
 	{
 		Mix_Chunk* sfxFile = Mix_LoadWAV(filename.c_str());
 		if (sfxFile == 0)
@@ -58,7 +63,6 @@ bool AudioManager::load(std::string filename, std::string id, sound_type type)
 		m_SFX[id] = sfxFile;
 		return true;
 	}
-	return false;
 }
 
 void AudioManager::PlayMusic(std::string filename, int loops)

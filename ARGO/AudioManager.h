@@ -17,6 +17,7 @@ public:
 
 	static void Release();
 	bool load(std::string fileName, std::string id, sound_type type);
+	bool loadSFX(std::string filename, std::string id, sound_type type);
 
 	void PlayMusic(std::string filename, int loops);
 	void PlaySFX(std::string filename, int loops);

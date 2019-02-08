@@ -86,7 +86,7 @@ void Game::initialise()
 	phs.addEntity(player);
 
 	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
-	AudioManager::Instance()->load("Jumping.wav", "Jump", SOUND_MUSIC);
+	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
 	AudioManager::Instance()->PlayMusic("song1", -1);
 
 }
@@ -141,7 +141,6 @@ void Game::processEvents()
 			cs.keyUp(event);
 			break;
 		case SDL_KEYDOWN:
-			AudioManager::Instance()->PlaySFX("Jump", 0);
 			cs.input(event);
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				exit = true;
