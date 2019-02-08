@@ -17,12 +17,13 @@ void PhysicsSystem::update() {
 		cc = (ControlComponent*)entity.getCompByType("Control");
 		pc = (PositionComponent*)entity.getCompByType("Position");
 		ac = (AnimationComponent*)entity.getCompByType("Animation");
+		sc = (SpriteComponent*)entity.getCompByType("");
 		
 		//collide
 
 		//std::cout << vecY <<std::endl;
 
-		if (pc->getPositionY() < 200 - ac->sRect.h) {
+		if (pc->getPositionY() < 200 - ac->sRect.h * sc->m_scale) {
 
 			posY = pc->getPositionY();
 			posX = pc->getPositionX();
@@ -59,13 +60,13 @@ void PhysicsSystem::update() {
 		pc->setPosition(posX, posY);
 
 
-		if (cc->getDirection() == cc->Left)
+		if (cc->moveLeft == 1)
 		{
 			//if(!collide)
 			moveLeft();
 			
 		}
-		if (cc->getDirection() == cc->Right)
+		if (cc->moveRight == 1)
 		{
 			moveRight();
 			
@@ -100,7 +101,7 @@ void PhysicsSystem::update() {
 }
 void PhysicsSystem::moveLeft() {
 
-	if (vecX > -maxX && cc->moveLeft == 1)
+	if (vecX > -maxX )
 	{
 		ac->left();
 		int posX = pc->getPositionX();
@@ -113,7 +114,7 @@ void PhysicsSystem::moveLeft() {
 }
 void PhysicsSystem::moveRight() {
 	
-	if (vecX < maxX && cc->moveRight == 1)
+	if (vecX < maxX)
 	{
 		ac->right();
 		int posX = pc->getPositionX();

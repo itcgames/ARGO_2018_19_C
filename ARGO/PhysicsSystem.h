@@ -25,4 +25,5 @@ private:
 	ControlComponent * cc;
 	PositionComponent * pc;
 	AnimationComponent * ac;
+	SpriteComponent * sc;
 };

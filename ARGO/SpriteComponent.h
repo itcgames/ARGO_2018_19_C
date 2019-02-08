@@ -7,20 +7,20 @@ class SpriteComponent : public Component
 {
 
 public:
-	SpriteComponent(SDL_Renderer *m_renderer) 
+	SpriteComponent(std::string path, float scale , SDL_Renderer *m_renderer)
 	{
 		
-		Init(m_renderer);
+		Init(path, scale, m_renderer);
 	
 	
 	};
-
-	void Init(SDL_Renderer *gRenderer)
+	float m_scale;
+	void Init(std::string path,  float scale, SDL_Renderer *gRenderer )
 	{
 		
+		m_scale = scale;
 		
-		
-		if (!m_texture.loadFromFile("img/playerSheet.png", gRenderer))
+		if (!m_texture.loadFromFile(path, gRenderer, m_scale))
 		{
 			printf("Failed to load dot texture!\n");
 
@@ -48,6 +48,10 @@ public:
 	{
 		return m_texture;
 	}
+
+	float getScale() {
+		return m_scale;
+	}
 	
 private:
 	
@@ -56,4 +60,5 @@ private:
 	int mPosY;
 	LTexture m_texture;
 	LTexture m_textureLeft;
+	
 };

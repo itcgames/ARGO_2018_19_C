@@ -28,7 +28,7 @@ void Game::initialise()
 	player.addComponent(new HealthComponent(200));
 	player.addComponent(new PositionComponent(100, 100));
 	player.addComponent(new ControlComponent());
-	player.addComponent(new SpriteComponent(m_renderer));
+	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.3, m_renderer));
 	player.addComponent(new AnimationComponent());
 
 

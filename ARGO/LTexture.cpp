@@ -16,14 +16,14 @@ LTexture::~LTexture()
 }
 
 
-bool LTexture::loadFromFile(std::string path, SDL_Renderer *gRenderer)
+bool LTexture::loadFromFile(std::string path, SDL_Renderer *gRenderer, float scale)
 {
 	//Get rid of preexisting texture
 	free();
 
 	//The final texture
 	SDL_Texture* newTexture = NULL;
-
+	m_scale = scale;
 	//Load image at specified path
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL)
@@ -142,7 +142,7 @@ void LTexture::render(int x, int y, SDL_Renderer *gRenderer, SDL_Rect* sourceRec
 {
 	//Set rendering space and render to screen
 
-	SDL_Rect destRect = { x , y , mWidth , mHeight };
+	SDL_Rect destRect = { x , y , mWidth * m_scale, mHeight * m_scale };
 
 	//Render to screen
 	SDL_RenderCopy(gRenderer, mTexture, sourceRect, &destRect);
@@ -150,10 +150,10 @@ void LTexture::render(int x, int y, SDL_Renderer *gRenderer, SDL_Rect* sourceRec
 
 int LTexture::getWidth()
 {
-	return mWidth;
+	return mWidth * m_scale ;
 }
 
 int LTexture::getHeight()
 {
-	return mHeight;
+	return mHeight * m_scale ;
 }

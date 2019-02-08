@@ -22,7 +22,6 @@
     <ClCompile Include="AISystem.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
-    <ClCompile Include="Dot.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Idle.cpp" />
     <ClCompile Include="JumpLeft.cpp" />
@@ -43,7 +42,6 @@
     <ClInclude Include="ControlComponent.h" />
     <ClInclude Include="ControlSystem.h" />
     <ClInclude Include="credits.h" />
-    <ClInclude Include="Dot.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthComponent.h" />

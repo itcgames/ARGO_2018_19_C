@@ -49,6 +49,8 @@ public:
 	void setCurrentState(AniState a);
 
 	AniState m_currentState = idleS;
+
+	float m_scale = 1;
 	
 };
 

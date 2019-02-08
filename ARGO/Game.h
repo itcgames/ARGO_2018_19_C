@@ -14,7 +14,6 @@
 #include "RenderSystem.h"
 #include "ControlSystem.h"
 #include "AiSystem.h"
-#include "Dot.h"
 #include "PhysicsSystem.h"
 
 using namespace std;
@@ -52,7 +51,6 @@ private:
 	SDL_Renderer *m_renderer;
 	SDL_Event event;
 	bool exit;
-	Dot* m_playerDot;
 
 	Entity* m_player;
 	Entity* m_cat;
