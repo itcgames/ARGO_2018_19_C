@@ -81,13 +81,17 @@ private:
 	const int m_spawnTimeLimit = 2000;
 	const int m_numOfPowerUps = 2;
 
-	//Jamie
 	void rumble();
 	void resetCamera();
 	int rTimer = 0;
 	int SCREEN_WIDTH = 1500;
 	int SCREEN_HEIGHT = 900;
 	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
+
+	Entity player;
+
+
 };
 
 
