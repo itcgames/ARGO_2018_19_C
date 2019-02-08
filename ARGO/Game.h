@@ -19,8 +19,6 @@
 #include "Dot.h"
 #include "PhysicsSystem.h"
 #include "Level.h"
-
-//Jamie
 #include "Particle.h"
 
 #include "Factory.h"
@@ -76,8 +74,6 @@ private:
 
 	PhysicsSystem phs;
 
-
-
 	Factory* m_factory;
 	std::vector<PowerUp*> m_powerUps;
 
@@ -85,8 +81,16 @@ private:
 	const int m_spawnTimeLimit = 2000;
 	const int m_numOfPowerUps = 2;
 
+	void rumble();
+	void resetCamera();
+	int rTimer = 0;
+	int SCREEN_WIDTH = 1500;
+	int SCREEN_HEIGHT = 900;
+	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
 
 	Entity player;
+
 
 };
 

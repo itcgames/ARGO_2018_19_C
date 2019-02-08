@@ -148,9 +148,11 @@ void Game::processEvents()
 		case SDL_KEYUP:
 			cs.idle();
 			cs.keyUp(event);
+			resetCamera();
 			break;
 		case SDL_KEYDOWN:
 			cs.input(event);
+			rumble();
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				exit = true;
 			break;
@@ -218,13 +220,16 @@ void Game::render()
 
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 	SDL_RenderClear(m_renderer);
+	
+	//Jamie
+	SDL_RenderSetLogicalSize(m_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 	rs.update(m_renderer);
 	wallTxt.render(400, 500, m_renderer);
 	ps.update(m_renderer);
 	m_level->draw(m_renderer);
 	//m_playerDot->render(m_renderer);
 	//m_texture.render(100, 100, m_renderer);
-
 
 	for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{
@@ -233,3 +238,38 @@ void Game::render()
 	SDL_RenderPresent(m_renderer);
 	
 }
+
+void Game::rumble()
+{
+	//random number between 1-3
+	int rWidth = rand() % 3 + 1;
+	
+	//pos 1
+	if (rWidth == 1) {
+		SCREEN_WIDTH = 1501;
+		SCREEN_HEIGHT = 901;
+	}
+	//pos 2
+	if (rWidth == 2) {
+		SCREEN_WIDTH = 1499;
+		SCREEN_HEIGHT = 899;
+	}
+	//pos 3
+	if (rWidth == 3) {
+		SCREEN_WIDTH = 1489;
+		SCREEN_HEIGHT = 911;
+	}
+	
+}
+
+void Game::resetCamera()
+{
+	//set camera pos
+	SCREEN_WIDTH = 1500;
+	SCREEN_HEIGHT = 900;
+}
+
+
+
+
+
