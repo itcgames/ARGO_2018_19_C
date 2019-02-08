@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game()
+Game::Game(): player("Player")
 {
 	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1200, 700, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -36,7 +36,7 @@ void Game::initialise()
 		printf("Failed to load wall texture!\n");
 	}
 
-	Entity player("Player");
+	
 	player.addComponent(new HealthComponent(200));
 	player.addComponent(new PositionComponent(100, 100));
 	player.addComponent(new ControlComponent());
@@ -180,6 +180,20 @@ void Game::update()
 		if (m_powerUps[i]->getAlive())
 		{
 			m_powerUps[i]->update();
+			//check collision
+			PositionComponent * p = (PositionComponent * )player.getCompByType("Position");
+			SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
+			if(m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
+			{
+				// switch case
+				switch (m_powerUps[i]->getID())
+				{
+				case 1: // Health
+					break;
+				case 2:	// Speed
+					break;
+				}
+			}
 		}
 		else
 		{

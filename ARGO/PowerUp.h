@@ -7,6 +7,7 @@ class PowerUp
 {
 public:
 	PowerUp() { 
+		m_id = 0;
 		m_alive = true;
 		m_x = 50.0f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1100.0f));
 		m_y = 50.0f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 650.0f));
@@ -37,6 +38,59 @@ public:
 	};
 	~PowerUp() {};
 	virtual void draw(SDL_Renderer *m_renderer) = 0;
+	bool pickedUp(float x, float y, float w1, float h1)
+	{
+		float w = 0.5*(w1 + getWidth());
+		float h = 0.5*(h1 + getHeight());
+		float dx = (x + (w1 / 2)) - (m_x + (getWidth() / 2));
+		float dy = (y + (h1 / 2)) - (m_y + (getHeight() / 2));
+		if (abs(dx) <= w && abs(dy) <= h)
+		{
+			m_alive = false;
+			return true;
+		}
+		return false;
+	};
+	void obstacleCollision(float x, float y, float w1, float h1)
+	{
+		float w = 0.5*(w1 + getWidth());
+		float h = 0.5*(h1 + getHeight());
+		float dx = (x + (w1 / 2)) - (m_x + (getWidth() / 2));
+		float dy = (y + (h1 / 2)) - (m_y + (getHeight() / 2));
+		if (abs(dx) <= w && abs(dy) <= h)
+		{
+			float wy = w * dy;
+			float hx = h * dx;
+
+			if (wy > hx)
+			{
+				if (wy > -hx)
+				{
+					//top
+					m_headUp = false;
+				}
+				else if (wy < -hx)
+				{
+					//left
+					m_headLeft = false;
+				}
+
+			}
+			if (wy < hx)
+			{
+				if (wy > -hx)
+				{
+					//Right 
+					m_headLeft = true;
+				}
+				else if (wy < -hx)
+				{
+					//Bottom
+					m_headUp = true;
+				}
+			}
+		}
+	};
 	void update() {
 		//std::cout << "Timer: " << std::to_string(m_timer) << std::endl;
 		if (m_headLeft)
@@ -123,7 +177,7 @@ class HealthUp : public PowerUp
 {
 public:
 	HealthUp(SDL_Renderer *m_renderer) {
-		
+		m_id = 1;
 		if (!m_texture.loadFromFile("dot.bmp", m_renderer))
 		{
 			printf("Failed to load dot texture!\n");
@@ -145,6 +199,7 @@ class SpeedUp : public PowerUp
 public:
 	SpeedUp(SDL_Renderer *m_renderer)
 	{
+		m_id = 2;
 		if (!m_texture.loadFromFile("dot.bmp", m_renderer))
 		{
 			printf("Failed to load dot texture!\n");
