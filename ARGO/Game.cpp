@@ -15,24 +15,20 @@ Game::Game()
 	}
 
 	initialise();
-	m_playerDot = new Dot(false, 100, 100);
-	m_playerDot->Init(m_renderer);
+	//m_playerDot = new Dot(false, 100, 100);
+	//m_playerDot->Init(m_renderer);
 }
 
 
 void Game::initialise()
 {
-	if (!m_texture.loadFromFile("dot.bmp", m_renderer))
-	{
-		printf("Failed to load dot texture!\n");
-
-	}
+	
 
 	Entity player("Player");
 	player.addComponent(new HealthComponent(200));
 	player.addComponent(new PositionComponent(100, 100));
 	player.addComponent(new ControlComponent());
-	player.addComponent(new SpriteComponent(m_texture, m_renderer));
+	player.addComponent(new SpriteComponent(m_renderer));
 	player.addComponent(new AnimationComponent());
 
 

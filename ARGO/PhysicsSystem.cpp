@@ -20,6 +20,45 @@ void PhysicsSystem::update() {
 		
 		//collide
 
+		//std::cout << vecY <<std::endl;
+
+		if (pc->getPositionY() < 200 - ac->sRect.h) {
+
+			posY = pc->getPositionY();
+			posX = pc->getPositionX();
+			vecY++;
+			posY += vecY;
+			pc->setPosition(posX, posY);
+			collision = 0;
+
+			if (cc->moveLeft == 1) {
+				ac->leftJump();
+			}
+			else if (cc->moveRight == 1)
+			{
+				ac->rightJump();
+			}
+
+
+
+		}
+		else {
+			vecY = 0;
+			collision = 1;
+
+			if (ac->m_currentState == ac->jumpLeftS || ac->m_currentState == ac->jumpRightS)
+			{
+				ac->idle();
+			}
+
+		}
+
+		int posX = pc->getPositionX();
+		int posY = pc->getPositionY();
+		posX += vecX;
+		pc->setPosition(posX, posY);
+
+
 		if (cc->getDirection() == cc->Left)
 		{
 			//if(!collide)
@@ -44,38 +83,6 @@ void PhysicsSystem::update() {
 
 		}
 		
-		//std::cout << vecY <<std::endl;
-
-		if (pc->getPositionY() < 500 ) {
-			
-			posY = pc->getPositionY();
-			posX = pc->getPositionX();
-			vecY++;
-			posY += vecY;
-			pc->setPosition(posX, posY);
-			collision = 0;
-
-			if (cc->Left) {
-				ac->leftJump();
-			}
-			 if (cc->Right)
-			{
-				ac->rightJump();
-			}
-
-
-			
-		}
-		else {
-			vecY = 0;
-			collision = 1;
-
-		}
-		
-		int posX = pc->getPositionX();
-		int posY = pc->getPositionY();
-		posX += vecX;
-		pc->setPosition(posX, posY);
 
 
 	}

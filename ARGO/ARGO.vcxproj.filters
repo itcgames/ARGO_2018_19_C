@@ -148,7 +148,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="dot.bmp">
+    <Image Include="Left.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

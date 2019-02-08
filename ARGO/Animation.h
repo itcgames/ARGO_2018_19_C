@@ -3,6 +3,8 @@
 #include "Component.h"
 #include <SDL.h>
 
+
+
 class AnimationComponent : public Component
 {
 	
@@ -12,6 +14,7 @@ public:
 	AnimationComponent();
 	void setCurrent(State* s);
 	State* getCurrent();
+	
 
 	void idle();
 
@@ -29,6 +32,24 @@ public:
 	}
 
 	std::string id = "Animation";
+
+
+	SDL_Rect sRect;
+
+	enum AniState {
+		idleS,
+		leftS,
+		rightS,
+		jumpLeftS,
+		jumpRightS
+	};
+
+	AniState getCurrentState();
+
+	void setCurrentState(AniState a);
+
+	AniState m_currentState = idleS;
+	
 };
 
 

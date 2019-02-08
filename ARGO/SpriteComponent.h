@@ -7,19 +7,27 @@ class SpriteComponent : public Component
 {
 
 public:
-	SpriteComponent(LTexture texture, SDL_Renderer *m_renderer) : m_texture(texture)
+	SpriteComponent(SDL_Renderer *m_renderer) 
 	{
 		
-		////SDL_Texture* texture = IMG_LoadTexture(m_renderer, file.c_str());
-
-		//if (!m_texture.loadFromFile("dot.bmp", m_renderer))
-		//{
-		//	printf("Failed to load dot texture!\n");
-
-		//}
+		Init(m_renderer);
 	
 	
 	};
+
+	void Init(SDL_Renderer *gRenderer)
+	{
+		
+		
+		
+		if (!m_texture.loadFromFile("img/playerSheet.png", gRenderer))
+		{
+			printf("Failed to load dot texture!\n");
+
+		}
+	
+		
+	}
 
 	void setPosition(int posX, int posY) {
 
@@ -27,9 +35,9 @@ public:
 		mPosY = posY;
 
 	}
-	void render(SDL_Renderer *m_renderer) {
+	void render(SDL_Renderer *m_renderer, SDL_Rect s_rect) {
 
-		m_texture.render(mPosX, mPosY, m_renderer);
+		m_texture.render(mPosX, mPosY, m_renderer, &s_rect);
 	}
 
 	std::string getID()
@@ -47,4 +55,5 @@ private:
 	int mPosX;
 	int mPosY;
 	LTexture m_texture;
+	LTexture m_textureLeft;
 };

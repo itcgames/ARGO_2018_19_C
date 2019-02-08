@@ -16,7 +16,6 @@ LTexture::~LTexture()
 }
 
 
-
 bool LTexture::loadFromFile(std::string path, SDL_Renderer *gRenderer)
 {
 	//Get rid of preexisting texture
@@ -139,20 +138,14 @@ void LTexture::setAlpha(Uint8 alpha)
 	SDL_SetTextureAlphaMod(mTexture, alpha);
 }
 
-void LTexture::render(int x, int y, SDL_Renderer *gRenderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
+void LTexture::render(int x, int y, SDL_Renderer *gRenderer, SDL_Rect* sourceRect)
 {
 	//Set rendering space and render to screen
-	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 
-	//Set clip rendering dimensions
-	if (clip != NULL)
-	{
-		renderQuad.w = clip->w;
-		renderQuad.h = clip->h;
-	}
+	SDL_Rect destRect = { x , y , mWidth , mHeight };
 
 	//Render to screen
-	SDL_RenderCopyEx(gRenderer, mTexture, clip, &renderQuad, angle, center, flip);
+	SDL_RenderCopy(gRenderer, mTexture, sourceRect, &destRect);
 }
 
 int LTexture::getWidth()

@@ -19,11 +19,12 @@ void RenderSystem::update(SDL_Renderer *m_renderer) {
 		PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");
 		AnimationComponent * ac = (AnimationComponent*)entity.getCompByType("Animation");
 
+
+
 		sc->setPosition(pc->getPositionX(), pc->getPositionY());
 
-		sc->render(m_renderer);
+		sc->render(m_renderer, ac->sRect);
 
-		
 		
 	}
 
