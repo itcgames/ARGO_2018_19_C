@@ -17,7 +17,7 @@ public:
 	void keyUp(SDL_Event & e);
 private:
 	std::vector<Entity> entities;
-
+	
 	ControlComponent * controlComp;
 	float x = 0;
 	float y = 0;

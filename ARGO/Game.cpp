@@ -11,6 +11,8 @@ Game::Game()
 	{
 		cout << "Error: " << IMG_GetError() << endl;
 	}
+	m_factory = new PowerUpFactory;
+
 
 	initialise();
 	ps.initialise();
@@ -28,10 +30,17 @@ Game::Game()
 
 void Game::initialise()
 {
-	if (!m_texture.loadFromFile("dot1.bmp", m_renderer))
+
+	m_timerSpawn = 0;
+	if (!m_texture.loadFromFile("dot.bmp", m_renderer))
+
 	{
 		printf("Failed to load dot texture!\n");
 
+	}
+	if (!wallTxt.loadFromFile("wall.bmp", m_renderer))
+	{
+		printf("Failed to load wall texture!\n");
 	}
 
 	Entity player("Player");
@@ -42,7 +51,12 @@ void Game::initialise()
 	//pass in player pos 
 	//player.addComponent(new ParticleComponent(100, 100, m_renderer));
 	player.addComponent(new SpriteComponent(m_texture, m_renderer));
+	player.addComponent(new CollisionComponent());
 
+	Entity wall("Wall");
+	wall.addComponent(new PositionComponent(400, 500));
+	wall.addComponent(new CollisionComponent());
+	//wall.addComponent(new SpriteComponent(wallTxt, m_renderer));
 
 	Entity alien("Alien");
 	alien.addComponent(new HealthComponent(60));
@@ -65,6 +79,7 @@ void Game::initialise()
 
 
 	rs.addEntity(player);
+	//rs.addEntity(wall);
 	//rs.addEntity(alien);
 	//rs.addEntity(dog);
 	//rs.addEntity(cat);
@@ -75,8 +90,13 @@ void Game::initialise()
 
 	cs.addEntity(player);
 
+
+	Colls.addEntity(player);
+	Colls.addEntity(wall);
+
 	ps.addEntity(player);
 	phs.addEntity(player);
+
 
 	
 }
@@ -142,9 +162,37 @@ void Game::processEvents()
 
 void Game::update()
 {
-	//hs.update();
+
+	Colls.update();
 	phs.update();
 
+	// Power ups
+	m_timerSpawn++;
+	if (m_timerSpawn >= m_spawnTimeLimit)
+	{
+		switch (rand() % m_numOfPowerUps)
+		{
+		case 0:
+			m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
+			break;
+
+		case 1:
+			m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
+			break;
+		}
+		m_timerSpawn = 0;
+	}
+	for (int i = m_powerUps.size() - 1; i >= 0; i--)
+	{
+		if (m_powerUps[i]->getAlive())
+		{
+			m_powerUps[i]->update();
+		}
+		else
+		{
+			m_powerUps.erase(m_powerUps.begin() + i);
+		}
+	}
 }
 
 void Game::render()
@@ -154,16 +202,20 @@ void Game::render()
 		SDL_Log("Could not create a renderer: %s", SDL_GetError());
 	}
 
-	
-	
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 	SDL_RenderClear(m_renderer);
 	rs.update(m_renderer);
+	wallTxt.render(400, 500, m_renderer);
 	ps.update(m_renderer);
 	m_level->draw(m_renderer);
 	//m_playerDot->render(m_renderer);
 	//m_texture.render(100, 100, m_renderer);
 
-	SDL_RenderPresent(m_renderer);
 
+	for (int i = m_powerUps.size() - 1; i >= 0; i--)
+	{
+			m_powerUps[i]->draw(m_renderer);
+	}
+	SDL_RenderPresent(m_renderer);
+	
 }

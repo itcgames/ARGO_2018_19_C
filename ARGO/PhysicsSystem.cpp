@@ -16,11 +16,11 @@ void PhysicsSystem::update() {
 
 		cc = (ControlComponent*)entity.getCompByType("Control");
 		pc = (PositionComponent*)entity.getCompByType("Position");
+		Coll = (CollisionComponent *)entity.getCompByType("Collision");
 
 		if (cc->getDirection() == cc->Left)
 		{
 			moveLeft();
-			
 		}
 		if (cc->getDirection() == cc->Right)
 		{
@@ -31,11 +31,6 @@ void PhysicsSystem::update() {
 		if (cc->getDirection() == cc->Up) {
 			moveUp();
 		}
-
-		if (cc->getDirection() == cc->Down) {
-			moveDown();
-		}
-
 		if (cc->moveLeft == 0 && cc->moveRight == 0)
 		{
 			vecX = 0;
@@ -43,8 +38,11 @@ void PhysicsSystem::update() {
 		}
 		
 		std::cout << vecY <<std::endl;
-
-		if (pc->getPositionY() < 500 ) {
+		if( pc->getPositionY() >= 500)
+		{
+			cc->stopFall = true;
+		}
+		if (!cc->stopFall) {
 			
 			posY = pc->getPositionY();
 			posX = pc->getPositionX();
@@ -52,16 +50,26 @@ void PhysicsSystem::update() {
 			posY += vecY;
 			pc->setPosition(posX, posY);
 			collision = 0;
-
-
-			
 		}
+		/*else if (pc->getPositionY() < 440 && !cc->stopFall) 
+		{
+
+			posY = pc->getPositionY();
+			posX = pc->getPositionX();
+			vecY++;
+			posY += vecY;
+			pc->setPosition(posX, posY);
+			collision = 0;
+		}*/
 		else {
 			vecY = 0;
 			collision = 1;
-
 		}
-		
+		/*if (cc->stopFall)
+		{
+			vecY = 0;
+		}
+		*/
 		int posX = pc->getPositionX();
 		int posY = pc->getPositionY();
 		posX += vecX;

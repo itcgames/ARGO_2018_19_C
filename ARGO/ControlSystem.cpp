@@ -23,10 +23,6 @@ void ControlSystem::input(SDL_Event &e) {
 				controlComp->setDirection(controlComp->Up);
 				
 			}
-			if (e.key.keysym.sym == SDLK_DOWN)
-			{
-				controlComp->setDirection(controlComp->Down);
-			}
 			if (e.key.keysym.sym == SDLK_LEFT)
 			{
 				controlComp->setDirection(controlComp->Left);

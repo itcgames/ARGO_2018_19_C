@@ -13,6 +13,7 @@
 #include "HealthSystem.h"
 #include "RenderSystem.h"
 #include "ControlSystem.h"
+#include "CollisionSystem.h"
 #include "AiSystem.h"
 #include "ParticleSystem.h"
 #include "Dot.h"
@@ -21,6 +22,10 @@
 
 //Jamie
 #include "Particle.h"
+
+#include "Factory.h"
+#include <iterator>
+
 
 using namespace std;
 
@@ -58,6 +63,7 @@ private:
 	HealthComponent* m_healthComponentFour;
 	ControlComponent* m_ctrlComponent;
 	PositionComponent* m_posComponent;
+	CollisionComponent* CollisionComp;
 	ParticleComponent* m_partComponent;
 
 	HealthSystem hs;
@@ -65,10 +71,19 @@ private:
 	AiSystem ais;
 	ParticleSystem ps;
 	ControlSystem cs;
+	CollisionSystem Colls;
+	LTexture m_texture, wallTxt;
+
 	PhysicsSystem phs;
-	LTexture m_texture;
 
 
+
+	Factory* m_factory;
+	std::vector<PowerUp*> m_powerUps;
+
+	int m_timerSpawn;
+	const int m_spawnTimeLimit = 2000;
+	const int m_numOfPowerUps = 2;
 
 };
 
