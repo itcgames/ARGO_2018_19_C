@@ -85,6 +85,9 @@ private:
 	const int m_spawnTimeLimit = 2000;
 	const int m_numOfPowerUps = 2;
 
+
+	Entity player;
+
 };
 
 

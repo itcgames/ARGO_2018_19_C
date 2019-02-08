@@ -9,11 +9,9 @@ class SpriteComponent : public Component
 public:
 	SpriteComponent(LTexture texture, SDL_Renderer *m_renderer) : m_texture(texture)
 	{
-	
+		m_width = m_texture.getWidth();
+		m_height = m_texture.getHeight();
 	};
-
-	float m_Width = m_texture.getWidth();
-	float m_Height = m_texture.getHeight();
 
 	void setPosition(int posX, int posY) {
 
@@ -32,10 +30,10 @@ public:
 
 	float getWidth()
 	{
-		return m_Width;
+		return m_width;
 	}
 
-	float getHeight() { return m_Height; }
+	float getHeight() { return m_height; }
 
 	LTexture getTexture()
 	{
@@ -46,6 +44,7 @@ private:
 	
 	std::string id = "Sprite";
 	int mPosX;
-	int mPosY;
+	int mPosY; 
+	float m_width, m_height;
 	LTexture m_texture;
 };

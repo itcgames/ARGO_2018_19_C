@@ -73,6 +73,7 @@ bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, fl
 				//Bottom
 			}
 		}
+		return true;
 		
 	}
 		return false;
