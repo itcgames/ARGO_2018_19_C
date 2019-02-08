@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1200, 700, SDL_WINDOW_OPENGL);
+	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
@@ -19,6 +19,12 @@ Game::Game()
 	m_playerDot = new Dot(false, 100, 100);
 	m_playerDot->Init(m_renderer);
 
+
+	const auto MAP_PATH = "assets/maps/example.tmx";
+
+	m_level = new level("Main Level");
+	m_level->load(MAP_PATH, m_renderer);
+
 }
 
 
@@ -27,6 +33,7 @@ void Game::initialise()
 
 	m_timerSpawn = 0;
 	if (!m_texture.loadFromFile("dot.bmp", m_renderer))
+
 	{
 		printf("Failed to load dot texture!\n");
 
@@ -200,6 +207,10 @@ void Game::render()
 	rs.update(m_renderer);
 	wallTxt.render(400, 500, m_renderer);
 	ps.update(m_renderer);
+	m_level->draw(m_renderer);
+	//m_playerDot->render(m_renderer);
+	//m_texture.render(100, 100, m_renderer);
+
 
 	for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{

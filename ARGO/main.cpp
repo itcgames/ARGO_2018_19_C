@@ -2,6 +2,13 @@
 #pragma comment(lib, "SDL2main.lib")
 #pragma comment(lib, "SDL2_image.lib")
 
+#if _DEBUG
+#pragma comment(lib, "libtmxlite-s-d.lib")
+#else 
+#pragma comment (lib, "tmxlite.lib")
+#endif 
+
+
 #include "Game.h"
 
 using namespace std;

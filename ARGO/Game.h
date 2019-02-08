@@ -18,6 +18,7 @@
 #include "ParticleSystem.h"
 #include "Dot.h"
 #include "PhysicsSystem.h"
+#include "Level.h"
 
 //Jamie
 #include "Particle.h"
@@ -48,6 +49,7 @@ private:
 	SDL_Event event;
 	bool exit;
 	Dot* m_playerDot;
+	level* m_level;
 
 
 	Entity* m_player;
