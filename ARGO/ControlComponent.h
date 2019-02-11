@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "AudioManager.h"
 
 
 
@@ -31,6 +32,7 @@ public:
 	Direction m_currentDirection = Idle;
 	int jump = 0;
 	int moveLeft = 0, moveRight = 0;
+	bool stopFall = false;
 private:
 	std::string id = "Control";
 	

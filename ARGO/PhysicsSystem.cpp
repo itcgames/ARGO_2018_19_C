@@ -60,11 +60,13 @@ void PhysicsSystem::update() {
 		pc->setPosition(posX, posY);
 
 
+		Coll = (CollisionComponent *)entity.getCompByType("Collision");
+
+
 		if (cc->moveLeft == 1)
 		{
 			//if(!collide)
 			moveLeft();
-			
 		}
 		if (cc->moveRight == 1)
 		{
@@ -84,6 +86,7 @@ void PhysicsSystem::update() {
 
 		}
 
+
 		if (ac->m_currentState == ac->idleS && cc->moveLeft == 1)
 		{
 			ac->left();
@@ -93,6 +96,45 @@ void PhysicsSystem::update() {
 			ac->right();
 		}
 		
+
+		
+		std::cout << vecY <<std::endl;
+		if( pc->getPositionY() >= 500)
+		{
+			cc->stopFall = true;
+		}
+		if (!cc->stopFall) {
+			
+			posY = pc->getPositionY();
+			posX = pc->getPositionX();
+			vecY++;
+			posY += vecY;
+			pc->setPosition(posX, posY);
+			collision = 0;
+		}
+		/*else if (pc->getPositionY() < 440 && !cc->stopFall) 
+		{
+
+			posY = pc->getPositionY();
+			posX = pc->getPositionX();
+			vecY++;
+			posY += vecY;
+			pc->setPosition(posX, posY);
+			collision = 0;
+		}*/
+		else {
+			vecY = 0;
+			collision = 1;
+		}
+		/*if (cc->stopFall)
+		{
+			vecY = 0;
+		}
+		*/
+		int posX = pc->getPositionX();
+		int posY = pc->getPositionY();
+		posX += vecX;
+		pc->setPosition(posX, posY);
 
 
 	}

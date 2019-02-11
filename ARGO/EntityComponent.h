@@ -6,6 +6,8 @@
 #include "ControlComponent.h"
 #include "SpriteComponent.h"
 #include "Animation.h"
+#include "CollisionComp.h"
+#include "ParticleComponent.h"
 #include <string>
 #include <iostream>
 #include <sdl.h>
@@ -15,8 +17,8 @@ class Entity
 	int id;
 public:
 	Entity(std::string name): m_name(name) {};
-	void addComponent(Component* c) {
-
+	void addComponent(Component* c) 
+	{
 		components.push_back(c);
 	}
 	Component * getCompByType(std::string name) {
@@ -33,8 +35,8 @@ public:
 
 		return components;
 	}
-	std::string getName() {
-
+	std::string getName() 
+	{
 		return m_name;
 	}
 private:

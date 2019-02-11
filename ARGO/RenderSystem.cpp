@@ -10,10 +10,7 @@ void RenderSystem::addEntity(Entity e) {
 
 void RenderSystem::update(SDL_Renderer *m_renderer) {
 
-
-	//std::cout << "RENDER SYSTEM:" << std::endl;
 	for (Entity & entity : entities) {
-
 
 		SpriteComponent *sc = (SpriteComponent*)entity.getCompByType("Sprite");
 		PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");
@@ -25,7 +22,6 @@ void RenderSystem::update(SDL_Renderer *m_renderer) {
 
 		sc->render(m_renderer, ac->sRect);
 
-		
 	}
 
 }

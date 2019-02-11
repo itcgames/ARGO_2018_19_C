@@ -18,7 +18,7 @@ public:
 	void keyUp(SDL_Event & e);
 private:
 	std::vector<Entity> entities;
-
+	
 	ControlComponent * controlComp;
 	AnimationComponent *amComp;
 	float x = 0;
