@@ -18,6 +18,7 @@ void PhysicsSystem::update() {
 		pc = (PositionComponent*)entity.getCompByType("Position");
 		ac = (AnimationComponent*)entity.getCompByType("Animation");
 		sc = (SpriteComponent*)entity.getCompByType("Sprite");
+    Coll = (CollisionComponent *)entity.getCompByType("Collision");
 		
 		//collide
 
@@ -64,7 +65,6 @@ void PhysicsSystem::update() {
 		{
 			//if(!collide)
 			moveLeft();
-			
 		}
 		if (cc->moveRight == 1)
 		{
@@ -93,7 +93,6 @@ void PhysicsSystem::update() {
 			ac->right();
 		}
 		
-
 
 	}
 

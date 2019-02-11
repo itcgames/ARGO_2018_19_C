@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClCompile Include="AISystem.cpp" />
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Assets.cpp" />
+    <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Idle.cpp" />
@@ -30,6 +33,10 @@
     <ClCompile Include="LTexture.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LTexture.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Right.cpp" />
@@ -38,11 +45,16 @@
   <ItemGroup>
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Assets.h" />
+    <ClInclude Include="CollisionComp.h" />
+    <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControlComponent.h" />
     <ClInclude Include="ControlSystem.h" />
     <ClInclude Include="credits.h" />
     <ClInclude Include="EntityComponent.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthSystem.h" />
@@ -52,9 +64,15 @@
     <ClInclude Include="Left.h" />
     <ClInclude Include="LTexture.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="LTexture.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleComponent.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="PositionSystem.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Right.h" />
     <ClInclude Include="splash.h" />
@@ -116,20 +134,24 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SDL2_mixer\include;C:\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SDL2_image-2.0.3\include;C:\SDL2-2.0.8\include;TMX_Lite\include;$(IncludePath)</IncludePath>
+    <LibraryPath>TMX_Lite\lib;C:\SDL2-2.0.8\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>TMX_Lite\include;$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>TMX_Lite\lib;$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;C:\SDL2_mixer\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -137,13 +159,21 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>TMX_Lite\include;C:\SDL2_image-2.0.3;C:\SDL2-2.0.8;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\SDL2_image-2.0.3\lib\x86;C:\SDL2_mixer\lib\x86;C:\SDL2\lib\x86;TMX_Lite\lib\libtmxlite-s-d.lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalIncludeDirectories>%(SDL_SDK)include;%(SDL_IMG_SDK)include;%(SDL_MIX_SDK)include;C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Link>
+    <Link>
+      <AdditionalLibraryDirectories>TMX_Lite\lib\libtmxlite-s-d.lib;%(SDL_SDK)lib\x86;%(SDL_IMG_SDK)lib\x86;%(SDL_MIX_SDK)lib\x86;C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -151,11 +181,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SDL_SDK)include;%(SDL_IMG_SDK)include;%(SDL_MIX_SDK)include;C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(SDL_SDK)lib\x86;C:\SDL2_mixer\lib\x86;%(SDL_IMG_SDK)lib\x86;%(SDL_MIX_SDK)lib\x86;C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -167,12 +197,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SDL_SDK)include;%(SDL_IMG_SDK)include;%(SDL_MIX_SDK)include;C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(SDL_SDK)lib\x86;%(SDL_IMG_SDK)lib\x86;%(SDL_MIX_SDK)lib\x86;C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -185,12 +215,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SDL_SDK)include;%(SDL_IMG_SDK)include;%(SDL_MIX_SDK)include;C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(SDL_SDK)lib\x86;%(SDL_IMG_SDK)lib\x86;%(SDL_MIX_SDK)lib\x86;C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
