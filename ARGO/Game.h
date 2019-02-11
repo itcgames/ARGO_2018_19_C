@@ -87,7 +87,6 @@ private:
 	AiSystem ais;
 	ParticleSystem ps;
 	ControlSystem cs;
-	LTexture m_texture;
 	GameState m_currentGameState;
 	GameState m_previousGameState;
 

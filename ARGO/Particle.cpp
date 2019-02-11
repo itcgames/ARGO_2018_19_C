@@ -12,7 +12,8 @@ Particle::Particle(int x, int y)
 	mLife = rand() % 10;
 
 	//Decide colour of particle
-	color = (rand() % 3) + 1;
+	color = (rand() % 3) + 1;
+
 	
 	width = 10;
 	height = 10;
@@ -34,38 +35,38 @@ void Particle::SetPosition(int x, int y)
 
 void Particle::Init(SDL_Renderer *gRenderer)
 {
-	//Load red texture
-	if (!gRedTexture.loadFromFile("red.bmp", gRenderer))
-	{
-		printf("Failed to load red texture!\n");
-	}
-
-	//Load green texture
-	if (!gGreenTexture.loadFromFile("green.bmp", gRenderer))
-	{
-		printf("Failed to load green texture!\n");
-	}
-
-	//Load blue texture
-	if (!gBlueTexture.loadFromFile("blue.bmp", gRenderer))
-	{
-		printf("Failed to load blue texture!\n");
-	}
-
-	//Load shimmer texture
-	//if (!gShimmerTexture.loadFromFile("shimmer.bmp", gRenderer))
+	////Load red texture
+	//if (!gRedTexture.loadFromFile("red.bmp", gRenderer, 1))
 	//{
-	//	printf("Failed to load shimmer texture!\n");
+	//	printf("Failed to load red texture!\n");
 	//}
 
-	//Set texture transparency
-	gRedTexture.setAlpha(192);
-	gGreenTexture.setAlpha(192);
-	gBlueTexture.setAlpha(192);
-	gShimmerTexture.setAlpha(192);
+	////Load green texture
+	//if (!gGreenTexture.loadFromFile("green.bmp", gRenderer, 1))
+	//{
+	//	printf("Failed to load green texture!\n");
+	//}
 
-	width = gDotTexture.getWidth();
-	height = gDotTexture.getHeight();
+	////Load blue texture
+	//if (!gBlueTexture.loadFromFile("blue.bmp", gRenderer, 1))
+	//{
+	//	printf("Failed to load blue texture!\n");
+	//}
+
+	////Load shimmer texture
+	////if (!gShimmerTexture.loadFromFile("shimmer.bmp", gRenderer))
+	////{
+	////	printf("Failed to load shimmer texture!\n");
+	////}
+
+	////Set texture transparency
+	//gRedTexture.setAlpha(192);
+	//gGreenTexture.setAlpha(192);
+	//gBlueTexture.setAlpha(192);
+	//gShimmerTexture.setAlpha(192);
+
+	//width = gDotTexture.getWidth();
+	//height = gDotTexture.getHeight();
 
 	//std::cout << "part init called" << std::endl;
 }

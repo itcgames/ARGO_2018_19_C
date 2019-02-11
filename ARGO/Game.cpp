@@ -17,7 +17,7 @@ Game::Game(): player("Player")
 
 	initialise();
 
-	phs.initialise();
+	//phs.initialise();
 	
 
 	const auto MAP_PATH = "assets/maps/example.tmx";
@@ -35,13 +35,13 @@ void Game::initialise()
 
 
 	m_timerSpawn = 0;
-	if (!m_texture.loadFromFile("dot.bmp", m_renderer))
+	if (!m_texture.loadFromFile("dot.bmp", m_renderer, 1))
 
 	{
 		printf("Failed to load dot texture!\n");
 
 	}
-	if (!wallTxt.loadFromFile("wall.bmp", m_renderer))
+	if (!wallTxt.loadFromFile("wall.bmp", m_renderer, 1))
 	{
 		printf("Failed to load wall texture!\n");
 	}
@@ -188,7 +188,8 @@ void Game::update()
 	case GameState::Options:
 		break;
 	case GameState::GameScreen:
-		ps.update();
+		//ps.update(m_renderer);
+		phs.update();
 		break;
 	case GameState::Credits:
 		break;
@@ -198,9 +199,9 @@ void Game::update()
 
 
 	Colls.update();
-	phs.update();
+	//phs.update();
 
-	// Power ups
+	//// Power ups
 	m_timerSpawn++;
 	if (m_timerSpawn >= m_spawnTimeLimit)
 	{
@@ -276,10 +277,10 @@ void Game::render()
 
 	rs.update(m_renderer);
 	wallTxt.render(400, 500, m_renderer);
-	ps.update(m_renderer);
+	//ps.update(m_renderer);
 	m_level->draw(m_renderer);
 	//m_playerDot->render(m_renderer);
-	//m_texture.render(100, 100, m_renderer);
+	m_texture.render(100, 100, m_renderer);
 
 	for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{

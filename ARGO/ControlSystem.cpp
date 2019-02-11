@@ -15,7 +15,7 @@ void ControlSystem::input(SDL_Event &e) {
 		
 		controlComp = (ControlComponent*)entity.getCompByType("Control");
 		amComp = (AnimationComponent*)entity.getCompByType("Animation");
-		auto nig = amComp->getCurrent();
+	
 		switch (e.type)
 		{
 		case SDL_KEYDOWN:
