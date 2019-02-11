@@ -16,8 +16,9 @@
 #include "CollisionSystem.h"
 #include "AudioManager.h"
 #include "AiSystem.h"
+
 #include "ParticleSystem.h"
-#include "Dot.h"
+
 #include "PhysicsSystem.h"
 
 
@@ -30,7 +31,20 @@
 
 
 using namespace std;
+enum class
+	GameState
+{
+	None,
+	License,
+	Splash,
+	MainMenu,
+	GameScreen,
+	CoopScreen,
+	Options,
+	Credits,
+	Help
 
+};
 class Game {
 
 public:
@@ -45,12 +59,15 @@ private:
 	void update();
 	void render();
 	void initialise();
-	
+
+	void setGameState(GameState gameState);
+
 
 	SDL_Window *m_window;
 	SDL_Renderer *m_renderer;
 	SDL_Event event;
 	bool exit;
+
 	Dot* m_playerDot;
 	level* m_level;
 
@@ -74,6 +91,11 @@ private:
 	AiSystem ais;
 	ParticleSystem ps;
 	ControlSystem cs;
+
+	PhysicsSystem ps;
+	LTexture m_texture;
+	GameState m_currentGameState;
+	GameState m_previousGameState;
 	CollisionSystem Colls;
 	LTexture m_texture, wallTxt;
 

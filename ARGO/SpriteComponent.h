@@ -7,11 +7,30 @@ class SpriteComponent : public Component
 {
 
 public:
-	SpriteComponent(LTexture texture, SDL_Renderer *m_renderer) : m_texture(texture)
+	SpriteComponent(std::string path, float scale , SDL_Renderer *m_renderer): m_scale(scale)
 	{
+
+		
+		Init(path, scale, m_renderer);
+	
 		m_width = m_texture.getWidth();
 		m_height = m_texture.getHeight();
+
 	};
+	
+	void Init(std::string path,  float scale, SDL_Renderer *gRenderer )
+	{
+		
+		m_scale = scale;
+		
+		if (!m_texture.loadFromFile(path, gRenderer, m_scale))
+		{
+			printf("Failed to load dot texture!\n");
+
+		}
+	
+		
+	}
 
 	void setPosition(int posX, int posY) {
 
@@ -19,8 +38,10 @@ public:
 		mPosY = posY;
 
 	}
-	void render(SDL_Renderer *m_renderer) {
-		m_texture.render(mPosX, mPosY, m_renderer);
+
+	void render(SDL_Renderer *m_renderer, SDL_Rect s_rect) {
+
+		m_texture.render(mPosX, mPosY, m_renderer, &s_rect);
 	}
 
 	std::string getID()
@@ -39,12 +60,18 @@ public:
 	{
 		return m_texture;
 	}
+
+	float getScale() {
+		return m_scale;
+	}
 	
 private:
-	
+	float m_scale;
 	std::string id = "Sprite";
 	int mPosX;
 	int mPosY; 
 	float m_width, m_height;
 	LTexture m_texture;
+	LTexture m_textureLeft;
+	
 };
