@@ -7,6 +7,7 @@
 #include "SpriteComponent.h"
 #include "CollisionComp.h"
 #include "ParticleComponent.h"
+#include "AIComponent.h"
 #include <string>
 #include <iostream>
 #include <sdl.h>

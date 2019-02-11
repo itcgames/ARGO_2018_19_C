@@ -91,10 +91,10 @@ double Fuzzy::fuzzyNot(double A)
 void Fuzzy::update(double dis)
 {
 	//emeny threat is 22
-	m_tiny = fuzzyTriangle(22, -10, 0, 10);
-	m_small = fuzzyTrape(22, 2.5, 10, 15, 20);
-	m_moderate = fuzzyTrape(22, 15, 20, 25, 30);
-	m_large = fuzzyGrade(22, 25, 30);
+	m_tiny = fuzzyTriangle(6, -10, 0, 10);
+	m_small = fuzzyTrape(6, 2.5, 10, 15, 20);
+	m_moderate = fuzzyTrape(6, 15, 20, 25, 30);
+	m_large = fuzzyGrade(6, 25, 30);
 
 	//put in values 250 == dis between ships
 	m_close = fuzzyTriangle(dis, -300, 0, 300);
@@ -106,25 +106,33 @@ void Fuzzy::update(double dis)
 	m_med = fuzzyAnd(m_close, m_tiny);
 	m_high = fuzzyAnd(m_close, fuzzyNot(m_medium));
 
-	std::cout << "CLOSE :: " << m_close<< std::endl;
-	
-	std::cout << "MED ::" << m_medium << std::endl;
-	
-	std::cout << "FAR ::" << m_far << std::endl;
+	//close
+	if (m_low > m_med && m_low > m_high) {
+		std::cout << "threat low" << std::endl;
+		//m_defuzz = 0;
+	}
+	//med
+	if (m_med > m_low && m_med > m_high) {
+		std::cout << "threat med" << std::endl;
+		//m_defuzz = 4;
+	}
+	//far
+	if (m_high > m_low && m_high > m_med) {
+		//std::cout << "threat high" << std::endl;
+		//m_defuzz = 7;
+	}
 
-	////close
-	//if (m_low > m_med && m_low > m_high) {
-	//	std::cout << "threat low" << std::endl;
-	//}
-	////med
-	//if (m_med > m_low && m_med > m_high) {
-	//	std::cout << "threat med" << std::endl;
-	//}
-	////far
-	//if (m_high > m_low && m_high > m_med) {
-	//	std::cout << "threat high" << std::endl;
-	//}
+	//defuzzifaction
 
+
+	//defuzzifaction
+	m_defuzz = (m_low * 0 + m_high * 7) ;
+
+
+}
+double Fuzzy::runAway()
+{
+	return m_defuzz;
 }
 
 

@@ -23,6 +23,9 @@ public:
 	double m_high = 0;
 
 	double m_threat = 0;
+	double m_run = 0;
+	double m_defuzz = 0;
+	double runAway();
 
 private:
 	double fuzzyGrade(double value, double x0, double x1);
@@ -31,5 +34,6 @@ private:
 	double fuzzyAnd(double A, double B);
 	double fuzzyOr(double A, double B);
 	double fuzzyNot(double A);
+
 };
 

@@ -14,13 +14,12 @@
 #include "RenderSystem.h"
 #include "ControlSystem.h"
 #include "CollisionSystem.h"
-#include "AiSystem.h"
+#include "AISystem.h"
 #include "ParticleSystem.h"
 #include "Dot.h"
 #include "PhysicsSystem.h"
 #include "Level.h"
 #include "Particle.h"
-#include "Fuzzy.h"
 #include "Factory.h"
 #include <iterator>
 
@@ -43,13 +42,13 @@ private:
 	void initialise();
 	double getDistance();
 
+
 	SDL_Window *m_window;
 	SDL_Renderer *m_renderer;
 	SDL_Event event;
 	bool exit;
 	Dot* m_playerDot;
 	level* m_level;
-
 
 	//Entity* m_player;
 	Entity* m_cat;
@@ -68,7 +67,7 @@ private:
 
 	HealthSystem hs;
 	RenderSystem rs;
-	AiSystem ais;
+	AISystem ais;
 	ParticleSystem ps;
 	ControlSystem cs;
 	CollisionSystem Colls;
@@ -80,7 +79,7 @@ private:
 	std::vector<PowerUp*> m_powerUps;
 	//jamie
 	double disBetweenAiPlayer = 10000;
-	Fuzzy* m_fuzzy;
+	//Fuzzy* m_fuzzy;
 
 	int m_timerSpawn;
 	const int m_spawnTimeLimit = 2000;
@@ -95,7 +94,7 @@ private:
 
 
 	Entity player;
-	Entity ai;
+	Entity player2;
 
 };
 

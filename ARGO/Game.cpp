@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(): player("Player"), ai("Ai")
+Game::Game(): player("Player"), player2("Player2")
 {
 	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -25,7 +25,7 @@ Game::Game(): player("Player"), ai("Ai")
 	m_level = new level("Main Level");
 	m_level->load(MAP_PATH, m_renderer);
 
-	m_fuzzy = new Fuzzy();
+	//m_fuzzy = new Fuzzy();
 
 }
 
@@ -47,11 +47,8 @@ void Game::initialise()
 
 	
 	player.addComponent(new HealthComponent(200));
-	player.addComponent(new PositionComponent(100, 100));
+	player.addComponent(new PositionComponent(500, 100));
 	player.addComponent(new ControlComponent());
-
-	//pass in player pos 
-	//player.addComponent(new ParticleComponent(100, 100, m_renderer));
 	player.addComponent(new SpriteComponent(m_texture, m_renderer));
 	player.addComponent(new CollisionComponent());
 
@@ -60,26 +57,23 @@ void Game::initialise()
 	wall.addComponent(new CollisionComponent());
 	//wall.addComponent(new SpriteComponent(wallTxt, m_renderer));
 
-	//Entity ai("Ai");
-	ai.addComponent(new HealthComponent(60));
-	ai.addComponent(new PositionComponent(500, 500));
-	ai.addComponent(new SpriteComponent(m_texture, m_renderer));
-
-
+	//player2 is AI
+	player2.addComponent(new HealthComponent(60));
+	player2.addComponent(new PositionComponent(200, 500));
+	player2.addComponent(new SpriteComponent(m_texture, m_renderer));
+	player2.addComponent(new CollisionComponent());
+	player2.addComponent(new AIComponent());
 
 	hs.addEntity(player);
-	hs.addEntity(ai);
+	hs.addEntity(player2);
 
 	rs.addEntity(player);
-	rs.addEntity(ai);
-	//rs.addEntity(alien);
-	//rs.addEntity(dog);
-	//rs.addEntity(cat);
+	rs.addEntity(player2);
 
-	//ais.addEntity(alien);
 
 	cs.addEntity(player);
 
+	ais.addEntity(player2);
 
 	Colls.addEntity(player);
 	Colls.addEntity(wall);
@@ -158,6 +152,7 @@ void Game::update()
 
 	Colls.update();
 	phs.update();
+	ais.update(disBetweenAiPlayer);
 
 	// Power ups
 	m_timerSpawn++;
@@ -201,7 +196,7 @@ void Game::update()
 		}
 	}
 	getDistance();
-	m_fuzzy->update(disBetweenAiPlayer);
+	//m_fuzzy->update(disBetweenAiPlayer);
 }
 
 void Game::render()
@@ -262,24 +257,25 @@ void Game::resetCamera()
 	SCREEN_HEIGHT = 900;
 }
 
-
 double Game::getDistance() {
 	//how does one get the players x,y and the ai x, y
-	
+
 	//get distance of oncoming object
 	PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
-	PositionComponent * a = (PositionComponent *)ai.getCompByType("Position");
+	PositionComponent * p2 = (PositionComponent *)player2.getCompByType("Position");
 
-	
-	disBetweenAiPlayer = sqrt((p->getPositionX() - a->getPositionX())*(p->getPositionX() - a->getPositionX())
-		+ (p->getPositionY() - a->getPositionY())*(p->getPositionY()  - a->getPositionY()));
 
+	disBetweenAiPlayer = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
+		+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
+
+	int playerX = p->getPositionX();
+	int player2X = p2->getPositionX();
+	if (playerX > player2X) {
+		disBetweenAiPlayer = disBetweenAiPlayer * -1;
+	}
 	//std::cout << disBetweenAiPlayer << std::endl;
 	return disBetweenAiPlayer;
 
 }
-
-
-
 
 

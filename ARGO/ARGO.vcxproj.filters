@@ -3,9 +3,6 @@
   <ItemGroup>
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Assets.cpp" />
-    <ClCompile Include="AISystem.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionSystem.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -31,9 +28,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Ai.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Fuzzy.cpp">
@@ -107,10 +101,10 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="ParticleComponent.h" />
-    <ClInclude Include="Ai.h">
+    <ClInclude Include="Fuzzy.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Fuzzy.h">
+    <ClInclude Include="AIComponent.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
