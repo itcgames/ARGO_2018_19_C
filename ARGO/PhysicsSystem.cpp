@@ -17,13 +17,13 @@ void PhysicsSystem::update() {
 		cc = (ControlComponent*)entity.getCompByType("Control");
 		pc = (PositionComponent*)entity.getCompByType("Position");
 		ac = (AnimationComponent*)entity.getCompByType("Animation");
-		sc = (SpriteComponent*)entity.getCompByType("");
+		sc = (SpriteComponent*)entity.getCompByType("Sprite");
 		
 		//collide
 
 		//std::cout << vecY <<std::endl;
 
-		if (pc->getPositionY() < 200 - ac->sRect.h * sc->m_scale) {
+		if (pc->getPositionY() < 200 - ac->sRect.h * sc->getScale()) {
 
 			posY = pc->getPositionY();
 			posX = pc->getPositionX();

@@ -7,14 +7,14 @@ class SpriteComponent : public Component
 {
 
 public:
-	SpriteComponent(std::string path, float scale , SDL_Renderer *m_renderer)
+	SpriteComponent(std::string path, float scale , SDL_Renderer *m_renderer): m_scale(scale)
 	{
 		
 		Init(path, scale, m_renderer);
 	
 	
 	};
-	float m_scale;
+	
 	void Init(std::string path,  float scale, SDL_Renderer *gRenderer )
 	{
 		
@@ -54,7 +54,7 @@ public:
 	}
 	
 private:
-	
+	float m_scale;
 	std::string id = "Sprite";
 	int mPosX;
 	int mPosY;
