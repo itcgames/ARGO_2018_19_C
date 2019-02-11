@@ -4,6 +4,9 @@ Game::Game(): player("Player")
 {
 	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+	m_currentGameState = (GameState::GameScreen);
+
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 	if (IMG_Init(imgFlags) != imgFlags)
 	{
@@ -13,19 +16,21 @@ Game::Game(): player("Player")
 
 
 	initialise();
+
 	ps.initialise();
-	m_playerDot = new Dot(false, 100, 100);
-	m_playerDot->Init(m_renderer);
+	
 
 	const auto MAP_PATH = "assets/maps/example.tmx";
 
 	m_level = new level("Main Level");
 	m_level->load(MAP_PATH, m_renderer);
+
 }
 
 
 void Game::initialise()
 {
+
 	SDL_INIT_AUDIO;
 
 
@@ -46,9 +51,8 @@ void Game::initialise()
 	player.addComponent(new PositionComponent(100, 100));
 	player.addComponent(new ControlComponent());
 
-	//pass in player pos 
-	//player.addComponent(new ParticleComponent(100, 100, m_renderer));
-	player.addComponent(new SpriteComponent(m_texture, m_renderer));
+	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.3, m_renderer));
+	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
 
 	Entity wall("Wall");
@@ -162,9 +166,36 @@ void Game::processEvents()
 		
 	}
 }
+void Game::setGameState(GameState gameState)
+{
+	m_currentGameState = gameState;
+}
 
 void Game::update()
 {
+
+	//hs.update();
+	
+
+	switch (m_currentGameState)
+	{
+	case GameState::None:
+		break;
+	case GameState::Splash:
+		break;
+	case GameState::MainMenu:
+		break;
+	case GameState::Options:
+		break;
+	case GameState::GameScreen:
+		ps.update();
+		break;
+	case GameState::Credits:
+		break;
+	default:
+		break;
+	}
+
 
 	Colls.update();
 	phs.update();
@@ -214,6 +245,24 @@ void Game::update()
 
 void Game::render()
 {
+	switch (m_currentGameState)
+	{
+	case GameState::None:
+		break;
+	case GameState::Splash:
+		break;
+	case GameState::MainMenu:
+		break;
+	case GameState::Options:
+		break;
+	case GameState::GameScreen:
+		break;
+	case GameState::Credits:
+		break;
+	default:
+		break;
+	}
+
 	if (m_renderer == nullptr)
 	{
 		SDL_Log("Could not create a renderer: %s", SDL_GetError());
