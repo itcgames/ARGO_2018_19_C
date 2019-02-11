@@ -11,9 +11,11 @@ class RenderSystem
 public:
 	RenderSystem();
 	void addEntity(Entity e);
-	void update(SDL_Renderer *m_renderer);
+	void update(SDL_Renderer *m_renderer, float dt);
 
 private:
 	SpriteComponent * sc;
 	PositionComponent * pc;
+	float time;
+	int index = 0;
 };

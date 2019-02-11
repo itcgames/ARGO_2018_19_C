@@ -48,10 +48,16 @@ void Game::initialise()
 	
 	Entity player("Player");
 	player.addComponent(new HealthComponent(200));
-	player.addComponent(new PositionComponent(100, 100));
+	player.addComponent(new PositionComponent(500, 100));
 	player.addComponent(new ControlComponent());
 
-	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.3, m_renderer));
+	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer));
+	player.addComponent(new AnimationComponent());
+	player.addComponent(new CollisionComponent());
+
+	Entity flag("Flag");
+	flag.addComponent(new PositionComponent(100, 100));
+	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
 
@@ -81,6 +87,7 @@ void Game::initialise()
 
 
 	rs.addEntity(player);
+	rs.addEntity(flag);
 	//rs.addEntity(wall);
 	//rs.addEntity(alien);
 	//rs.addEntity(dog);
@@ -95,6 +102,7 @@ void Game::initialise()
 
 	Colls.addEntity(player);
 	Colls.addEntity(wall);
+	Colls.addEntity(flag);
 
 	ps.addEntity(player);
 	phs.addEntity(player);
@@ -128,7 +136,7 @@ void Game::run()
 		lastFrameTime = frameTime;
 
 		update();
-		render();
+		render(deltaTime);
 
 		if ((SDL_GetTicks() - frameTime) < minimumFrameTime)
 			SDL_Delay(minimumFrameTime - (SDL_GetTicks() - frameTime));
@@ -244,7 +252,7 @@ void Game::update()
 	}
 }
 
-void Game::render()
+void Game::render(float dt)
 {
 	switch (m_currentGameState)
 	{
@@ -275,12 +283,12 @@ void Game::render()
 	//Jamie
 	SDL_RenderSetLogicalSize(m_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	rs.update(m_renderer);
-	wallTxt.render(400, 500, m_renderer);
+	rs.update(m_renderer, dt);
+	//wallTxt.render(400, 500, m_renderer);
 	//ps.update(m_renderer);
 	m_level->draw(m_renderer);
 	//m_playerDot->render(m_renderer);
-	m_texture.render(100, 100, m_renderer);
+	//m_texture.render(100, 100, m_renderer);
 
 	for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{

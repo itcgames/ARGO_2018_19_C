@@ -29,9 +29,21 @@ void CollisionSystem::CheckCollision()
 			width2 = 30;
 			height2 = 30;
 		}
+		if (entity.getName() == "Flag")
+		{
+			std::cout << "Wall propeties received" << std::endl;
+			posComp2 = (PositionComponent *)entity.getCompByType("Position");
+			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
+	
+		}
 	}
 	
 	squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
+
+	/*if (squareCollision(x1, y1, posComp2->getPositionX(), posComp2->getPositionY(), width1, height1, spriteComp2->getTexture().getWidth() / 8, spriteComp2->getTexture().getWidth() / 2)) {
+
+		std::cout << "COLLIDEEEEDDD" << std::endl;
+	}*/
 }
 
 bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2)

@@ -34,7 +34,7 @@ public:
 	void setAlpha(Uint8 alpha);
 
 	//Renders texture at given point
-	void render(int x, int y, SDL_Renderer *gRenderer = NULL, SDL_Rect* sRect = NULL);
+	void render(int x, int y, SDL_Renderer *gRenderer = NULL, SDL_Rect* sRect = NULL, int stepX = NULL, int stepY = NULL);
 
 	//Gets image dimensions
 	int getWidth();

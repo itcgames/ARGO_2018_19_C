@@ -18,8 +18,11 @@ private:
 	std::vector<Entity>entities;
 	PositionComponent * posComp;
 	PositionComponent * posComp1;
+	PositionComponent * posComp2;
 	SpriteComponent * spriteComp;
+	SpriteComponent * spriteComp2;
 	ControlComponent* cc;
 	CollisionComponent* collide;
 	float x1, y1, x2, y2, width1, height1, width2, height2;
+	float x3, y3, x4, y4, width3, height3, width4, height4;
 };

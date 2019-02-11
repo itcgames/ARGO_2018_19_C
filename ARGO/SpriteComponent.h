@@ -16,6 +16,8 @@ public:
 		m_width = m_texture.getWidth();
 		m_height = m_texture.getHeight();
 
+		rect = { 0,0,0,0 };
+
 	};
 	
 	void Init(std::string path,  float scale, SDL_Renderer *gRenderer )
@@ -39,9 +41,22 @@ public:
 
 	}
 
-	void render(SDL_Renderer *m_renderer, SDL_Rect s_rect) {
+	void animate(float x, float y, float width, float height, float xStep, float yStep, SDL_Renderer *m_renderer) {
 
-		m_texture.render(mPosX, mPosY, m_renderer, &s_rect);
+		rect.h = height;
+		rect.w = width;
+		rect.y = y;
+		rect.x = x;
+
+		render(m_renderer, rect, xStep, yStep);
+
+	}
+
+	void render(SDL_Renderer *m_renderer, SDL_Rect s_rect, float xStep, float yStep) {
+
+
+
+		m_texture.render(mPosX, mPosY, m_renderer,  &s_rect, xStep, yStep);
 
 	}
 
@@ -74,5 +89,6 @@ private:
 	float m_width, m_height;
 	LTexture m_texture;
 	LTexture m_textureLeft;
+	SDL_Rect rect;
 	
 };
