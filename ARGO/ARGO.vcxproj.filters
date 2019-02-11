@@ -33,6 +33,12 @@
     <ClCompile Include="RenderSystem.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Ai.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Fuzzy.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level.h" />
@@ -101,6 +107,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="ParticleComponent.h" />
+    <ClInclude Include="Ai.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Fuzzy.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

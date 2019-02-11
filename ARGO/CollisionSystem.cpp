@@ -11,7 +11,7 @@ void CollisionSystem::CheckCollision()
 	{
 		if (entity.getName() == "Player")
 		{
-			std::cout << "Player Properties received" << std::endl;
+			//std::cout << "Player Properties received" << std::endl;
 			posComp1 = (PositionComponent *)entity.getCompByType("Position");
 			cc = (ControlComponent *)entity.getCompByType("Control");
 			spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
@@ -22,7 +22,7 @@ void CollisionSystem::CheckCollision()
 		}
 		if (entity.getName() == "Wall")
 		{
-			std::cout << "Wall propeties received" << std::endl;
+			//std::cout << "Wall propeties received" << std::endl;
 			posComp = (PositionComponent *)entity.getCompByType("Position");
 			x2 = posComp->getPositionX();
 			y2 = posComp->getPositionY();

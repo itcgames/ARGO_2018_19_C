@@ -11,7 +11,7 @@ void PhysicsSystem::addEntity(Entity e) {
 void PhysicsSystem::update() {
 
 
-	std::cout << "PHYSICS SYSTEM:" << std::endl;
+	//std::cout << "PHYSICS SYSTEM:" << std::endl;
 	for (Entity & entity : entities) {
 
 		cc = (ControlComponent*)entity.getCompByType("Control");
@@ -37,7 +37,7 @@ void PhysicsSystem::update() {
 
 		}
 		
-		std::cout << vecY <<std::endl;
+		//std::cout << vecY <<std::endl;
 		if( pc->getPositionY() >= 500)
 		{
 			cc->stopFall = true;
@@ -80,8 +80,8 @@ void PhysicsSystem::update() {
 
 	
 
-	std::cout << std::endl;
-	std::cout << std::endl;
+	//std::cout << std::endl;
+	//std::cout << std::endl;
 
 }
 void PhysicsSystem::moveLeft() {

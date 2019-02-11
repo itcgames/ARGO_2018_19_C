@@ -20,7 +20,7 @@
 #include "PhysicsSystem.h"
 #include "Level.h"
 #include "Particle.h"
-
+#include "Fuzzy.h"
 #include "Factory.h"
 #include <iterator>
 
@@ -41,6 +41,7 @@ private:
 	void update();
 	void render();
 	void initialise();
+	double getDistance();
 
 	SDL_Window *m_window;
 	SDL_Renderer *m_renderer;
@@ -50,10 +51,11 @@ private:
 	level* m_level;
 
 
-	Entity* m_player;
+	//Entity* m_player;
 	Entity* m_cat;
 	Entity* m_alien;
 	Entity* m_dog;
+	//Entity* ai;
 
 	HealthComponent* m_healthComponentOne;
 	HealthComponent* m_healthComponentTwo;
@@ -76,6 +78,9 @@ private:
 
 	Factory* m_factory;
 	std::vector<PowerUp*> m_powerUps;
+	//jamie
+	double disBetweenAiPlayer = 10000;
+	Fuzzy* m_fuzzy;
 
 	int m_timerSpawn;
 	const int m_spawnTimeLimit = 2000;
@@ -90,7 +95,7 @@ private:
 
 
 	Entity player;
-
+	Entity ai;
 
 };
 

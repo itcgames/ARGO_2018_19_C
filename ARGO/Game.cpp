@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(): player("Player")
+Game::Game(): player("Player"), ai("Ai")
 {
 	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -24,6 +24,8 @@ Game::Game(): player("Player")
 
 	m_level = new level("Main Level");
 	m_level->load(MAP_PATH, m_renderer);
+
+	m_fuzzy = new Fuzzy();
 
 }
 
@@ -58,35 +60,23 @@ void Game::initialise()
 	wall.addComponent(new CollisionComponent());
 	//wall.addComponent(new SpriteComponent(wallTxt, m_renderer));
 
-	Entity alien("Alien");
-	alien.addComponent(new HealthComponent(60));
-	alien.addComponent(new PositionComponent(200, 500));
+	//Entity ai("Ai");
+	ai.addComponent(new HealthComponent(60));
+	ai.addComponent(new PositionComponent(500, 500));
+	ai.addComponent(new SpriteComponent(m_texture, m_renderer));
 
-	Entity dog("Dog");
-	dog.addComponent(new HealthComponent(150));
-	dog.addComponent(new PositionComponent(400, 500));
 
-	Entity cat("Cat");
-	cat.addComponent(new HealthComponent(90));
-	cat.addComponent(new PositionComponent(1000, 500));
-	//HealthComponent *hc;
-	//PositionComponent *pc;
 
 	hs.addEntity(player);
-	hs.addEntity(alien);
-	hs.addEntity(dog);
-	hs.addEntity(cat);
-
+	hs.addEntity(ai);
 
 	rs.addEntity(player);
-	//rs.addEntity(wall);
+	rs.addEntity(ai);
 	//rs.addEntity(alien);
 	//rs.addEntity(dog);
 	//rs.addEntity(cat);
 
-	ais.addEntity(alien);
-	ais.addEntity(dog);
-	ais.addEntity(cat);
+	//ais.addEntity(alien);
 
 	cs.addEntity(player);
 
@@ -96,6 +86,7 @@ void Game::initialise()
 
 	ps.addEntity(player);
 	phs.addEntity(player);
+	//phs.addEntity(ai);
 
 
 	
@@ -148,11 +139,11 @@ void Game::processEvents()
 		case SDL_KEYUP:
 			cs.idle();
 			cs.keyUp(event);
-			resetCamera();
+			//resetCamera();
 			break;
 		case SDL_KEYDOWN:
 			cs.input(event);
-			rumble();
+			//rumble();
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				exit = true;
 			break;
@@ -209,6 +200,8 @@ void Game::update()
 			m_powerUps.erase(m_powerUps.begin() + i);
 		}
 	}
+	getDistance();
+	m_fuzzy->update(disBetweenAiPlayer);
 }
 
 void Game::render()
@@ -267,6 +260,23 @@ void Game::resetCamera()
 	//set camera pos
 	SCREEN_WIDTH = 1500;
 	SCREEN_HEIGHT = 900;
+}
+
+
+double Game::getDistance() {
+	//how does one get the players x,y and the ai x, y
+	
+	//get distance of oncoming object
+	PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
+	PositionComponent * a = (PositionComponent *)ai.getCompByType("Position");
+
+	
+	disBetweenAiPlayer = sqrt((p->getPositionX() - a->getPositionX())*(p->getPositionX() - a->getPositionX())
+		+ (p->getPositionY() - a->getPositionY())*(p->getPositionY()  - a->getPositionY()));
+
+	//std::cout << disBetweenAiPlayer << std::endl;
+	return disBetweenAiPlayer;
+
 }
 
 

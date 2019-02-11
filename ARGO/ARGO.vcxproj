@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Ai.cpp" />
     <ClCompile Include="AISystem.cpp" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="Dot.cpp" />
+    <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LTexture.cpp" />
@@ -33,6 +35,7 @@
     <ClCompile Include="RenderSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ai.h" />
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="Assets.h" />
     <ClInclude Include="CollisionComp.h" />
@@ -43,6 +46,7 @@
     <ClInclude Include="Dot.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="Fuzzy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthSystem.h" />
@@ -121,7 +125,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>TMX_Lite\lib;$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath)</IncludePath>
@@ -155,10 +159,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(SDL_SDK)include;%(SDL_IMG_SDK)include;%(SDL_MIX_SDK)include;C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>TMX_Lite\include;%(SDL_SDK)include;%(SDL_IMG_SDK)include;%(SDL_MIX_SDK)include;C:\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>%(SDL_SDK)lib\x86;%(SDL_IMG_SDK)lib\x86;%(SDL_MIX_SDK)lib\x86;C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>TMX_Lite\lib\libtmxlite-s-d.lib;%(SDL_SDK)lib\x86;%(SDL_IMG_SDK)lib\x86;%(SDL_MIX_SDK)lib\x86;C:\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
