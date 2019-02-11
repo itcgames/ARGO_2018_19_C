@@ -7,6 +7,7 @@ public:
 	Idle() {};
 	~Idle() {};
 
+
 	void jumpRight(AnimationComponent* a);
 	void jumpLeft(AnimationComponent* a);
 	void right(AnimationComponent* a);
