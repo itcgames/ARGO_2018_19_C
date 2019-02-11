@@ -14,8 +14,6 @@ void ControlSystem::input(SDL_Event &e) {
 	{
 		
 		controlComp = (ControlComponent*)entity.getCompByType("Control");
-		amComp = (AnimationComponent*)entity.getCompByType("Animation");
-		auto nig = amComp->getCurrent();
 		switch (e.type)
 		{
 		case SDL_KEYDOWN:
@@ -29,17 +27,12 @@ void ControlSystem::input(SDL_Event &e) {
 			{
 				controlComp->setDirection(controlComp->Left);
 				controlComp->moveLeft = 1;
-
+				
 			}
 			if (e.key.keysym.sym == SDLK_RIGHT)
 			{
 				controlComp->setDirection(controlComp->Right);
 				controlComp->moveRight = 1;
-				//amComp->rightJump();
-			}
-			if (e.key.keysym.sym == SDLK_SPACE)
-			{
-				//amComp->idle();
 			}
 
 		}

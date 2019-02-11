@@ -5,7 +5,6 @@
 #include "SDL.h"
 #include "LTexture.h"
 
-#include "Animation.h"
 class ControlSystem
 {
 	
@@ -20,7 +19,6 @@ private:
 	std::vector<Entity> entities;
 	
 	ControlComponent * controlComp;
-	AnimationComponent *amComp;
 	float x = 0;
 	float y = 0;
 	float speed = 2;

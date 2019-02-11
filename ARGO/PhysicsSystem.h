@@ -24,9 +24,5 @@ private:
 	int collision = false;
 	ControlComponent * cc;
 	PositionComponent * pc;
-
-	AnimationComponent * ac;
-	SpriteComponent * sc;
 	CollisionComponent * Coll;
-
 };
