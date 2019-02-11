@@ -97,7 +97,7 @@ void Game::initialise()
 
 	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
 	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
-	AudioManager::Instance()->PlayMusic("song1", -1);
+	//AudioManager::Instance()->PlayMusic("song1", -1);
 
 }
 
@@ -149,11 +149,11 @@ void Game::processEvents()
 		case SDL_KEYUP:
 			cs.idle();
 			cs.keyUp(event);
-			resetCamera();
+			//resetCamera();
 			break;
 		case SDL_KEYDOWN:
 			cs.input(event);
-			rumble();
+			//rumble();
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				exit = true;
 			break;
@@ -166,7 +166,7 @@ void Game::processEvents()
 void Game::update()
 {
 
-	Colls.update();
+	Colls.update(*m_level);
 	phs.update();
 
 	// Power ups
@@ -226,7 +226,7 @@ void Game::render()
 	SDL_RenderSetLogicalSize(m_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	rs.update(m_renderer);
-	wallTxt.render(400, 500, m_renderer);
+	//wallTxt.render(400, 500, m_renderer);
 	ps.update(m_renderer);
 	m_level->draw(m_renderer);
 	//m_playerDot->render(m_renderer);

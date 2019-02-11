@@ -1,9 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Level.cpp" />
-    <ClCompile Include="Assets.cpp" />
     <ClCompile Include="AISystem.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="CollisionSystem.cpp">
@@ -12,10 +16,13 @@
     <ClCompile Include="ControlSystem.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
     <ClCompile Include="Dot.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="Level.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="LTexture.cpp">
@@ -33,14 +40,15 @@
     <ClCompile Include="RenderSystem.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="AudioManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Level.h" />
-    <ClInclude Include="Assets.h" />
     <ClInclude Include="AISystem.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="CollisionComp.h">
@@ -58,10 +66,10 @@
     <ClInclude Include="ControlSystem.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Dot.h">
+    <ClInclude Include="EntityComponent.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="EntityComponent.h">
+    <ClInclude Include="Factory.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -73,10 +81,19 @@
     <ClInclude Include="HealthSystem.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Dot.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
     <ClInclude Include="LTexture.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Particle.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleComponent.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
@@ -91,35 +108,22 @@
     <ClInclude Include="PositionSystem.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
     <ClInclude Include="RenderSystem.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SpriteComponent.h">
       <Filter>Headers</Filter>
     </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="AudioManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="dot.bmp" />
-=======
-    <ClInclude Include="PowerUp.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Factory.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleComponent.h" />
->>>>>>> 4172bc49c21a42174a8ea7b873d0f63e5b01871c
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
-      <UniqueIdentifier>{5c2d6b5b-54a9-4f04-8bf9-3d680a1b571e}</UniqueIdentifier>
+      <UniqueIdentifier>{a2c65696-58af-418f-ab40-3fca8a3a8eaf}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources">
-      <UniqueIdentifier>{231d3f3f-f0bd-49c7-821c-ec5105eb52c5}</UniqueIdentifier>
+      <UniqueIdentifier>{a1478cd2-2a60-495c-ba31-01d3b5944476}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -42,8 +42,8 @@ void PhysicsSystem::update() {
 		{
 			cc->stopFall = true;
 		}
-		if (!cc->stopFall) {
-			
+		if (!cc->stopFall) 
+		{
 			posY = pc->getPositionY();
 			posX = pc->getPositionX();
 			vecY++;
@@ -111,7 +111,8 @@ void PhysicsSystem::moveRight() {
 }
 void PhysicsSystem::moveUp() {
 
-	if (cc->jump == 0 && collision == true)
+	if (cc->jump == 0 && collision == true ||
+		cc->jump == 0 && cc->stopFall)
 	{
 		int posX = pc->getPositionX();
 		int posY = pc->getPositionY();
@@ -119,7 +120,7 @@ void PhysicsSystem::moveUp() {
 		posY += vecY;
 		posX += vecX;
 		pc->setPosition(posX, posY);
-		
+		cc->stopFall = false;
 
 		cc->jump = 1;
 	}

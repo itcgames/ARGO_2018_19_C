@@ -5,15 +5,17 @@
 #include"EntityComponent.h"
 #include "SDL.h"
 #include"LTexture.h"
+#include "Level.h"
 
 class CollisionSystem
 {
 public:
 	CollisionSystem() {};
 	void addEntity(Entity e);
-	void update();
+	void update(level &level);
 	bool squareCollision(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);
-	void CheckCollision();
+	void tileCollision(float x, float y, float width, float height, level &level);
+	void CheckCollision(level &level);
 private:
 	std::vector<Entity>entities;
 	PositionComponent * posComp;

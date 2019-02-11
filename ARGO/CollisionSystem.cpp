@@ -5,7 +5,7 @@ void CollisionSystem::addEntity(Entity e)
 	entities.push_back(e);
 }
 
-void CollisionSystem::CheckCollision()
+void CollisionSystem::CheckCollision(level &level)
 {
 	for (Entity& entity : entities)
 	{
@@ -31,7 +31,8 @@ void CollisionSystem::CheckCollision()
 		}
 	}
 	
-	squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
+	//squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
+	tileCollision(x1, y1, width1, height1, level);
 }
 
 bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2)
@@ -61,7 +62,7 @@ bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, fl
 			}
 			
 		}
-		if (wy < hx)
+		else if (wy < hx)
 		{
 			if (wy > -hx)
 			{
@@ -79,9 +80,51 @@ bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, fl
 		return false;
 }
 
-void CollisionSystem::update()
+void CollisionSystem::tileCollision(float x, float y, float width, float height, level &m_tiles)
 {
-	CheckCollision();
+	for (int i = 0; i < m_tiles.tiles.size(); i++)
+	{
+		//top of object
+		if (y + height >= m_tiles.tiles[i].y &&
+			y + height <= m_tiles.tiles[i].y + m_tiles.tiles[i].height&&
+			x > m_tiles.tiles[i].x - width &&
+			x <= m_tiles.tiles[i].x + m_tiles.tiles[i].width)
+		{
+			std::cout << "COLLIDE TOP" << std::endl;
+			cc->jump = 0;
+			posComp1->setPosition(x1, m_tiles.tiles[i].y - height1);
+			cc->stopFall = true;
+		}
+
+		//right of tile
+		if (x <= m_tiles.tiles[i].x + m_tiles.tiles[i].width&&
+			x >= m_tiles.tiles[i].x &&
+			y + height >= m_tiles.tiles[i].y &&
+			y <= m_tiles.tiles[i].y + m_tiles.tiles[i].height)
+		{
+			std::cout << "COLLIDE LEFT" << std::endl;
+			cc->moveLeft = 0;
+			posComp1->setPosition(m_tiles.tiles[i].x + m_tiles.tiles[i].width, y1);
+		}
+
+		//left of tile
+		else if (x + width >= m_tiles.tiles[i].x &&
+			x + width < m_tiles.tiles[i].x + m_tiles.tiles[i].width &&
+			y + height >= m_tiles.tiles[i].y &&
+			y <= m_tiles.tiles[i].y + m_tiles.tiles[i].height)
+		{
+			std::cout << "COLLIDE RIGHT" << std::endl;
+			cc->moveRight = 0;
+			posComp1->setPosition(m_tiles.tiles[i].x - width1, y1);
+		}
+
+	}
+
+}
+
+void CollisionSystem::update(level &level)
+{
+	CheckCollision(level);
 }
 
 
