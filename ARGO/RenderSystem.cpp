@@ -14,16 +14,7 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 
 	for (Entity & entity : entities) {
 
-		if (entity.getName() == "Player")
-		{
-			SpriteComponent *sc = (SpriteComponent*)entity.getCompByType("Sprite");
-			PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");
-			AnimationComponent * ac = (AnimationComponent*)entity.getCompByType("Animation");
-
-			sc->setPosition(pc->getPositionX(), pc->getPositionY());
-
-			sc->render(m_renderer, ac->sRect, 3, 4);
-		}
+		
 
 
 		if (entity.getName() == "Flag")
@@ -52,6 +43,17 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 
 				time = 0;
 			}
+		}
+
+		if (entity.getName() == "Player")
+		{
+			SpriteComponent *sc = (SpriteComponent*)entity.getCompByType("Sprite");
+			PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");
+			AnimationComponent * ac = (AnimationComponent*)entity.getCompByType("Animation");
+
+			sc->setPosition(pc->getPositionX(), pc->getPositionY());
+
+			sc->render(m_renderer, ac->sRect, 3, 4);
 		}
 		
 

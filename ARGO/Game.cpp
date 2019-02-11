@@ -51,7 +51,7 @@ void Game::initialise()
 	player.addComponent(new PositionComponent(500, 100));
 	player.addComponent(new ControlComponent());
 
-	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer));
+	player.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
 
@@ -86,8 +86,9 @@ void Game::initialise()
 	hs.addEntity(cat);
 
 
-	rs.addEntity(player);
+	
 	rs.addEntity(flag);
+	rs.addEntity(player);
 	//rs.addEntity(wall);
 	//rs.addEntity(alien);
 	//rs.addEntity(dog);

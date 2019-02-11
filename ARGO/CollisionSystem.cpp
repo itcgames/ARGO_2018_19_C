@@ -40,6 +40,8 @@ void CollisionSystem::CheckCollision()
 	
 	squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
 
+	posComp2->setPosition(posComp1->getPositionX(), posComp1->getPositionY() - 50);
+
 	/*if (squareCollision(x1, y1, posComp2->getPositionX(), posComp2->getPositionY(), width1, height1, spriteComp2->getTexture().getWidth() / 8, spriteComp2->getTexture().getWidth() / 2)) {
 
 		std::cout << "COLLIDEEEEDDD" << std::endl;
