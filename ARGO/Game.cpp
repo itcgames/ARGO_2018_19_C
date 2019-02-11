@@ -17,7 +17,7 @@ Game::Game(): player("Player")
 
 	initialise();
 
-	ps.initialise();
+	phs.initialise();
 	
 
 	const auto MAP_PATH = "assets/maps/example.tmx";

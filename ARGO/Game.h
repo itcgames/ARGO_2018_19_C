@@ -18,7 +18,6 @@
 #include "AiSystem.h"
 
 #include "ParticleSystem.h"
-#include "Dot.h"
 #include "PhysicsSystem.h"
 
 
@@ -67,7 +66,6 @@ private:
 	SDL_Event event;
 	bool exit;
 
-	Dot* m_playerDot;
 	level* m_level;
 
 	Entity* m_player;
@@ -89,8 +87,6 @@ private:
 	AiSystem ais;
 	ParticleSystem ps;
 	ControlSystem cs;
-
-	PhysicsSystem ps;
 	LTexture m_texture;
 	GameState m_currentGameState;
 	GameState m_previousGameState;
