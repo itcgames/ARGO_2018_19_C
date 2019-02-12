@@ -6,6 +6,12 @@ tile::tile(SDL_Texture* tset, int x, int y, int tx, int ty, int w, int h)
 
 }
 
+MapObjects::MapObjects(float x, float y, float width, float height)
+	:x(x),y(y),width(width), height(height)
+{
+
+}
+
 void tile::draw(SDL_Renderer* ren) {
 	if (!ren || !sheet)
 		return;
@@ -63,6 +69,41 @@ void level::load(const std::string& path, SDL_Renderer* ren) {
 	for (auto& layer : map_layers) {
 		// We're only looking to render the tiles on the map, so if
 		// this layer isn't a tile layer, we'll move on.
+		if (layer->getType() == tmx::Layer::Type::Object)
+		{
+			const auto& objects = dynamic_cast<tmx::ObjectGroup*>(layer.get())->getObjects();
+			std::cout << "Found " << objects.size() << " objects in layer" << std::endl;
+			for (const auto & object : objects)
+			{
+				if (object.getName() == "Wall")
+				{
+					std::cout << "Wall found" << std::endl;
+					float x, y, width, height;
+					x = object.getPosition().x;
+					y = object.getPosition().y;
+					width = object.getAABB().width;
+					height = object.getAABB().height;
+
+					MapObjects o(x, y, width, height);
+
+					m_wall.push_back(o);
+				}
+				else if (object.getName() == "Ceiling")
+				{
+					std::cout << "Ceiling found" << std::endl;
+
+					float x, y, width, height;
+					x = object.getPosition().x;
+					y = object.getPosition().y;
+					width = object.getAABB().width;
+					height = object.getAABB().height;
+
+					MapObjects c(x, y, width, height);
+					m_ceiling.push_back(c);
+				}
+			}
+			
+		}
 		if (layer->getType() != tmx::Layer::Type::Tile) {
 			continue;
 		}

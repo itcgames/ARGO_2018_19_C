@@ -11,7 +11,7 @@ void PhysicsSystem::addEntity(Entity e) {
 void PhysicsSystem::update() {
 
 
-	std::cout << "PHYSICS SYSTEM:" << std::endl;
+	//std::cout << "PHYSICS SYSTEM:" << std::endl;
 	for (Entity & entity : entities) {
 
 		cc = (ControlComponent*)entity.getCompByType("Control");
@@ -34,16 +34,18 @@ void PhysicsSystem::update() {
 		if (cc->moveLeft == 0 && cc->moveRight == 0)
 		{
 			vecX = 0;
-
 		}
 		
 		std::cout << vecY <<std::endl;
 		if( pc->getPositionY() >= 500)
 		{
 			cc->stopFall = true;
+			cc->OnPlatform = true;
 		}
-		if (!cc->stopFall) 
+		if (!cc->stopFall && !cc->OnPlatform) 
 		{
+			//falling code
+			//cc->ceilingHit = false;
 			posY = pc->getPositionY();
 			posX = pc->getPositionX();
 			vecY++;
@@ -51,38 +53,21 @@ void PhysicsSystem::update() {
 			pc->setPosition(posX, posY);
 			collision = 0;
 		}
-		/*else if (pc->getPositionY() < 440 && !cc->stopFall) 
-		{
-
-			posY = pc->getPositionY();
-			posX = pc->getPositionX();
-			vecY++;
-			posY += vecY;
-			pc->setPosition(posX, posY);
-			collision = 0;
-		}*/
 		else {
 			vecY = 0;
 			collision = 1;
 		}
-		/*if (cc->stopFall)
-		{
-			vecY = 0;
-		}
-		*/
 		int posX = pc->getPositionX();
 		int posY = pc->getPositionY();
 		posX += vecX;
 		pc->setPosition(posX, posY);
-
+		if (cc->ceilingHit)
+		{
+			vecY = 0;
+			cc->ceilingHit = false;
+		}
 
 	}
-
-	
-
-	std::cout << std::endl;
-	std::cout << std::endl;
-
 }
 void PhysicsSystem::moveLeft() {
 
@@ -111,8 +96,7 @@ void PhysicsSystem::moveRight() {
 }
 void PhysicsSystem::moveUp() {
 
-	if (cc->jump == 0 && collision == true ||
-		cc->jump == 0 && cc->stopFall)
+	if (cc->jump == 0 && collision == true)
 	{
 		int posX = pc->getPositionX();
 		int posY = pc->getPositionY();
@@ -121,7 +105,7 @@ void PhysicsSystem::moveUp() {
 		posX += vecX;
 		pc->setPosition(posX, posY);
 		cc->stopFall = false;
-
+		cc->OnPlatform = false;
 		cc->jump = 1;
 	}
 	

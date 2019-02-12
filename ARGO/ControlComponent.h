@@ -33,6 +33,8 @@ public:
 	int jump = 0;
 	int moveLeft = 0, moveRight = 0;
 	bool stopFall = false;
+	bool OnPlatform = false;
+	bool ceilingHit = false;
 private:
 	std::string id = "Control";
 	
