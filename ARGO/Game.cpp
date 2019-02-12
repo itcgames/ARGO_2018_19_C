@@ -56,6 +56,7 @@ void Game::initialise()
 	player.addComponent(new CollisionComponent());
 	player.addComponent(new ScoreComponent(0));
 
+
 	Entity flag("Flag");
 	flag.addComponent(new PositionComponent(500, 500));
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
