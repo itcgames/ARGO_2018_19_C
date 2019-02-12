@@ -8,6 +8,7 @@
 #include "Animation.h"
 #include "CollisionComp.h"
 #include "ParticleComponent.h"
+#include "ScoreComponent.h"
 #include <string>
 #include <iostream>
 #include <sdl.h>

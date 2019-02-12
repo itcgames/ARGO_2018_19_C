@@ -55,8 +55,8 @@ public:
 private:
 
 	void processEvents();
-	void update();
-	void render();
+	void update(float dt);
+	void render(float dt);
 	void initialise();
 
 	void setGameState(GameState gameState);
@@ -72,7 +72,7 @@ private:
 	Entity* m_cat;
 	Entity* m_alien;
 	Entity* m_dog;
-
+	Entity* m_flag;
 	HealthComponent* m_healthComponentOne;
 	HealthComponent* m_healthComponentTwo;
 	HealthComponent* m_healthComponentThree;

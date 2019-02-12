@@ -7,14 +7,16 @@ class SpriteComponent : public Component
 {
 
 public:
-	SpriteComponent(std::string path, float scale , SDL_Renderer *m_renderer): m_scale(scale)
+	SpriteComponent(std::string path, float scale , SDL_Renderer *m_renderer, float xStep, float yStep): m_scale(scale),m_xStep(xStep), m_yStep(yStep)
 	{
 
 		
 		Init(path, scale, m_renderer);
 	
-		m_width = m_texture.getWidth();
-		m_height = m_texture.getHeight();
+		m_width = getWidth();
+		m_height = getHeight();
+
+		rect = { 0,0,0,0 };
 
 	};
 	
@@ -39,9 +41,22 @@ public:
 
 	}
 
+	void animate(float x, float y, float width, float height, SDL_Renderer *m_renderer) {
+
+		rect.h = height;
+		rect.w = width;
+		rect.y = y;
+		rect.x = x;
+
+		render(m_renderer, rect);
+
+	}
+
 	void render(SDL_Renderer *m_renderer, SDL_Rect s_rect) {
 
-		m_texture.render(mPosX, mPosY, m_renderer, &s_rect);
+
+
+		m_texture.render(mPosX, mPosY, m_renderer,  &s_rect, m_xStep, m_yStep);
 
 	}
 
@@ -52,10 +67,13 @@ public:
 
 	float getWidth()
 	{
-		return m_width;
+		return m_texture.getWidth() / m_xStep;
 	}
 
-	float getHeight() { return m_height; }
+	float getHeight() { 
+
+		return m_texture.getHeight() / m_yStep;
+	 }
 
 	LTexture getTexture()
 	{
@@ -68,11 +86,14 @@ public:
 	
 private:
 	float m_scale;
+	float m_xStep;
+	float m_yStep;
 	std::string id = "Sprite";
 	int mPosX;
 	int mPosY; 
 	float m_width, m_height;
 	LTexture m_texture;
 	LTexture m_textureLeft;
+	SDL_Rect rect;
 	
 };

@@ -57,6 +57,7 @@
     <ClInclude Include="splash.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="ScoreComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Left.bmp" />

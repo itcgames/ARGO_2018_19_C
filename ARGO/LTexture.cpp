@@ -138,11 +138,11 @@ void LTexture::setAlpha(Uint8 alpha)
 	SDL_SetTextureAlphaMod(mTexture, alpha);
 }
 
-void LTexture::render(int x, int y, SDL_Renderer *gRenderer, SDL_Rect* sourceRect)
+void LTexture::render(int x, int y, SDL_Renderer *gRenderer, SDL_Rect* sourceRect, int stepX, int stepY)
 {
 	//Set rendering space and render to screen
 
-	SDL_Rect destRect = { x , y , mWidth * m_scale, mHeight * m_scale };
+	SDL_Rect destRect = { x , y , (mWidth * m_scale) / stepX, (mHeight * m_scale) / stepY };
 
 	//Render to screen
 	SDL_RenderCopy(gRenderer, mTexture, sourceRect, &destRect);

@@ -5,8 +5,10 @@ void CollisionSystem::addEntity(Entity e)
 	entities.push_back(e);
 }
 
-void CollisionSystem::CheckCollision()
+void CollisionSystem::CheckCollision(float dt)
 {
+
+	time = time + dt;
 	for (Entity& entity : entities)
 	{
 		if (entity.getName() == "Player")
@@ -15,10 +17,11 @@ void CollisionSystem::CheckCollision()
 			posComp1 = (PositionComponent *)entity.getCompByType("Position");
 			cc = (ControlComponent *)entity.getCompByType("Control");
 			spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
+			score = (ScoreComponent*)entity.getCompByType("Score");
 			x1 = posComp1->getPositionX();
 			y1 = posComp1->getPositionY();
-			width1 = 30;// spriteComp->getWidth();
-			height1 = 30;// spriteComp->getHeight();
+			width1 = 50;// spriteComp->getWidth();
+			height1 = 50;// spriteComp->getHeight();
 		}
 		if (entity.getName() == "Wall")
 		{
@@ -29,10 +32,47 @@ void CollisionSystem::CheckCollision()
 			width2 = 30;
 			height2 = 30;
 		}
+		if (entity.getName() == "Flag")
+		{
+			std::cout << "Wall propeties received" << std::endl;
+			posComp2 = (PositionComponent *)entity.getCompByType("Position");
+			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
+	
+		}
 	}
 	
 	squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
+
+
+	if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
+		spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
+
+
+
+		posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 3, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
+		int fps = 1;
+		int ticksPerFrame = 1000 / fps;
+
+		if (ticksPerFrame < time)
+		{
+			score->setScore(score->getScore() + 1);
+
+			time = 0;
+		}
+		
+		std::cout << "Score: " <<  score->getScore() << std::endl;
+
+
+	}
 }
+
+
+bool CollisionSystem::AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2)
+{
+	return(abs(x1 - x2) * 2 < (width1 + width2)) &&
+		(abs(y1 - y2) * 2 < (height1 + height2));
+}
+
 
 bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2)
 {
@@ -79,9 +119,9 @@ bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, fl
 		return false;
 }
 
-void CollisionSystem::update()
+void CollisionSystem::update(float dt)
 {
-	CheckCollision();
+	CheckCollision(dt);
 }
 
 
