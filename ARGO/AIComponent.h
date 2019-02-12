@@ -8,6 +8,11 @@ class AIComponent : public Component
 public:
 	AIComponent() {};
 
+	float getDistance() {
+		return distance;
+	}
+	
+
 	// might need to change the ai pos
 	//check how the phy class gets reference the the position
 	std::string getID() { return id; }

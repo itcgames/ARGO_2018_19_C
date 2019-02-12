@@ -108,12 +108,12 @@ void Fuzzy::update(double dis)
 
 	//close
 	if (m_low > m_med && m_low > m_high) {
-		std::cout << "threat low" << std::endl;
+		//std::cout << "threat low" << std::endl;
 		//m_defuzz = 0;
 	}
 	//med
 	if (m_med > m_low && m_med > m_high) {
-		std::cout << "threat med" << std::endl;
+		//std::cout << "threat med" << std::endl;
 		//m_defuzz = 4;
 	}
 	//far
@@ -122,8 +122,7 @@ void Fuzzy::update(double dis)
 		//m_defuzz = 7;
 	}
 
-	//defuzzifaction
-
+	//to make the player catchable then change 7 to lessser number
 
 	//defuzzifaction
 	m_defuzz = (m_low * 0 + m_high * 7) ;

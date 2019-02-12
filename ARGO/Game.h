@@ -40,7 +40,7 @@ private:
 	void update();
 	void render();
 	void initialise();
-	double getDistance();
+	void getDistance();
 
 
 	SDL_Window *m_window;
@@ -95,6 +95,8 @@ private:
 
 	Entity player;
 	Entity player2;
+	Entity player3;
+	Entity player4;
 
 };
 
