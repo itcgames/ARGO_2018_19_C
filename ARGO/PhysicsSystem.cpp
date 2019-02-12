@@ -20,15 +20,7 @@ void PhysicsSystem::update() {
 		sc = (SpriteComponent*)entity.getCompByType("Sprite");
 		
 		//collide
-
-		//std::cout << vecY <<std::endl;
-
 		//Gravity
-		if (pc->getPositionY() >= 500)
-		{
-			cc->stopFall = true;
-			cc->OnPlatform = true;
-		}
 		if (!cc->stopFall && !cc->OnPlatform) {
 
 			posY = pc->getPositionY();

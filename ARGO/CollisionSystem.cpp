@@ -127,7 +127,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			{
 				
 				cc->jump = 0;
-				posComp1->setPosition(x1, m_tiles.tiles[i].y - height1);
+				posComp1->setPosition(x, m_tiles.tiles[i].y - height1);
 				cc->stopFall = true;
 				cc->OnPlatform = true;
 				break;
@@ -151,9 +151,9 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 		{
 			
 			cc->moveLeft = 0;
-			cc->OnPlatform = false;
-			cc->stopFall = false;
-			posComp1->setPosition(m_tiles.m_wall[i].x + m_tiles.m_wall[i].width, y1);
+			/*cc->OnPlatform = false;
+			cc->stopFall = false;*/
+			posComp1->setPosition(x+m_tiles.m_wall[i].width, y);
 		}
 
 		//left of tile
@@ -164,18 +164,15 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 		{
 			
 			cc->moveRight = 0;
-			cc->OnPlatform = false;
-			cc->stopFall = false;
-			posComp1->setPosition(m_tiles.m_wall[i].x - width1, y1);
+			/*cc->OnPlatform = false;
+			cc->stopFall = false;*/
+			posComp1->setPosition(m_tiles.m_wall[i].x - width, y);
 		}
 	}
 
 	for (int i = 0; i < m_tiles.m_ceiling.size(); i++)
 	{
-		/*(m_position.y + animation.uvRect.height * 2 >= m_tileMap.m_ceiling_position.at(i).y &&
-		m_position.y + animation.uvRect.height <= m_tileMap.m_ceiling_position.at(i).y + m_tileMap.m_ceiling_WH.at(i).y &&
-		m_position.x >= m_tileMap.m_ceiling_position.at(i).x - animation.uvRect.width &&
-		m_position.x <= m_tileMap.m_ceiling_position.at(i).x + m_tileMap.m_ceiling_WH.at(i).x)*/
+		
 		if (y  >= m_tiles.m_ceiling[i].y &&
 			y  <= m_tiles.m_ceiling[i].y + m_tiles.m_ceiling[i].height &&
 			x >= m_tiles.m_ceiling[i].x - width &&
@@ -187,7 +184,6 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 				cc->stopFall = false;
 				cc->OnPlatform = false;
 				cc->ceilingHit = true;
-				//posComp->setPosition(x, m_tiles.m_ceiling[i].y+height*2);
 				break;
 			}
 			

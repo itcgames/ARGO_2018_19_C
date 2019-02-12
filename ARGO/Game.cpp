@@ -20,7 +20,7 @@ Game::Game(): player("Player")
 	//phs.initialise();
 	
 
-	const auto MAP_PATH = "assets/maps/example.tmx";
+	const auto MAP_PATH = "assets/maps/map1.tmx";
 
 	m_level = new level("Main Level");
 	m_level->load(MAP_PATH, m_renderer);

@@ -23,7 +23,7 @@ void ControlSystem::input(SDL_Event &e) {
 			if (e.key.keysym.sym == SDLK_UP)
 			{
 				controlComp->setDirection(controlComp->Up);
-				//AudioManager::Instance()->PlaySFX("Jump", 0);
+				AudioManager::Instance()->PlaySFX("Jump", 0);
 			}
 			if (e.key.keysym.sym == SDLK_LEFT)
 			{
