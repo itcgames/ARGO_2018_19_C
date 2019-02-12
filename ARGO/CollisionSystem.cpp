@@ -145,7 +145,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			x >= m_tiles.m_ceiling[i].x - width &&
 			x <= m_tiles.m_ceiling[i].x + m_tiles.m_ceiling[i].width)
 		{
-			
+			if(cc->getDirection() == cc->Up)
 				std::cout << "Ceiling HIT" << std::endl;
 				cc->stopFall = false;
 				cc->OnPlatform = false;
