@@ -55,7 +55,7 @@ public:
 private:
 
 	void processEvents();
-	void update();
+	void update(float dt);
 	void render(float dt);
 	void initialise();
 

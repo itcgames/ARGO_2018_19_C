@@ -29,7 +29,7 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 
 			SDL_Rect rect = { 0,0,0,0 };
 
-			sc->animate(index * 158,0,158,314, 8, 2,m_renderer);
+			sc->animate(index * 158,0,158,314,m_renderer);
 			//sc->render(m_renderer, rect);
 
 			if (ticksPerFrame < time)
@@ -53,7 +53,7 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 
 			sc->setPosition(pc->getPositionX(), pc->getPositionY());
 
-			sc->render(m_renderer, ac->sRect, 3, 4);
+			sc->render(m_renderer, ac->sRect);
 		}
 		
 

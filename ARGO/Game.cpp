@@ -51,13 +51,14 @@ void Game::initialise()
 	player.addComponent(new PositionComponent(500, 100));
 	player.addComponent(new ControlComponent());
 
-	player.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer));
+	player.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
+	player.addComponent(new ScoreComponent(0));
 
 	Entity flag("Flag");
-	flag.addComponent(new PositionComponent(100, 100));
-	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer));
+	flag.addComponent(new PositionComponent(500, 500));
+	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
 
@@ -136,7 +137,7 @@ void Game::run()
 		deltaTime = frameTime - lastFrameTime;
 		lastFrameTime = frameTime;
 
-		update();
+		update(deltaTime);
 		render(deltaTime);
 
 		if ((SDL_GetTicks() - frameTime) < minimumFrameTime)
@@ -180,7 +181,7 @@ void Game::setGameState(GameState gameState)
 	m_currentGameState = gameState;
 }
 
-void Game::update()
+void Game::update(float dt)
 {
 
 	//hs.update();
@@ -207,7 +208,7 @@ void Game::update()
 	}
 
 
-	Colls.update();
+	Colls.update(dt);
 	//phs.update();
 
 	//// Power ups

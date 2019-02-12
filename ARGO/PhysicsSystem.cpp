@@ -23,7 +23,8 @@ void PhysicsSystem::update() {
 
 		//std::cout << vecY <<std::endl;
 
-		if (pc->getPositionY() < 200 - ac->sRect.h * sc->getScale()) {
+		//Gravity
+		if (pc->getPositionY() < 600 - sc->getHeight()) {
 
 			posY = pc->getPositionY();
 			posX = pc->getPositionX();
