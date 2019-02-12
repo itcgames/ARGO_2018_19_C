@@ -15,7 +15,6 @@ void AiSystem::addEntity(Entity e)
 void AiSystem::update()
 {
 	int index = 0;
-	std::cout << "AI SYSTEM:" << std::endl;
 
 	for (Entity& entity : m_entities) {
 
@@ -42,8 +41,6 @@ void AiSystem::update()
 		
 	}
 
-	std::cout << std::endl;
-	std::cout << std::endl;
 }
 
 void AiSystem::checkBoundary()

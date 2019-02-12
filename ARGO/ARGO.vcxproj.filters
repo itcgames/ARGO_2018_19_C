@@ -21,6 +21,7 @@
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Right.cpp" />
     <ClCompile Include="splash.cpp" />
+    <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AISystem.h" />
@@ -57,6 +58,7 @@
     <ClInclude Include="splash.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="Client.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Left.bmp" />

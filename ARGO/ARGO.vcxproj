@@ -23,6 +23,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Assets.cpp" />
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Assets.h" />
+    <ClInclude Include="Client.h" />
     <ClInclude Include="CollisionComp.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Component.h" />

@@ -28,8 +28,15 @@
 #include "Factory.h"
 #include <iterator>
 
+// Network 
+#include "Client.h"
+#include <sstream>
 
 using namespace std;
+
+
+
+
 enum class
 	GameState
 {
@@ -112,6 +119,11 @@ private:
 
 
 	Entity player;
+	Entity player2;
+
+	// Network
+	Client * m_client;
+	void updateNetwork(PositionComponent p);
 };
 
 #endif // !GAME
