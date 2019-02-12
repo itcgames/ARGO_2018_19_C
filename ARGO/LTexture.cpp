@@ -16,15 +16,14 @@ LTexture::~LTexture()
 }
 
 
-
-bool LTexture::loadFromFile(std::string path, SDL_Renderer *gRenderer)
+bool LTexture::loadFromFile(std::string path, SDL_Renderer *gRenderer, float scale)
 {
 	//Get rid of preexisting texture
 	free();
 
 	//The final texture
 	SDL_Texture* newTexture = NULL;
-
+	m_scale = scale;
 	//Load image at specified path
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL)
@@ -139,28 +138,22 @@ void LTexture::setAlpha(Uint8 alpha)
 	SDL_SetTextureAlphaMod(mTexture, alpha);
 }
 
-void LTexture::render(int x, int y, SDL_Renderer *gRenderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
+void LTexture::render(int x, int y, SDL_Renderer *gRenderer, SDL_Rect* sourceRect, int stepX, int stepY)
 {
 	//Set rendering space and render to screen
-	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 
-	//Set clip rendering dimensions
-	if (clip != NULL)
-	{
-		renderQuad.w = clip->w;
-		renderQuad.h = clip->h;
-	}
+	SDL_Rect destRect = { x , y , (mWidth * m_scale) / stepX, (mHeight * m_scale) / stepY };
 
 	//Render to screen
-	SDL_RenderCopyEx(gRenderer, mTexture, clip, &renderQuad, angle, center, flip);
+	SDL_RenderCopy(gRenderer, mTexture, sourceRect, &destRect);
 }
 
 int LTexture::getWidth()
 {
-	return mWidth;
+	return mWidth * m_scale ;
 }
 
 int LTexture::getHeight()
 {
-	return mHeight;
+	return mHeight * m_scale ;
 }
