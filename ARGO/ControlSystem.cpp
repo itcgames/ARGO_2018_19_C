@@ -38,7 +38,7 @@ void ControlSystem::input(SDL_Event &e) {
 			}
 			if (e.key.keysym.sym == SDLK_SPACE)
 			{
-				//amComp->idle();
+				controlComp->attack = true;
 			}
 
 		}

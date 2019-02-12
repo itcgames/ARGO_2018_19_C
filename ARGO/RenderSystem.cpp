@@ -44,8 +44,7 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 				time = 0;
 			}
 		}
-
-		if (entity.getName() == "Player")
+		else
 		{
 			SpriteComponent *sc = (SpriteComponent*)entity.getCompByType("Sprite");
 			PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");
@@ -55,6 +54,11 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 
 			sc->render(m_renderer, ac->sRect);
 		}
+
+		/*if (entity.getName() == "Player")
+		{
+			
+		}*/
 		
 
 	}

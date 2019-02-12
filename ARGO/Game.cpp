@@ -56,6 +56,16 @@ void Game::initialise()
 	player.addComponent(new CollisionComponent());
 	player.addComponent(new ScoreComponent(0));
 
+	Entity player2("Player2");
+	player2.addComponent(new HealthComponent(200));
+	player2.addComponent(new PositionComponent(700, 500));
+	player2.addComponent(new ControlComponent());
+
+	player2.addComponent(new SpriteComponent("img/playerSheet2.png", 1, m_renderer, 3, 4));
+	player2.addComponent(new AnimationComponent());
+	player2.addComponent(new CollisionComponent());
+	player2.addComponent(new ScoreComponent(0));
+
 
 	Entity flag("Flag");
 	flag.addComponent(new PositionComponent(500, 500));
@@ -91,6 +101,7 @@ void Game::initialise()
 	
 	rs.addEntity(flag);
 	rs.addEntity(player);
+	rs.addEntity(player2);
 	//rs.addEntity(wall);
 	//rs.addEntity(alien);
 	//rs.addEntity(dog);
@@ -104,11 +115,15 @@ void Game::initialise()
 
 
 	Colls.addEntity(player);
-	Colls.addEntity(wall);
+	Colls.addEntity(player2);
 	Colls.addEntity(flag);
 
 	ps.addEntity(player);
 	phs.addEntity(player);
+	phs.addEntity(player2);
+
+	comsystem.addEntity(player);
+	comsystem.addEntity(player2);
 
 	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
 	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
@@ -203,6 +218,7 @@ void Game::update(float dt)
 	case GameState::GameScreen:
 		//ps.update(m_renderer);
 		phs.update();
+		comsystem.update(dt);
 		break;
 	case GameState::Credits:
 		break;

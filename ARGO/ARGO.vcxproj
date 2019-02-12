@@ -24,6 +24,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
+    <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Idle.cpp" />
@@ -47,12 +48,14 @@
     <ClInclude Include="Assets.h" />
     <ClInclude Include="CollisionComp.h" />
     <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControlComponent.h" />
     <ClInclude Include="ControlSystem.h" />
     <ClInclude Include="credits.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="FlagComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthSystem.h" />

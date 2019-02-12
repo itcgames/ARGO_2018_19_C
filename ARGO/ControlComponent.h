@@ -35,6 +35,8 @@ public:
 	bool stopFall = false;
 	bool OnPlatform = false;
 	bool ceilingHit = false;
+	bool attack = false;
+	bool hasFlag = false;
 private:
 	std::string id = "Control";
 	
