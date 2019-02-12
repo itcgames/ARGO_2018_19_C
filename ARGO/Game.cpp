@@ -51,7 +51,7 @@ void Game::initialise()
 	player.addComponent(new PositionComponent(500, 100));
 	player.addComponent(new ControlComponent());
 
-	player.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
+	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
 	player.addComponent(new ScoreComponent(0));

@@ -43,7 +43,7 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 
 
 
-		posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 3, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
+		posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getWidth() / 6, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
 		int fps = 1;
 		int ticksPerFrame = 1000 / fps;
 
