@@ -3,6 +3,10 @@
 AnimationComponent::AnimationComponent()
 {
 	m_current = new Idle();
+	sRect.y = 0;
+	sRect.h = 100 * m_scale;
+	sRect.w = 80 * m_scale;
+	sRect.x = 80 * m_scale;
 }
 
 void AnimationComponent::idle()

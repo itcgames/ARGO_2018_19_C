@@ -2,6 +2,8 @@
 #include "Component.h"
 #include <vector>
 #include <math.h>
+#include <map>
+
 
 class CollisionComponent :public Component
 {
@@ -26,10 +28,11 @@ public:
 
 		return crclCollided;
 	}
-	
-	std::string getID() { return id; }
 
+	std::string getID() { return id; }
+	
 private:
 	std::string id = "Collision";
+
 	
 };

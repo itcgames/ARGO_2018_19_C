@@ -24,7 +24,12 @@ void PhysicsSystem::update() {
 		//std::cout << vecY <<std::endl;
 
 		//Gravity
-		if (pc->getPositionY() < 600 - sc->getHeight()) {
+		if (pc->getPositionY() >= 500)
+		{
+			cc->stopFall = true;
+			cc->OnPlatform = true;
+		}
+		if (!cc->stopFall && !cc->OnPlatform) {
 
 			posY = pc->getPositionY();
 			posX = pc->getPositionX();
@@ -40,9 +45,6 @@ void PhysicsSystem::update() {
 			{
 				ac->rightJump();
 			}
-
-
-
 		}
 		else {
 			vecY = 0;
@@ -84,10 +86,7 @@ void PhysicsSystem::update() {
 			cc->setDirection(cc->Idle);
 			vecX = 0;
 			ac->idle();
-
 		}
-
-
 		if (ac->m_currentState == ac->idleS && cc->moveLeft == 1)
 		{
 			ac->left();
@@ -97,51 +96,19 @@ void PhysicsSystem::update() {
 			ac->right();
 		}
 		
-
-		//
-		//std::cout << vecY <<std::endl;
-		//if( pc->getPositionY() >= 500)
-		//{
-		//	cc->stopFall = true;
-		//}
-		//if (!cc->stopFall) {
-		//	
-		//	posY = pc->getPositionY();
-		//	posX = pc->getPositionX();
-		//	vecY++;
-		//	posY += vecY;
-		//	pc->setPosition(posX, posY);
-		//	collision = 0;
-		//}
-		///*else if (pc->getPositionY() < 440 && !cc->stopFall) 
-		//{
-
-		//	posY = pc->getPositionY();
-		//	posX = pc->getPositionX();
-		//	vecY++;
-		//	posY += vecY;
-		//	pc->setPosition(posX, posY);
-		//	collision = 0;
-		//}*/
-		//else {
-		//	vecY = 0;
-		//	collision = 1;
-		//}
-		///*if (cc->stopFall)
-		//{
-		//	vecY = 0;
-		//}
-		//*/
-		//int posX = pc->getPositionX();
-		//int posY = pc->getPositionY();
-		//posX += vecX;
-		//pc->setPosition(posX, posY);
-
+		std::cout << vecY <<std::endl;
+		if (cc->ceilingHit)
+		{
+			vecY = 0;
+			cc->ceilingHit = false;
+		}
 
 	}
-
+			
 
 }
+
+		
 void PhysicsSystem::moveLeft() {
 
 	if (vecX > -maxX )
@@ -179,8 +146,8 @@ void PhysicsSystem::moveUp() {
 		posY += vecY;
 		posX += vecX;
 		pc->setPosition(posX, posY);
-		
-
+		cc->stopFall = false;
+		cc->OnPlatform = false;
 		cc->jump = 1;
 	}
 	

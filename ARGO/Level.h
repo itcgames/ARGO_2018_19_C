@@ -33,11 +33,24 @@ struct tile {
 	void draw(SDL_Renderer* ren);
 };
 
+struct MapObjects {
+	int x;
+	int y;
+	int width;
+	int height;
+
+	MapObjects(float x = 0, float y = 0, float width = 0, float height = 0);
+};
+
 class level {
 public:
 	level(const std::string& name);
 	void load(const std::string& path, SDL_Renderer* ren);
 	void draw(SDL_Renderer* ren);
+	// All of the tiles we will draw to the screen.
+	std::vector<tile> tiles;
+	std::vector<MapObjects> m_wall;
+	std::vector<MapObjects>m_ceiling;
 private:
 	std::string name;
 	// Think of the dimensions as a 2D array (after all, that's what our
@@ -48,8 +61,6 @@ private:
 	int cols;
 	int tile_width;
 	int tile_height;
-	// All of the tiles we will draw to the screen.
-	std::vector<tile> tiles;
 	// All of the tilesets used by our Tiled map.
 	std::map<gid, SDL_Texture*> tilesets;
 };

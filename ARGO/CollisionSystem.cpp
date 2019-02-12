@@ -5,7 +5,7 @@ void CollisionSystem::addEntity(Entity e)
 	entities.push_back(e);
 }
 
-void CollisionSystem::CheckCollision(float dt)
+void CollisionSystem::CheckCollision(level &level, float dt)
 {
 
 	time = time + dt;
@@ -13,25 +13,17 @@ void CollisionSystem::CheckCollision(float dt)
 	{
 		if (entity.getName() == "Player")
 		{
-			std::cout << "Player Properties received" << std::endl;
+		
 			posComp1 = (PositionComponent *)entity.getCompByType("Position");
 			cc = (ControlComponent *)entity.getCompByType("Control");
 			spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
 			score = (ScoreComponent*)entity.getCompByType("Score");
 			x1 = posComp1->getPositionX();
 			y1 = posComp1->getPositionY();
-			width1 = 50;// spriteComp->getWidth();
-			height1 = 50;// spriteComp->getHeight();
+			width1 =  spriteComp->getWidth();
+			height1 =  spriteComp->getHeight();
 		}
-		if (entity.getName() == "Wall")
-		{
-			std::cout << "Wall propeties received" << std::endl;
-			posComp = (PositionComponent *)entity.getCompByType("Position");
-			x2 = posComp->getPositionX();
-			y2 = posComp->getPositionY();
-			width2 = 30;
-			height2 = 30;
-		}
+		
 		if (entity.getName() == "Flag")
 		{
 			std::cout << "Wall propeties received" << std::endl;
@@ -41,6 +33,8 @@ void CollisionSystem::CheckCollision(float dt)
 		}
 	}
 	
+	//squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
+	tileCollision(x1, y1, width1, height1, level);
 	squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
 
 
@@ -101,7 +95,7 @@ bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, fl
 			}
 			
 		}
-		if (wy < hx)
+		else if (wy < hx)
 		{
 			if (wy > -hx)
 			{
@@ -119,9 +113,93 @@ bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, fl
 		return false;
 }
 
-void CollisionSystem::update(float dt)
+void CollisionSystem::tileCollision(float x, float y, float width, float height, level &m_tiles)
 {
-	CheckCollision(dt);
+	for (int i = 0; i < m_tiles.tiles.size(); i++)
+	{
+		//top of object
+		if (y + height >= m_tiles.tiles[i].y &&
+			y + height <= m_tiles.tiles[i].y + m_tiles.tiles[i].height&&
+			x > m_tiles.tiles[i].x - width &&
+			x <= m_tiles.tiles[i].x + m_tiles.tiles[i].width)
+		{
+			if (!cc->stopFall)
+			{
+				
+				cc->jump = 0;
+				posComp1->setPosition(x1, m_tiles.tiles[i].y - height1);
+				cc->stopFall = true;
+				cc->OnPlatform = true;
+				break;
+			}
+		}
+		else
+		{
+			cc->OnPlatform = false;
+			cc->stopFall = false;
+		}
+		
+	}
+
+	for (int i = 0; i < m_tiles.m_wall.size(); i++)
+	{
+		//right of tile
+		if (x <= m_tiles.m_wall[i].x + m_tiles.m_wall[i].width&&
+			x >= m_tiles.m_wall[i].x &&
+			y + height >= m_tiles.m_wall[i].y &&
+			y <= m_tiles.m_wall[i].y + m_tiles.m_wall[i].height)
+		{
+			
+			cc->moveLeft = 0;
+			cc->OnPlatform = false;
+			cc->stopFall = false;
+			posComp1->setPosition(m_tiles.m_wall[i].x + m_tiles.m_wall[i].width, y1);
+		}
+
+		//left of tile
+		else if (x + width >= m_tiles.m_wall[i].x &&
+			x + width < m_tiles.m_wall[i].x + m_tiles.m_wall[i].width &&
+			y + height >= m_tiles.m_wall[i].y &&
+			y <= m_tiles.m_wall[i].y + m_tiles.m_wall[i].height)
+		{
+			
+			cc->moveRight = 0;
+			cc->OnPlatform = false;
+			cc->stopFall = false;
+			posComp1->setPosition(m_tiles.m_wall[i].x - width1, y1);
+		}
+	}
+
+	for (int i = 0; i < m_tiles.m_ceiling.size(); i++)
+	{
+		/*(m_position.y + animation.uvRect.height * 2 >= m_tileMap.m_ceiling_position.at(i).y &&
+		m_position.y + animation.uvRect.height <= m_tileMap.m_ceiling_position.at(i).y + m_tileMap.m_ceiling_WH.at(i).y &&
+		m_position.x >= m_tileMap.m_ceiling_position.at(i).x - animation.uvRect.width &&
+		m_position.x <= m_tileMap.m_ceiling_position.at(i).x + m_tileMap.m_ceiling_WH.at(i).x)*/
+		if (y  >= m_tiles.m_ceiling[i].y &&
+			y  <= m_tiles.m_ceiling[i].y + m_tiles.m_ceiling[i].height &&
+			x >= m_tiles.m_ceiling[i].x - width &&
+			x <= m_tiles.m_ceiling[i].x + m_tiles.m_ceiling[i].width)
+		{
+			if (cc->getDirection() == cc->Idle)
+			{
+				std::cout << "Ceiling HIT" << std::endl;
+				cc->stopFall = false;
+				cc->OnPlatform = false;
+				cc->ceilingHit = true;
+				//posComp->setPosition(x, m_tiles.m_ceiling[i].y+height*2);
+				break;
+			}
+			
+		}
+	}
+		
+
+}
+
+void CollisionSystem::update(level &level,float dt)
+{
+	CheckCollision(level, dt);
 }
 
 

@@ -63,8 +63,8 @@ void Game::initialise()
 	player.addComponent(new CollisionComponent());
 
 	Entity wall("Wall");
-	wall.addComponent(new PositionComponent(400, 500));
-	wall.addComponent(new CollisionComponent());
+	//wall.addComponent(new PositionComponent(400, 500));
+	//wall.addComponent(new CollisionComponent());
 	//wall.addComponent(new SpriteComponent(wallTxt, m_renderer));
 
 	Entity alien("Alien");
@@ -111,7 +111,7 @@ void Game::initialise()
 
 	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
 	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
-	AudioManager::Instance()->PlayMusic("song1", -1);
+	//AudioManager::Instance()->PlayMusic("song1", -1);
 
 }
 
@@ -163,11 +163,11 @@ void Game::processEvents()
 		case SDL_KEYUP:
 			cs.idle();
 			cs.keyUp(event);
-			resetCamera();
+			//resetCamera();
 			break;
 		case SDL_KEYDOWN:
 			cs.input(event);
-			rumble();
+			//rumble();
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				exit = true;
 			break;
@@ -184,6 +184,8 @@ void Game::setGameState(GameState gameState)
 void Game::update(float dt)
 {
 
+
+	Colls.update(*m_level, dt);
 	//hs.update();
 	
 
@@ -208,7 +210,6 @@ void Game::update(float dt)
 	}
 
 
-	Colls.update(dt);
 	//phs.update();
 
 	//// Power ups
@@ -284,6 +285,7 @@ void Game::render(float dt)
 	
 	//Jamie
 	SDL_RenderSetLogicalSize(m_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 
 	rs.update(m_renderer, dt);
 	//wallTxt.render(400, 500, m_renderer);
