@@ -7,6 +7,21 @@ PhysicsSystem::PhysicsSystem() {
 void PhysicsSystem::addEntity(Entity e) {
 	entities.push_back(e);
 }
+std::string PhysicsSystem::getEntity() {
+	//only reurns first name
+	for (Entity & entity : entities) {
+		return entity.getName();
+	}
+}
+
+Entity * PhysicsSystem::getEntityById(std::string s)
+{
+	for (Entity & entity : entities) {
+		if (s == entity.getName())
+			return &entity;
+	}
+	return &entities[0];
+}
 
 void PhysicsSystem::update() {
 
@@ -18,7 +33,7 @@ void PhysicsSystem::update() {
 		pc = (PositionComponent*)entity.getCompByType("Position");
 		ac = (AnimationComponent*)entity.getCompByType("Animation");
 		sc = (SpriteComponent*)entity.getCompByType("Sprite");
-		
+
 		//collide
 		//Gravity
 		if (!cc->stopFall && !cc->OnPlatform) {
@@ -66,7 +81,7 @@ void PhysicsSystem::update() {
 		if (cc->moveRight == 1)
 		{
 			moveRight();
-			
+
 		}
 
 		if (cc->getDirection() == cc->Up) {
@@ -87,8 +102,7 @@ void PhysicsSystem::update() {
 		{
 			ac->right();
 		}
-		
-		//std::cout << vecY <<std::endl;
+		std::cout << vecY <<std::endl;
 		if (cc->ceilingHit)
 		{
 			vecY = 5;
@@ -96,11 +110,14 @@ void PhysicsSystem::update() {
 		}
 
 	}
-			
+
 
 }
+void PhysicsSystem::speedUp(Entity * entity) {
 
-		
+	maxX++;
+}
+
 void PhysicsSystem::moveLeft() {
 
 	if (vecX > -maxX )
@@ -115,7 +132,7 @@ void PhysicsSystem::moveLeft() {
 	}
 }
 void PhysicsSystem::moveRight() {
-	
+
 	if (vecX < maxX)
 	{
 		ac->right();
@@ -125,7 +142,7 @@ void PhysicsSystem::moveRight() {
 		posX += vecX;
 		pc->setPosition(posX, posY);
 	}
-	
+
 
 }
 void PhysicsSystem::moveUp() {
@@ -142,8 +159,6 @@ void PhysicsSystem::moveUp() {
 		cc->OnPlatform = false;
 		cc->jump = 1;
 	}
-	
+
 
 }
-
-

@@ -16,7 +16,6 @@
 #include "CollisionSystem.h"
 #include "AudioManager.h"
 #include "AiSystem.h"
-
 #include "ParticleSystem.h"
 #include "PhysicsSystem.h"
 
@@ -24,12 +23,18 @@
 //Jamie
 #include "Level.h"
 #include "Particle.h"
-
 #include "Factory.h"
 #include <iterator>
 
+// Network
+#include "Client.h"
+#include <sstream>
 
 using namespace std;
+
+
+
+
 enum class
 	GameState
 {
@@ -58,6 +63,8 @@ private:
 	void update(float dt);
 	void render(float dt);
 	void initialise();
+	void getDistance();
+
 
 	void setGameState(GameState gameState);
 
@@ -68,7 +75,7 @@ private:
 
 	level* m_level;
 
-	Entity* m_player;
+	//Entity* m_player;
 	Entity* m_cat;
 	Entity* m_alien;
 	Entity* m_dog;
@@ -84,7 +91,7 @@ private:
 
 	HealthSystem hs;
 	RenderSystem rs;
-	AiSystem ais;
+	AISystem ais;
 	ParticleSystem ps;
 	ControlSystem cs;
 	GameState m_currentGameState;
@@ -98,6 +105,9 @@ private:
 
 	Factory* m_factory;
 	std::vector<PowerUp*> m_powerUps;
+	//jamie
+	double disBetweenAiPlayer = 10000;
+	//Fuzzy* m_fuzzy;
 
 	int m_timerSpawn;
 	const int m_spawnTimeLimit = 2000;
@@ -110,8 +120,16 @@ private:
 	int SCREEN_HEIGHT = 900;
 	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-
+	// Player
+	int m_playerIndex = 5;
 	Entity player;
+	Entity player2;
+	Entity player3;
+	Entity player4;
+
+	// Network
+	Client * m_client;
+	void updateNetwork();
 };
 
 #endif // !GAME

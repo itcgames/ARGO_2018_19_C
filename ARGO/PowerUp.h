@@ -178,7 +178,7 @@ class HealthUp : public PowerUp
 public:
 	HealthUp(SDL_Renderer *m_renderer) {
 		m_id = 1;
-		if (!m_texture.loadFromFile("dot.bmp", m_renderer, 1))
+		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
 		{
 			printf("Failed to load dot texture!\n");
 
@@ -190,7 +190,7 @@ public:
 	};
 	void draw(SDL_Renderer *m_renderer)
 	{
-		m_texture.render(m_x, m_y, m_renderer);
+		m_texture.render(m_x, m_y, m_renderer, NULL, 1, 1);
 	}
 };
 
@@ -200,7 +200,7 @@ public:
 	SpeedUp(SDL_Renderer *m_renderer)
 	{
 		m_id = 2;
-		if (!m_texture.loadFromFile("dot.bmp", m_renderer, 1))
+		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
 		{
 			printf("Failed to load dot texture!\n");
 
@@ -212,7 +212,7 @@ public:
 	};
 	void draw(SDL_Renderer *m_renderer)
 	{
-		m_texture.render(m_x, m_y, m_renderer);
+		m_texture.render(m_x, m_y, m_renderer, NULL, 1, 1);
 	}
 };
 

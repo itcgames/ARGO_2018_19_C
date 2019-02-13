@@ -11,7 +11,7 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 	time = time + dt;
 	for (Entity& entity : entities)
 	{
-		if (entity.getName() == "Player")
+		if (entity.getName() == "Player" || entity.getName() == "Player2" || entity.getName() == "Player3" || entity.getName() == "Player4")
 		{
 			posComp1 = (PositionComponent *)entity.getCompByType("Position");
 			cc = (ControlComponent *)entity.getCompByType("Control");
@@ -21,42 +21,36 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 			y1 = posComp1->getPositionY();
 			width1 =  spriteComp->getWidth();
 			height1 =  spriteComp->getHeight();
+			tileCollision(x1, y1, width1, height1, level);
+			Teleport(x1, y1, width1, height1, level);
+
+			if (entity.getName() == "Flag")
+			{
+				posComp2 = (PositionComponent *)entity.getCompByType("Position");
+				spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
+
+
+				if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
+					spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
+
+					posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getWidth() / 6, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
+					int fps = 1;
+					int ticksPerFrame = 1000 / fps;
+
+					if (ticksPerFrame < time)
+					{
+						score->setScore(score->getScore() + 1);
+
+						time = 0;
+					}
+
+					std::cout << "Score: " << score->getScore() << std::endl;
+
+
+				}
+			}
 		}
-		
-		if (entity.getName() == "Flag")
-		{
-			posComp2 = (PositionComponent *)entity.getCompByType("Position");
-			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
-	
-		}
-	}
-	
-	//squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
-	tileCollision(x1, y1, width1, height1, level);
-	squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
-	Teleport(x1, y1, width1, height1, level);
-
-
-	if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
-		spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
-
-
-
-		posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getWidth() / 6, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
-		int fps = 1;
-		int ticksPerFrame = 1000 / fps;
-
-		if (ticksPerFrame < time)
-		{
-			score->setScore(score->getScore() + 1);
-
-			time = 0;
-		}
-		
-		std::cout << "Score: " <<  score->getScore() << std::endl;
-
-
-	}
+	}		
 }
 
 
@@ -92,13 +86,13 @@ bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, fl
 				//left
 				posComp1->setPosition(x2-width1, y1);
 			}
-			
+
 		}
 		else if (wy < hx)
 		{
 			if (wy > -hx)
 			{
-				//Right 
+				//Right
 				posComp1->setPosition(x2 + width1, y1);
 			}
 			else if (wy < -hx)
@@ -107,7 +101,7 @@ bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, fl
 			}
 		}
 		return true;
-		
+
 	}
 		return false;
 }
@@ -124,7 +118,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 		{
 			if (!cc->stopFall)
 			{
-				
+
 				cc->jump = 0;
 				posComp1->setPosition(x, m_tiles.tiles[i].y - height1);
 				cc->stopFall = true;
@@ -137,7 +131,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			cc->OnPlatform = false;
 			cc->stopFall = false;
 		}
-		
+
 	}
 
 	for (int i = 0; i < m_tiles.m_wall.size(); i++)
@@ -148,7 +142,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			y + height >= m_tiles.m_wall[i].y &&
 			y <= m_tiles.m_wall[i].y + m_tiles.m_wall[i].height)
 		{
-			
+
 			cc->moveLeft = 0;
 			posComp1->setPosition(m_tiles.m_wall[i].x + width, y);
 		}
@@ -159,7 +153,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			y + height >= m_tiles.m_wall[i].y &&
 			y <= m_tiles.m_wall[i].y + m_tiles.m_wall[i].height)
 		{
-			
+
 			cc->moveRight = 0;
 			posComp1->setPosition(m_tiles.m_wall[i].x - width, y);
 		}
@@ -225,5 +219,3 @@ void CollisionSystem::update(level &level,float dt)
 {
 	CheckCollision(level, dt);
 }
-
-

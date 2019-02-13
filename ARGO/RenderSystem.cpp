@@ -45,7 +45,7 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 			}
 		}
 
-		if (entity.getName() == "Player")
+		if (entity.getName() == "Player" || entity.getName() == "Player2" || entity.getName() == "Player3" || entity.getName() == "Player4")
 		{
 			SpriteComponent *sc = (SpriteComponent*)entity.getCompByType("Sprite");
 			PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");

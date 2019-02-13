@@ -46,7 +46,7 @@
   <object id="30" name="Wall" x="1439" y="0" width="15" height="361"/>
   <object id="31" name="Wall" x="1439" y="421" width="21" height="299"/>
   <object id="36" name="Wall" x="886" y="618" width="13" height="42"/>
-  <object id="39" name="Ceiling" x="359" y="283" width="180" height="17"/>
+  <object id="39" name="Ceiling" x="358" y="283" width="183" height="17"/>
   <object id="40" name="Wall" x="359" y="255" width="13" height="27"/>
   <object id="41" name="Wall" x="523" y="256" width="16" height="27"/>
   <object id="42" name="Ceiling" x="300" y="764" width="180" height="16"/>

@@ -5,6 +5,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Assets.cpp" />
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -21,12 +22,15 @@
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Right.cpp" />
     <ClCompile Include="splash.cpp" />
+    <ClCompile Include="Fuzzy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIComponent.h" />
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Assets.h" />
+    <ClInclude Include="Client.h" />
     <ClInclude Include="CollisionComp.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Component.h" />
@@ -35,6 +39,7 @@
     <ClInclude Include="credits.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="Fuzzy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthSystem.h" />
