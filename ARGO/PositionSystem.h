@@ -13,9 +13,7 @@ public:
 		entities.push_back(e);
 	}
 	void update() {
-		//std::cout << "PositionSystem Update" << std::endl;
 
-		std::cout << "POSITION SYSTEM" << std::endl;
 		/* Position Components and Update */
 		/* Loop through Entities with */
 		int index = 0;

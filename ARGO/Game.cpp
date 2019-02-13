@@ -1,6 +1,32 @@
 #include "Game.h"
 
-Game::Game(): player("Player")
+
+struct not_digit {
+	bool operator()(const char c)
+	{
+		return c != ' ' && !isdigit(c);
+	}
+};
+
+std::vector<float> msgToPos(std::string s)
+{
+	not_digit notADigit;
+
+	string::iterator end = std::remove_if(s.begin(), s.end(), notADigit);
+
+	string all_numbers(s.begin(), end);
+
+	stringstream ss(all_numbers);
+	std::vector<float> vec;
+	int i;
+	for (; ss >> i;)
+	{
+		vec.push_back(i);
+	}
+	return vec;
+}
+
+Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4("Player4")
 {
 	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -14,6 +40,8 @@ Game::Game(): player("Player")
 	}
 	m_factory = new PowerUpFactory;
 
+	m_client = new Client();
+	
 
 	initialise();
 
@@ -33,6 +61,7 @@ void Game::initialise()
 
 	SDL_INIT_AUDIO;
 
+	m_client->run();
 
 	m_timerSpawn = 0;
 	if (!m_texture.loadFromFile("dot.bmp", m_renderer, 1))
@@ -45,22 +74,31 @@ void Game::initialise()
 	{
 		printf("Failed to load wall texture!\n");
 	}
-	
-	Entity player("Player");
-	player.addComponent(new HealthComponent(200));
-	player.addComponent(new PositionComponent(500, 100));
-	player.addComponent(new ControlComponent());
-
-	player.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
-	player.addComponent(new AnimationComponent());
-	player.addComponent(new CollisionComponent());
-	player.addComponent(new ScoreComponent(0));
 
 	Entity flag("Flag");
 	flag.addComponent(new PositionComponent(500, 500));
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
+
+
+	player.addComponent(new PositionComponent(100, 100));
+	player.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
+
+	player2.addComponent(new PositionComponent(500, 100));
+	player2.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
+	player2.addComponent(new AnimationComponent());
+	player2.addComponent(new CollisionComponent());
+	
+	player3.addComponent(new PositionComponent(100, 500));
+	player3.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
+	player3.addComponent(new AnimationComponent());
+	player3.addComponent(new CollisionComponent());
+
+	player4.addComponent(new PositionComponent(500, 500));
+	player4.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
+	player4.addComponent(new AnimationComponent());
+	player4.addComponent(new CollisionComponent());
 
 	Entity wall("Wall");
 	//wall.addComponent(new PositionComponent(400, 500));
@@ -81,33 +119,30 @@ void Game::initialise()
 	//HealthComponent *hc;
 	//PositionComponent *pc;
 
-	hs.addEntity(player);
-	hs.addEntity(alien);
-	hs.addEntity(dog);
-	hs.addEntity(cat);
 
 
 	
 	rs.addEntity(flag);
 	rs.addEntity(player);
-	//rs.addEntity(wall);
-	//rs.addEntity(alien);
-	//rs.addEntity(dog);
+	rs.addEntity(player2);
+	rs.addEntity(player3);
+	rs.addEntity(player4);
 	//rs.addEntity(cat);
 
 	ais.addEntity(alien);
 	ais.addEntity(dog);
 	ais.addEntity(cat);
 
-	cs.addEntity(player);
+	
 
 
-	Colls.addEntity(player);
 	Colls.addEntity(wall);
 	Colls.addEntity(flag);
 
 	ps.addEntity(player);
-	phs.addEntity(player);
+	ps.addEntity(player2);
+	ps.addEntity(player3);
+	ps.addEntity(player4);
 
 	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
 	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
@@ -202,6 +237,8 @@ void Game::update(float dt)
 	case GameState::GameScreen:
 		//ps.update(m_renderer);
 		phs.update();
+
+
 		break;
 	case GameState::Credits:
 		break;
@@ -228,14 +265,39 @@ void Game::update(float dt)
 		}
 		m_timerSpawn = 0;
 	}
+	updateNetwork();
 	for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{
 		if (m_powerUps[i]->getAlive())
 		{
 			m_powerUps[i]->update();
 			//check collision
+
 			PositionComponent * p = (PositionComponent * )player.getCompByType("Position");
 			SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
+
+			switch (m_playerIndex)
+			{
+			case 0:
+				p = (PositionComponent *)player.getCompByType("Position");
+				s = (SpriteComponent *)player.getCompByType("Sprite");
+				break;
+
+			case 1:
+				p = (PositionComponent *)player2.getCompByType("Position");
+				s = (SpriteComponent *)player2.getCompByType("Sprite");
+				break;
+
+			case 2:
+				p = (PositionComponent *)player3.getCompByType("Position");
+				s = (SpriteComponent *)player3.getCompByType("Sprite");
+				break;
+
+			case 3:
+				p = (PositionComponent *)player4.getCompByType("Position");
+				s = (SpriteComponent *)player4.getCompByType("Sprite");
+				break;
+			}
 			if(m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
 			{
 				// switch case
@@ -332,7 +394,117 @@ void Game::resetCamera()
 	SCREEN_HEIGHT = 900;
 }
 
+void Game::updateNetwork()
+{
+	PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
 
+	if (m_playerIndex != 5)
+	{
+		// Send position
+		std::string pos;
+		switch (m_playerIndex)
+		{
+		case 0:
+			p = (PositionComponent *)player.getCompByType("Position");
+			break;
+		case 1:
+			p = (PositionComponent *)player2.getCompByType("Position");
+			break;
+		case 2:
+			p = (PositionComponent *)player3.getCompByType("Position");
+			break;
+		case 3:
+			p = (PositionComponent *)player4.getCompByType("Position");
+			break;
+		}
+		pos = "X: " + std::to_string((int)p->getPositionX()) + ", " + "Y: " + std::to_string((int)p->getPositionY()) + ", " + "I: " + std::to_string(m_playerIndex);
+		m_client->sendMsg(pos);
+	}
+
+	// Turn message to position.
+	string msg = m_client->receive();
+	if (msg.length() > 0)
+	{
+		std::cout << msg << std::endl;
+		char firstChar = msg.at(0);
+		if (firstChar == 'S' && msg.substr(13, 3) != "IP:")
+		{
+			switch ((int)msgToPos(msg)[3])
+			{
+			case 0:
+				p = (PositionComponent *)player.getCompByType("Position");
+				break;
+			case 1:
+				p = (PositionComponent *)player2.getCompByType("Position");
+				break;
+			case 2:
+				p = (PositionComponent *)player3.getCompByType("Position");
+				break;
+			case 3:
+				p = (PositionComponent *)player4.getCompByType("Position");
+				break;
+			}
+			
+			p->setPosition(msgToPos(msg)[1], msgToPos(msg)[2]);
+			
+		}
+		else if (msg == "Host")
+		{
+			m_playerIndex = 0;
+			cs.addEntity(player);
+			Colls.addEntity(player);
+			phs.addEntity(player);
+			hs.addEntity(player);
+			player.addComponent(new HealthComponent(200));
+			player.addComponent(new ControlComponent());
+			player.addComponent(new ScoreComponent(0));
+			p = (PositionComponent *)player.getCompByType("Position");
+			p->setPosition(100, 100);
+		}
+		else if (msg.substr(0, 8) == "Joining ")
+		{
+			std::string indexString = msg.substr(14, 1);
+			int index = std::stoi(indexString);
+			m_playerIndex = index;
+			switch (index)
+			{
+			case 1:
+				cs.addEntity(player2);
+				Colls.addEntity(player2);
+				phs.addEntity(player2);
+				hs.addEntity(player2);
+				player2.addComponent(new HealthComponent(200));
+				player2.addComponent(new ControlComponent());
+				player2.addComponent(new ScoreComponent(0));
+				p = (PositionComponent *)player2.getCompByType("Position");
+				p->setPosition(500, 100);
+				break;
+			case 2:
+				cs.addEntity(player3);
+				Colls.addEntity(player3);
+				phs.addEntity(player3);
+				hs.addEntity(player3);
+				player3.addComponent(new HealthComponent(200));
+				player3.addComponent(new ControlComponent());
+				player3.addComponent(new ScoreComponent(0));
+				p = (PositionComponent *)player3.getCompByType("Position");
+				p->setPosition(100, 500);
+				break;
+			case 3:
+				cs.addEntity(player4);
+				Colls.addEntity(player4);
+				phs.addEntity(player4);
+				hs.addEntity(player4);
+				player4.addComponent(new HealthComponent(200));
+				player4.addComponent(new ControlComponent());
+				player4.addComponent(new ScoreComponent(0));
+				p = (PositionComponent *)player4.getCompByType("Position");
+				p->setPosition(500, 500);
+				break;
+			}
+		}
+	}
+}
 
 
 

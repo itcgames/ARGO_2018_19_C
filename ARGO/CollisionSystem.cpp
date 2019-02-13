@@ -11,55 +11,50 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 	time = time + dt;
 	for (Entity& entity : entities)
 	{
-		if (entity.getName() == "Player")
+		if (entity.getName() == "Player" || entity.getName() == "Player2" || entity.getName() == "Player3" || entity.getName() == "Player4")
 		{
-		
 			posComp1 = (PositionComponent *)entity.getCompByType("Position");
 			cc = (ControlComponent *)entity.getCompByType("Control");
 			spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
 			score = (ScoreComponent*)entity.getCompByType("Score");
 			x1 = posComp1->getPositionX();
 			y1 = posComp1->getPositionY();
-			width1 =  spriteComp->getWidth();
-			height1 =  spriteComp->getHeight();
+			width1 = spriteComp->getWidth();
+			height1 = spriteComp->getHeight();
+			tileCollision(x1, y1, width1, height1, level);
+
+
+			if (entity.getName() == "Flag")
+			{
+				posComp2 = (PositionComponent *)entity.getCompByType("Position");
+				spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
+
+
+				if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
+					spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
+
+
+
+					posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 3, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
+					int fps = 1;
+					int ticksPerFrame = 1000 / fps;
+
+					if (ticksPerFrame < time)
+					{
+						score->setScore(score->getScore() + 1);
+
+						time = 0;
+					}
+
+					std::cout << "Score: " << score->getScore() << std::endl;
+
+
+				}
+
+			}
 		}
-		
-		if (entity.getName() == "Flag")
-		{
-			std::cout << "Wall propeties received" << std::endl;
-			posComp2 = (PositionComponent *)entity.getCompByType("Position");
-			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
-	
-		}
-	}
-	
-	//squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
-	tileCollision(x1, y1, width1, height1, level);
-	squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
-
-
-	if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
-		spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
-
-
-
-		posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 3, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
-		int fps = 1;
-		int ticksPerFrame = 1000 / fps;
-
-		if (ticksPerFrame < time)
-		{
-			score->setScore(score->getScore() + 1);
-
-			time = 0;
-		}
-		
-		std::cout << "Score: " <<  score->getScore() << std::endl;
-
-
 	}
 }
-
 
 bool CollisionSystem::AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2)
 {

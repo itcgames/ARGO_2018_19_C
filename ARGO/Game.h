@@ -28,8 +28,15 @@
 #include "Factory.h"
 #include <iterator>
 
+// Network 
+#include "Client.h"
+#include <sstream>
 
 using namespace std;
+
+
+
+
 enum class
 	GameState
 {
@@ -68,7 +75,7 @@ private:
 
 	level* m_level;
 
-	Entity* m_player;
+	//Entity* m_player;
 	Entity* m_cat;
 	Entity* m_alien;
 	Entity* m_dog;
@@ -110,8 +117,16 @@ private:
 	int SCREEN_HEIGHT = 900;
 	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-
+	// Player
+	int m_playerIndex = 5;
 	Entity player;
+	Entity player2;
+	Entity player3;
+	Entity player4;
+
+	// Network
+	Client * m_client;
+	void updateNetwork();
 };
 
 #endif // !GAME

@@ -1,3 +1,4 @@
+#define SDL_MAIN_HANDLED
 #pragma comment(lib, "SDL2.lib")
 #pragma comment(lib, "SDL2main.lib")
 #pragma comment(lib, "SDL2_image.lib")
@@ -7,7 +8,6 @@
 #else 
 #pragma comment (lib, "tmxlite.lib")
 #endif 
-
 
 #include "Game.h"
 
