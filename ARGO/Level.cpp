@@ -110,6 +110,17 @@ void level::load(const std::string& path, SDL_Renderer* ren) {
 					MapObjects k(x, y, width, height);
 					m_killTiles.push_back(k);
 				}
+				else if (object.getName() == "Teleport")
+				{
+					float x, y, width, height;
+					x = object.getPosition().x;
+					y = object.getPosition().y;
+					width = object.getAABB().width;
+					height = object.getAABB().height;
+
+					MapObjects t(x, y, width, height);
+					m_teleport.push_back(t);
+				}
 			}
 			
 		}

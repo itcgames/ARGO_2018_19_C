@@ -198,10 +198,26 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 
 void CollisionSystem::Teleport(float x, float y, float width, float height, level &m_tiles)
 {
-	/*for (int i = 0; i < m_tiles.m_teleport.size(); i++)
+	for (int i = 0; i < m_tiles.m_teleport.size(); i++)
 	{
+		//right of tile
+		if (x <= m_tiles.m_teleport[i].x + m_tiles.m_teleport[i].width&&
+			x >= m_tiles.m_teleport[i].x &&
+			y + height >= m_tiles.m_teleport[i].y &&
+			y <= m_tiles.m_teleport[i].y + m_tiles.m_teleport[i].height)
+		{
+			posComp1->setPosition(m_tiles.m_teleport[1].x - width, m_tiles.m_teleport[1].y);
+		}
 
-	}*/
+		//left of tile
+		else if (x + width >= m_tiles.m_teleport[i].x &&
+			x + width < m_tiles.m_teleport[i].x + m_tiles.m_teleport[i].width &&
+			y + height >= m_tiles.m_teleport[i].y &&
+			y <= m_tiles.m_teleport[i].y + m_tiles.m_teleport[i].height)
+		{
+			posComp1->setPosition(m_tiles.m_teleport[0].x + width, m_tiles.m_teleport[0].y);
+		}
+	}
 }
 
 void CollisionSystem::update(level &level,float dt)
