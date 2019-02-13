@@ -17,53 +17,57 @@ void CombatSystem::CheckCollision(float dt)
 			posComp = (PositionComponent *)entity.getCompByType("Position");
 			cc = (ControlComponent *)entity.getCompByType("Control");
 			spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
-			score = (ScoreComponent*)entity.getCompByType("Score");
 		
 		}
-		else
+		else if(entity.getName() == "Flag")
 		{
+			posComp1 = (PositionComponent *)entity.getCompByType("Position");
+			spriteComp1 = (SpriteComponent *)entity.getCompByType("Sprite");
+			cc1 = (ControlComponent *)entity.getCompByType("Control");
+			pickup = (PickUpComponent *)entity.getCompByType("PickUp");
+		}
+		else 
+		{
+
 			posComp2 = (PositionComponent *)entity.getCompByType("Position");
-			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
 			cc2 = (ControlComponent *)entity.getCompByType("Control");
+			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
+
 		}
 
-		//if (posComp1 != NULL && posComp2 != NULL) {
+		if (posComp1 != NULL && posComp2 != NULL) {
 
 			if (cc->attack) {
-
+				cc->attack = false;
 				if (AABB(posComp->getPositionX(), posComp->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
 					spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
 
-					std::cout << "ATTATATATATATA" << std::endl;
+					if (cc2->hasFlag)
+					{
+						cc2->hasFlag = false;
+						pickup->setState(pickup->Collectable);
+					}
 
-					cc2->hasFlag = false;
-					posComp2->setPosition(posComp2->getPositionX() + 200, posComp2->getPositionY() - 200);
+					if (posComp->getPositionX() < posComp2->getPositionX())
+					{
+						posComp2->setPosition(posComp2->getPositionX() + 100, posComp2->getPositionY() - 100);
+					}
+					else
+					{
+						posComp2->setPosition(posComp2->getPositionX() - 100, posComp2->getPositionY() - 100);
+					}
+					
 
-					cc->attack = false;
+					
 				}
 			}
 
-		//}
+		}
 
 
 
 	
 	}
-
-		/*posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 3, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
-		int fps = 1;
-		int ticksPerFrame = 1000 / fps;
-
-		if (ticksPerFrame < time)
-		{
-			score->setScore(score->getScore() + 1);
-
-			time = 0;
-		}
-
-		std::cout << "Score: " << score->getScore() << std::endl;*/
-
-
 	
 }
 
