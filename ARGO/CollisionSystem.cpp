@@ -191,6 +191,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			(abs(y1 - m_tiles.m_killTiles[i].y) * 2 < (height1 + m_tiles.m_killTiles[i].height)))
 		{
 			std::cout << "KILL TILES COLLIDE" << std::endl;
+			posComp1->setPosition(680, 100);
 		}
 	}
 

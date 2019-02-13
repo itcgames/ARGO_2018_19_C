@@ -91,7 +91,7 @@ void PhysicsSystem::update() {
 		//std::cout << vecY <<std::endl;
 		if (cc->ceilingHit)
 		{
-			vecY = 0;
+			vecY = 5;
 			cc->ceilingHit = false;
 		}
 
