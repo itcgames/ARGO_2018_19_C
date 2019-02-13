@@ -16,6 +16,9 @@ public:
 	void moveRight();
 	void moveUp();
 	void moveDown();
+	void speedUp(Entity * entity);
+	std::string getEntity();
+	Entity * getEntityById(std::string s);
 
 private:
 	int vecX, vecY;

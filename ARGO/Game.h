@@ -16,7 +16,6 @@
 #include "CollisionSystem.h"
 #include "AudioManager.h"
 #include "AiSystem.h"
-
 #include "ParticleSystem.h"
 #include "PhysicsSystem.h"
 
@@ -24,11 +23,10 @@
 //Jamie
 #include "Level.h"
 #include "Particle.h"
-
 #include "Factory.h"
 #include <iterator>
 
-// Network 
+// Network
 #include "Client.h"
 #include <sstream>
 
@@ -65,6 +63,8 @@ private:
 	void update(float dt);
 	void render(float dt);
 	void initialise();
+	void getDistance();
+
 
 	void setGameState(GameState gameState);
 
@@ -91,7 +91,7 @@ private:
 
 	HealthSystem hs;
 	RenderSystem rs;
-	AiSystem ais;
+	AISystem ais;
 	ParticleSystem ps;
 	ControlSystem cs;
 	GameState m_currentGameState;
@@ -105,6 +105,9 @@ private:
 
 	Factory* m_factory;
 	std::vector<PowerUp*> m_powerUps;
+	//jamie
+	double disBetweenAiPlayer = 10000;
+	//Fuzzy* m_fuzzy;
 
 	int m_timerSpawn;
 	const int m_spawnTimeLimit = 2000;

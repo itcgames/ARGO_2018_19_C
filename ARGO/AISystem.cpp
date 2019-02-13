@@ -1,65 +1,88 @@
-#include "AiSystem.h"
+#pragma once
+#pragma once
+#include <iostream>
+#include <vector>
+#include "EntityComponent.h"
+#include "Fuzzy.h"
 
-/// <summary>
-/// Adds entites to the system
-/// </summary>
-/// <param name="en"></param>
-void AiSystem::addEntity(Entity e)
+class AISystem
 {
-	m_entities.push_back(e);
-}
+	std::vector<Entity> entities;
+	Fuzzy* m_fuzzy = new Fuzzy();
+	PositionComponent * pc;
+	float posX = 0;
+	float posY = 0;
+	float velX = 0;
+	float distance = 1000;
 
-/// <summary>
-/// Moves entites upwards and resets them.
-/// </summary>
-void AiSystem::update()
-{
-	int index = 0;
-
-	for (Entity& entity : m_entities) {
-
-		/*for (Component* component : entity.getComponents()) {
-			if (component->getID() == 2) {
-				posComp = dynamic_cast<PositionComponent*>(component);
-
-				x = posComp->getPositionX();
-				y = posComp->getPositionY();
-
-				y -= speed;
-				x -= speed;
-				checkBoundary();
-				std::pair<float, float> m_pos = { x, y };
-				posComp->setPosition(x, y);
-
-				index++;
-
-				std::cout << "Updating position component of entity: " << entity.getName() << std::endl;
-				std::cout << "AI posX: " << posComp->getPositionX() << " posY:" << posComp->getPositionY() << std::endl;
-			}
+public:
+	void addEntity(Entity e) {
+		/*TBI*/
+		entities.push_back(e);
+	}
+	std::string getEntity() {
+		//only reurns first name
+		for (Entity & entity : entities) {
+			return entity.getName();
 		}
-*/
-		
+	}
+	Entity * getEntityById(std::string s)
+	{
+		for (Entity & entity : entities) {
+			if (s == entity.getName())
+				return &entity;
+		}
+		return &entities[0];
 	}
 
-}
+	std::vector<std::string> getEntityIds() {
+		//only reurns first name
+		std::vector<std::string> v;
+		for (Entity & entity : entities) {
+			v.push_back(entity.getName());
+		}
+		return v;
+	}
+	float setDistance(float dis) {
+		return distance;
+	}
 
-void AiSystem::checkBoundary()
-{
-	if (x > screenWidth)
-	{
-		x = 0;
-	}
-	else if (x < 0)
-	{
-		x = screenWidth;
+	void update(float dis, Entity * entity) {
+
+
+
+		//for (Entity & entity : entities) {
+
+		//Loop through all entities 
+		for (Component* component : entity->getComponents()) {
+
+			//call fuzzy update 
+			m_fuzzy->update(dis);
+
+			//now only do this if the ai has the flag
+
+			//update the ai position
+			pc = (PositionComponent*)entity->getCompByType("Position");
+
+			posX = pc->getPositionX();
+			posY = pc->getPositionY();
+			// get vec from fuzy logic
+			velX = m_fuzzy->runAway();
+			//std::cout << velX << std::endl;
+
+			//determine which side the player is on
+			if (dis < 0) {
+				posX -= velX;
+			}
+			if (dis > 0) {
+				posX += velX;
+			}
+
+			//set position 
+			pc->setPosition(posX, posY);
+		}
 	}
 
-	if (y > screenHeight)
-	{
-		y = 0;
-	}
-	else if (y< 0)
-	{
-		y = screenHeight;
-	}
-}
+
+
+};
