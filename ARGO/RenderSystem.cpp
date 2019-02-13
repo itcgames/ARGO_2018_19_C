@@ -55,12 +55,6 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 			sc->render(m_renderer, ac->sRect);
 		}
 
-		/*if (entity.getName() == "Player")
-		{
-			
-		}*/
-		
-
 	}
 
 }

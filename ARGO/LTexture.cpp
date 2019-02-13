@@ -1,5 +1,4 @@
 #include "LTexture.h"
-#include <SDL_image.h>
 
 LTexture::LTexture()
 {

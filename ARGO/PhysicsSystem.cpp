@@ -7,6 +7,21 @@ PhysicsSystem::PhysicsSystem() {
 void PhysicsSystem::addEntity(Entity e) {
 	entities.push_back(e);
 }
+std::string PhysicsSystem::getEntity() {
+	//only reurns first name
+	for (Entity & entity : entities) {
+		return entity.getName();
+	}
+}
+
+Entity * PhysicsSystem::getEntityById(std::string s)
+{
+	for (Entity & entity : entities) {
+		if (s == entity.getName())
+			return &entity;
+	}
+	return &entities[0];
+}
 
 void PhysicsSystem::update() {
 
@@ -18,19 +33,9 @@ void PhysicsSystem::update() {
 		pc = (PositionComponent*)entity.getCompByType("Position");
 		ac = (AnimationComponent*)entity.getCompByType("Animation");
 		sc = (SpriteComponent*)entity.getCompByType("Sprite");
-		
+
 		//collide
-
-		//std::cout << vecY <<std::endl;
-
 		//Gravity
-		if (entity.getName() == "Player")
-		{
-			if (pc->getPositionY() >= 500)
-			{
-				cc->stopFall = true;
-				cc->OnPlatform = true;
-			}
 			if (!cc->stopFall && !cc->OnPlatform) {
 
 				posY = pc->getPositionY();
@@ -76,43 +81,46 @@ void PhysicsSystem::update() {
 			if (cc->moveRight == 1)
 			{
 				moveRight();
-
 			}
+
 
 			if (cc->getDirection() == cc->Up) {
 				moveUp();
 			}
 
-			if (cc->moveLeft == 0 && cc->moveRight == 0)
-			{
-				cc->setDirection(cc->Idle);
-				vecX = 0;
-				ac->idle();
-			}
-			if (ac->m_currentState == ac->idleS && cc->moveLeft == 1)
-			{
-				ac->left();
-			}
-			else if (ac->m_currentState == ac->idleS && cc->moveRight == 1)
-			{
-				ac->right();
-			}
 
-			//std::cout << vecY <<std::endl;
-			if (cc->ceilingHit)
-			{
-				vecY = 0;
-				cc->ceilingHit = false;
-			}
+		if (cc->moveLeft == 0 && cc->moveRight == 0)
+		{
+			cc->setDirection(cc->Idle);
+			vecX = 0;
+			ac->idle();
+		}
+		if (ac->m_currentState == ac->idleS && cc->moveLeft == 1)
+		{
+			ac->left();
+		}
+		else if (ac->m_currentState == ac->idleS && cc->moveRight == 1)
+		{
+			ac->right();
+		}
+		std::cout << vecY <<std::endl;
+		if (cc->ceilingHit)
+		{
+			vecY = 5;
+			cc->ceilingHit = false;
+
 		}
 	
 
 	}
-			
+
 
 }
+void PhysicsSystem::speedUp(Entity * entity) {
 
-		
+	maxX++;
+}
+
 void PhysicsSystem::moveLeft() {
 
 	if (vecX > -maxX )
@@ -127,7 +135,7 @@ void PhysicsSystem::moveLeft() {
 	}
 }
 void PhysicsSystem::moveRight() {
-	
+
 	if (vecX < maxX)
 	{
 		ac->right();
@@ -137,7 +145,7 @@ void PhysicsSystem::moveRight() {
 		posX += vecX;
 		pc->setPosition(posX, posY);
 	}
-	
+
 
 }
 void PhysicsSystem::moveUp() {
@@ -154,8 +162,6 @@ void PhysicsSystem::moveUp() {
 		cc->OnPlatform = false;
 		cc->jump = 1;
 	}
-	
+
 
 }
-
-
