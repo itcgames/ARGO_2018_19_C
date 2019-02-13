@@ -13,7 +13,6 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 	{
 		if (entity.getName() == "Player")
 		{
-		
 			posComp1 = (PositionComponent *)entity.getCompByType("Position");
 			cc = (ControlComponent *)entity.getCompByType("Control");
 			spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
@@ -26,7 +25,6 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 		
 		if (entity.getName() == "Flag")
 		{
-			std::cout << "Wall propeties received" << std::endl;
 			posComp2 = (PositionComponent *)entity.getCompByType("Position");
 			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
 	
@@ -36,6 +34,7 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 	//squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
 	tileCollision(x1, y1, width1, height1, level);
 	squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
+	Teleport(x1, y1, width1, height1, level);
 
 
 	if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
@@ -151,9 +150,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 		{
 			
 			cc->moveLeft = 0;
-			/*cc->OnPlatform = false;
-			cc->stopFall = false;*/
-			posComp1->setPosition(x+m_tiles.m_wall[i].width, y);
+			posComp1->setPosition(m_tiles.m_wall[i].x + width, y);
 		}
 
 		//left of tile
@@ -164,17 +161,15 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 		{
 			
 			cc->moveRight = 0;
-			/*cc->OnPlatform = false;
-			cc->stopFall = false;*/
 			posComp1->setPosition(m_tiles.m_wall[i].x - width, y);
 		}
 	}
 
 	for (int i = 0; i < m_tiles.m_ceiling.size(); i++)
 	{
-		
-		if (y  >= m_tiles.m_ceiling[i].y &&
-			y  <= m_tiles.m_ceiling[i].y + m_tiles.m_ceiling[i].height &&
+
+		if (y >= m_tiles.m_ceiling[i].y &&
+			y <= m_tiles.m_ceiling[i].y + m_tiles.m_ceiling[i].height &&
 			x >= m_tiles.m_ceiling[i].x - width &&
 			x <= m_tiles.m_ceiling[i].x + m_tiles.m_ceiling[i].width)
 		{
@@ -186,11 +181,27 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 				cc->ceilingHit = true;
 				break;
 			}
-			
+
 		}
 	}
-		
 
+	for (int i = 0; i < m_tiles.m_killTiles.size(); i++)
+	{
+		if ((abs(x1 - m_tiles.m_killTiles[i].x) * 2 < (width1 + m_tiles.m_killTiles[i].width)) &&
+			(abs(y1 - m_tiles.m_killTiles[i].y) * 2 < (height1 + m_tiles.m_killTiles[i].height)))
+		{
+			std::cout << "KILL TILES COLLIDE" << std::endl;
+		}
+	}
+
+}
+
+void CollisionSystem::Teleport(float x, float y, float width, float height, level &m_tiles)
+{
+	/*for (int i = 0; i < m_tiles.m_teleport.size(); i++)
+	{
+
+	}*/
 }
 
 void CollisionSystem::update(level &level,float dt)

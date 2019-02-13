@@ -51,6 +51,8 @@ public:
 	std::vector<tile> tiles;
 	std::vector<MapObjects> m_wall;
 	std::vector<MapObjects>m_ceiling;
+	std::vector<MapObjects> m_killTiles;
+	std::vector<MapObjects> m_teleport;
 private:
 	std::string name;
 	// Think of the dimensions as a 2D array (after all, that's what our

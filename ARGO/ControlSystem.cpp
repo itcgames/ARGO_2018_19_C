@@ -34,7 +34,6 @@ void ControlSystem::input(SDL_Event &e) {
 			{
 				controlComp->setDirection(controlComp->Right);
 				controlComp->moveRight = 1;
-				//amComp->rightJump();
 			}
 			if (e.key.keysym.sym == SDLK_SPACE)
 			{

@@ -1,58 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="25" height="15" tilewidth="60" tileheight="60" infinite="0" nextlayerid="4" nextobjectid="45">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="25" height="15" tilewidth="60" tileheight="60" infinite="0" nextlayerid="4" nextobjectid="54">
  <tileset firstgid="1" source="tiles_spritesheet.tsx"/>
  <tileset firstgid="157" source="darkkTiles.tsx"/>
  <layer id="2" name="Tile Layer 2" width="25" height="15">
   <data encoding="csv">
 137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,
-137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,
+2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,
 137,137,137,137,137,0,0,0,0,0,0,0,137,137,137,137,137,137,0,0,0,0,0,0,137,
 137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,
 137,0,0,0,0,0,137,137,137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,
 137,0,0,0,0,0,0,0,0,0,0,0,0,137,137,137,137,137,0,0,0,0,0,0,137,
 137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,137,137,137,137,
 137,0,0,0,0,0,0,137,137,137,137,0,0,0,0,0,0,0,0,0,0,0,0,0,137,
-137,137,137,137,137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,
+137,137,137,137,137,0,0,0,0,0,0,0,0,0,25,25,25,25,0,0,0,0,0,0,137,
 137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,
 137,0,0,0,0,0,0,0,0,137,137,0,0,0,137,0,0,0,0,0,0,0,0,0,137,
-137,0,0,0,0,0,137,0,0,0,0,0,0,0,137,137,137,137,137,137,137,0,0,0,137,
+137,0,0,0,0,0,137,0,0,0,0,0,0,0,137,137,137,137,137,137,137,0,0,0,2,
 137,0,0,0,0,137,137,137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,
 137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,
 137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137
 </data>
  </layer>
  <objectgroup id="3" name="Object Layer 1">
-  <object id="1" name="Ceiling" x="60" y="530" width="241" height="11"/>
-  <object id="2" name="Ceiling" x="60" y="886" width="1379" height="13"/>
-  <object id="4" name="Ceiling" x="420" y="468" width="239" height="13"/>
-  <object id="7" name="Ceiling" x="841" y="703" width="419" height="18"/>
+  <object id="1" name="Ceiling" x="59" y="530" width="241" height="11"/>
+  <object id="4" name="Ceiling" x="419" y="468" width="239" height="13"/>
+  <object id="7" name="Ceiling" x="840" y="703" width="419" height="18"/>
   <object id="8" name="Ceiling" x="1199" y="406" width="241" height="15"/>
-  <object id="9" name="Ceiling" x="780" y="347" width="300" height="13"/>
-  <object id="10" name="Ceiling" x="720" y="166" width="360" height="15"/>
-  <object id="11" name="Ceiling" x="60" y="165" width="241" height="16"/>
-  <object id="12" name="Wall" x="41" y="0" width="20" height="44"/>
-  <object id="13" name="Wall" x="43" y="180" width="16" height="224"/>
-  <object id="14" name="Wall" x="43" y="541" width="16" height="301"/>
-  <object id="15" name="Wall" x="288" y="489" width="11" height="40"/>
-  <object id="20" name="Wall" x="421" y="432" width="13" height="36"/>
-  <object id="21" name="Wall" x="641" y="433" width="18" height="36"/>
-  <object id="22" name="Wall" x="283" y="131" width="17" height="33"/>
-  <object id="23" name="Wall" x="780" y="313" width="11" height="34"/>
-  <object id="24" name="Wall" x="1063" y="313" width="17" height="33"/>
-  <object id="25" name="Wall" x="1200" y="373" width="11" height="34"/>
+  <object id="9" name="Ceiling" x="779" y="347" width="300" height="13"/>
+  <object id="10" name="Ceiling" x="719" y="160" width="360" height="21"/>
+  <object id="11" name="Ceiling" x="59" y="165" width="241" height="16"/>
+  <object id="12" name="Wall" x="40" y="0" width="20" height="59"/>
+  <object id="13" name="Wall" x="43" y="180" width="16" height="299"/>
+  <object id="14" name="Wall" x="42" y="541" width="16" height="301"/>
+  <object id="15" name="Wall" x="287" y="489" width="11" height="40"/>
+  <object id="20" name="Wall" x="420" y="432" width="13" height="36"/>
+  <object id="21" name="Wall" x="640" y="433" width="18" height="36"/>
+  <object id="22" name="Wall" x="282" y="131" width="17" height="33"/>
+  <object id="23" name="Wall" x="779" y="313" width="11" height="34"/>
+  <object id="24" name="Wall" x="1062" y="313" width="17" height="33"/>
+  <object id="25" name="Wall" x="1199" y="373" width="11" height="34"/>
   <object id="26" name="Wall" x="839" y="616" width="11" height="85"/>
   <object id="27" name="Wall" x="1241" y="676" width="18" height="28"/>
-  <object id="28" name="Wall" x="1065" y="133" width="15" height="33"/>
-  <object id="29" name="Wall" x="720" y="131" width="14" height="34"/>
-  <object id="30" name="Wall" x="1440" y="0" width="15" height="286"/>
-  <object id="31" name="Wall" x="1440" y="421" width="21" height="420"/>
-  <object id="33" name="Wall" x="180" y="850" width="15" height="36"/>
-  <object id="36" name="Wall" x="886" y="618" width="13" height="13"/>
-  <object id="39" name="Ceiling" x="360" y="283" width="180" height="17"/>
-  <object id="40" name="Wall" x="360" y="255" width="13" height="27"/>
-  <object id="41" name="Wall" x="524" y="256" width="16" height="27"/>
-  <object id="42" name="Ceiling" x="301" y="764" width="180" height="16"/>
-  <object id="43" name="Wall" x="300" y="735" width="13" height="28"/>
-  <object id="44" name="Wall" x="465" y="732" width="16" height="32"/>
+  <object id="28" name="Wall" x="1064" y="128" width="15" height="33"/>
+  <object id="29" name="Wall" x="719" y="126" width="14" height="34"/>
+  <object id="30" name="Wall" x="1439" y="0" width="15" height="361"/>
+  <object id="31" name="Wall" x="1439" y="421" width="21" height="239"/>
+  <object id="36" name="Wall" x="886" y="618" width="13" height="42"/>
+  <object id="39" name="Ceiling" x="359" y="283" width="180" height="17"/>
+  <object id="40" name="Wall" x="359" y="255" width="13" height="27"/>
+  <object id="41" name="Wall" x="523" y="256" width="16" height="27"/>
+  <object id="42" name="Ceiling" x="300" y="764" width="180" height="16"/>
+  <object id="43" name="Wall" x="299" y="735" width="13" height="28"/>
+  <object id="44" name="Wall" x="464" y="732" width="16" height="32"/>
+  <object id="47" name="Wall" x="361" y="675" width="14" height="45"/>
+  <object id="48" name="Wall" x="405" y="674" width="16" height="46"/>
+  <object id="50" name="Danger" x="839" y="480" width="241" height="60"/>
+  <object id="51" name="Wall" x="1440" y="720" width="22" height="119"/>
+  <object id="52" name="Teleport" x="40" y="59" width="20" height="61"/>
+  <object id="53" name="Teleport" x="1440" y="661" width="23" height="60"/>
  </objectgroup>
 </map>
