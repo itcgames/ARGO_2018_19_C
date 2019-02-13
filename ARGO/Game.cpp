@@ -88,6 +88,7 @@ void Game::initialise()
 	Colls.addEntity(player);
 	Colls.addEntity(wall);
 
+
 	ps.addEntity(player);
 	phs.addEntity(player);
 	//phs.addEntity(ai);
