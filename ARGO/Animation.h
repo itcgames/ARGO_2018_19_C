@@ -34,7 +34,7 @@ public:
 	std::string id = "Animation";
 
 
-	SDL_Rect sRect;
+	SDL_Rect sRect = {80,0,80,100};
 
 	enum AniState {
 		idleS,
