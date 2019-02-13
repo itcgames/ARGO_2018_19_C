@@ -11,6 +11,7 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 	time = time + dt;
 	for (Entity& entity : entities)
 	{
+
 		if (entity.getName() == "Player" || entity.getName() == "Player2" || entity.getName() == "Player3" || entity.getName() == "Player4")
 		{
 			posComp1 = (PositionComponent *)entity.getCompByType("Position");
@@ -21,19 +22,33 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 			y1 = posComp1->getPositionY();
 			width1 =  spriteComp->getWidth();
 			height1 =  spriteComp->getHeight();
-			tileCollision(x1, y1, width1, height1, level);
+      tileCollision(x1, y1, width1, height1, level);
 			Teleport(x1, y1, width1, height1, level);
 
-			if (entity.getName() == "Flag")
-			{
-				posComp2 = (PositionComponent *)entity.getCompByType("Position");
-				spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
+		}
+		else if (entity.getName() == "Flag")
+		{
+			//std::cout << "Wall propeties received" << std::endl;
+			posComp2 = (PositionComponent *)entity.getCompByType("Position");
+			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
+			pickup = (PickUpComponent *)entity.getCompByType("PickUp");
+	
+		}
 
+		if (posComp1 != NULL && posComp2 != NULL) {
+			std::cout << pickup->getState() << std::endl;
+			if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
+				spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
 
-				if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
-					spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
+				if (pickup->getState() == pickup->Collectable)
+				{
+					cc->hasFlag = true;
+					pickup->setState(pickup->NotCollectable);
+				}
 
-					posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getWidth() / 6, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
+				if (cc->hasFlag == true && pickup->getState() == pickup->NotCollectable)
+				{
+					posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 3, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
 					int fps = 1;
 					int ticksPerFrame = 1000 / fps;
 
@@ -43,14 +58,16 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 
 						time = 0;
 					}
-
-					std::cout << "Score: " << score->getScore() << std::endl;
-
-
 				}
+				
+
+
 			}
 		}
-	}		
+
+	
+	}
+	
 }
 
 
@@ -169,7 +186,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 		{
 			if (cc->getDirection() == cc->Idle)
 			{
-				std::cout << "Ceiling HIT" << std::endl;
+				//std::cout << "Ceiling HIT" << std::endl;
 				cc->stopFall = false;
 				cc->OnPlatform = false;
 				cc->ceilingHit = true;

@@ -35,9 +35,10 @@ void ControlSystem::input(SDL_Event &e) {
 				controlComp->setDirection(controlComp->Right);
 				controlComp->moveRight = 1;
 			}
-			if (e.key.keysym.sym == SDLK_SPACE)
+			if (e.key.keysym.sym == SDLK_SPACE && pressed == false)
 			{
-				//amComp->idle();
+				controlComp->attack = true;
+				pressed = true;
 			}
 
 		}
@@ -65,6 +66,10 @@ void ControlSystem::keyUp(SDL_Event &e) {
 		if (e.key.keysym.sym == SDLK_LEFT)
 		{
 			controlComp->moveLeft = 0;
+		}
+		if (e.key.keysym.sym == SDLK_SPACE)
+		{
+			pressed = false;
 		}
 
 

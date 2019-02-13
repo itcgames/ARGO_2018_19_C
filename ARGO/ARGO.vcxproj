@@ -25,6 +25,7 @@
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
+    <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -51,12 +52,14 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="CollisionComp.h" />
     <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControlComponent.h" />
     <ClInclude Include="ControlSystem.h" />
     <ClInclude Include="credits.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="FlagComponent.h" />
     <ClInclude Include="Fuzzy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthComponent.h" />
@@ -72,6 +75,7 @@
     <ClInclude Include="ParticleComponent.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="PickUpComponent.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="PositionSystem.h" />
     <ClInclude Include="PowerUp.h" />

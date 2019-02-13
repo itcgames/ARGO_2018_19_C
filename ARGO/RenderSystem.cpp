@@ -29,7 +29,7 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 
 			SDL_Rect rect = { 0,0,0,0 };
 
-			sc->animate(index * 158,0,158,314,m_renderer);
+			sc->animate(index * 158,314,158,314,m_renderer);
 			//sc->render(m_renderer, rect);
 
 			if (ticksPerFrame < time)
@@ -44,8 +44,7 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 				time = 0;
 			}
 		}
-
-		if (entity.getName() == "Player" || entity.getName() == "Player2" || entity.getName() == "Player3" || entity.getName() == "Player4")
+		else
 		{
 			SpriteComponent *sc = (SpriteComponent*)entity.getCompByType("Sprite");
 			PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");
@@ -55,7 +54,6 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 
 			sc->render(m_renderer, ac->sRect);
 		}
-		
 
 	}
 

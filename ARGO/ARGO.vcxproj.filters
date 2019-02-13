@@ -22,6 +22,7 @@
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Right.cpp" />
     <ClCompile Include="splash.cpp" />
+    <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="Fuzzy.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +64,9 @@
     <ClInclude Include="splash.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="CombatSystem.h" />
+    <ClInclude Include="FlagComponent.h" />
+    <ClInclude Include="PickUpComponent.h" />r
   </ItemGroup>
   <ItemGroup>
     <Image Include="Left.bmp" />

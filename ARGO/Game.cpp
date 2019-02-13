@@ -78,15 +78,18 @@ void Game::initialise()
 	}
 
 
+	
 	Entity flag("Flag");
 	flag.addComponent(new PositionComponent(500, 500));
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
+	flag.addComponent(new PickUpComponent());
 
 
 	player.addComponent(new PositionComponent(300, 100));
 	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
+
 
 	player2.addComponent(new PositionComponent(500, 100));
 	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
@@ -103,11 +106,6 @@ void Game::initialise()
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 
-	Entity wall("Wall");
-	//wall.addComponent(new PositionComponent(400, 500));
-	//wall.addComponent(new CollisionComponent());
-	//wall.addComponent(new SpriteComponent(wallTxt, m_renderer));
-
 	
 	hs.addEntity(player);
 	hs.addEntity(player2);
@@ -117,8 +115,10 @@ void Game::initialise()
 	rs.addEntity(flag);
 	rs.addEntity(player);
 	rs.addEntity(player2);
+
 	rs.addEntity(player3);
 	rs.addEntity(player4);
+
 	//rs.addEntity(cat);
 
 	//ais.addEntity(alien);
@@ -127,17 +127,29 @@ void Game::initialise()
 
 
 
+
+	Colls.addEntity(player);
+	Colls.addEntity(player2);
+
 	ais.addEntity(player2);
 	ais.addEntity(player3);
 
-	Colls.addEntity(wall);
 	Colls.addEntity(flag);
 
 
 	ps.addEntity(player);
+
+	phs.addEntity(player);
+	phs.addEntity(player2);
+
+	comsystem.addEntity(player);
+	comsystem.addEntity(player2);
+	comsystem.addEntity(flag);
+
 	ps.addEntity(player2);
 	ps.addEntity(player3);
 	ps.addEntity(player4);
+
 
 	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
 	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
@@ -233,7 +245,7 @@ void Game::update(float dt)
 		//ps.update(m_renderer);
 		phs.update();
 
-
+		comsystem.update(dt);
 		break;
 	case GameState::Credits:
 		break;

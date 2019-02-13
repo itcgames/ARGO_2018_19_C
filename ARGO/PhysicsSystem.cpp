@@ -36,57 +36,58 @@ void PhysicsSystem::update() {
 
 		//collide
 		//Gravity
-		if (!cc->stopFall && !cc->OnPlatform) {
+			if (!cc->stopFall && !cc->OnPlatform) {
 
-			posY = pc->getPositionY();
-			posX = pc->getPositionX();
-			vecY++;
-			posY += vecY;
+				posY = pc->getPositionY();
+				posX = pc->getPositionX();
+				vecY++;
+				posY += vecY;
+				pc->setPosition(posX, posY);
+				collision = 0;
+
+				if (cc->moveLeft == 1) {
+					ac->leftJump();
+				}
+				else if (cc->moveRight == 1)
+				{
+					ac->rightJump();
+				}
+			}
+			else {
+				vecY = 0;
+				collision = 1;
+
+				if (ac->m_currentState == ac->jumpLeftS || ac->m_currentState == ac->jumpRightS)
+				{
+					ac->idle();
+				}
+
+			}
+
+			int posX = pc->getPositionX();
+			int posY = pc->getPositionY();
+			posX += vecX;
 			pc->setPosition(posX, posY);
-			collision = 0;
 
-			if (cc->moveLeft == 1) {
-				ac->leftJump();
-			}
-			else if (cc->moveRight == 1)
+
+			Coll = (CollisionComponent *)entity.getCompByType("Collision");
+
+
+			if (cc->moveLeft == 1)
 			{
-				ac->rightJump();
+				//if(!collide)
+				moveLeft();
 			}
-		}
-		else {
-			vecY = 0;
-			collision = 1;
-
-			if (ac->m_currentState == ac->jumpLeftS || ac->m_currentState == ac->jumpRightS)
+			if (cc->moveRight == 1)
 			{
-				ac->idle();
+				moveRight();
 			}
 
-		}
 
-		int posX = pc->getPositionX();
-		int posY = pc->getPositionY();
-		posX += vecX;
-		pc->setPosition(posX, posY);
+			if (cc->getDirection() == cc->Up) {
+				moveUp();
+			}
 
-
-		Coll = (CollisionComponent *)entity.getCompByType("Collision");
-
-
-		if (cc->moveLeft == 1)
-		{
-			//if(!collide)
-			moveLeft();
-		}
-		if (cc->moveRight == 1)
-		{
-			moveRight();
-
-		}
-
-		if (cc->getDirection() == cc->Up) {
-			moveUp();
-		}
 
 		if (cc->moveLeft == 0 && cc->moveRight == 0)
 		{
@@ -107,7 +108,9 @@ void PhysicsSystem::update() {
 		{
 			vecY = 5;
 			cc->ceilingHit = false;
+
 		}
+	
 
 	}
 

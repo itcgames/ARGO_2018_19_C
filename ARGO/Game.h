@@ -14,6 +14,7 @@
 #include "RenderSystem.h"
 #include "ControlSystem.h"
 #include "CollisionSystem.h"
+#include "CombatSystem.h"
 #include "AudioManager.h"
 #include "AiSystem.h"
 #include "ParticleSystem.h"
@@ -89,6 +90,7 @@ private:
 	CollisionComponent* CollisionComp;
 	ParticleComponent* m_partComponent;
 
+	CombatSystem comsystem;
 	HealthSystem hs;
 	RenderSystem rs;
 	AISystem ais;

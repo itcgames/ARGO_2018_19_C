@@ -9,6 +9,7 @@
 #include "CollisionComp.h"
 #include "ParticleComponent.h"
 #include "ScoreComponent.h"
+#include "PickUpComponent.h"
 #include "AIComponent.h"
 #include <string>
 #include <iostream>
