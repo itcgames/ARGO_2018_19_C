@@ -48,7 +48,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 	//phs.initialise();
 
 
-	const auto MAP_PATH = "assets/maps/example.tmx";
+	const auto MAP_PATH = "assets/maps/map1.tmx";
 
 	m_level = new level("Main Level");
 	m_level->load(MAP_PATH, m_renderer);
@@ -77,28 +77,29 @@ void Game::initialise()
 		printf("Failed to load wall texture!\n");
 	}
 
+
 	Entity flag("Flag");
 	flag.addComponent(new PositionComponent(500, 500));
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
 
 
 	player.addComponent(new PositionComponent(300, 100));
-	player.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
+	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
 
 	player2.addComponent(new PositionComponent(500, 100));
-	player2.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
+	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
 
 	player3.addComponent(new PositionComponent(100, 500));
-	player3.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
+	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
 
 	player4.addComponent(new PositionComponent(500, 500));
-	player4.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
+	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 

@@ -5,16 +5,9 @@ Windows IP Configuration
 Ethernet adapter Ethernet:
 
    Connection-specific DNS Suffix  . : itcarlow.ie
-   IPv4 Address. . . . . . . . . . . : 149.153.106.163
+   IPv4 Address. . . . . . . . . . . : 149.153.106.162
    Subnet Mask . . . . . . . . . . . : 255.255.255.0
    Default Gateway . . . . . . . . . : 149.153.106.254
-
-Ethernet adapter VirtualBox Host-Only Network:
-
-   Connection-specific DNS Suffix  . : 
-   IPv4 Address. . . . . . . . . . . : 192.168.56.1
-   Subnet Mask . . . . . . . . . . . : 255.255.255.0
-   Default Gateway . . . . . . . . . : 
 
 Ethernet adapter Bluetooth Network Connection:
 
