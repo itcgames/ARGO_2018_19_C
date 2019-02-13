@@ -26,4 +26,5 @@ private:
 	float speed = 2;
 	int windowWidth = 1280;
 	int windowHeight = 720;
+	bool pressed = false;
 };

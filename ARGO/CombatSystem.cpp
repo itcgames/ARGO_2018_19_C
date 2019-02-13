@@ -20,6 +20,10 @@ void CombatSystem::CheckCollision(float dt)
 			score = (ScoreComponent*)entity.getCompByType("Score");
 		
 		}
+		else if (entity.getName() == "Flag")
+		{
+			pickup = (PickUpComponent *)entity.getCompByType("PickUp");
+		}
 		else
 		{
 			posComp2 = (PositionComponent *)entity.getCompByType("Position");
@@ -27,23 +31,35 @@ void CombatSystem::CheckCollision(float dt)
 			cc2 = (ControlComponent *)entity.getCompByType("Control");
 		}
 
-		//if (posComp1 != NULL && posComp2 != NULL) {
+		if (posComp != NULL && posComp2 != NULL) {
 
 			if (cc->attack) {
-
+				cc->attack = false;
 				if (AABB(posComp->getPositionX(), posComp->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
 					spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
 
 					std::cout << "ATTATATATATATA" << std::endl;
 
-					cc2->hasFlag = false;
-					posComp2->setPosition(posComp2->getPositionX() + 200, posComp2->getPositionY() - 200);
+					if (cc2->hasFlag && pickup->getState() == pickup->NotCollectable)
+					{
+						cc2->hasFlag = false;
+						pickup->setState(pickup->Collectable);
+					}
 
+					if (posComp->getPositionX() > posComp2->getPositionX())
+					{
+						posComp2->setPosition(posComp2->getPositionX() - 200, posComp2->getPositionY() - 200);
+
+					}
+					else {
+						posComp2->setPosition(posComp2->getPositionX() + 200, posComp2->getPositionY() - 200);
+					}
+				
 					cc->attack = false;
 				}
 			}
 
-		//}
+		}
 
 
 

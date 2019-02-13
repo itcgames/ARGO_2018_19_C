@@ -58,7 +58,7 @@ void Game::initialise()
 
 	Entity player2("Player2");
 	player2.addComponent(new HealthComponent(200));
-	player2.addComponent(new PositionComponent(700, 500));
+	player2.addComponent(new PositionComponent(500, 500));
 	player2.addComponent(new ControlComponent());
 
 	player2.addComponent(new SpriteComponent("img/playerSheet2.png", 1, m_renderer, 3, 4));
@@ -70,8 +70,8 @@ void Game::initialise()
 	Entity flag("Flag");
 	flag.addComponent(new PositionComponent(500, 500));
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
-	player.addComponent(new AnimationComponent());
-	player.addComponent(new CollisionComponent());
+	flag.addComponent(new PickUpComponent());
+
 
 	Entity wall("Wall");
 	//wall.addComponent(new PositionComponent(400, 500));
@@ -124,6 +124,7 @@ void Game::initialise()
 
 	comsystem.addEntity(player);
 	comsystem.addEntity(player2);
+	comsystem.addEntity(flag);
 
 	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
 	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);

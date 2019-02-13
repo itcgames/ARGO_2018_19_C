@@ -61,6 +61,7 @@
     <ClInclude Include="State.h" />
     <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="FlagComponent.h" />
+    <ClInclude Include="PickUpComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Left.bmp" />
