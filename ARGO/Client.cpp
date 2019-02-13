@@ -92,9 +92,10 @@ std::string Client::receive()
 	int bytesReceived = recv(sock, buf, 4096, 0);
 	if (bytesReceived > 0)
 	{
+		
 		// Echo response to console
 		std::string msg = buf;
-		if ((std::string)buf == "Welcome")
+		if ((std::string)buf == "Joined Game")
 		{
 			std::cout << "SERVER> " << std::string(buf, 0, bytesReceived) << std::endl;
 			sendIP();
@@ -104,14 +105,15 @@ std::string Client::receive()
 		{
 			// Host server
 			std::cout << "Host" << std::endl;
-			ShellExecute(NULL, "open", "..\\Server\\MultipleClientsBarebonesServer.exe", NULL, NULL, SW_SHOWDEFAULT);
+			ShellExecute(NULL, "open", "Server\\MultipleClientsBarebonesServer.exe", NULL, NULL, SW_SHOWDEFAULT);
 			//ShellExecute(NULL, "open", "..\\Game Server\\Server\\x64\\Debug\\MultipleClientsBarebonesServer.exe", NULL, NULL, SW_SHOWDEFAULT);
 		}
-		else if (msg.substr(0, 8) == "Host IP:")
+		else if (msg.substr(0, 8) == "Joining ")
 		{
 			std::cout << msg << std::endl;
 			close();
-			init(msg.substr(13));
+			std::string ipString = msg.substr(28);
+			init(ipString); // Was 13 
 			// Close connection to main server
 			// Open connection to main server
 
@@ -123,6 +125,7 @@ std::string Client::receive()
 
 void Client::sendMsg(std::string msg)
 {
+	//std::cout << msg << std::endl;
 	int sendResult = send(sock, msg.c_str(), msg.size() + 1, 0);
 }
 

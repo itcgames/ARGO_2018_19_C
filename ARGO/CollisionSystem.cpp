@@ -9,7 +9,7 @@ void CollisionSystem::CheckCollision()
 {
 	for (Entity& entity : entities)
 	{
-		if (entity.getName() == "Player")
+		if (entity.getName() == "Player" || entity.getName() == "Player2" || entity.getName() == "Player3" || entity.getName() == "Player4")
 		{
 			posComp1 = (PositionComponent *)entity.getCompByType("Position");
 			cc = (ControlComponent *)entity.getCompByType("Control");
@@ -28,8 +28,10 @@ void CollisionSystem::CheckCollision()
 			height2 = 30;
 		}
 	}
-	
-	squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
+	if (cc != nullptr)
+	{
+		squareCollision(x1, y1, x2, y2, width1, height1, width2, height2);
+	}
 }
 
 bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2)
