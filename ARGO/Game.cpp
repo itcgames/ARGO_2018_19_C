@@ -31,7 +31,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-	m_currentGameState = (GameState::GameScreen);
+	m_currentGameState = (GameState::Lobby);
 
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 	if (IMG_Init(imgFlags) != imgFlags)
@@ -64,6 +64,7 @@ void Game::initialise()
 	m_client->run();
 
 	m_timerSpawn = 0;
+	m_stateTimer = 0;
 	if (!m_texture.loadFromFile("dot.bmp", m_renderer, 1))
 
 	{
@@ -148,6 +149,8 @@ void Game::initialise()
 	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
 	//AudioManager::Instance()->PlayMusic("song1", -1);
 
+	// Screen Initialise
+	m_lobbyScreen = new Lobby(m_renderer);
 }
 
 Game::~Game()
@@ -194,7 +197,9 @@ void Game::processEvents()
 		case SDL_QUIT:
 			exit = true;
 			break;
-		
+		case SDL_MOUSEBUTTONDOWN:
+			SDL_GetMouseState(&mouseX, &mouseY);
+			break;
 		case SDL_KEYUP:
 			cs.idle();
 			cs.keyUp(event);
@@ -230,6 +235,11 @@ void Game::update(float dt)
 		break;
 	case GameState::Splash:
 		break;
+	case GameState::Lobby:
+		m_lobbyScreen->update(m_playerIndex, mouseX, mouseY);
+		mouseX = -1;
+		mouseY = -1;
+		break;
 	case GameState::MainMenu:
 		break;
 	case GameState::Options:
@@ -238,6 +248,73 @@ void Game::update(float dt)
 		//ps.update(m_renderer);
 		phs.update();
 
+		//phs.update();
+
+	//// Power ups
+		m_timerSpawn++;
+		if (m_timerSpawn >= m_spawnTimeLimit)
+		{
+			switch (rand() % m_numOfPowerUps)
+			{
+			case 0:
+				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
+				break;
+
+			case 1:
+				m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
+				break;
+			}
+			m_timerSpawn = 0;
+		}
+		for (int i = m_powerUps.size() - 1; i >= 0; i--)
+		{
+			if (m_powerUps[i]->getAlive())
+			{
+				m_powerUps[i]->update();
+				//check collision
+
+				PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
+				SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
+
+				switch (m_playerIndex)
+				{
+				case 0:
+					p = (PositionComponent *)player.getCompByType("Position");
+					s = (SpriteComponent *)player.getCompByType("Sprite");
+					break;
+
+				case 1:
+					p = (PositionComponent *)player2.getCompByType("Position");
+					s = (SpriteComponent *)player2.getCompByType("Sprite");
+					break;
+
+				case 2:
+					p = (PositionComponent *)player3.getCompByType("Position");
+					s = (SpriteComponent *)player3.getCompByType("Sprite");
+					break;
+
+				case 3:
+					p = (PositionComponent *)player4.getCompByType("Position");
+					s = (SpriteComponent *)player4.getCompByType("Sprite");
+					break;
+				}
+				if (m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
+				{
+					// switch case
+					switch (m_powerUps[i]->getID())
+					{
+					case 1: // Health
+						break;
+					case 2:	// Speed
+						break;
+					}
+				}
+			}
+			else
+			{
+				m_powerUps.erase(m_powerUps.begin() + i);
+			}
+		}
 
 		break;
 	case GameState::Credits:
@@ -246,79 +323,21 @@ void Game::update(float dt)
 		break;
 	}
 
-
-	//phs.update();
-
-	//// Power ups
-	m_timerSpawn++;
-	if (m_timerSpawn >= m_spawnTimeLimit)
-	{
-		switch (rand() % m_numOfPowerUps)
-		{
-		case 0:
-			m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
-			break;
-
-		case 1:
-			m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
-			break;
-		}
-		m_timerSpawn = 0;
-	}
 	updateNetwork();
-	for (int i = m_powerUps.size() - 1; i >= 0; i--)
-	{
-		if (m_powerUps[i]->getAlive())
-		{
-			m_powerUps[i]->update();
-			//check collision
 
-			PositionComponent * p = (PositionComponent * )player.getCompByType("Position");
-			SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
-
-			switch (m_playerIndex)
-			{
-			case 0:
-				p = (PositionComponent *)player.getCompByType("Position");
-				s = (SpriteComponent *)player.getCompByType("Sprite");
-				break;
-
-			case 1:
-				p = (PositionComponent *)player2.getCompByType("Position");
-				s = (SpriteComponent *)player2.getCompByType("Sprite");
-				break;
-
-			case 2:
-				p = (PositionComponent *)player3.getCompByType("Position");
-				s = (SpriteComponent *)player3.getCompByType("Sprite");
-				break;
-
-			case 3:
-				p = (PositionComponent *)player4.getCompByType("Position");
-				s = (SpriteComponent *)player4.getCompByType("Sprite");
-				break;
-			}
-			if(m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
-			{
-				// switch case
-				switch (m_powerUps[i]->getID())
-				{
-				case 1: // Health
-					break;
-				case 2:	// Speed
-					break;
-				}
-			}
-		}
-		else
-		{
-			m_powerUps.erase(m_powerUps.begin() + i);
-		}
-	}
+	
 }
 
 void Game::render(float dt)
 {
+	if (m_renderer == nullptr)
+	{
+		SDL_Log("Could not create a renderer: %s", SDL_GetError());
+	}
+
+	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+	SDL_RenderClear(m_renderer);
+
 	switch (m_currentGameState)
 	{
 	case GameState::None:
@@ -329,7 +348,23 @@ void Game::render(float dt)
 		break;
 	case GameState::Options:
 		break;
+	case GameState::Lobby:
+		m_lobbyScreen->render(m_renderer);
+		break;
 	case GameState::GameScreen:
+		//Jamie
+		SDL_RenderSetLogicalSize(m_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+		rs.update(m_renderer, dt);
+		//wallTxt.render(400, 500, m_renderer);
+		//ps.update(m_renderer);
+		m_level->draw(m_renderer);
+		//m_playerDot->render(m_renderer);
+		//m_texture.render(100, 100, m_renderer);
+
+		for (int i = m_powerUps.size() - 1; i >= 0; i--)
+		{
+			m_powerUps[i]->draw(m_renderer);
+		}
 		break;
 	case GameState::Credits:
 		break;
@@ -337,29 +372,11 @@ void Game::render(float dt)
 		break;
 	}
 
-	if (m_renderer == nullptr)
-	{
-		SDL_Log("Could not create a renderer: %s", SDL_GetError());
-	}
-
-	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-	SDL_RenderClear(m_renderer);
 	
-	//Jamie
-	SDL_RenderSetLogicalSize(m_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+	
+	
 
-
-	rs.update(m_renderer, dt);
-	//wallTxt.render(400, 500, m_renderer);
-	//ps.update(m_renderer);
-	m_level->draw(m_renderer);
-	//m_playerDot->render(m_renderer);
-	//m_texture.render(100, 100, m_renderer);
-
-	for (int i = m_powerUps.size() - 1; i >= 0; i--)
-	{
-			m_powerUps[i]->draw(m_renderer);
-	}
+	
 	SDL_RenderPresent(m_renderer);
 	
 }
@@ -400,32 +417,62 @@ void Game::updateNetwork()
 
 	if (m_playerIndex != 5)
 	{
-		// Send position
 		std::string pos;
-		switch (m_playerIndex)
+		switch (m_currentGameState)
 		{
-		case 0:
-			p = (PositionComponent *)player.getCompByType("Position");
+		case GameState::GameScreen:
+			// Send position
+			switch (m_playerIndex)
+			{
+			case 0:
+				p = (PositionComponent *)player.getCompByType("Position");
+				break;
+			case 1:
+				p = (PositionComponent *)player2.getCompByType("Position");
+				break;
+			case 2:
+				p = (PositionComponent *)player3.getCompByType("Position");
+				break;
+			case 3:
+				p = (PositionComponent *)player4.getCompByType("Position");
+				break;
+			}
+			pos = "X: " + std::to_string((int)p->getPositionX()) + ", " + "Y: " + std::to_string((int)p->getPositionY()) + ", " + "I: " + std::to_string(m_playerIndex);
+			m_client->sendMsg(pos);
 			break;
-		case 1:
-			p = (PositionComponent *)player2.getCompByType("Position");
+			
+		case GameState::Lobby:
+			std::string msg;
+			msg = "i: " + std::to_string(m_playerIndex) + " " + m_lobbyScreen->sendMsg(m_playerIndex);
+			m_client->sendMsg(msg);
+
+			if (m_lobbyScreen->everyoneReady())
+			{
+				if (m_stateTimer > m_stateTimerLimit)
+				{
+					m_stateTimer = 0;
+					setGameState(GameState::GameScreen);
+				}
+				else
+				{
+					m_stateTimer++;
+					std::cout << std::to_string(m_stateTimer) << std::endl;
+				}
+			}
+			else
+			{
+				m_stateTimer = 0;
+			}
 			break;
-		case 2:
-			p = (PositionComponent *)player3.getCompByType("Position");
-			break;
-		case 3:
-			p = (PositionComponent *)player4.getCompByType("Position");
-			break;
+
 		}
-		pos = "X: " + std::to_string((int)p->getPositionX()) + ", " + "Y: " + std::to_string((int)p->getPositionY()) + ", " + "I: " + std::to_string(m_playerIndex);
-		m_client->sendMsg(pos);
 	}
 
 	// Turn message to position.
 	string msg = m_client->receive();
 	if (msg.length() > 0)
 	{
-		std::cout << msg << std::endl;
+		std::cout << "Recieved: " << msg << std::endl;
 		char firstChar = msg.at(0);
 		if (firstChar == 'S' && msg.substr(13, 3) != "IP:")
 		{
@@ -503,6 +550,47 @@ void Game::updateNetwork()
 				break;
 			}
 		}
+		else if (msg.substr(5, 5) == "Ready")
+		{
+			if (m_playerIndex == 5)
+			{
+				std::string msg;
+				msg = "What is my Index";
+				m_client->sendMsg(msg);
+			}
+
+
+			bool readyState;
+			if (msg[12] == '1')
+			{
+				readyState = true;
+			}
+			else
+			{
+				readyState = false;
+			}
+			switch (msg[3])
+			{
+			case '0':
+				m_lobbyScreen->changeState(0, readyState);
+				break;
+			case '1':
+				m_lobbyScreen->changeState(1, readyState);
+				break;
+			case '2':
+				m_lobbyScreen->changeState(2, readyState);
+				break;
+			case '3':
+				m_lobbyScreen->changeState(3, readyState);
+				break;
+			}
+			
+		}
+		else
+		{
+			std::cout << msg << std::endl;
+		}
+		
 	}
 }
 

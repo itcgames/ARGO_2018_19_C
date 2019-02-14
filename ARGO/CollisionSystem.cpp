@@ -24,32 +24,31 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 			tileCollision(x1, y1, width1, height1, level);
 
 
-			if (entity.getName() == "Flag")
+		}
+		else if (entity.getName() == "Flag")
+		{
+			posComp2 = (PositionComponent *)entity.getCompByType("Position");
+			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
+		}
+
+		if (posComp1 != NULL && posComp2 != NULL)
+		{
+			if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
+				spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight()))
 			{
-				posComp2 = (PositionComponent *)entity.getCompByType("Position");
-				spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
+				posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 3, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
+				int fps = 1;
+				int ticksPerFrame = 1000 / fps;
 
+				if (ticksPerFrame < time)
+				{
+					score->setScore(score->getScore() + 1);
 
-				if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
-					spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
-
-
-
-					posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 3, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
-					int fps = 1;
-					int ticksPerFrame = 1000 / fps;
-
-					if (ticksPerFrame < time)
-					{
-						score->setScore(score->getScore() + 1);
-
-						time = 0;
-					}
-
-					std::cout << "Score: " << score->getScore() << std::endl;
-
-
+					time = 0;
 				}
+
+				std::cout << "Score: " << score->getScore() << std::endl;
+
 
 			}
 		}

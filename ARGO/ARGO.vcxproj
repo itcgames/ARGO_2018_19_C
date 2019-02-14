@@ -31,6 +31,7 @@
     <ClCompile Include="JumpLeft.cpp" />
     <ClCompile Include="JumpRight.cpp" />
     <ClCompile Include="Left.cpp" />
+    <ClCompile Include="Lobby.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="JumpLeft.h" />
     <ClInclude Include="JumpRight.h" />
     <ClInclude Include="Left.h" />
+    <ClInclude Include="Lobby.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LTexture.h" />

@@ -7,8 +7,8 @@
 
 Client::Client()
 {
-	ipAddress = "149.153.106.160";			// IP Address of the server
-	//ipAddress = "149.153.106.163";			// IP Address of the server
+	//ipAddress = "149.153.106.160";			// IP Address of the server (Jake)
+	ipAddress = "149.153.106.164";			// IP Address of the server (Sean)
 	port = 54000;						// Listening port # on the server
 
 										// Initialize WinSock
@@ -105,15 +105,15 @@ std::string Client::receive()
 		{
 			// Host server
 			std::cout << "Host" << std::endl;
-			ShellExecute(NULL, "open", "Server\\MultipleClientsBarebonesServer.exe", NULL, NULL, SW_SHOWDEFAULT);
+			//ShellExecute(NULL, "open", "Server\\MultipleClientsBarebonesServer.exe", NULL, NULL, SW_SHOWDEFAULT);
 			//ShellExecute(NULL, "open", "..\\Game Server\\Server\\x64\\Debug\\MultipleClientsBarebonesServer.exe", NULL, NULL, SW_SHOWDEFAULT);
 		}
 		else if (msg.substr(0, 8) == "Joining ")
 		{
 			std::cout << msg << std::endl;
-			close();
-			std::string ipString = msg.substr(28);
-			init(ipString); // Was 13 
+			//close();
+			//std::string ipString = msg.substr(28);
+			//init(ipString); // Was 13 
 			// Close connection to main server
 			// Open connection to main server
 
@@ -125,7 +125,7 @@ std::string Client::receive()
 
 void Client::sendMsg(std::string msg)
 {
-	//std::cout << msg << std::endl;
+	std::cout << "Sent: " << msg << " To: " << std::to_string(sock) << std::endl;
 	int sendResult = send(sock, msg.c_str(), msg.size() + 1, 0);
 }
 
@@ -158,7 +158,6 @@ void Client::sendIP()
 				//   IPv4 Address. . . . . . . . . . . : 1
 				//1234567890123456789012345678901234567890     
 				line.erase(0, 39);
-				std::cout << line << std::endl;
 				sendMsg("IP: " + line);
 				IPFile.close();
 			}
