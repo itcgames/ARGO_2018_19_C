@@ -30,4 +30,9 @@ public:
 		//std::cout << "State::Left" << std::endl;
 	}
 
+	virtual void die(AnimationComponent* a)
+	{
+		std::cout << "State::Die" << std::endl;
+	}
+
 };

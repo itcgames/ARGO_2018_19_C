@@ -37,6 +37,7 @@ public:
 	bool ceilingHit = false;
 	bool attack = false;
 	bool hasFlag = false;
+	bool alive = true;
 private:
 	std::string id = "Control";
 	

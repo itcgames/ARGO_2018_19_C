@@ -86,23 +86,23 @@ void Game::initialise()
 
 
 	player.addComponent(new PositionComponent(300, 100));
-	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
+	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
 
 
 	player2.addComponent(new PositionComponent(500, 100));
-	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
+	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
 
 	player3.addComponent(new PositionComponent(100, 500));
-	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
+	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
 
 	player4.addComponent(new PositionComponent(500, 500));
-	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
+	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 

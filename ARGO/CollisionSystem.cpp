@@ -164,7 +164,6 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			y + height >= m_tiles.m_wall[i].y &&
 			y <= m_tiles.m_wall[i].y + m_tiles.m_wall[i].height)
 		{
-
 			cc->moveRight = 0;
 			posComp1->setPosition(m_tiles.m_wall[i].x - width, y);
 		}
@@ -180,7 +179,6 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 		{
 			if (cc->getDirection() == cc->Idle)
 			{
-				//std::cout << "Ceiling HIT" << std::endl;
 				cc->stopFall = false;
 				cc->OnPlatform = false;
 				cc->ceilingHit = true;
@@ -196,7 +194,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			(abs(y1 - m_tiles.m_killTiles[i].y) * 2 < (height1 + m_tiles.m_killTiles[i].height)))
 		{
 			std::cout << "KILL TILES COLLIDE" << std::endl;
-			posComp1->setPosition(680, 100);
+			cc->alive = false;
 		}
 	}
 

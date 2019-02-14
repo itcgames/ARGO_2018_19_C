@@ -105,7 +105,7 @@ std::string Client::receive()
 		{
 			// Host server
 			std::cout << "Host" << std::endl;
-			ShellExecute(NULL, "open", "Server\\MultipleClientsBarebonesServer.exe", NULL, NULL, SW_SHOWDEFAULT);
+			//ShellExecute(NULL, "open", "Server\\MultipleClientsBarebonesServer.exe", NULL, NULL, SW_SHOWDEFAULT);
 			//ShellExecute(NULL, "open", "..\\Game Server\\Server\\x64\\Debug\\MultipleClientsBarebonesServer.exe", NULL, NULL, SW_SHOWDEFAULT);
 		}
 		else if (msg.substr(0, 8) == "Joining ")

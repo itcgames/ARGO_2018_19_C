@@ -1,5 +1,5 @@
 #include "JumpLeft.h"
-#include "Idle.h"
+#include "Die.h"
 
 void JumpLeft::idle(AnimationComponent* a)
 {
@@ -24,4 +24,16 @@ void JumpLeft::jumpRight(AnimationComponent* a)
 	a->sRect.w = 80 * a->m_scale;
 	a->sRect.x = 160 * a->m_scale;
 	delete this;
+}
+
+void JumpLeft::die(AnimationComponent* a)
+{
+	std::cout << "Going from left to Die" << std::endl;
+		a->setCurrent(new Die());
+		a->setCurrentState(a->DieS);
+		a->sRect.y = 400;
+		a->sRect.h = 100 * a->m_scale;
+		a->sRect.x = 80;
+		a->sRect.w = 80 * a->m_scale;
+		delete this;
 }

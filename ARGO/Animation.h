@@ -4,7 +4,6 @@
 #include <SDL.h>
 
 
-
 class AnimationComponent : public Component
 {
 	
@@ -26,6 +25,8 @@ public:
 
 	void left();
 
+	void die();
+
 	std::string getID()
 	{
 		return id;
@@ -41,7 +42,8 @@ public:
 		leftS,
 		rightS,
 		jumpLeftS,
-		jumpRightS
+		jumpRightS,
+		DieS
 	};
 
 	AniState getCurrentState();

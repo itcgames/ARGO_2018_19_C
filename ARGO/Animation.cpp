@@ -29,6 +29,10 @@ void AnimationComponent::left()
 {
 	m_current->left(this);
 }
+void AnimationComponent::die()
+{
+	m_current->die(this);
+}
 
 void AnimationComponent::setCurrent(State* s)
 {

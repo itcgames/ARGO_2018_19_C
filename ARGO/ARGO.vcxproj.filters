@@ -7,7 +7,9 @@
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
+    <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
+    <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Idle.cpp" />
     <ClCompile Include="JumpLeft.cpp" />
@@ -22,8 +24,7 @@
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Right.cpp" />
     <ClCompile Include="splash.cpp" />
-    <ClCompile Include="CombatSystem.cpp" />
-    <ClCompile Include="Fuzzy.cpp" />
+    <ClCompile Include="Die.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
@@ -34,12 +35,14 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="CollisionComp.h" />
     <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControlComponent.h" />
     <ClInclude Include="ControlSystem.h" />
     <ClInclude Include="credits.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="FlagComponent.h" />
     <ClInclude Include="Fuzzy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthComponent.h" />
@@ -55,6 +58,7 @@
     <ClInclude Include="ParticleComponent.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="PickUpComponent.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="PositionSystem.h" />
     <ClInclude Include="PowerUp.h" />
@@ -64,9 +68,7 @@
     <ClInclude Include="splash.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />
-    <ClInclude Include="CombatSystem.h" />
-    <ClInclude Include="FlagComponent.h" />
-    <ClInclude Include="PickUpComponent.h" />r
+    <ClInclude Include="Die.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Left.bmp" />
