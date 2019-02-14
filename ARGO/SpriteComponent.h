@@ -56,7 +56,7 @@ public:
 
 
 
-		m_texture.render(mPosX, mPosY, m_renderer,  &s_rect, m_xStep, m_yStep);
+		m_texture.render(mPosX, mPosY, m_renderer, &s_rect, m_xStep, m_yStep);
 
 	}
 

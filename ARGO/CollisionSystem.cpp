@@ -59,6 +59,7 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 						time = 0;
 					}
 				}
+
 			}
 		}
 	}

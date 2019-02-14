@@ -20,6 +20,8 @@
 #include "ParticleSystem.h"
 #include "PhysicsSystem.h"
 
+#include "Lobby.h"
+
 
 //Jamie
 #include "Level.h"
@@ -43,6 +45,7 @@ enum class
 	License,
 	Splash,
 	MainMenu,
+	Lobby,
 	GameScreen,
 	CoopScreen,
 	Options,
@@ -90,6 +93,8 @@ private:
 	CollisionComponent* CollisionComp;
 	ParticleComponent* m_partComponent;
 
+	Lobby * m_lobbyScreen;
+
 	CombatSystem comsystem;
 	HealthSystem hs;
 	RenderSystem rs;
@@ -120,6 +125,7 @@ private:
 	int rTimer = 0;
 	int SCREEN_WIDTH = 1500;
 	int SCREEN_HEIGHT = 900;
+	int mouseX, mouseY;
 	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	// Player
@@ -132,6 +138,8 @@ private:
 	// Network
 	Client * m_client;
 	void updateNetwork();
+	int m_stateTimer;
+	const int m_stateTimerLimit = 300;
 };
 
 #endif // !GAME
