@@ -106,11 +106,6 @@ void Game::initialise()
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 
-	
-	hs.addEntity(player);
-	hs.addEntity(player2);
-	hs.addEntity(player3);
-
 
 	rs.addEntity(flag);
 	rs.addEntity(player);
@@ -125,27 +120,18 @@ void Game::initialise()
 	//ais.addEntity(dog);
 	//ais.addEntity(cat);
 
-
-
-
-	Colls.addEntity(player);
-	Colls.addEntity(player2);
-
 	ais.addEntity(player2);
 	ais.addEntity(player3);
 
 	Colls.addEntity(flag);
 
+	/*comsystem.addEntity(player);
+	comsystem.addEntity(player2);
+	comsystem.addEntity(player3);
+	comsystem.addEntity(player4);
+	comsystem.addEntity(flag);*/
 
 	ps.addEntity(player);
-
-	phs.addEntity(player);
-	phs.addEntity(player2);
-
-	comsystem.addEntity(player);
-	comsystem.addEntity(player2);
-	comsystem.addEntity(flag);
-
 	ps.addEntity(player2);
 	ps.addEntity(player3);
 	ps.addEntity(player4);
@@ -254,7 +240,7 @@ void Game::update(float dt)
 	}
 
 
-	//phs.update();
+	phs.update();
 
 	//// Power ups
 	m_timerSpawn++;
@@ -584,6 +570,7 @@ void Game::updateNetwork()
 			player.addComponent(new HealthComponent(200));
 			player.addComponent(new ControlComponent());
 			player.addComponent(new ScoreComponent(0));
+
 			m_playerIndex = 0;
 			cs.addEntity(player);
 			Colls.addEntity(player);

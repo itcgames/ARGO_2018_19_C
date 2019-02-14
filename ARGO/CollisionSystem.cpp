@@ -22,7 +22,7 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 			y1 = posComp1->getPositionY();
 			width1 =  spriteComp->getWidth();
 			height1 =  spriteComp->getHeight();
-      tileCollision(x1, y1, width1, height1, level);
+			tileCollision(x1, y1, width1, height1, level);
 			Teleport(x1, y1, width1, height1, level);
 
 		}
@@ -59,15 +59,9 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 						time = 0;
 					}
 				}
-				
-
-
 			}
 		}
-
-	
 	}
-	
 }
 
 
