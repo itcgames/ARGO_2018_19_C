@@ -607,9 +607,10 @@ void Game::updateNetwork()
 		{
 			player.addComponent(new HealthComponent(200));
 			player.addComponent(new ControlComponent());
-			player.addComponent(new ScoreComponent(0));
+			player.addComponent(new ScoreComponent(0)); 
 
 			m_playerIndex = 0;
+			comsystem.addEntity(player);
 			cs.addEntity(player);
 			Colls.addEntity(player);
 			phs.addEntity(player);
@@ -632,6 +633,7 @@ void Game::updateNetwork()
 				player2.addComponent(new HealthComponent(200));
 				player2.addComponent(new ControlComponent());
 				player2.addComponent(new ScoreComponent(0));
+				comsystem.addEntity(player2);
 				cs.addEntity(player2);
 				Colls.addEntity(player2);
 				phs.addEntity(player2);
@@ -647,6 +649,7 @@ void Game::updateNetwork()
 				player3.addComponent(new HealthComponent(200));
 				player3.addComponent(new ControlComponent());
 				player3.addComponent(new ScoreComponent(0));
+				comsystem.addEntity(player3);
 				cs.addEntity(player3);
 				Colls.addEntity(player3);
 				phs.addEntity(player3);
@@ -662,6 +665,7 @@ void Game::updateNetwork()
 				player4.addComponent(new HealthComponent(200));
 				player4.addComponent(new ControlComponent());
 				player4.addComponent(new ScoreComponent(0));
+				comsystem.addEntity(player4);
 				cs.addEntity(player4);
 				Colls.addEntity(player4);
 				phs.addEntity(player4);
@@ -698,15 +702,31 @@ void Game::updateNetwork()
 			{
 			case '0':
 				m_lobbyScreen->changeState(0, readyState);
+				if (readyState)
+				{
+					player.removeComponent(player.getCompByType("AI"));
+				}
 				break;
 			case '1':
 				m_lobbyScreen->changeState(1, readyState);
+				if (readyState)
+				{
+					player2.removeComponent(player2.getCompByType("AI"));
+				}
 				break;
 			case '2':
 				m_lobbyScreen->changeState(2, readyState);
+				if (readyState)
+				{
+					player3.removeComponent(player3.getCompByType("AI"));
+				}
 				break;
 			case '3':
 				m_lobbyScreen->changeState(3, readyState);
+				if (readyState)
+				{
+					player4.removeComponent(player4.getCompByType("AI"));
+				}
 				break;
 			}
 			
