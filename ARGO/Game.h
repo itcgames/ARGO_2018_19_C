@@ -18,21 +18,18 @@
 #include "AiSystem.h"
 #include "ParticleSystem.h"
 #include "PhysicsSystem.h"
-
-
-//Jamie
 #include "Level.h"
 #include "Particle.h"
 #include "Factory.h"
 #include <iterator>
+#include "AmmoSystem.h"
 
 // Network
 #include "Client.h"
 #include <sstream>
 
+
 using namespace std;
-
-
 
 
 enum class
@@ -96,6 +93,7 @@ private:
 	ControlSystem cs;
 	GameState m_currentGameState;
 	GameState m_previousGameState;
+	AmmoSystem ammos;
 
 	CollisionSystem Colls;
 	LTexture m_texture, wallTxt;
@@ -105,13 +103,12 @@ private:
 
 	Factory* m_factory;
 	std::vector<PowerUp*> m_powerUps;
-	//jamie
 	double disBetweenAiPlayer = 10000;
-	//Fuzzy* m_fuzzy;
 
 	int m_timerSpawn;
-	const int m_spawnTimeLimit = 2000;
-	const int m_numOfPowerUps = 2;
+	const int m_spawnTimeLimit = 1000;
+	const int m_numOfPowerUps = 5;
+
 
 	void rumble();
 	void resetCamera();
@@ -130,6 +127,8 @@ private:
 	// Network
 	Client * m_client;
 	void updateNetwork();
+
+
 };
 
 #endif // !GAME

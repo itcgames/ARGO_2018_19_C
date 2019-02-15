@@ -52,9 +52,6 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 
 	m_level = new level("Main Level");
 	m_level->load(MAP_PATH, m_renderer);
-
-	//m_fuzzy = new Fuzzy();
-
 }
 
 
@@ -86,28 +83,36 @@ void Game::initialise()
 	player.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
+	player.addComponent(new AmmoComponent(m_renderer));
 
 	player2.addComponent(new PositionComponent(500, 100));
 	player2.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
+	player2.addComponent(new AmmoComponent(m_renderer));
 
 	player3.addComponent(new PositionComponent(100, 500));
 	player3.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
+	player3.addComponent(new AmmoComponent(m_renderer));
 
 	player4.addComponent(new PositionComponent(500, 500));
 	player4.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
+	player4.addComponent(new AmmoComponent(m_renderer));
 
 	Entity wall("Wall");
 	//wall.addComponent(new PositionComponent(400, 500));
 	//wall.addComponent(new CollisionComponent());
 	//wall.addComponent(new SpriteComponent(wallTxt, m_renderer));
 
-	
+	ammos.addEntity(player);
+	ammos.addEntity(player2);
+	ammos.addEntity(player3);
+	ammos.addEntity(player4);
+
 	hs.addEntity(player);
 	hs.addEntity(player2);
 	hs.addEntity(player3);
@@ -124,14 +129,11 @@ void Game::initialise()
 	//ais.addEntity(dog);
 	//ais.addEntity(cat);
 
-
-
 	ais.addEntity(player2);
 	ais.addEntity(player3);
 
 	Colls.addEntity(wall);
 	Colls.addEntity(flag);
-
 
 	ps.addEntity(player);
 	ps.addEntity(player2);
@@ -141,6 +143,7 @@ void Game::initialise()
 	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
 	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
 	//AudioManager::Instance()->PlayMusic("song1", -1);
+
 
 }
 
@@ -181,7 +184,6 @@ void Game::run()
 void Game::processEvents()
 {
 
-
 	while (SDL_PollEvent(&event)) {
 
 		switch (event.type) {
@@ -213,9 +215,10 @@ void Game::setGameState(GameState gameState)
 void Game::update(float dt)
 {
 
-
 	Colls.update(*m_level, dt);
 	//hs.update();
+	ammos.update();
+	
 
 
 	switch (m_currentGameState)
@@ -247,7 +250,8 @@ void Game::update(float dt)
 	m_timerSpawn++;
 	if (m_timerSpawn >= m_spawnTimeLimit)
 	{
-		switch (rand() % m_numOfPowerUps)
+		//switch (rand() % m_numOfPowerUps)
+		switch(2)
 		{
 		case 0:
 			m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -256,6 +260,19 @@ void Game::update(float dt)
 		case 1:
 			m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
 			break;
+
+		case 2:
+			m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
+			break;
+
+		case 3:
+			m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
+			break;
+
+		case 5:
+			m_powerUps.push_back(m_factory->CreateReset(m_renderer));
+			break;
+
 		}
 		m_timerSpawn = 0;
 	}
@@ -314,6 +331,25 @@ void Game::update(float dt)
 					}
 					
 					break;
+				case 3: // Ammo
+					if (ammos.getEntityIds()[i] == "Player") {
+						ammos.addAmmo(ammos.getEntityById("Player"));
+					}
+					if (ammos.getEntityIds()[i] == "Player2") {
+						ammos.addAmmo(ammos.getEntityById("Player2"));
+					}
+					if (ammos.getEntityIds()[i] == "Player3") {
+						ammos.addAmmo(ammos.getEntityById("Player3"));
+					}
+					if (ammos.getEntityIds()[i] == "Player4") {
+						ammos.addAmmo(ammos.getEntityById("Player4"));
+					}
+
+					break;
+				case 4: // SeekerAmmo
+					break;
+				case 5: // Reset
+					break;
 				}
 			}
 		}
@@ -352,8 +388,6 @@ void Game::render(float dt)
 
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 	SDL_RenderClear(m_renderer);
-
-	//Jamie
 	SDL_RenderSetLogicalSize(m_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 
@@ -363,12 +397,13 @@ void Game::render(float dt)
 	m_level->draw(m_renderer);
 	//m_playerDot->render(m_renderer);
 	//m_texture.render(100, 100, m_renderer);
-
+	ammos.render(m_renderer);
 	for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{
-			m_powerUps[i]->draw(m_renderer);
+		m_powerUps[i]->draw(m_renderer);
 	}
 	SDL_RenderPresent(m_renderer);
+
 
 }
 
