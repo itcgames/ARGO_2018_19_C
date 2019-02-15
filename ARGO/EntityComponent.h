@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "Component.h"
-#include "HealthComponent.h"
+#include "LifeComponent.h"
 #include "PositionComponent.h"
 #include "ControlComponent.h"
 #include "SpriteComponent.h"

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "EntityComponent.h"
-class HealthSystem
+class LifeSystem
 {
 	std::vector<Entity> entities;
 
@@ -29,9 +29,9 @@ public:
 					index++;
 					//Get current health
 
-					HealthComponent * healthComp = (HealthComponent*)entity.getCompByType("Health");
+					LifeComponent * lifeComp = (HealthComponent*)entity.getCompByType("Life");
 			
-					int healthVal = healthComp->getHealth();
+					int lifeVal = lifeComp->getLifes();
 					if (healthVal > 0)
 					{
 

@@ -1,0 +1,113 @@
+#pragma once
+#include <vector>
+#include "Component.h"
+class LifeComponent: public Component
+{
+	
+public:
+	LifeComponent(int startLife, int playerID, SDL_Renderer *m_renderer, float scale) : m_lifeval(startLife), m_playerID(playerID) {
+	
+		initTextures(scale, m_renderer);
+
+	};
+
+	/*Data only*/
+	int getLife() {
+		return m_lifeval;
+	}
+
+	void setLifes(int life) {
+		m_lifeval= life;
+
+		switch (life)
+		{
+		case 6:
+			m_texture = life3_0txt;
+			break;
+		case 5:
+			m_texture = life2_5txt;
+			break;
+		case 4:
+			m_texture = life2_0txt;
+			break;
+		case 3:
+			m_texture = life1_5txt;
+			break;
+		case 2:
+			m_texture = life1_0txt;
+			break;
+		case 1:
+			m_texture = life0_5txt;
+			break;
+		case 0:
+			m_texture = life0_0txt;
+			break;
+		default:
+			break;
+		}
+
+		if (life <= 0)
+		{
+			m_texture = life0_0txt;
+		}
+		
+	}
+
+	std::string getID()
+	{
+		return id;
+	}
+
+	void initTextures(float scale, SDL_Renderer *m_renderer) {
+
+		if (!life3_0txt.loadFromFile("img/health3_0", m_renderer, scale))
+		{
+			printf("Failed to load dot texture!\n");
+
+		}
+		if (!life2_5txt.loadFromFile("img/health2_5", m_renderer, scale))
+		{
+			printf("Failed to load dot texture!\n");
+
+		}
+		if (!life2_0txt.loadFromFile("img/health2_0", m_renderer, scale))
+		{
+			printf("Failed to load dot texture!\n");
+
+		}
+		if (!life1_5txt.loadFromFile("img/health1_5", m_renderer, scale))
+		{
+			printf("Failed to load dot texture!\n");
+
+		}
+		if (!life1_0txt.loadFromFile("img/health1_0", m_renderer, scale))
+		{
+			printf("Failed to load dot texture!\n");
+
+		}
+		if (!life0_5txt.loadFromFile("img/health0_5", m_renderer, scale))
+		{
+			printf("Failed to load dot texture!\n");
+
+		}
+		if (!life0_0txt.loadFromFile("img/health0_0", m_renderer, scale))
+		{
+			printf("Failed to load dot texture!\n");
+
+		}
+	}
+
+
+private:
+	int m_lifeval;
+	int m_playerID;
+	LTexture m_texture;
+	LTexture life3_0txt;
+	LTexture life2_5txt;
+	LTexture life2_0txt;
+	LTexture life1_5txt;
+	LTexture life1_0txt;
+	LTexture life0_5txt;
+	LTexture life0_0txt;
+	std::string id = "Life";
+};
