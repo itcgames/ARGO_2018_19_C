@@ -28,9 +28,8 @@ std::vector<float> msgToPos(std::string s)
 
 Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4("Player4")
 {
-	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 1020, SDL_WINDOW_OPENGL);
+	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
 	m_currentGameState = (GameState::GameScreen);
 
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
@@ -90,22 +89,25 @@ void Game::initialise()
 	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
-
+	player.addComponent(new LifeComponent(4, 1, m_renderer, 1));
 
 	player2.addComponent(new PositionComponent(500, 100));
 	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
+	player2.addComponent(new LifeComponent(2, 2, m_renderer, 1));
 
 	player3.addComponent(new PositionComponent(100, 500));
 	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
+	player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
 
 	player4.addComponent(new PositionComponent(500, 500));
 	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
+	player4.addComponent(new LifeComponent(6, 4, m_renderer, 1));
 
 
 	rs.addEntity(flag);
@@ -605,16 +607,18 @@ void Game::updateNetwork()
 		}
 		else if (msg == "Host")
 		{
-			player.addComponent(new HealthComponent(200));
+			//player.addComponent(new HealthComponent(200));
 			player.addComponent(new ControlComponent());
 			player.addComponent(new ScoreComponent(0)); 
+			player.addComponent(new LifeComponent(6, 1, m_renderer, 1));
+		
 
 			m_playerIndex = 0;
 			comsystem.addEntity(player);
 			cs.addEntity(player);
 			Colls.addEntity(player);
 			phs.addEntity(player);
-			hs.addEntity(player);
+			//hs.addEntity(player);
 			p = (PositionComponent *)player.getCompByType("Position");
 			p->setPosition(100, 100);
 
@@ -630,14 +634,15 @@ void Game::updateNetwork()
 			switch (index)
 			{
 			case 1:
-				player2.addComponent(new HealthComponent(200));
+				//player2.addComponent(new HealthComponent(200));
 				player2.addComponent(new ControlComponent());
 				player2.addComponent(new ScoreComponent(0));
+				player2.addComponent(new LifeComponent(6, 2, m_renderer, 1));
 				comsystem.addEntity(player2);
 				cs.addEntity(player2);
 				Colls.addEntity(player2);
 				phs.addEntity(player2);
-				hs.addEntity(player2);
+				//hs.addEntity(player2);
 				p = (PositionComponent *)player2.getCompByType("Position");
 				p->setPosition(500, 100);
 
@@ -646,14 +651,15 @@ void Game::updateNetwork()
 				player4.addComponent(new AIComponent());
 				break;
 			case 2:
-				player3.addComponent(new HealthComponent(200));
+			//	player3.addComponent(new HealthComponent(200));
 				player3.addComponent(new ControlComponent());
 				player3.addComponent(new ScoreComponent(0));
+				player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
 				comsystem.addEntity(player3);
 				cs.addEntity(player3);
 				Colls.addEntity(player3);
 				phs.addEntity(player3);
-				hs.addEntity(player3);
+			//	hs.addEntity(player3);
 				p = (PositionComponent *)player3.getCompByType("Position");
 				p->setPosition(100, 500);
 
@@ -662,14 +668,15 @@ void Game::updateNetwork()
 				player4.addComponent(new AIComponent());
 				break;
 			case 3:
-				player4.addComponent(new HealthComponent(200));
+			//	player4.addComponent(new HealthComponent(200));
 				player4.addComponent(new ControlComponent());
 				player4.addComponent(new ScoreComponent(0));
+				player4.addComponent(new LifeComponent(6, 4, m_renderer, 1));
 				comsystem.addEntity(player4);
 				cs.addEntity(player4);
 				Colls.addEntity(player4);
 				phs.addEntity(player4);
-				hs.addEntity(player4);
+			//	hs.addEntity(player4);
 				p = (PositionComponent *)player4.getCompByType("Position");
 				p->setPosition(500, 500);
 

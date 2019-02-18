@@ -10,7 +10,7 @@
 #include <WS2tcpip.h>
 #include <string.h>
 #include "EntityComponent.h"
-#include "HealthSystem.h"
+#include "LifeSystem.h"
 #include "RenderSystem.h"
 #include "ControlSystem.h"
 #include "CollisionSystem.h"
@@ -84,10 +84,10 @@ private:
 	Entity* m_alien;
 	Entity* m_dog;
 	Entity* m_flag;
-	HealthComponent* m_healthComponentOne;
+	/*HealthComponent* m_healthComponentOne;
 	HealthComponent* m_healthComponentTwo;
 	HealthComponent* m_healthComponentThree;
-	HealthComponent* m_healthComponentFour;
+	HealthComponent* m_healthComponentFour;*/
 	ControlComponent* m_ctrlComponent;
 	PositionComponent* m_posComponent;
 	CollisionComponent* CollisionComp;
@@ -96,7 +96,7 @@ private:
 	Lobby * m_lobbyScreen;
 
 	CombatSystem comsystem;
-	HealthSystem hs;
+    //LifeSystem ls;
 	RenderSystem rs;
 	AISystem ais;
 	ParticleSystem ps;
@@ -124,7 +124,7 @@ private:
 	void resetCamera();
 	int rTimer = 0;
 	int SCREEN_WIDTH = 1500;
-	int SCREEN_HEIGHT = 900;
+	int SCREEN_HEIGHT = 1000;
 	int mouseX, mouseY;
 	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 

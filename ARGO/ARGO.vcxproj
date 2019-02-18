@@ -69,6 +69,8 @@
     <ClInclude Include="JumpLeft.h" />
     <ClInclude Include="JumpRight.h" />
     <ClInclude Include="Left.h" />
+    <ClInclude Include="LifeComponent.h" />
+    <ClInclude Include="LifeSystem.h" />
     <ClInclude Include="Lobby.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="Level.h" />

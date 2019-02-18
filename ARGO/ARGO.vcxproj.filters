@@ -201,6 +201,12 @@
     <ClInclude Include="State.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="LifeSystem.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeComponent.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Left.bmp" />
