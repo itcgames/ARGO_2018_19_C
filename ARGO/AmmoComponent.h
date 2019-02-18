@@ -2,7 +2,7 @@
 #include <vector>
 #include "Component.h"
 #include "Projectile.h"
-//#include "AmmoSystem.h"
+
 class AmmoComponent : public Component
 {
 
@@ -51,23 +51,27 @@ public:
 
 	void checkCollision(float playerX, float playerY)
 	{
-		for (std::vector<int>::size_type i = 0; i != projectiles.size(); i++) {
-			/* std::cout << v[i]; ... */
-			projectiles[i]->render(renderer);
-			
-			float proX = projectiles[i]->getPositionX();
-			float proY = projectiles[i]->getPositionY();
-			float proW = projectiles[i]->getWidth();
-			float proH = projectiles[i]->getHeight();
-			//can hardcode w = 80 h 100
+		if (projectiles.size() > 0)
+		{
+			for (std::vector<int>::size_type i = projectiles.size() - 1; i <= 0; i--) {
+
+				float proX = projectiles[i]->getPositionX();
+				float proY = projectiles[i]->getPositionY();
+				float proW = projectiles[i]->getWidth();
+				float proH = projectiles[i]->getHeight();
+				//can hardcode w = 80 h 100
 
 
-			if (proX < playerX + 80 &&
-				proX + proW > playerX &&
-				proY < playerY + 100 &&
-				proX + proY > playerY) {
-				// collision detected!
-				std::cout << "collision" << std::endl;
+				if (proX < playerX + 80 &&
+					proX + proW > playerX &&
+					proY < playerY + 100 &&
+					proX + proY > playerY) {
+					// collision detected!
+					std::cout << "collision" << std::endl;
+
+					projectiles.erase(projectiles.begin() + i);
+
+				}
 			}
 		}
 
