@@ -28,33 +28,44 @@ std::vector<float> msgToPos(std::string s)
 
 Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4("Player4")
 {
-	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
-	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
-	m_currentGameState = (GameState::GameScreen);
-
-	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
-	if (IMG_Init(imgFlags) != imgFlags)
+	//Initialize SDL
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) < 0)
 	{
-		cout << "Error: " << IMG_GetError() << endl;
+		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 	}
-	m_factory = new PowerUpFactory;
+	else
+	{
+		SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER);
 
-	m_client = new Client();
+		m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
+		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+		m_currentGameState = (GameState::GameScreen);
+
+		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
+		if (IMG_Init(imgFlags) != imgFlags)
+		{
+			cout << "Error: " << IMG_GetError() << endl;
+		}
+		m_factory = new PowerUpFactory;
+
+		m_client = new Client();
 
 
-	initialise();
+		initialise();
 
-	//phs.initialise();
+		//phs.initialise();
 
 
-	const auto MAP_PATH = "assets/maps/map1.tmx";
+		const auto MAP_PATH = "assets/maps/map1.tmx";
 
-	m_level = new level("Main Level");
-	m_level->load(MAP_PATH, m_renderer);
+		m_level = new level("Main Level");
+		m_level->load(MAP_PATH, m_renderer);
 
-	//m_fuzzy = new Fuzzy();
+		//m_fuzzy = new Fuzzy();
 
+		cs.init();
+	}
 }
 
 
@@ -62,6 +73,7 @@ void Game::initialise()
 {
 
 	SDL_INIT_AUDIO;
+
 
 	m_client->run();
 
@@ -186,7 +198,12 @@ void Game::processEvents()
 
 	while (SDL_PollEvent(&event)) {
 
+
+		cs.input(event);
+
 		switch (event.type) {
+		
+
 		case SDL_QUIT:
 			exit = true;
 			break;
@@ -199,7 +216,6 @@ void Game::processEvents()
 			//resetCamera();
 			break;
 		case SDL_KEYDOWN:
-			cs.input(event);
 			//rumble();
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				exit = true;

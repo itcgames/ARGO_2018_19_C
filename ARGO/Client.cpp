@@ -128,7 +128,7 @@ std::string Client::receive()
 
 void Client::sendMsg(std::string msg)
 {
-	std::cout << "Sent: " << msg << " To: " << std::to_string(sock) << std::endl;
+	//std::cout << "Sent: " << msg << " To: " << std::to_string(sock) << std::endl;
 	int sendResult = send(sock, msg.c_str(), msg.size() + 1, 0);
 }
 
