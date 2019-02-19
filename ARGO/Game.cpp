@@ -31,7 +31,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-	m_currentGameState = (GameState::Lobby);
+	m_currentGameState = (GameState::GameScreen);
 
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 	if (IMG_Init(imgFlags) != imgFlags)
@@ -522,6 +522,8 @@ void Game::getDistance() {
 void Game::updateNetwork()
 {
 	PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
+	HealthComponent * h = (HealthComponent *)player.getCompByType("Health");
+	AnimationComponent * ac = (AnimationComponent *)player.getCompByType("Animation");
 
 	if (m_playerIndex != 5)
 	{
@@ -534,18 +536,57 @@ void Game::updateNetwork()
 			{
 			case 0:
 				p = (PositionComponent *)player.getCompByType("Position");
+				h = (HealthComponent *)player.getCompByType("Health");
+				ac = (AnimationComponent *)player.getCompByType("Animation");
 				break;
 			case 1:
 				p = (PositionComponent *)player2.getCompByType("Position");
+				h = (HealthComponent *)player2.getCompByType("Health");
+				ac = (AnimationComponent *)player2.getCompByType("Animation");
 				break;
 			case 2:
 				p = (PositionComponent *)player3.getCompByType("Position");
+				h = (HealthComponent *)player3.getCompByType("Health");
+				ac = (AnimationComponent *)player3.getCompByType("Animation");
 				break;
 			case 3:
 				p = (PositionComponent *)player4.getCompByType("Position");
+				h = (HealthComponent *)player4.getCompByType("Health");
+				ac = (AnimationComponent *)player4.getCompByType("Animation");
 				break;
 			}
-			pos = "X: " + std::to_string((int)p->getPositionX()) + ", " + "Y: " + std::to_string((int)p->getPositionY()) + ", " + "I: " + std::to_string(m_playerIndex);
+
+			std::cout << std::to_string(ac->m_currentState) << std::endl;
+
+			switch (ac->m_currentState)
+			{
+			case ac->AniState::idleS:
+				std::cout << "Idle" << std::endl;
+				break;
+
+			case ac->AniState::leftS:
+				std::cout << "left" << std::endl;
+				break;
+
+			case ac->AniState::rightS:
+				std::cout << "right" << std::endl;
+				break;
+
+			case ac->AniState::jumpLeftS:
+				std::cout << "Jump left" << std::endl;
+				break;
+
+			case ac->AniState::jumpRightS:
+				std::cout << "Jump right" << std::endl;
+				break;
+
+			}
+
+			pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
+			pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
+			pos = pos +", " + "I: " + std::to_string(m_playerIndex);	// Player Index
+			pos = pos + ", " + "H: " + std::to_string((int)h->getHealth()); // Player Health
+			pos = pos + ", " + "A: " + std::to_string(ac->m_currentState); // Player state
 			m_client->sendMsg(pos);
 			break;
 			
@@ -588,19 +629,55 @@ void Game::updateNetwork()
 			{
 			case 0:
 				p = (PositionComponent *)player.getCompByType("Position");
+				h = (HealthComponent *)player.getCompByType("Health");
+				ac = (AnimationComponent *)player.getCompByType("Animation");
 				break;
 			case 1:
 				p = (PositionComponent *)player2.getCompByType("Position");
+				h = (HealthComponent *)player2.getCompByType("Health");
+				ac = (AnimationComponent *)player2.getCompByType("Animation");
 				break;
 			case 2:
 				p = (PositionComponent *)player3.getCompByType("Position");
+				h = (HealthComponent *)player3.getCompByType("Health");
+				ac = (AnimationComponent *)player3.getCompByType("Animation");
 				break;
 			case 3:
 				p = (PositionComponent *)player4.getCompByType("Position");
+				h = (HealthComponent *)player4.getCompByType("Health");
+				ac = (AnimationComponent *)player4.getCompByType("Animation");
 				break;
 			}
 
 			p->setPosition(msgToPos(msg)[1], msgToPos(msg)[2]);
+			h->setHealth(msgToPos(msg)[4]);
+
+			switch ((int)msgToPos(msg)[5])
+			{
+			case 0:
+				ac->m_currentState = ac->AniState::idleS;
+				break;
+
+			case 1:
+				ac->m_currentState = ac->AniState::leftS;
+				break;
+
+			case 2:
+				ac->m_currentState = ac->AniState::rightS;
+				break;
+
+			case 3:
+				ac->m_currentState = ac->AniState::jumpLeftS;
+				break;
+
+			case 4:
+				ac->m_currentState = ac->AniState::idleS;
+				break;
+			
+			default:
+				std::cout << "Oops" << std::endl;
+				break;
+			}
 
 		}
 		else if (msg == "Host")
@@ -679,7 +756,7 @@ void Game::updateNetwork()
 				break;
 			}
 		}
-		else if (msg.substr(5, 5) == "Ready")
+		else if (msg.length() > 5 && msg.substr(5, 5) == "Ready")
 		{
 			if (m_playerIndex == 5)
 			{

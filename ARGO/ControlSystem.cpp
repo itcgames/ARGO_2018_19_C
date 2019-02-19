@@ -8,6 +8,11 @@ void ControlSystem::addEntity(Entity e) {
 	entities.push_back(e);
 }
 
+void bb(std::string s)
+{
+
+}
+
 void ControlSystem::input(SDL_Event &e) {
 
 	for (Entity& entity : entities) 

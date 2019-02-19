@@ -89,10 +89,13 @@ bool Client::run()
 std::string Client::receive()
 {
 	ZeroMemory(buf, 4096);
+
+	//NetworkMessage * netMsg = new NetworkMessage();
+
 	int bytesReceived = recv(sock, buf, 4096, 0);
+	//int bytesReceived = recv(sock, (char*)netMsg, sizeof(struct NetworkMessage) + 1, 0);
 	if (bytesReceived > 0)
 	{
-		
 		// Echo response to console
 		std::string msg = buf;
 		if ((std::string)buf == "Joined Game")
