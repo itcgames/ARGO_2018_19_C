@@ -73,6 +73,9 @@
     <ClCompile Include="splash.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="LifeSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h">

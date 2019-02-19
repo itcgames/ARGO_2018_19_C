@@ -13,10 +13,14 @@ public:
 	CombatSystem() {};
 	void addEntity(Entity e);
 
+	void removeEntity(std::vector<Entity>&entities, std::string ID);
+
+
+
 	void update(float dt);
 	bool squareCollision(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);
 	bool AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);
-	void tileCollision(float x, float y, float width, float height, level &level);
+	void tileCollision(float x, float y, float width, float height, level &level, LifeComponent* lc);
 	void CheckCollision(float dt);
 
 private:

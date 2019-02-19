@@ -5,6 +5,20 @@ void CollisionSystem::addEntity(Entity e)
 	entities.push_back(e);
 }
 
+void CollisionSystem::removeEntity(std::vector<Entity>&entities, std::string ID) {
+
+	std::vector<Entity>::iterator iter = entities.begin();
+	std::vector<Entity>::iterator endIter = entities.end();
+	for (; iter != endIter; ++iter)
+	{
+		if (iter->getName() == ID)
+		{
+			entities.erase(iter);
+		}
+	}
+}
+
+
 void CollisionSystem::CheckCollision(level &level, float dt)
 {
 
@@ -18,12 +32,19 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 			cc = (ControlComponent *)entity.getCompByType("Control");
 			spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
 			score = (ScoreComponent*)entity.getCompByType("Score");
+			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
 			x1 = posComp1->getPositionX();
 			y1 = posComp1->getPositionY();
 			width1 =  spriteComp->getWidth();
 			height1 =  spriteComp->getHeight();
-			tileCollision(x1, y1, width1, height1, level);
+			tileCollision(x1, y1, width1, height1, level, lc);
 			Teleport(x1, y1, width1, height1, level);
+
+			if (lc->getLife() == 0) {
+
+				removeEntity(entities, entity.getName());
+			}
+
 
 		}
 		else if (entity.getName() == "Flag")
@@ -118,7 +139,7 @@ bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, fl
 		return false;
 }
 
-void CollisionSystem::tileCollision(float x, float y, float width, float height, level &m_tiles)
+void CollisionSystem::tileCollision(float x, float y, float width, float height, level &m_tiles, LifeComponent * lc)
 {
 	for (int i = 0; i < m_tiles.tiles.size(); i++)
 	{
@@ -198,6 +219,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 		{
 			std::cout << "KILL TILES COLLIDE" << std::endl;
 			posComp1->setPosition(680, 100);
+			lc->setLifes(lc->getLife() - 1);
 		}
 	}
 

@@ -47,6 +47,7 @@ enum class
 	MainMenu,
 	Lobby,
 	GameScreen,
+	GameOverScreen,
 	CoopScreen,
 	Options,
 	Credits,
@@ -60,6 +61,7 @@ public:
 	~Game();
 
 	void run();
+	void setGameState(GameState gameState);
 
 private:
 
@@ -69,8 +71,6 @@ private:
 	void initialise();
 	void getDistance();
 
-
-	void setGameState(GameState gameState);
 
 	SDL_Window *m_window;
 	SDL_Renderer *m_renderer;

@@ -5,6 +5,20 @@ void CombatSystem::addEntity(Entity e)
 	entities.push_back(e);
 }
 
+void CombatSystem::removeEntity(std::vector<Entity>&entities, std::string ID) {
+
+	std::vector<Entity>::iterator iter = entities.begin();
+	std::vector<Entity>::iterator endIter = entities.end();
+	for (; iter != endIter; ++iter)
+	{
+		if (iter->getName() == ID)
+		{
+			entities.erase(iter);
+		}
+	}
+}
+
+
 void CombatSystem::CheckCollision(float dt)
 {
 
@@ -18,6 +32,12 @@ void CombatSystem::CheckCollision(float dt)
 			cc = (ControlComponent *)entity.getCompByType("Control");
 			spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
 			score = (ScoreComponent*)entity.getCompByType("Score");
+			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
+
+			if (lc->getLife() == 0) {
+
+				removeEntity(entities, entity.getName());
+			}
 		
 		}
 		else if (entity.getName() == "Flag")
@@ -29,6 +49,12 @@ void CombatSystem::CheckCollision(float dt)
 			posComp2 = (PositionComponent *)entity.getCompByType("Position");
 			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
 			cc2 = (ControlComponent *)entity.getCompByType("Control");
+			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
+
+			if (lc->getLife() == 0) {
+
+				removeEntity(entities, entity.getName());
+			}
 		}
 
 		if (posComp != NULL && posComp2 != NULL) {

@@ -1,60 +1,36 @@
-//#pragma once
-//#include <iostream>
-//#include <vector>
-//#include "EntityComponent.h"
-//class LifeSystem
-//{
-//	std::vector<Entity> entities;
-//
-//
-//public:
-//	void addEntity(Entity e) {
-//		/*TBI*/
-//		entities.push_back(e);
-//
-//	}
-//	void update() {
-//		std::cout << "HEALTH SYSTEM: " << std::endl;
-//
-//		int index = 0;
-//
-//		/* HealthComponents and Update */
-//		/* Loop through Entities with */
-//		for (Entity & entity : entities) {
-//
-//			//Loop through all entities 
-//			for (Component * component : entity.getComponents()) {
-//				//only update health components
-//				
-//					index++;
-//					//Get current health
-//
-//					LifeComponent * lifeComp = (omponent*)entity.getCompByType("Life");
-//			
-//					int lifeVal = lifeComp->getLifes();
-//					if (healthVal > 0)
-//					{
-//
-//						healthVal = healthVal - 1;
-//						////Update health value of health component
-//						healthComp->setHealth(healthVal);
-//
-//						std::cout << "Updated health component of entity: " << entity.getName() << std::endl;
-//						std::cout << "Health: " << healthComp->getHealth() << std::endl;
-//					}
-//					else
-//					{
-//						std::cout << "Entity " << entity.getName() << " has 0 health" << std::endl;
-//					}
-//					
-//					
-//
-//					
-//					
-//
-//				
-//			}
-//		}
-//
-//	}
-//};
+#pragma once
+#include <iostream>
+#include <vector>
+#include "LifeComponent.h"
+#include"EntityComponent.h"
+#include "SDL.h"
+#include "LTexture.h"
+#include "Game.h"
+
+
+class LifeSystem
+{
+public:
+	LifeSystem();
+	void addEntity(Entity e);
+	void removeEntity(std::vector<Entity>&entities, std::string ID);
+
+	void update( float dt);
+
+
+private:
+	//Game* m_game;
+	std::vector<Entity>entities;
+	PositionComponent * posComp;
+	PositionComponent * posComp1;
+	PositionComponent * posComp2;
+	SpriteComponent * spriteComp;
+	SpriteComponent * spriteComp2;
+	ControlComponent* cc;
+	CollisionComponent* collide;
+	ScoreComponent* score;
+	PickUpComponent* pickup;
+	float x1, y1, x2, y2, width1, height1, width2, height2;
+	float x3, y3, x4, y4, width3, height3, width4, height4;
+	float time;
+};

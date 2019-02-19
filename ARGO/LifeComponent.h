@@ -141,6 +141,7 @@ private:
 	int m_playerID;
 	float mPosX;
 	float mPosY;
+	bool dead = false;
 	LTexture m_texture;
 	LTexture life3_0txt;
 	LTexture life2_5txt;

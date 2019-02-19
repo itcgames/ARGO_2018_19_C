@@ -323,6 +323,8 @@ void Game::update(float dt)
 		}
 
 		break;
+	case GameState::GameOverScreen:
+		break;
 	case GameState::Credits:
 		break;
 	default:

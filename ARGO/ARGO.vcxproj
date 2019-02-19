@@ -33,6 +33,7 @@
     <ClCompile Include="JumpLeft.cpp" />
     <ClCompile Include="JumpRight.cpp" />
     <ClCompile Include="Left.cpp" />
+    <ClCompile Include="LifeSystem.cpp" />
     <ClCompile Include="Lobby.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
