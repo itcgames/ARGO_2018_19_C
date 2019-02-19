@@ -19,7 +19,7 @@
 #include "AiSystem.h"
 #include "ParticleSystem.h"
 #include "PhysicsSystem.h"
-
+#include "LifeSystem.h"
 #include "Lobby.h"
 
 
@@ -109,6 +109,7 @@ private:
 
 
 	PhysicsSystem phs;
+	LifeSystem ls;
 
 	Factory* m_factory;
 	std::vector<PowerUp*> m_powerUps;

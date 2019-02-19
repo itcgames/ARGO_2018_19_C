@@ -12,7 +12,7 @@ class CollisionSystem
 public:
 	CollisionSystem() {};
 	void addEntity(Entity e);
-	void removeEntity(std::vector<Entity>&entities, std::string ID);
+	void removeEntity(std::string ID);
 
 	void update(level &level, float dt);
 	bool squareCollision(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);

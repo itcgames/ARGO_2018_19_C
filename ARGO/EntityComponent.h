@@ -13,6 +13,7 @@
 #include "AIComponent.h"
 #include <string>
 #include <iostream>
+#include <algorithm>
 #include <sdl.h>
 
 class Entity

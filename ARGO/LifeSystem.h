@@ -5,7 +5,6 @@
 #include"EntityComponent.h"
 #include "SDL.h"
 #include "LTexture.h"
-#include "Game.h"
 
 
 class LifeSystem
@@ -21,6 +20,7 @@ public:
 private:
 	//Game* m_game;
 	std::vector<Entity>entities;
+	std::vector<Entity>deadEntities;
 	PositionComponent * posComp;
 	PositionComponent * posComp1;
 	PositionComponent * posComp2;

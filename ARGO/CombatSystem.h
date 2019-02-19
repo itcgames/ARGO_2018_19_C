@@ -13,7 +13,7 @@ public:
 	CombatSystem() {};
 	void addEntity(Entity e);
 
-	void removeEntity(std::vector<Entity>&entities, std::string ID);
+	void removeEntity(std::string ID);
 
 
 

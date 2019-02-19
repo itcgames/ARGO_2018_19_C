@@ -5,19 +5,19 @@ void CollisionSystem::addEntity(Entity e)
 	entities.push_back(e);
 }
 
-void CollisionSystem::removeEntity(std::vector<Entity>&entities, std::string ID) {
+void CollisionSystem::removeEntity(std::string ID) {
 
-	std::vector<Entity>::iterator iter = entities.begin();
-	std::vector<Entity>::iterator endIter = entities.end();
-	for (; iter != endIter; ++iter)
-	{
-		if (iter->getName() == ID)
-		{
-			entities.erase(iter);
+	std::vector<Entity>::iterator iter;
+
+	for (iter = entities.begin(); iter != entities.end(); ) {
+		if (iter->getName() == ID) {
+			iter = entities.erase(iter);
+		}
+		else {
+			++iter;
 		}
 	}
 }
-
 
 void CollisionSystem::CheckCollision(level &level, float dt)
 {
@@ -42,7 +42,7 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 
 			if (lc->getLife() == 0) {
 
-				removeEntity(entities, entity.getName());
+				removeEntity(entity.getName());
 			}
 
 

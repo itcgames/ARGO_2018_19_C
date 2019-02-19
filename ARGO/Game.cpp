@@ -95,19 +95,19 @@ void Game::initialise()
 	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
-	player2.addComponent(new LifeComponent(2, 2, m_renderer, 1));
+	player2.addComponent(new LifeComponent(0, 2, m_renderer, 1));
 
 	player3.addComponent(new PositionComponent(100, 500));
 	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
-	player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
+	player3.addComponent(new LifeComponent(0, 3, m_renderer, 1));
 
 	player4.addComponent(new PositionComponent(500, 500));
 	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
-	player4.addComponent(new LifeComponent(6, 4, m_renderer, 1));
+	player4.addComponent(new LifeComponent(0, 4, m_renderer, 1));
 
 
 	rs.addEntity(flag);
@@ -116,6 +116,11 @@ void Game::initialise()
 
 	rs.addEntity(player3);
 	rs.addEntity(player4);
+
+	ls.addEntity(player);
+	ls.addEntity(player2);
+	ls.addEntity(player3);
+	ls.addEntity(player4);
 
 	//rs.addEntity(cat);
 
@@ -243,7 +248,7 @@ void Game::update(float dt)
 		//ps.update(m_renderer);
 		phs.update();
 		comsystem.update(dt);
-
+		ls.update(dt);
 		// Power ups
 		m_timerSpawn++;
 		if (m_timerSpawn >= m_spawnTimeLimit)

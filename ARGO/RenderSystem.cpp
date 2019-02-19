@@ -7,17 +7,19 @@ RenderSystem::RenderSystem() {
 void RenderSystem::addEntity(Entity e) {
 	entities.push_back(e);
 }
-void RenderSystem::removeEntity(std::vector<Entity>&entities, std::string ID) {
+void RenderSystem::removeEntity(std::string ID) {
 
-	std::vector<Entity>::iterator iter = entities.begin();
-	std::vector<Entity>::iterator endIter = entities.end();
-	for (; iter != endIter; ++iter)
-	{
-		if (iter->getName() == ID)
-		{
-			entities.erase(iter);
+	std::vector<Entity>::iterator iter;
+
+	for (iter = entities.begin(); iter != entities.end(); ) {
+		if (iter->getName() == ID) {
+			iter = entities.erase(iter);
+		}
+		else {
+			++iter;
 		}
 	}
+
 }
 
 
@@ -66,11 +68,11 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 			AnimationComponent * ac = (AnimationComponent*)entity.getCompByType("Animation");
 			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
 
-			if (lc->getLife() == 0) {
+			/*if (lc!= NULL && lc->getLife() == 0) {
 
-				removeEntity(entities, entity.getName());
+				removeEntity(entity.getName());
 			}
-
+*/
 			sc->setPosition(pc->getPositionX(), pc->getPositionY());
 
 			sc->render(m_renderer, ac->sRect);
