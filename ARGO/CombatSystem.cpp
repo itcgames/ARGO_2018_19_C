@@ -21,13 +21,24 @@ void CombatSystem::removeEntity(std::string ID) {
 }
 
 
-void CombatSystem::CheckCollision(float dt)
+void CombatSystem::CheckCollision(float dt, int index)
 {
 
 	time = time + dt;
+	
+	if (index > 0)
+	{
+		playerID = "Player" + std::to_string(index + 1);
+	}
+	else {
+		playerID = "Player";
+	}
+	
 	for (Entity& entity : entities)
 	{
-		if (entity.getName() == "Player")
+
+		
+		if (entity.getName() == playerID)
 		{
 
 			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
@@ -54,10 +65,11 @@ void CombatSystem::CheckCollision(float dt)
 				posComp2 = (PositionComponent *)entity.getCompByType("Position");
 				spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
 				cc2 = (ControlComponent *)entity.getCompByType("Control");
+				vel = (VelocityComponent*)entity.getCompByType("Vel");
 			}
 		}
 
-		if (posComp != NULL && posComp2 != NULL) {
+		if (posComp != NULL && posComp2 != NULL ) {
 
 			if (cc->attack) {
 				cc->attack = false;
@@ -73,11 +85,15 @@ void CombatSystem::CheckCollision(float dt)
 
 					if (posComp->getPositionX() > posComp2->getPositionX())
 					{
-						posComp2->setPosition(posComp2->getPositionX() - 200, posComp2->getPositionY() - 200);
+					/*	vel->setVelX(- 10);
+						vel->setVelY(- 50);*/
+						posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() - 100, posComp2->getPositionY() + vel->getVelY() - 90);
 
 					}
 					else {
-						posComp2->setPosition(posComp2->getPositionX() + 200, posComp2->getPositionY() - 200);
+					/*	vel->setVelX(+10);
+						vel->setVelY(-50);*/
+						posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() + 100, posComp2->getPositionY() + vel->getVelY() - 90);
 					}
 				
 					cc->attack = false;
@@ -116,9 +132,9 @@ bool CombatSystem::AABB(float x1, float y1, float x2, float y2, float width1, fl
 }
 
 
-void CombatSystem::update(float dt)
+void CombatSystem::update(float dt, int playerindex)
 {
-	CheckCollision(dt);
+	CheckCollision(dt, playerindex);
 }
 
 

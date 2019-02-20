@@ -82,6 +82,9 @@
     <ClCompile Include="Level.cpp">
       <Filter>src\LevelLoader</Filter>
     </ClCompile>
+    <ClCompile Include="AISystem.cpp">
+      <Filter>src\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -147,9 +150,6 @@
     <ClInclude Include="LifeComponent.h">
       <Filter>Header\Components</Filter>
     </ClInclude>
-    <ClInclude Include="AISystem.h">
-      <Filter>Header\System</Filter>
-    </ClInclude>
     <ClInclude Include="AmmoSystem.h">
       <Filter>Header\System</Filter>
     </ClInclude>
@@ -213,9 +213,6 @@
     <ClInclude Include="Factory.h">
       <Filter>Header\PowerUps</Filter>
     </ClInclude>
-    <ClInclude Include="AIComponent.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Fuzzy.h">
       <Filter>Header\AI</Filter>
     </ClInclude>
@@ -224,6 +221,12 @@
     </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Header\LevelLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="AISystem.h">
+      <Filter>Header\System</Filter>
+    </ClInclude>
+    <ClInclude Include="VelComponent.h">
+      <Filter>Header\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
