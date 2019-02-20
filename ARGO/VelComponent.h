@@ -2,11 +2,11 @@
 #include <vector>
 #include "Component.h"
 
-class AIComponent : public Component
+class VelocityComponent : public Component
 {
 
 public:
-	AIComponent() {};
+	VelocityComponent() {};
 
 	float getDistance() {
 		return distance;
@@ -34,7 +34,7 @@ private:
 	float velX = 0;
 	float velY = 0;
 	float distance;
-	std::string  id = "AI";
+	std::string  id = "Vel";
 
 
 };

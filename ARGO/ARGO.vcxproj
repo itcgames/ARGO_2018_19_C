@@ -49,7 +49,7 @@
     <ClCompile Include="splash.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="VelComponent.h" />
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="AmmoComponent.h" />
     <ClInclude Include="AmmoSystem.h" />

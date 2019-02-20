@@ -94,7 +94,7 @@ void Game::initialise()
 
 
 	Entity flag("Flag");
-	flag.addComponent(new PositionComponent(500, 500));
+	flag.addComponent(new PositionComponent(100, 800));
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
 	flag.addComponent(new PickUpComponent());
 
@@ -113,7 +113,7 @@ void Game::initialise()
 	player2.addComponent(new CollisionComponent());
 	player2.addComponent(new AmmoComponent(m_renderer));
 	player2.addComponent(new LifeComponent(5, 2, m_renderer, 1));
-	player2.addComponent(new AIComponent());
+	player2.addComponent(new VelocityComponent());
 
 
 	player3.addComponent(new PositionComponent(100, 500));
@@ -122,7 +122,7 @@ void Game::initialise()
 	player3.addComponent(new CollisionComponent());
 	player3.addComponent(new AmmoComponent(m_renderer));
 	player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
-	player3.addComponent(new AIComponent());
+	player3.addComponent(new VelocityComponent());
 
 
 	player4.addComponent(new PositionComponent(500, 500));
@@ -170,6 +170,9 @@ void Game::initialise()
 	player2.addComponent(new ControlComponent());
 	player3.addComponent(new ControlComponent());
 	player4.addComponent(new ControlComponent());
+	player2.addComponent(new ScoreComponent(0));
+	player3.addComponent(new ScoreComponent(0));
+	player4.addComponent(new ScoreComponent(0));
 	ais.addEntity(player2);
 	ais.addEntity(player3);
 
@@ -802,13 +805,16 @@ void Game::updateNetwork()
 			p = (PositionComponent *)player.getCompByType("Position");
 			p->setPosition(100, 100);
 
-			player2.addComponent(new AIComponent());
-			player3.addComponent(new AIComponent());
-			player4.addComponent(new AIComponent());
+			player2.addComponent(new VelocityComponent());
+			player3.addComponent(new VelocityComponent());
+			player4.addComponent(new VelocityComponent());
 
 			player2.addComponent(new ControlComponent());
 			player3.addComponent(new ControlComponent());
 			player4.addComponent(new ControlComponent());
+
+			
+
 		}
 		else if (msg.substr(0, 8) == "Joining ")
 		{
@@ -830,9 +836,9 @@ void Game::updateNetwork()
 				p = (PositionComponent *)player2.getCompByType("Position");
 				p->setPosition(500, 100);
 
-				player.addComponent(new AIComponent());
-				player3.addComponent(new AIComponent());
-				player4.addComponent(new AIComponent());
+				player.addComponent(new  VelocityComponent());
+				player3.addComponent(new VelocityComponent());
+				player4.addComponent(new VelocityComponent());
 				break;
 			case 2:
 			//	player3.addComponent(new HealthComponent(200));
@@ -847,9 +853,9 @@ void Game::updateNetwork()
 				p = (PositionComponent *)player3.getCompByType("Position");
 				p->setPosition(100, 500);
 
-				player.addComponent(new AIComponent());
-				player2.addComponent(new AIComponent());
-				player4.addComponent(new AIComponent());
+				player.addComponent(new  VelocityComponent());
+				player2.addComponent(new VelocityComponent());
+				player4.addComponent(new  VelocityComponent());
 				break;
 			case 3:
 			//	player4.addComponent(new HealthComponent(200));
@@ -864,10 +870,9 @@ void Game::updateNetwork()
 				p = (PositionComponent *)player4.getCompByType("Position");
 				p->setPosition(500, 500);
 
-				player.addComponent(new AIComponent());
-				player2.addComponent(new AIComponent());
-				player3.addComponent(new AIComponent());
-				break;
+				player.addComponent(new  VelocityComponent());
+				player2.addComponent(new VelocityComponent());
+				player3.addComponent(new VelocityComponent());
 			}
 		}
 		else if (msg.length() > 5 && msg.substr(5, 5) == "Ready")

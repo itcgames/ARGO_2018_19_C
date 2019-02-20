@@ -65,6 +65,7 @@ void CombatSystem::CheckCollision(float dt, int index)
 				posComp2 = (PositionComponent *)entity.getCompByType("Position");
 				spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
 				cc2 = (ControlComponent *)entity.getCompByType("Control");
+				vel = (VelocityComponent*)entity.getCompByType("Vel");
 			}
 		}
 
@@ -84,11 +85,15 @@ void CombatSystem::CheckCollision(float dt, int index)
 
 					if (posComp->getPositionX() > posComp2->getPositionX())
 					{
-						posComp2->setPosition(posComp2->getPositionX() - 200, posComp2->getPositionY() - 200);
+					/*	vel->setVelX(- 10);
+						vel->setVelY(- 50);*/
+						posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() - 100, posComp2->getPositionY() + vel->getVelY() - 90);
 
 					}
 					else {
-						posComp2->setPosition(posComp2->getPositionX() + 200, posComp2->getPositionY() - 200);
+					/*	vel->setVelX(+10);
+						vel->setVelY(-50);*/
+						posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() + 100, posComp2->getPositionY() + vel->getVelY() - 90);
 					}
 				
 					cc->attack = false;

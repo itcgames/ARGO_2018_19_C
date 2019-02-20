@@ -225,7 +225,7 @@
     <ClInclude Include="AISystem.h">
       <Filter>Header\System</Filter>
     </ClInclude>
-    <ClInclude Include="AIComponent.h">
+    <ClInclude Include="VelComponent.h">
       <Filter>Header\Components</Filter>
     </ClInclude>
   </ItemGroup>

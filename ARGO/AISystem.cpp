@@ -40,7 +40,7 @@ void AISystem::update() {
 		ac = (AnimationComponent*)entity.getCompByType("Animation");
 		sc = (SpriteComponent*)entity.getCompByType("Sprite");
 		pc = (PositionComponent*)entity.getCompByType("Position");
-		AIComponent *ai = (AIComponent*)entity.getCompByType("AI");
+		VelocityComponent *vel = (VelocityComponent*)entity.getCompByType("Vel");
 
 		//Jamie
 		////call fuzzy update 
@@ -74,14 +74,14 @@ void AISystem::update() {
 
 			posY = pc->getPositionY();
 			posX = pc->getPositionX();
-			if (ai->getVelY() <= 10)
+			if (vel->getVelY() <= 10)
 			{
-				ai->setVelY(ai->getVelY() + 1);
+				vel->setVelY(vel->getVelY() + 1);
 			}
 
 			//posY += vecY;
 			
-			pc->setPosition(pc->getPositionX() + ai->getVelX(), pc->getPositionY() + ai->getVelY());
+			pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
 			collision = 0;
 
 			if (cc->moveLeft == 1) {
@@ -93,7 +93,7 @@ void AISystem::update() {
 			}
 		}
 		else {
-			ai->setVelY(0);
+			vel->setVelY(0);
 			collision = 1;
 
 			if (ac->m_currentState == ac->jumpLeftS || ac->m_currentState == ac->jumpRightS)
@@ -106,7 +106,7 @@ void AISystem::update() {
 		/*int posX = pc->getPositionX();
 		int posY = pc->getPositionY();
 		posX += vecX;*/
-		pc->setPosition(pc->getPositionX() + ai->getVelX(), pc->getPositionY() + ai->getVelY());
+		pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
 
 
 		//Coll = (CollisionComponent *)entity.getCompByType("Collision");
