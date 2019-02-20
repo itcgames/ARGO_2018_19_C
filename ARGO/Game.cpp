@@ -572,32 +572,6 @@ void Game::updateNetwork()
 				break;
 			}
 
-			std::cout << std::to_string(ac->m_currentState) << std::endl;
-
-			switch (ac->m_currentState)
-			{
-			case ac->AniState::idleS:
-				std::cout << "Idle" << std::endl;
-				break;
-
-			case ac->AniState::leftS:
-				std::cout << "left" << std::endl;
-				break;
-
-			case ac->AniState::rightS:
-				std::cout << "right" << std::endl;
-				break;
-
-			case ac->AniState::jumpLeftS:
-				std::cout << "Jump left" << std::endl;
-				break;
-
-			case ac->AniState::jumpRightS:
-				std::cout << "Jump right" << std::endl;
-				break;
-
-			}
-
 			pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
 			pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
 			pos = pos +", " + "I: " + std::to_string(m_playerIndex);	// Player Index
@@ -621,7 +595,6 @@ void Game::updateNetwork()
 				else
 				{
 					m_stateTimer++;
-					std::cout << std::to_string(m_stateTimer) << std::endl;
 				}
 			}
 			else
@@ -637,7 +610,6 @@ void Game::updateNetwork()
 	string msg = m_client->receive();
 	if (msg.length() > 0)
 	{
-		std::cout << "Recieved: " << msg << std::endl;
 		char firstChar = msg.at(0);
 		if (firstChar == 'S' && msg.substr(13, 3) != "IP:")
 		{
@@ -687,11 +659,11 @@ void Game::updateNetwork()
 				break;
 
 			case 4:
-				ac->m_currentState = ac->AniState::idleS;
+				ac->m_currentState = ac->AniState::jumpRightS;
 				break;
 			
 			default:
-				std::cout << "Oops" << std::endl;
+				std::cout << "Oops! Missing animation" << std::endl;
 				break;
 			}
 
@@ -826,7 +798,7 @@ void Game::updateNetwork()
 		}
 		else
 		{
-			std::cout << msg << std::endl;
+			std::cout << "Error! Unknown message:" << msg << std::endl;
 		}
 		
 	}
