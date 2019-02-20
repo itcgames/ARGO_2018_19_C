@@ -114,11 +114,7 @@ void PhysicsSystem::update() {
 		if (!cc->alive)
 		{
 			ac->die();
-			
-			posX = 680;
-			posY = 100;
-			pc->setPosition(posX, posY);
-			cc->alive = true;
+			//cc->alive = true;
 		}
 	}
 

@@ -90,26 +90,3 @@ void AudioManager::ResumeMusic()
 		Mix_ResumeMusic();
 	}
 }
-
-//void AudioManager::clearSoundMap()
-//{
-//	for (auto i = m_Music.begin(); i!=m_Music.end(); i++)
-//	{
-//		if (i->second != nullptr)
-//		{
-//			Mix_FreeMusic(i->second);
-//			i->second = nullptr;
-//		}
-//	}
-//	m_Music.clear();
-//
-//	for (auto j = m_SFX.begin(); j != m_SFX.end(); j++)
-//	{
-//		if (j->second != nullptr)
-//		{
-//			Mix_FreeChunk(j->second);
-//			j->second = nullptr;
-//		}
-//	}
-//	m_SFX.clear();
-//}

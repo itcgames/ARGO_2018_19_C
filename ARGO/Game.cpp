@@ -28,7 +28,7 @@ std::vector<float> msgToPos(std::string s)
 
 Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4("Player4")
 {
-	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
+	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	m_currentGameState = (GameState::GameScreen);
@@ -48,7 +48,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 	//phs.initialise();
 
 
-	const auto MAP_PATH = "assets/maps/map1.tmx";
+	const auto MAP_PATH = "assets/maps/map2.tmx";
 
 	m_level = new level("Main Level");
 	m_level->load(MAP_PATH, m_renderer);
@@ -353,13 +353,14 @@ void Game::render(float dt)
 	SDL_RenderClear(m_renderer);
 
 	//Jamie
+
 	SDL_RenderSetLogicalSize(m_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-
+	m_level->draw(m_renderer);
 	rs.update(m_renderer, dt);
 	//wallTxt.render(400, 500, m_renderer);
 	//ps.update(m_renderer);
-	m_level->draw(m_renderer);
+	
 	//m_playerDot->render(m_renderer);
 	//m_texture.render(100, 100, m_renderer);
 
@@ -379,17 +380,17 @@ void Game::rumble()
 	//pos 1
 	if (rWidth == 1) {
 		SCREEN_WIDTH = 1501;
-		SCREEN_HEIGHT = 901;
+		SCREEN_HEIGHT = 1010;
 	}
 	//pos 2
 	if (rWidth == 2) {
 		SCREEN_WIDTH = 1499;
-		SCREEN_HEIGHT = 899;
+		SCREEN_HEIGHT = 1020;
 	}
 	//pos 3
 	if (rWidth == 3) {
 		SCREEN_WIDTH = 1489;
-		SCREEN_HEIGHT = 911;
+		SCREEN_HEIGHT = 1020;
 	}
 
 }
@@ -398,7 +399,7 @@ void Game::resetCamera()
 {
 	//set camera pos
 	SCREEN_WIDTH = 1500;
-	SCREEN_HEIGHT = 900;
+	SCREEN_HEIGHT = 1020;
 }
 
 void Game::getDistance() {

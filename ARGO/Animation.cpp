@@ -44,6 +44,8 @@ State* AnimationComponent::getCurrent()
 	return m_current;
 }
 
+
+
 void AnimationComponent::setCurrentState(AniState a) {
 
 	m_currentState = a;

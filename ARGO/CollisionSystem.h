@@ -3,6 +3,7 @@
 #include <vector>
 #include"CollisionComp.h"
 #include"EntityComponent.h"
+#include "Animation.h"
 #include "SDL.h"
 #include"LTexture.h"
 #include "Level.h"
@@ -26,6 +27,7 @@ private:
 	PositionComponent * posComp1;
 	PositionComponent * posComp2;
 	SpriteComponent * spriteComp;
+	AnimationComponent* ac;
 	SpriteComponent * spriteComp2;
 	ControlComponent* cc;
 	CollisionComponent* collide;

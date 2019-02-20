@@ -40,7 +40,5 @@ public:
 	bool alive = true;
 private:
 	std::string id = "Control";
-	
-
 };
 

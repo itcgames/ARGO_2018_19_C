@@ -119,7 +119,7 @@ private:
 	void resetCamera();
 	int rTimer = 0;
 	int SCREEN_WIDTH = 1500;
-	int SCREEN_HEIGHT = 900;
+	int SCREEN_HEIGHT = 1000;
 	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	// Player

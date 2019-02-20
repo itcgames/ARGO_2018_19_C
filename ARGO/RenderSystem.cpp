@@ -14,23 +14,15 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 
 	for (Entity & entity : entities) {
 
-		
-
-
 		if (entity.getName() == "Flag")
 		{
 			SpriteComponent *sc = (SpriteComponent*)entity.getCompByType("Sprite");
 			PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");
 
 			sc->setPosition(pc->getPositionX(), pc->getPositionY());
-
 			int fps = 15;
-			int ticksPerFrame = 1000 / fps;
-
-			SDL_Rect rect = { 0,0,0,0 };
-
-			sc->animate(index * 158,314,158,314,m_renderer);
-			//sc->render(m_renderer, rect);
+			int ticksPerFrame = 2000 / fps;
+			time = time + dt;
 
 			if (ticksPerFrame < time)
 			{
@@ -40,19 +32,44 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 				{
 					index = 0;
 				}
-
 				time = 0;
 			}
+			sc->animate(index * 158,314,158,314,m_renderer);
+			//sc->render(m_renderer, rect);
 		}
 		else
 		{
 			SpriteComponent *sc = (SpriteComponent*)entity.getCompByType("Sprite");
 			PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");
 			AnimationComponent * ac = (AnimationComponent*)entity.getCompByType("Animation");
+			ControlComponent * cc = (ControlComponent*)entity.getCompByType("Control");
+
+			int fps = 15;
+			int ticksPerFrame = 2000 / fps;
+			time = time + dt;
+			//SDL_Rect rect = { 0,0,0,0 };
+			if (ticksPerFrame < time)
+			{
+				i += 1;
+
+				if (i > 2)
+				{
+					i = 0;
+					if (ac->m_currentState == ac->DieS)
+					{
+						pc->setPosition(680, 100);
+						ac->idle();
+						cc->alive = true;
+						//newLife;
+						break;
+					}
+				}
+				time = 0;
+			}
 
 			sc->setPosition(pc->getPositionX(), pc->getPositionY());
-
-			sc->render(m_renderer, ac->sRect);
+			sc->animate(i * ac->sRect.x, ac->sRect.y, ac->sRect.w, ac->sRect.h, m_renderer);
+			//sc->render(m_renderer, ac->sRect);
 		}
 
 	}
