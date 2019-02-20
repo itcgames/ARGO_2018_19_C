@@ -12,5 +12,6 @@ public:
 	void jumpLeft(AnimationComponent* a);
 	void right(AnimationComponent* a);
 	void left(AnimationComponent* a);
+	void die(AnimationComponent* a);
 
 };

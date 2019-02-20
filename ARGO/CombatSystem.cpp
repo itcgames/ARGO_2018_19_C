@@ -5,6 +5,22 @@ void CombatSystem::addEntity(Entity e)
 	entities.push_back(e);
 }
 
+void CombatSystem::removeEntity(std::string ID) {
+
+	
+	std::vector<Entity>::iterator iter;
+
+	for (iter = entities.begin(); iter != entities.end(); ) {
+		if (iter->getName() == ID) {
+			iter = entities.erase(iter);
+		}
+		else {
+			++iter;
+		}
+	}
+}
+
+
 void CombatSystem::CheckCollision(float dt)
 {
 
@@ -14,10 +30,15 @@ void CombatSystem::CheckCollision(float dt)
 		if (entity.getName() == "Player")
 		{
 
-			posComp = (PositionComponent *)entity.getCompByType("Position");
-			cc = (ControlComponent *)entity.getCompByType("Control");
-			spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
-			score = (ScoreComponent*)entity.getCompByType("Score");
+			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
+
+			if (lc->getLife() != 0) {
+
+				posComp = (PositionComponent *)entity.getCompByType("Position");
+				cc = (ControlComponent *)entity.getCompByType("Control");
+				spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
+				score = (ScoreComponent*)entity.getCompByType("Score");
+			}
 		
 		}
 		else if (entity.getName() == "Flag")
@@ -26,9 +47,14 @@ void CombatSystem::CheckCollision(float dt)
 		}
 		else
 		{
-			posComp2 = (PositionComponent *)entity.getCompByType("Position");
-			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
-			cc2 = (ControlComponent *)entity.getCompByType("Control");
+			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
+
+			if (lc->getLife() != 0) {
+
+				posComp2 = (PositionComponent *)entity.getCompByType("Position");
+				spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
+				cc2 = (ControlComponent *)entity.getCompByType("Control");
+			}
 		}
 
 		if (posComp != NULL && posComp2 != NULL) {

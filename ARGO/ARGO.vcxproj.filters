@@ -61,6 +61,9 @@
     <ClCompile Include="PhysicsSystem.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -70,7 +73,16 @@
     <ClCompile Include="Right.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="SeekerProjectile.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="splash.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Die.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -79,6 +91,12 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="AISystem.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+     <ClInclude Include="AmmoComponent.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AmmoSystem.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
@@ -183,6 +201,9 @@
     <ClInclude Include="PowerUp.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Header</Filter>
+    </ClInclude>
     <ClInclude Include="RenderSystem.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -192,6 +213,9 @@
     <ClInclude Include="ScoreComponent.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="SeekerProjectile.h">
+      <Filter>Header</Filter>
+    </ClInclude>
     <ClInclude Include="splash.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -199,6 +223,15 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeSystem.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeComponent.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Die.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>

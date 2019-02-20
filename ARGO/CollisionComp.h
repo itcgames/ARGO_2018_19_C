@@ -11,6 +11,7 @@ public:
 	bool squareCollided = false;
 	bool crclCollided = false;
 
+
 	CollisionComponent() {};
 
 	bool CircularCollision(float x1, float y1, float x2, float y2, float radius1, float radius2)

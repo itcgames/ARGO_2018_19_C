@@ -98,26 +98,26 @@ bool Lobby::everyoneReady()
 void Lobby::render(SDL_Renderer * ren)
 {
 	// Ready button
-	m_readyTexture.render(m_readyX, m_readyY, ren, NULL, 1, 1);
+	m_readyTexture.render(m_readyX, m_readyY, ren, 1, 1);
 	// Player one
 	if (m_playerReady[0])
 	{
-		m_playerTexture.render(100, 400, ren, NULL, 1, 1);
+		m_playerTexture.render(100, 400, ren, 1, 1);
 	}
 	// Player two
 	if (m_playerReady[1])
 	{
-		m_player2Texture.render(350, 400, ren, NULL, 1, 1);
+		m_player2Texture.render(350, 400, ren, 1, 1);
 	}
 	// Player three
 	if (m_playerReady[2])
 	{
-		m_player3Texture.render(700, 400, ren, NULL, 1, 1);
+		m_player3Texture.render(700, 400, ren, 1, 1);
 	}
 	// Player four
 	if (m_playerReady[3])
 	{
-		m_player4Texture.render(950, 400, ren, NULL, 1, 1);
+		m_player4Texture.render(950, 400, ren, 1, 1);
 	}
 
 }

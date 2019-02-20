@@ -15,6 +15,8 @@ void ControlSystem::input(SDL_Event &e) {
 		
 		controlComp = (ControlComponent*)entity.getCompByType("Control");
 		amComp = (AnimationComponent*)entity.getCompByType("Animation");
+		AmmoComponent* ammoComp = (AmmoComponent*)entity.getCompByType("Ammo");
+		PositionComponent* posComp = (PositionComponent*)entity.getCompByType("Position");
 	
 		switch (e.type)
 		{
@@ -35,12 +37,41 @@ void ControlSystem::input(SDL_Event &e) {
 				controlComp->setDirection(controlComp->Right);
 				controlComp->moveRight = 1;
 			}
-			if (e.key.keysym.sym == SDLK_SPACE && pressed == false)
+			if (e.key.keysym.sym == SDLK_SPACE )
+			{
+				//amComp->idle();
+				int posX = posComp->getPositionX();
+				int posY = posComp->getPositionY();
+				//get current ammo amount and if not 0 place bomb
+				if (ammoComp->getAmmo() > 0) {
+					ammoComp->dropProjectile(posX, posY);
+					//take one ammo away
+					int current = ammoComp->getAmmo();
+					current--;
+					ammoComp->setAmmo(current);
+				}
+				
+			}
+			if (e.key.keysym.sym == SDLK_a)
+			{
+				//amComp->idle();
+				int posX = posComp->getPositionX();
+				int posY = posComp->getPositionY();
+				//get current ammo amount and if not 0 place bomb
+				if (ammoComp->getSeekerAmmo() > 0) {
+					ammoComp->dropSeeker(posX, posY);
+					//take one ammo away
+					int current = ammoComp->getSeekerAmmo();
+					current = 0;
+					ammoComp->setSeekerAmmo(current);
+				}
+			}
+
+			if (e.key.keysym.sym == SDLK_s && pressed == false)
 			{
 				controlComp->attack = true;
 				pressed = true;
 			}
-
 		}
 	}
 
@@ -77,6 +108,9 @@ void ControlSystem::keyUp(SDL_Event &e) {
 }
 
 void ControlSystem::idle() {
+	if (controlComp->alive)
+	{
+		controlComp->setDirection(controlComp->Idle);
 
-	controlComp->setDirection(controlComp->Idle);
+	}
 }

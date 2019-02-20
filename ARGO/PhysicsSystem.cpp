@@ -1,5 +1,6 @@
 #include "PhysicsSystem.h"
 
+
 PhysicsSystem::PhysicsSystem() {
 
 }
@@ -40,7 +41,8 @@ void PhysicsSystem::update() {
 
 				posY = pc->getPositionY();
 				posX = pc->getPositionX();
-				vecY++;
+				if (vecY <= 15)
+					vecY++;
 				posY += vecY;
 				pc->setPosition(posX, posY);
 				collision = 0;
@@ -103,15 +105,18 @@ void PhysicsSystem::update() {
 		{
 			ac->right();
 		}
-		std::cout << vecY <<std::endl;
+
+		//std::cout << vecY <<std::endl;
+
 		if (cc->ceilingHit)
 		{
 			vecY = 5;
 			cc->ceilingHit = false;
-
 		}
-	
-
+		if (!cc->alive)
+		{
+			ac->die();
+		}
 	}
 
 

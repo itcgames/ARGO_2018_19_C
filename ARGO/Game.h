@@ -10,7 +10,7 @@
 #include <WS2tcpip.h>
 #include <string.h>
 #include "EntityComponent.h"
-#include "HealthSystem.h"
+#include "LifeSystem.h"
 #include "RenderSystem.h"
 #include "ControlSystem.h"
 #include "CollisionSystem.h"
@@ -19,23 +19,20 @@
 #include "AiSystem.h"
 #include "ParticleSystem.h"
 #include "PhysicsSystem.h"
-
+#include "LifeSystem.h"
 #include "Lobby.h"
-
-
-//Jamie
 #include "Level.h"
 #include "Particle.h"
 #include "Factory.h"
 #include <iterator>
+#include "AmmoSystem.h"
 
 // Network
 #include "Client.h"
 #include <sstream>
 
+
 using namespace std;
-
-
 
 
 enum class
@@ -47,6 +44,7 @@ enum class
 	MainMenu,
 	Lobby,
 	GameScreen,
+	GameOverScreen,
 	CoopScreen,
 	Options,
 	Credits,
@@ -60,6 +58,7 @@ public:
 	~Game();
 
 	void run();
+	void setGameState(GameState gameState);
 
 private:
 
@@ -69,8 +68,6 @@ private:
 	void initialise();
 	void getDistance();
 
-
-	void setGameState(GameState gameState);
 
 	SDL_Window *m_window;
 	SDL_Renderer *m_renderer;
@@ -84,10 +81,10 @@ private:
 	Entity* m_alien;
 	Entity* m_dog;
 	Entity* m_flag;
-	HealthComponent* m_healthComponentOne;
+	/*HealthComponent* m_healthComponentOne;
 	HealthComponent* m_healthComponentTwo;
 	HealthComponent* m_healthComponentThree;
-	HealthComponent* m_healthComponentFour;
+	HealthComponent* m_healthComponentFour;*/
 	ControlComponent* m_ctrlComponent;
 	PositionComponent* m_posComponent;
 	CollisionComponent* CollisionComp;
@@ -96,35 +93,36 @@ private:
 	Lobby * m_lobbyScreen;
 
 	CombatSystem comsystem;
-	HealthSystem hs;
+    //LifeSystem ls;
 	RenderSystem rs;
 	AISystem ais;
 	ParticleSystem ps;
 	ControlSystem cs;
 	GameState m_currentGameState;
 	GameState m_previousGameState;
+	AmmoSystem ammos;
 
 	CollisionSystem Colls;
 	LTexture m_texture, wallTxt;
 
 
 	PhysicsSystem phs;
+	LifeSystem ls;
 
 	Factory* m_factory;
 	std::vector<PowerUp*> m_powerUps;
-	//jamie
 	double disBetweenAiPlayer = 10000;
-	//Fuzzy* m_fuzzy;
 
 	int m_timerSpawn;
-	const int m_spawnTimeLimit = 2000;
-	const int m_numOfPowerUps = 2;
+	const int m_spawnTimeLimit = 1000;
+	const int m_numOfPowerUps = 5;
+
 
 	void rumble();
 	void resetCamera();
 	int rTimer = 0;
 	int SCREEN_WIDTH = 1500;
-	int SCREEN_HEIGHT = 900;
+	int SCREEN_HEIGHT = 1000;
 	int mouseX, mouseY;
 	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
@@ -138,8 +136,10 @@ private:
 	// Network
 	Client * m_client;
 	void updateNetwork();
+
 	int m_stateTimer;
 	const int m_stateTimerLimit = 300;
+
 };
 
 #endif // !GAME
