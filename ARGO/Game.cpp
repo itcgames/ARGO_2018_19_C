@@ -251,7 +251,7 @@ void Game::update(float dt)
 	if (m_timerSpawn >= m_spawnTimeLimit)
 	{
 		//switch (rand() % m_numOfPowerUps)
-		switch(2)
+		switch(3)
 		{
 		case 0:
 			m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -347,6 +347,18 @@ void Game::update(float dt)
 
 					break;
 				case 4: // SeekerAmmo
+					if (ammos.getEntityIds()[i] == "Player") {
+						ammos.addSeekerAmmo(ammos.getEntityById("Player"));
+					}
+					if (ammos.getEntityIds()[i] == "Player2") {
+						ammos.addSeekerAmmo(ammos.getEntityById("Player2"));
+					}
+					if (ammos.getEntityIds()[i] == "Player3") {
+						ammos.addSeekerAmmo(ammos.getEntityById("Player3"));
+					}
+					if (ammos.getEntityIds()[i] == "Player4") {
+						ammos.addSeekerAmmo(ammos.getEntityById("Player4"));
+					}
 					break;
 				case 5: // Reset
 					break;

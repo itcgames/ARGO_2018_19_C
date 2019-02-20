@@ -40,6 +40,7 @@
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Right.cpp" />
+    <ClCompile Include="SeekerProjectile.cpp" />
     <ClCompile Include="splash.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +82,7 @@
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Right.h" />
     <ClInclude Include="ScoreComponent.h" />
+    <ClInclude Include="SeekerProjectile.h" />
     <ClInclude Include="splash.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />
@@ -180,6 +182,9 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>xcopy C:\Users\gameuser\OneDrive\argot\assets</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

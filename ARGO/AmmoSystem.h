@@ -12,6 +12,9 @@ class AmmoSystem
 	//int ammoCount = 0;
 	float posX = 0;
 	float posY = 0;
+	float c_PosX = 0;
+	float c_PosY = 0;
+	float c_dis = 10000;
 
 public:
 	void addEntity(Entity e) {
@@ -50,8 +53,8 @@ public:
 			//Loop through all entities 
 			for (Component * component : entity.getComponents()) {
 				AmmoComponent* ammoComp = (AmmoComponent*)entity.getCompByType("Ammo");
-				//PositionComponent* posComp = (PositionComponent*)entity.getCompByType("Position");
 
+				c_dis = 10000;
 
 				for (Entity & entityTwo : entities) {
 					//check collsion then pop that index
@@ -61,15 +64,26 @@ public:
 						PositionComponent* posComp = (PositionComponent*)entityTwo.getCompByType("Position");
 
 						if (entity.getName() != entityTwo.getName()) {
-							float posX = posComp->getPositionX();
-							float posY = posComp->getPositionY();
-
+							posX = posComp->getPositionX();
+							posY = posComp->getPositionY();
 
 							ammoComp->checkCollision(posX, posY);
+							
+							
+							//if dis is smaller than previous distance then change c_pos
+							if (ammoComp->getClosest(posX, posY) < c_dis) {
+								c_PosX = posX;
+								c_PosY = posY;
+								//set 
+								c_dis = ammoComp->getClosest(posX, posY);
+							}
+							
 						}
 						
 					}
 				}
+				//call a method to move the seekers dot
+				ammoComp->seek(c_PosX, c_PosY);
 				
 			}
 		}
@@ -103,6 +117,20 @@ public:
 			float current = ammoComp->getAmmo();
 			current++;
 			ammoComp->setAmmo(current);
+
+		}
+	}
+
+	void addSeekerAmmo(Entity * entity) {
+		//increase the amout of ammo for that entity
+		//Loop through all entities 
+		for (Component * component : entity->getComponents()) {
+
+			AmmoComponent* ammoComp = (AmmoComponent*)entity->getCompByType("Ammo");
+
+			float current = ammoComp->getSeekerAmmo();
+			current = 1;
+			ammoComp->setSeekerAmmo(current);
 
 		}
 	}

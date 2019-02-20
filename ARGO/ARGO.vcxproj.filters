@@ -23,6 +23,7 @@
     <ClCompile Include="splash.cpp" />
     <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="SeekerProjectile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
@@ -66,6 +67,7 @@
     <ClInclude Include="AmmoComponent.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="AmmoSystem.h" />
+    <ClInclude Include="SeekerProjectile.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Left.bmp" />

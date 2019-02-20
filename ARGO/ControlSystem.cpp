@@ -53,6 +53,21 @@ void ControlSystem::input(SDL_Event &e) {
 				}
 				
 			}
+			if (e.key.keysym.sym == SDLK_a)
+			{
+				//amComp->idle();
+				int posX = posComp->getPositionX();
+				int posY = posComp->getPositionY();
+				//get current ammo amount and if not 0 place bomb
+				if (ammoComp->getSeekerAmmo() > 0) {
+					ammoComp->dropSeeker(posX, posY);
+					//take one ammo away
+					int current = ammoComp->getSeekerAmmo();
+					current = 0;
+					ammoComp->setSeekerAmmo(current);
+				}
+
+			}
 
 		}
 	}
