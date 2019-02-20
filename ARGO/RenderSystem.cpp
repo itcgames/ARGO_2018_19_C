@@ -7,6 +7,23 @@ RenderSystem::RenderSystem() {
 void RenderSystem::addEntity(Entity e) {
 	entities.push_back(e);
 }
+void RenderSystem::removeEntity(std::string ID) {
+
+	std::vector<Entity>::iterator iter;
+
+	for (iter = entities.begin(); iter != entities.end(); ) {
+		if (iter->getName() == ID) {
+			iter = entities.erase(iter);
+		}
+		else {
+			++iter;
+		}
+	}
+
+}
+
+
+
 
 void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 
@@ -43,7 +60,9 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 			PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");
 			AnimationComponent * ac = (AnimationComponent*)entity.getCompByType("Animation");
 			ControlComponent * cc = (ControlComponent*)entity.getCompByType("Control");
-
+			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
+	if (lc->getLife() != 0)
+	{
 			int fps = 15;
 			int ticksPerFrame = 2000 / fps;
 			time = time + dt;
@@ -70,6 +89,11 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 			sc->setPosition(pc->getPositionX(), pc->getPositionY());
 			sc->animate(i * ac->sRect.x, ac->sRect.y, ac->sRect.w, ac->sRect.h, m_renderer);
 			//sc->render(m_renderer, ac->sRect);
+
+
+		}
+
+			lc->render(m_renderer);
 		}
 
 	}

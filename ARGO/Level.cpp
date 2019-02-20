@@ -72,7 +72,6 @@ void level::load(const std::string& path, SDL_Renderer* ren) {
 		if (layer->getType() == tmx::Layer::Type::Object)
 		{
 			const auto& objects = dynamic_cast<tmx::ObjectGroup*>(layer.get())->getObjects();
-			std::cout << "Found " << objects.size() << " objects in layer" << std::endl;
 			for (const auto & object : objects)
 			{
 				if (object.getName() == "Wall")
@@ -89,7 +88,6 @@ void level::load(const std::string& path, SDL_Renderer* ren) {
 				}
 				else if (object.getName() == "Ceiling")
 				{
-
 					float x, y, width, height;
 					x = object.getPosition().x;
 					y = object.getPosition().y;
