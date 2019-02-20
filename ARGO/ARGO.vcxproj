@@ -194,7 +194,8 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy C:\Users\gameuser\OneDrive\argot\assets</Command>
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO/assets"
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -210,6 +211,10 @@
       <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO/assets"
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -228,6 +233,10 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO/assets"
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -246,6 +255,10 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO/assets"
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
