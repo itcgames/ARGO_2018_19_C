@@ -108,6 +108,9 @@ void ControlSystem::keyUp(SDL_Event &e) {
 }
 
 void ControlSystem::idle() {
+	if (controlComp->alive)
+	{
+		controlComp->setDirection(controlComp->Idle);
 
-	controlComp->setDirection(controlComp->Idle);
+	}
 }

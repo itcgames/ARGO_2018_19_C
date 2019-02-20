@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Game.h"
 
 
 struct not_digit {
@@ -47,7 +48,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 	//phs.initialise();
 
 
-	const auto MAP_PATH = "assets/maps/map1.tmx";
+	const auto MAP_PATH = "assets/maps/map2.tmx";
 
 	m_level = new level("Main Level");
 	m_level->load(MAP_PATH, m_renderer);
@@ -75,7 +76,7 @@ void Game::initialise()
 	}
 
 
-	
+
 	Entity flag("Flag");
 	flag.addComponent(new PositionComponent(500, 500));
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
@@ -83,7 +84,7 @@ void Game::initialise()
 
 
 	player.addComponent(new PositionComponent(300, 100));
-	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
+	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
 	player.addComponent(new AmmoComponent(m_renderer));
@@ -91,7 +92,7 @@ void Game::initialise()
 
 
 	player2.addComponent(new PositionComponent(500, 100));
-	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
+	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
 	player2.addComponent(new AmmoComponent(m_renderer));
@@ -99,7 +100,7 @@ void Game::initialise()
 
 
 	player3.addComponent(new PositionComponent(100, 500));
-	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
+	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
 	player3.addComponent(new AmmoComponent(m_renderer));
@@ -107,7 +108,7 @@ void Game::initialise()
 
 
 	player4.addComponent(new PositionComponent(500, 500));
-	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
+	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 	player4.addComponent(new AmmoComponent(m_renderer));
@@ -465,7 +466,7 @@ void Game::render(float dt)
 		m_level->draw(m_renderer);
 		//m_playerDot->render(m_renderer);
 		//m_texture.render(100, 100, m_renderer);
-
+    ammos.render(m_renderer);
 		for (int i = m_powerUps.size() - 1; i >= 0; i--)
 		{
 			m_powerUps[i]->draw(m_renderer);
@@ -476,29 +477,6 @@ void Game::render(float dt)
 	default:
 		break;
 	}
-
-	if (m_renderer == nullptr)
-	{
-		SDL_Log("Could not create a renderer: %s", SDL_GetError());
-	}
-
-	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-	SDL_RenderClear(m_renderer);
-	SDL_RenderSetLogicalSize(m_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-
-	rs.update(m_renderer, dt);
-	//wallTxt.render(400, 500, m_renderer);
-	//ps.update(m_renderer);
-	m_level->draw(m_renderer);
-	//m_playerDot->render(m_renderer);
-	//m_texture.render(100, 100, m_renderer);
-	ammos.render(m_renderer);
-	for (int i = m_powerUps.size() - 1; i >= 0; i--)
-	{
-		m_powerUps[i]->draw(m_renderer);
-	}
-
 	SDL_RenderPresent(m_renderer);
 
 }
@@ -511,17 +489,17 @@ void Game::rumble()
 	//pos 1
 	if (rWidth == 1) {
 		SCREEN_WIDTH = 1501;
-		SCREEN_HEIGHT = 901;
+		SCREEN_HEIGHT = 1010;
 	}
 	//pos 2
 	if (rWidth == 2) {
 		SCREEN_WIDTH = 1499;
-		SCREEN_HEIGHT = 899;
+		SCREEN_HEIGHT = 1020;
 	}
 	//pos 3
 	if (rWidth == 3) {
 		SCREEN_WIDTH = 1489;
-		SCREEN_HEIGHT = 911;
+		SCREEN_HEIGHT = 1020;
 	}
 
 }
@@ -530,7 +508,7 @@ void Game::resetCamera()
 {
 	//set camera pos
 	SCREEN_WIDTH = 1500;
-	SCREEN_HEIGHT = 900;
+	SCREEN_HEIGHT = 1020;
 }
 
 void Game::getDistance() {
@@ -672,7 +650,7 @@ void Game::updateNetwork()
 			pos = "X: " + std::to_string((int)p->getPositionX()) + ", " + "Y: " + std::to_string((int)p->getPositionY()) + ", " + "I: " + std::to_string(m_playerIndex);
 			m_client->sendMsg(pos);
 			break;
-			
+
 		case GameState::Lobby:
 			std::string msg;
 			msg = "i: " + std::to_string(m_playerIndex) + " " + m_lobbyScreen->sendMsg(m_playerIndex);
@@ -731,9 +709,9 @@ void Game::updateNetwork()
 		{
 			//player.addComponent(new HealthComponent(200));
 			player.addComponent(new ControlComponent());
-			player.addComponent(new ScoreComponent(0)); 
+			player.addComponent(new ScoreComponent(0));
 			player.addComponent(new LifeComponent(6, 1, m_renderer, 1));
-		
+
 
 			m_playerIndex = 0;
 			comsystem.addEntity(player);
@@ -858,12 +836,12 @@ void Game::updateNetwork()
 				}
 				break;
 			}
-			
+
 		}
 		else
 		{
 			std::cout << msg << std::endl;
 		}
-		
+
 	}
 }

@@ -3,6 +3,7 @@
 #include "JumpRight.h"
 #include "JumpLeft.h"
 #include "Idle.h"
+#include "Die.h"
 
 void Left::idle(AnimationComponent* a)
 {
@@ -50,5 +51,17 @@ void Left::right(AnimationComponent* a)
 	a->sRect.h = 100 * a->m_scale;
 	a->sRect.w = 80 * a->m_scale;
 	a->sRect.x = 0;
+	delete this;
+}
+
+void Left::die(AnimationComponent* a)
+{
+	std::cout << "Going from left to Die" << std::endl;
+	a->setCurrent(new Die());
+	a->setCurrentState(a->DieS);
+	a->sRect.y = 400;
+	a->sRect.h = 100 * a->m_scale;
+	a->sRect.x = 80;
+	a->sRect.w = 80 * a->m_scale;
 	delete this;
 }

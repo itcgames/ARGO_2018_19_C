@@ -26,6 +26,7 @@
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
+    <ClCompile Include="Die.cpp" />
     <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Idle.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="ControlComponent.h" />
     <ClInclude Include="ControlSystem.h" />
     <ClInclude Include="credits.h" />
+    <ClInclude Include="Die.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="FlagComponent.h" />

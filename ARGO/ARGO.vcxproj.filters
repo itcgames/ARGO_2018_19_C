@@ -82,6 +82,9 @@
     <ClCompile Include="LifeSystem.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Die.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h">
@@ -226,6 +229,9 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="LifeComponent.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Die.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
