@@ -21,13 +21,24 @@ void CombatSystem::removeEntity(std::string ID) {
 }
 
 
-void CombatSystem::CheckCollision(float dt)
+void CombatSystem::CheckCollision(float dt, int index)
 {
 
 	time = time + dt;
+	
+	if (index > 0)
+	{
+		playerID = "Player" + std::to_string(index + 1);
+	}
+	else {
+		playerID = "Player";
+	}
+	
 	for (Entity& entity : entities)
 	{
-		if (entity.getName() == "Player")
+
+		
+		if (entity.getName() == playerID)
 		{
 
 			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
@@ -57,7 +68,7 @@ void CombatSystem::CheckCollision(float dt)
 			}
 		}
 
-		if (posComp != NULL && posComp2 != NULL) {
+		if (posComp != NULL && posComp2 != NULL ) {
 
 			if (cc->attack) {
 				cc->attack = false;
@@ -116,9 +127,9 @@ bool CombatSystem::AABB(float x1, float y1, float x2, float y2, float width1, fl
 }
 
 
-void CombatSystem::update(float dt)
+void CombatSystem::update(float dt, int playerindex)
 {
-	CheckCollision(dt);
+	CheckCollision(dt, playerindex);
 }
 
 

@@ -112,7 +112,7 @@ void Game::initialise()
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
 	player2.addComponent(new AmmoComponent(m_renderer));
-	player2.addComponent(new LifeComponent(0, 2, m_renderer, 1));
+	player2.addComponent(new LifeComponent(5, 2, m_renderer, 1));
 
 
 	player3.addComponent(new PositionComponent(100, 500));
@@ -170,11 +170,7 @@ void Game::initialise()
 
 	Colls.addEntity(flag);
 
-	/*comsystem.addEntity(player);
-	comsystem.addEntity(player2);
-	comsystem.addEntity(player3);
-	comsystem.addEntity(player4);
-	comsystem.addEntity(flag);*/
+	comsystem.addEntity(flag);
 
 	ps.addEntity(player);
 	ps.addEntity(player2);
@@ -188,6 +184,11 @@ void Game::initialise()
 
 	// Screen Initialise
 	m_lobbyScreen = new Lobby(m_renderer);
+	updateNetwork();
+
+	player2.addComponent(new ControlComponent());
+	player3.addComponent(new ControlComponent());
+	player4.addComponent(new ControlComponent());
 
 }
 
@@ -264,7 +265,7 @@ void Game::setGameState(GameState gameState)
 
 void Game::update(float dt)
 {
-
+	updateNetwork();
 	Colls.update(*m_level, dt);
 	//hs.update();
 	ammos.update();
@@ -289,6 +290,8 @@ void Game::update(float dt)
 	case GameState::GameScreen:
 		//ps.update(m_renderer);
 		phs.update();
+		comsystem.update(dt, m_playerIndex);
+		ls.update(dt);
 		break;
 	case GameState::Credits:
 		break;
@@ -329,12 +332,11 @@ void Game::update(float dt)
 		}
 		m_timerSpawn = 0;
 	}
-	updateNetwork();
+	
 	for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{
 		if (m_powerUps[i]->getAlive())
-			comsystem.update(dt);
-		ls.update(dt);
+		
 		// Power ups
 		m_timerSpawn++;
 		if (m_timerSpawn >= m_spawnTimeLimit)
@@ -448,7 +450,6 @@ void Game::update(float dt)
 		}
 
 		getDistance();
-
 		updateNetwork();
 
 	}
@@ -784,8 +785,14 @@ void Game::updateNetwork()
 
 			m_playerIndex = 0;
 			comsystem.addEntity(player);
+			comsystem.addEntity(player2);
+			comsystem.addEntity(player3);
+			comsystem.addEntity(player4);
 			cs.addEntity(player);
 			Colls.addEntity(player);
+			Colls.addEntity(player2);
+			Colls.addEntity(player3);
+			Colls.addEntity(player4);
 			phs.addEntity(player);
 			//hs.addEntity(player);
 			p = (PositionComponent *)player.getCompByType("Position");
@@ -794,6 +801,10 @@ void Game::updateNetwork()
 			player2.addComponent(new AIComponent());
 			player3.addComponent(new AIComponent());
 			player4.addComponent(new AIComponent());
+
+			player2.addComponent(new ControlComponent());
+			player3.addComponent(new ControlComponent());
+			player4.addComponent(new ControlComponent());
 		}
 		else if (msg.substr(0, 8) == "Joining ")
 		{
