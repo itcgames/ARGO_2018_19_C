@@ -11,6 +11,7 @@ class RenderSystem
 public:
 	RenderSystem();
 	void addEntity(Entity e);
+	void removeEntity(std::string ID);
 	void update(SDL_Renderer *m_renderer, float dt);
 
 private:

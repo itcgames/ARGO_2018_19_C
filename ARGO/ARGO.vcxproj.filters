@@ -73,6 +73,9 @@
     <ClCompile Include="splash.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="LifeSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h">
@@ -199,6 +202,12 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeSystem.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeComponent.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
