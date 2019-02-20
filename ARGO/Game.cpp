@@ -42,12 +42,19 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::GameScreen);
+		m_currentGameState = (GameState::GameOverScreen);
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 		if (IMG_Init(imgFlags) != imgFlags)
 		{
 			cout << "Error: " << IMG_GetError() << endl;
+		}
+
+		//Initialize SDL_ttf
+
+		if (TTF_Init() == -1)
+		{
+			printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 		}
 		m_factory = new PowerUpFactory;
 
@@ -188,6 +195,7 @@ void Game::initialise()
 
 	// Screen Initialise
 	m_lobbyScreen = new Lobby(m_renderer);
+	m_gameoverScreen = new GameOverScreen();
 
 }
 
@@ -289,6 +297,9 @@ void Game::update(float dt)
 	case GameState::GameScreen:
 		//ps.update(m_renderer);
 		phs.update();
+		break;
+	case GameState::GameOverScreen:
+		m_gameoverScreen->update();
 		break;
 	case GameState::Credits:
 		break;
@@ -491,6 +502,9 @@ void Game::render(float dt)
 		{
 			m_powerUps[i]->draw(m_renderer);
 		}
+		break;
+	case GameState::GameOverScreen:
+		m_gameoverScreen->render(m_renderer);
 		break;
 	case GameState::Credits:
 		break;

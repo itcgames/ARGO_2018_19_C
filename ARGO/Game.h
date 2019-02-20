@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include <SDL_timer.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <WS2tcpip.h>
@@ -20,7 +22,6 @@
 #include "ParticleSystem.h"
 #include "PhysicsSystem.h"
 #include "LifeSystem.h"
-#include "Lobby.h"
 #include "Level.h"
 #include "Particle.h"
 #include "Factory.h"
@@ -31,6 +32,10 @@
 #include "Client.h"
 #include <sstream>
 #include "Animation.h"
+
+//Screens
+#include "Lobby.h"
+#include "GameOver.h"
 
 
 using namespace std;
@@ -91,7 +96,9 @@ private:
 	CollisionComponent* CollisionComp;
 	ParticleComponent* m_partComponent;
 
+	// Screens
 	Lobby * m_lobbyScreen;
+	GameOverScreen * m_gameoverScreen;
 
 	CombatSystem comsystem;
     //LifeSystem ls;

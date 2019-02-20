@@ -81,8 +81,18 @@ void ControlSystem::input(SDL_Event &e) {
 			}
 		}
 
-		switch (e.type)
+		if (StickLeftX >= -bitePoint)
 		{
+			controlComp->moveLeft = 0;
+		}
+		if (StickLeftX <= bitePoint)
+		{
+			controlComp->moveRight = 0;
+		}
+
+		switch (e.type)
+		{		
+
 		case SDL_JOYHATMOTION:
 			if (Up)
 			{
@@ -255,20 +265,7 @@ void ControlSystem::input(SDL_Event &e) {
 				break;
 			}
 		}
-
-		if (StickLeftX >= -bitePoint)
-		{
-			controlComp->moveLeft = 0;
-		}
-		if (StickLeftX <= bitePoint)
-		{
-			controlComp->moveRight = 0;
-		}
 	}
-
-
-	
-
 }
 void ControlSystem::keyUp(SDL_Event &e) {
 	switch (e.type)
