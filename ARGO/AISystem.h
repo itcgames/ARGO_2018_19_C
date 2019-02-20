@@ -50,7 +50,6 @@ public:
 	void update(float dis, Entity * entity) {
 
 		
-
 		//for (Entity & entity : entities) {
 
 			//Loop through all entities 

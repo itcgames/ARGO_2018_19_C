@@ -105,7 +105,9 @@ void PhysicsSystem::update() {
 		{
 			ac->right();
 		}
-		std::cout << vecY <<std::endl;
+
+		//std::cout << vecY <<std::endl;
+
 		if (cc->ceilingHit)
 		{
 			vecY = 5;
