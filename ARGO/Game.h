@@ -30,6 +30,7 @@
 // Network
 #include "Client.h"
 #include <sstream>
+#include "Animation.h"
 
 
 using namespace std;

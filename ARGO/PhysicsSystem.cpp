@@ -27,7 +27,6 @@ Entity * PhysicsSystem::getEntityById(std::string s)
 void PhysicsSystem::update() {
 
 
-	//std::cout << "PHYSICS SYSTEM:" << std::endl;
 	for (Entity & entity : entities) {
 
 		cc = (ControlComponent*)entity.getCompByType("Control");
@@ -105,9 +104,6 @@ void PhysicsSystem::update() {
 		{
 			ac->right();
 		}
-
-		//std::cout << vecY <<std::endl;
-
 		if (cc->ceilingHit)
 		{
 			vecY = 5;

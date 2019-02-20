@@ -4,6 +4,19 @@
 #include <string>
 #include <WS2tcpip.h>
 
+struct NetworkMessage
+{
+	int type = -1;
+	int playerIndex = 5;
+	int hostIndex = -1;
+	bool ready = false;
+	int x = -10;
+	int y = -10;
+	//std::string state = "";
+	//std::string msg = "";
+};
+
+
 class Client
 {
 public:

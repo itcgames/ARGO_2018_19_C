@@ -29,29 +29,44 @@ std::vector<float> msgToPos(std::string s)
 
 Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4("Player4")
 {
-	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
-	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	m_currentGameState = (GameState::GameScreen);
 
-	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
-	if (IMG_Init(imgFlags) != imgFlags)
+	//Initialize SDL
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) < 0)
 	{
-		cout << "Error: " << IMG_GetError() << endl;
+		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 	}
-	m_factory = new PowerUpFactory;
+	else
+	{
+		SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER);
 
-	m_client = new Client();
+		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
+		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+		m_currentGameState = (GameState::GameScreen);
+
+		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
+		if (IMG_Init(imgFlags) != imgFlags)
+		{
+			cout << "Error: " << IMG_GetError() << endl;
+		}
+		m_factory = new PowerUpFactory;
+
+		m_client = new Client();
+
+		initialise();
+
+		//phs.initialise();
 
 
-	initialise();
+		const auto MAP_PATH = "assets/maps/map2.tmx";
 
-	//phs.initialise();
+		m_level = new level("Main Level");
+		m_level->load(MAP_PATH, m_renderer);
 
+		//m_fuzzy = new Fuzzy();
 
-	const auto MAP_PATH = "assets/maps/map2.tmx";
-
-	m_level = new level("Main Level");
-	m_level->load(MAP_PATH, m_renderer);
+		cs.init();
+	}
 }
 
 
@@ -59,6 +74,7 @@ void Game::initialise()
 {
 
 	SDL_INIT_AUDIO;
+
 
 	m_client->run();
 
@@ -214,7 +230,12 @@ void Game::processEvents()
 
 	while (SDL_PollEvent(&event)) {
 
+
+		cs.input(event);
+
 		switch (event.type) {
+		
+
 		case SDL_QUIT:
 			exit = true;
 			break;
@@ -227,7 +248,6 @@ void Game::processEvents()
 			//resetCamera();
 			break;
 		case SDL_KEYDOWN:
-			cs.input(event);
 			//rumble();
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				exit = true;
@@ -624,6 +644,8 @@ void Game::getDistance() {
 void Game::updateNetwork()
 {
 	PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
+	LifeComponent * l = (LifeComponent *)player.getCompByType("Life");
+	AnimationComponent * ac = (AnimationComponent *)player.getCompByType("Animation");
 
 	if (m_playerIndex != 5)
 	{
@@ -636,18 +658,31 @@ void Game::updateNetwork()
 			{
 			case 0:
 				p = (PositionComponent *)player.getCompByType("Position");
+				l = (LifeComponent *)player.getCompByType("Life");
+				ac = (AnimationComponent *)player.getCompByType("Animation");
 				break;
 			case 1:
 				p = (PositionComponent *)player2.getCompByType("Position");
+				l = (LifeComponent *)player2.getCompByType("Life");
+				ac = (AnimationComponent *)player2.getCompByType("Animation");
 				break;
 			case 2:
 				p = (PositionComponent *)player3.getCompByType("Position");
+				l = (LifeComponent *)player3.getCompByType("Life");
+				ac = (AnimationComponent *)player3.getCompByType("Animation");
 				break;
 			case 3:
 				p = (PositionComponent *)player4.getCompByType("Position");
+				l = (LifeComponent *)player4.getCompByType("Life");
+				ac = (AnimationComponent *)player4.getCompByType("Animation");
 				break;
 			}
-			pos = "X: " + std::to_string((int)p->getPositionX()) + ", " + "Y: " + std::to_string((int)p->getPositionY()) + ", " + "I: " + std::to_string(m_playerIndex);
+
+			pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
+			pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
+			pos = pos +", " + "I: " + std::to_string(m_playerIndex);	// Player Index
+			pos = pos + ", " + "L: " + std::to_string(l->getLife()); // Player Life
+			pos = pos + ", " + "A: " + std::to_string(ac->m_currentState); // Player state
 			m_client->sendMsg(pos);
 			break;
 
@@ -666,7 +701,6 @@ void Game::updateNetwork()
 				else
 				{
 					m_stateTimer++;
-					std::cout << std::to_string(m_stateTimer) << std::endl;
 				}
 			}
 			else
@@ -682,7 +716,6 @@ void Game::updateNetwork()
 	string msg = m_client->receive();
 	if (msg.length() > 0)
 	{
-		std::cout << "Recieved: " << msg << std::endl;
 		char firstChar = msg.at(0);
 		if (firstChar == 'S' && msg.substr(13, 3) != "IP:")
 		{
@@ -690,19 +723,55 @@ void Game::updateNetwork()
 			{
 			case 0:
 				p = (PositionComponent *)player.getCompByType("Position");
+				l = (LifeComponent *)player.getCompByType("Life");
+				ac = (AnimationComponent *)player.getCompByType("Animation");
 				break;
 			case 1:
 				p = (PositionComponent *)player2.getCompByType("Position");
+				l = (LifeComponent *)player2.getCompByType("Life");
+				ac = (AnimationComponent *)player2.getCompByType("Animation");
 				break;
 			case 2:
 				p = (PositionComponent *)player3.getCompByType("Position");
+				l = (LifeComponent *)player3.getCompByType("Life");
+				ac = (AnimationComponent *)player3.getCompByType("Animation");
 				break;
 			case 3:
 				p = (PositionComponent *)player4.getCompByType("Position");
+				l = (LifeComponent *)player4.getCompByType("Life");
+				ac = (AnimationComponent *)player4.getCompByType("Animation");
 				break;
 			}
 
 			p->setPosition(msgToPos(msg)[1], msgToPos(msg)[2]);
+			l->setLifes(msgToPos(msg)[4]);
+
+			switch ((int)msgToPos(msg)[5])
+			{
+			case 0:
+				ac->m_currentState = ac->AniState::idleS;
+				break;
+
+			case 1:
+				ac->m_currentState = ac->AniState::leftS;
+				break;
+
+			case 2:
+				ac->m_currentState = ac->AniState::rightS;
+				break;
+
+			case 3:
+				ac->m_currentState = ac->AniState::jumpLeftS;
+				break;
+
+			case 4:
+				ac->m_currentState = ac->AniState::jumpRightS;
+				break;
+			
+			default:
+				std::cout << "Oops! Missing animation" << std::endl;
+				break;
+			}
 
 		}
 		else if (msg == "Host")
@@ -786,7 +855,7 @@ void Game::updateNetwork()
 				break;
 			}
 		}
-		else if (msg.substr(5, 5) == "Ready")
+		else if (msg.length() > 5 && msg.substr(5, 5) == "Ready")
 		{
 			if (m_playerIndex == 5)
 			{
@@ -840,7 +909,7 @@ void Game::updateNetwork()
 		}
 		else
 		{
-			std::cout << msg << std::endl;
+			std::cout << "Error! Unknown message:" << msg << std::endl;
 		}
 
 	}
