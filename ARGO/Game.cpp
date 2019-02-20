@@ -283,7 +283,7 @@ void Game::update(float dt)
 	if (m_timerSpawn >= m_spawnTimeLimit)
 	{
 		//switch (rand() % m_numOfPowerUps)
-		switch (3)
+		switch (2)
 		{
 		case 0:
 			m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -319,7 +319,8 @@ void Game::update(float dt)
 		if (m_timerSpawn >= m_spawnTimeLimit)
 
 		{
-			switch (rand() % m_numOfPowerUps)
+			//switch (rand() % m_numOfPowerUps)
+			switch(2)
 			{
 			case 0:
 				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -328,6 +329,19 @@ void Game::update(float dt)
 			case 1:
 				m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
 				break;
+
+			case 2:
+				m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
+				break;
+
+			case 3:
+				m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
+				break;
+
+			case 5:
+				m_powerUps.push_back(m_factory->CreateReset(m_renderer));
+				break;
+
 			}
 			m_timerSpawn = 0;
 		}
@@ -353,52 +367,13 @@ void Game::update(float dt)
 					s = (SpriteComponent *)player2.getCompByType("Sprite");
 					break;
 
-				case 2:	// Speed
+				case 2:	
 					p = (PositionComponent *)player3.getCompByType("Position");
 					s = (SpriteComponent *)player3.getCompByType("Sprite");
-					if (ais.getEntityIds()[i] == "Player") {
-						phs.speedUp(phs.getEntityById("Player"));
-					}
-					if (ais.getEntityIds()[i] == "Player2") {
-						phs.speedUp(phs.getEntityById("Player2"));
-					}
-					if (ais.getEntityIds()[i] == "Player3") {
-						phs.speedUp(phs.getEntityById("Player3"));
-					}
-					if (ais.getEntityIds()[i] == "Player4") {
-						phs.speedUp(phs.getEntityById("Player4"));
-					}
 					break;
-				case 3: // Ammo
-					if (ammos.getEntityIds()[i] == "Player") {
-						ammos.addAmmo(ammos.getEntityById("Player"));
-					}
-					if (ammos.getEntityIds()[i] == "Player2") {
-						ammos.addAmmo(ammos.getEntityById("Player2"));
-					}
-					if (ammos.getEntityIds()[i] == "Player3") {
-						ammos.addAmmo(ammos.getEntityById("Player3"));
-					}
-					if (ammos.getEntityIds()[i] == "Player4") {
-						ammos.addAmmo(ammos.getEntityById("Player4"));
-					}
-
-					break;
-				case 4: // SeekerAmmo
-					if (ammos.getEntityIds()[i] == "Player") {
-						ammos.addSeekerAmmo(ammos.getEntityById("Player"));
-					}
-					if (ammos.getEntityIds()[i] == "Player2") {
-						ammos.addSeekerAmmo(ammos.getEntityById("Player2"));
-					}
-					if (ammos.getEntityIds()[i] == "Player3") {
-						ammos.addSeekerAmmo(ammos.getEntityById("Player3"));
-					}
-					if (ammos.getEntityIds()[i] == "Player4") {
-						ammos.addSeekerAmmo(ammos.getEntityById("Player4"));
-					}
-					break;
-				case 5: // Reset
+				case 3: 
+					p = (PositionComponent *)player4.getCompByType("Position");
+					s = (SpriteComponent *)player4.getCompByType("Sprite");
 					break;
 				}
 				if (m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
@@ -410,6 +385,38 @@ void Game::update(float dt)
 						break;
 					case 2:	// Speed
 						break;
+					case 3: // Ammo
+						if (ammos.getEntityIds()[i] == "Player") {
+							ammos.addAmmo(ammos.getEntityById("Player"));
+						}
+						if (ammos.getEntityIds()[i] == "Player2") {
+							ammos.addAmmo(ammos.getEntityById("Player2"));
+						}
+						if (ammos.getEntityIds()[i] == "Player3") {
+							ammos.addAmmo(ammos.getEntityById("Player3"));
+						}
+						if (ammos.getEntityIds()[i] == "Player4") {
+							ammos.addAmmo(ammos.getEntityById("Player4"));
+						}
+
+						break;
+					case 4: // SeekerAmmo
+						if (ammos.getEntityIds()[i] == "Player") {
+							ammos.addSeekerAmmo(ammos.getEntityById("Player"));
+						}
+						if (ammos.getEntityIds()[i] == "Player2") {
+							ammos.addSeekerAmmo(ammos.getEntityById("Player2"));
+						}
+						if (ammos.getEntityIds()[i] == "Player3") {
+							ammos.addSeekerAmmo(ammos.getEntityById("Player3"));
+						}
+						if (ammos.getEntityIds()[i] == "Player4") {
+							ammos.addSeekerAmmo(ammos.getEntityById("Player4"));
+						}
+						break;
+					case 5: // Reset
+						break;
+					
 					}
 				}
 			}
