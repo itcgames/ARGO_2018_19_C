@@ -247,7 +247,7 @@ void Game::update(float dt)
 	Colls.update(*m_level, dt);
 	//hs.update();
 	ammos.update();
-	
+
 
 
 	switch (m_currentGameState)
@@ -283,7 +283,7 @@ void Game::update(float dt)
 	if (m_timerSpawn >= m_spawnTimeLimit)
 	{
 		//switch (rand() % m_numOfPowerUps)
-		switch(3)
+		switch (3)
 		{
 		case 0:
 			m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -312,7 +312,7 @@ void Game::update(float dt)
 	for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{
 		if (m_powerUps[i]->getAlive())
-		comsystem.update(dt);
+			comsystem.update(dt);
 		ls.update(dt);
 		// Power ups
 		m_timerSpawn++;
@@ -369,11 +369,6 @@ void Game::update(float dt)
 						phs.speedUp(phs.getEntityById("Player4"));
 					}
 					break;
-
-				case 3:
-					p = (PositionComponent *)player4.getCompByType("Position");
-					s = (SpriteComponent *)player4.getCompByType("Sprite");
-					break;
 				case 3: // Ammo
 					if (ammos.getEntityIds()[i] == "Player") {
 						ammos.addAmmo(ammos.getEntityById("Player"));
@@ -424,18 +419,11 @@ void Game::update(float dt)
 			}
 		}
 
-		break;
-	case GameState::GameOverScreen:
-		break;
-	case GameState::Credits:
-		break;
-	default:
-		break;
+		getDistance();
+
+		updateNetwork();
+
 	}
-	getDistance();
-
-	updateNetwork();
-
 }
 
 void Game::render(float dt)

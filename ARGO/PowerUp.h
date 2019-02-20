@@ -233,7 +233,7 @@ public:
 	};
 	void draw(SDL_Renderer *m_renderer)
 	{
-		m_texture.render(m_x, m_y, m_renderer, NULL, 1, 1);
+		m_texture.render(m_x, m_y, m_renderer,  1, 1);
 	}
 };
 class SeekerAmmoUp : public PowerUp
@@ -254,7 +254,7 @@ public:
 	};
 	void draw(SDL_Renderer *m_renderer)
 	{
-		m_texture.render(m_x, m_y, m_renderer, NULL, 1, 1);
+		m_texture.render(m_x, m_y, m_renderer,  1, 1);
 	}
 };
 class ResetUp : public PowerUp
@@ -275,7 +275,7 @@ public:
 	};
 	void draw(SDL_Renderer *m_renderer)
 	{
-		m_texture.render(m_x, m_y, m_renderer, NULL, 1, 1);
+		m_texture.render(m_x, m_y, m_renderer,  1, 1);
 	}
 };
 

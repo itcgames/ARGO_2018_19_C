@@ -34,7 +34,7 @@ void Projectile::setPosition(float x, float y)
 void Projectile::render(SDL_Renderer *m_renderer)
 {
 	//Show the dot
-	m_texture.render(m_posX, m_posY, m_renderer, NULL, 1, 1);
+	m_texture.render(m_posX, m_posY, m_renderer,  1, 1);
 }
 
 

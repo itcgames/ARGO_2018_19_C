@@ -65,14 +65,13 @@ void ControlSystem::input(SDL_Event &e) {
 					current = 0;
 					ammoComp->setSeekerAmmo(current);
 				}
+			}
 
-
-  if (e.key.keysym.sym == SDLK_s)
+			if (e.key.keysym.sym == SDLK_s)
 			{
 				controlComp->attack = true;
 				pressed = true;
 			}
-
 		}
 	}
 
