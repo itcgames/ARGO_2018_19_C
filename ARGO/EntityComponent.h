@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "Component.h"
-#include "HealthComponent.h"
+#include "LifeComponent.h"
 #include "PositionComponent.h"
 #include "ControlComponent.h"
 #include "SpriteComponent.h"
@@ -9,10 +9,12 @@
 #include "CollisionComp.h"
 #include "ParticleComponent.h"
 #include "ScoreComponent.h"
+#include "PickUpComponent.h"
 #include "AIComponent.h"
 #include "AmmoComponent.h"
 #include <string>
 #include <iostream>
+#include <algorithm>
 #include <sdl.h>
 
 class Entity

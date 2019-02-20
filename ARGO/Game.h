@@ -10,14 +10,17 @@
 #include <WS2tcpip.h>
 #include <string.h>
 #include "EntityComponent.h"
-#include "HealthSystem.h"
+#include "LifeSystem.h"
 #include "RenderSystem.h"
 #include "ControlSystem.h"
 #include "CollisionSystem.h"
+#include "CombatSystem.h"
 #include "AudioManager.h"
 #include "AiSystem.h"
 #include "ParticleSystem.h"
 #include "PhysicsSystem.h"
+#include "LifeSystem.h"
+#include "Lobby.h"
 #include "Level.h"
 #include "Particle.h"
 #include "Factory.h"
@@ -39,7 +42,9 @@ enum class
 	License,
 	Splash,
 	MainMenu,
+	Lobby,
 	GameScreen,
+	GameOverScreen,
 	CoopScreen,
 	Options,
 	Credits,
@@ -53,6 +58,7 @@ public:
 	~Game();
 
 	void run();
+	void setGameState(GameState gameState);
 
 private:
 
@@ -62,8 +68,6 @@ private:
 	void initialise();
 	void getDistance();
 
-
-	void setGameState(GameState gameState);
 
 	SDL_Window *m_window;
 	SDL_Renderer *m_renderer;
@@ -77,16 +81,19 @@ private:
 	Entity* m_alien;
 	Entity* m_dog;
 	Entity* m_flag;
-	HealthComponent* m_healthComponentOne;
+	/*HealthComponent* m_healthComponentOne;
 	HealthComponent* m_healthComponentTwo;
 	HealthComponent* m_healthComponentThree;
-	HealthComponent* m_healthComponentFour;
+	HealthComponent* m_healthComponentFour;*/
 	ControlComponent* m_ctrlComponent;
 	PositionComponent* m_posComponent;
 	CollisionComponent* CollisionComp;
 	ParticleComponent* m_partComponent;
 
-	HealthSystem hs;
+	Lobby * m_lobbyScreen;
+
+	CombatSystem comsystem;
+    //LifeSystem ls;
 	RenderSystem rs;
 	AISystem ais;
 	ParticleSystem ps;
@@ -100,6 +107,7 @@ private:
 
 
 	PhysicsSystem phs;
+	LifeSystem ls;
 
 	Factory* m_factory;
 	std::vector<PowerUp*> m_powerUps;
@@ -114,7 +122,8 @@ private:
 	void resetCamera();
 	int rTimer = 0;
 	int SCREEN_WIDTH = 1500;
-	int SCREEN_HEIGHT = 900;
+	int SCREEN_HEIGHT = 1000;
+	int mouseX, mouseY;
 	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	// Player
@@ -128,6 +137,8 @@ private:
 	Client * m_client;
 	void updateNetwork();
 
+	int m_stateTimer;
+	const int m_stateTimerLimit = 300;
 
 };
 

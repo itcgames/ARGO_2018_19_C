@@ -25,7 +25,7 @@ void ControlSystem::input(SDL_Event &e) {
 			if (e.key.keysym.sym == SDLK_UP)
 			{
 				controlComp->setDirection(controlComp->Up);
-				//AudioManager::Instance()->PlaySFX("Jump", 0);
+				AudioManager::Instance()->PlaySFX("Jump", 0);
 			}
 			if (e.key.keysym.sym == SDLK_LEFT)
 			{
@@ -36,9 +36,8 @@ void ControlSystem::input(SDL_Event &e) {
 			{
 				controlComp->setDirection(controlComp->Right);
 				controlComp->moveRight = 1;
-				//amComp->rightJump();
 			}
-			if (e.key.keysym.sym == SDLK_SPACE)
+			if (e.key.keysym.sym == SDLK_SPACE && pressed == false)
 			{
 				//amComp->idle();
 				int posX = posComp->getPositionX();
@@ -67,6 +66,11 @@ void ControlSystem::input(SDL_Event &e) {
 					ammoComp->setSeekerAmmo(current);
 				}
 
+
+  if (e.key.keysym.sym == SDLK_s)
+			{
+				controlComp->attack = true;
+				pressed = true;
 			}
 
 		}
@@ -94,6 +98,10 @@ void ControlSystem::keyUp(SDL_Event &e) {
 		if (e.key.keysym.sym == SDLK_LEFT)
 		{
 			controlComp->moveLeft = 0;
+		}
+		if (e.key.keysym.sym == SDLK_SPACE)
+		{
+			pressed = false;
 		}
 
 

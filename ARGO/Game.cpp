@@ -28,9 +28,8 @@ std::vector<float> msgToPos(std::string s)
 
 Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4("Player4")
 {
-	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1500, 900, SDL_WINDOW_OPENGL);
+	m_window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
 	m_currentGameState = (GameState::GameScreen);
 
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
@@ -48,7 +47,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 	//phs.initialise();
 
 
-	const auto MAP_PATH = "assets/maps/example.tmx";
+	const auto MAP_PATH = "assets/maps/map1.tmx";
 
 	m_level = new level("Main Level");
 	m_level->load(MAP_PATH, m_renderer);
@@ -63,6 +62,7 @@ void Game::initialise()
 	m_client->run();
 
 	m_timerSpawn = 0;
+	m_stateTimer = 0;
 	if (!m_texture.loadFromFile("dot.bmp", m_renderer, 1))
 
 	{
@@ -74,31 +74,40 @@ void Game::initialise()
 		printf("Failed to load wall texture!\n");
 	}
 
+
+	
 	Entity flag("Flag");
 	flag.addComponent(new PositionComponent(500, 500));
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
+	flag.addComponent(new PickUpComponent());
 
 
 	player.addComponent(new PositionComponent(300, 100));
-	player.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
+	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
 	player.addComponent(new AmmoComponent(m_renderer));
+	player.addComponent(new LifeComponent(4, 1, m_renderer, 1));
+
 
 	player2.addComponent(new PositionComponent(500, 100));
-	player2.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
+	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
 	player2.addComponent(new AmmoComponent(m_renderer));
+	player2.addComponent(new LifeComponent(0, 2, m_renderer, 1));
+
 
 	player3.addComponent(new PositionComponent(100, 500));
-	player3.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
+	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
 	player3.addComponent(new AmmoComponent(m_renderer));
+	player3.addComponent(new LifeComponent(0, 3, m_renderer, 1));
+
 
 	player4.addComponent(new PositionComponent(500, 500));
-	player4.addComponent(new SpriteComponent("img/playerSheet.png", 1, m_renderer, 3, 4));
+	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 4));
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 	player4.addComponent(new AmmoComponent(m_renderer));
@@ -113,16 +122,26 @@ void Game::initialise()
 	ammos.addEntity(player3);
 	ammos.addEntity(player4);
 
-	hs.addEntity(player);
-	hs.addEntity(player2);
-	hs.addEntity(player3);
+	//hs.addEntity(player);
+	//hs.addEntity(player2);
+	//hs.addEntity(player3);
+
+	player4.addComponent(new LifeComponent(0, 4, m_renderer, 1));
+
 
 
 	rs.addEntity(flag);
 	rs.addEntity(player);
 	rs.addEntity(player2);
+
 	rs.addEntity(player3);
 	rs.addEntity(player4);
+
+	ls.addEntity(player);
+	ls.addEntity(player2);
+	ls.addEntity(player3);
+	ls.addEntity(player4);
+
 	//rs.addEntity(cat);
 
 	//ais.addEntity(alien);
@@ -132,18 +151,26 @@ void Game::initialise()
 	ais.addEntity(player2);
 	ais.addEntity(player3);
 
-	Colls.addEntity(wall);
 	Colls.addEntity(flag);
+
+	/*comsystem.addEntity(player);
+	comsystem.addEntity(player2);
+	comsystem.addEntity(player3);
+	comsystem.addEntity(player4);
+	comsystem.addEntity(flag);*/
 
 	ps.addEntity(player);
 	ps.addEntity(player2);
 	ps.addEntity(player3);
 	ps.addEntity(player4);
 
+
 	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
 	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
 	//AudioManager::Instance()->PlayMusic("song1", -1);
 
+	// Screen Initialise
+	m_lobbyScreen = new Lobby(m_renderer);
 
 }
 
@@ -190,7 +217,9 @@ void Game::processEvents()
 		case SDL_QUIT:
 			exit = true;
 			break;
-
+		case SDL_MOUSEBUTTONDOWN:
+			SDL_GetMouseState(&mouseX, &mouseY);
+			break;
 		case SDL_KEYUP:
 			cs.idle();
 			cs.keyUp(event);
@@ -227,6 +256,11 @@ void Game::update(float dt)
 		break;
 	case GameState::Splash:
 		break;
+	case GameState::Lobby:
+		m_lobbyScreen->update(m_playerIndex, mouseX, mouseY);
+		mouseX = -1;
+		mouseY = -1;
+		break;
 	case GameState::MainMenu:
 		break;
 	case GameState::Options:
@@ -234,8 +268,6 @@ void Game::update(float dt)
 	case GameState::GameScreen:
 		//ps.update(m_renderer);
 		phs.update();
-
-
 		break;
 	case GameState::Credits:
 		break;
@@ -280,43 +312,50 @@ void Game::update(float dt)
 	for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{
 		if (m_powerUps[i]->getAlive())
+		comsystem.update(dt);
+		ls.update(dt);
+		// Power ups
+		m_timerSpawn++;
+		if (m_timerSpawn >= m_spawnTimeLimit)
+
 		{
-			m_powerUps[i]->update();
-			//check collision
-
-			PositionComponent * p = (PositionComponent * )player.getCompByType("Position");
-			SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
-
-			switch (m_playerIndex)
+			switch (rand() % m_numOfPowerUps)
 			{
 			case 0:
-				p = (PositionComponent *)player.getCompByType("Position");
-				s = (SpriteComponent *)player.getCompByType("Sprite");
+				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
 				break;
 
 			case 1:
-				p = (PositionComponent *)player2.getCompByType("Position");
-				s = (SpriteComponent *)player2.getCompByType("Sprite");
-				break;
-
-			case 2:
-				p = (PositionComponent *)player3.getCompByType("Position");
-				s = (SpriteComponent *)player3.getCompByType("Sprite");
-				break;
-
-			case 3:
-				p = (PositionComponent *)player4.getCompByType("Position");
-				s = (SpriteComponent *)player4.getCompByType("Sprite");
+				m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
 				break;
 			}
-			if(m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
+			m_timerSpawn = 0;
+		}
+		for (int i = m_powerUps.size() - 1; i >= 0; i--)
+		{
+			if (m_powerUps[i]->getAlive())
 			{
-				// switch case
-				switch (m_powerUps[i]->getID())
+				m_powerUps[i]->update();
+				//check collision
+
+				PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
+				SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
+
+				switch (m_playerIndex)
 				{
-				case 1: // Health
+				case 0:
+					p = (PositionComponent *)player.getCompByType("Position");
+					s = (SpriteComponent *)player.getCompByType("Sprite");
 					break;
+
+				case 1:
+					p = (PositionComponent *)player2.getCompByType("Position");
+					s = (SpriteComponent *)player2.getCompByType("Sprite");
+					break;
+
 				case 2:	// Speed
+					p = (PositionComponent *)player3.getCompByType("Position");
+					s = (SpriteComponent *)player3.getCompByType("Sprite");
 					if (ais.getEntityIds()[i] == "Player") {
 						phs.speedUp(phs.getEntityById("Player"));
 					}
@@ -329,7 +368,11 @@ void Game::update(float dt)
 					if (ais.getEntityIds()[i] == "Player4") {
 						phs.speedUp(phs.getEntityById("Player4"));
 					}
-					
+					break;
+
+				case 3:
+					p = (PositionComponent *)player4.getCompByType("Position");
+					s = (SpriteComponent *)player4.getCompByType("Sprite");
 					break;
 				case 3: // Ammo
 					if (ammos.getEntityIds()[i] == "Player") {
@@ -363,18 +406,48 @@ void Game::update(float dt)
 				case 5: // Reset
 					break;
 				}
+				if (m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
+				{
+					// switch case
+					switch (m_powerUps[i]->getID())
+					{
+					case 1: // Health
+						break;
+					case 2:	// Speed
+						break;
+					}
+				}
+			}
+			else
+			{
+				m_powerUps.erase(m_powerUps.begin() + i);
 			}
 		}
-		else
-		{
-			m_powerUps.erase(m_powerUps.begin() + i);
-		}
+
+		break;
+	case GameState::GameOverScreen:
+		break;
+	case GameState::Credits:
+		break;
+	default:
+		break;
 	}
 	getDistance();
+
+	updateNetwork();
+
 }
 
 void Game::render(float dt)
 {
+	if (m_renderer == nullptr)
+	{
+		SDL_Log("Could not create a renderer: %s", SDL_GetError());
+	}
+
+	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+	SDL_RenderClear(m_renderer);
+
 	switch (m_currentGameState)
 	{
 	case GameState::None:
@@ -385,7 +458,23 @@ void Game::render(float dt)
 		break;
 	case GameState::Options:
 		break;
+	case GameState::Lobby:
+		m_lobbyScreen->render(m_renderer);
+		break;
 	case GameState::GameScreen:
+		//Jamie
+		SDL_RenderSetLogicalSize(m_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+		rs.update(m_renderer, dt);
+		//wallTxt.render(400, 500, m_renderer);
+		//ps.update(m_renderer);
+		m_level->draw(m_renderer);
+		//m_playerDot->render(m_renderer);
+		//m_texture.render(100, 100, m_renderer);
+
+		for (int i = m_powerUps.size() - 1; i >= 0; i--)
+		{
+			m_powerUps[i]->draw(m_renderer);
+		}
 		break;
 	case GameState::Credits:
 		break;
@@ -414,8 +503,8 @@ void Game::render(float dt)
 	{
 		m_powerUps[i]->draw(m_renderer);
 	}
-	SDL_RenderPresent(m_renderer);
 
+	SDL_RenderPresent(m_renderer);
 
 }
 
@@ -565,32 +654,62 @@ void Game::updateNetwork()
 
 	if (m_playerIndex != 5)
 	{
-		// Send position
 		std::string pos;
-		switch (m_playerIndex)
+		switch (m_currentGameState)
 		{
-		case 0:
-			p = (PositionComponent *)player.getCompByType("Position");
+		case GameState::GameScreen:
+			// Send position
+			switch (m_playerIndex)
+			{
+			case 0:
+				p = (PositionComponent *)player.getCompByType("Position");
+				break;
+			case 1:
+				p = (PositionComponent *)player2.getCompByType("Position");
+				break;
+			case 2:
+				p = (PositionComponent *)player3.getCompByType("Position");
+				break;
+			case 3:
+				p = (PositionComponent *)player4.getCompByType("Position");
+				break;
+			}
+			pos = "X: " + std::to_string((int)p->getPositionX()) + ", " + "Y: " + std::to_string((int)p->getPositionY()) + ", " + "I: " + std::to_string(m_playerIndex);
+			m_client->sendMsg(pos);
 			break;
-		case 1:
-			p = (PositionComponent *)player2.getCompByType("Position");
+			
+		case GameState::Lobby:
+			std::string msg;
+			msg = "i: " + std::to_string(m_playerIndex) + " " + m_lobbyScreen->sendMsg(m_playerIndex);
+			m_client->sendMsg(msg);
+
+			if (m_lobbyScreen->everyoneReady())
+			{
+				if (m_stateTimer > m_stateTimerLimit)
+				{
+					m_stateTimer = 0;
+					setGameState(GameState::GameScreen);
+				}
+				else
+				{
+					m_stateTimer++;
+					std::cout << std::to_string(m_stateTimer) << std::endl;
+				}
+			}
+			else
+			{
+				m_stateTimer = 0;
+			}
 			break;
-		case 2:
-			p = (PositionComponent *)player3.getCompByType("Position");
-			break;
-		case 3:
-			p = (PositionComponent *)player4.getCompByType("Position");
-			break;
+
 		}
-		pos = "X: " + std::to_string((int)p->getPositionX()) + ", " + "Y: " + std::to_string((int)p->getPositionY()) + ", " + "I: " + std::to_string(m_playerIndex);
-		m_client->sendMsg(pos);
 	}
 
 	// Turn message to position.
 	string msg = m_client->receive();
 	if (msg.length() > 0)
 	{
-		std::cout << msg << std::endl;
+		std::cout << "Recieved: " << msg << std::endl;
 		char firstChar = msg.at(0);
 		if (firstChar == 'S' && msg.substr(13, 3) != "IP:")
 		{
@@ -615,14 +734,18 @@ void Game::updateNetwork()
 		}
 		else if (msg == "Host")
 		{
-			player.addComponent(new HealthComponent(200));
+			//player.addComponent(new HealthComponent(200));
 			player.addComponent(new ControlComponent());
-			player.addComponent(new ScoreComponent(0));
+			player.addComponent(new ScoreComponent(0)); 
+			player.addComponent(new LifeComponent(6, 1, m_renderer, 1));
+		
+
 			m_playerIndex = 0;
+			comsystem.addEntity(player);
 			cs.addEntity(player);
 			Colls.addEntity(player);
 			phs.addEntity(player);
-			hs.addEntity(player);
+			//hs.addEntity(player);
 			p = (PositionComponent *)player.getCompByType("Position");
 			p->setPosition(100, 100);
 
@@ -638,13 +761,15 @@ void Game::updateNetwork()
 			switch (index)
 			{
 			case 1:
-				player2.addComponent(new HealthComponent(200));
+				//player2.addComponent(new HealthComponent(200));
 				player2.addComponent(new ControlComponent());
 				player2.addComponent(new ScoreComponent(0));
+				player2.addComponent(new LifeComponent(6, 2, m_renderer, 1));
+				comsystem.addEntity(player2);
 				cs.addEntity(player2);
 				Colls.addEntity(player2);
 				phs.addEntity(player2);
-				hs.addEntity(player2);
+				//hs.addEntity(player2);
 				p = (PositionComponent *)player2.getCompByType("Position");
 				p->setPosition(500, 100);
 
@@ -653,13 +778,15 @@ void Game::updateNetwork()
 				player4.addComponent(new AIComponent());
 				break;
 			case 2:
-				player3.addComponent(new HealthComponent(200));
+			//	player3.addComponent(new HealthComponent(200));
 				player3.addComponent(new ControlComponent());
 				player3.addComponent(new ScoreComponent(0));
+				player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
+				comsystem.addEntity(player3);
 				cs.addEntity(player3);
 				Colls.addEntity(player3);
 				phs.addEntity(player3);
-				hs.addEntity(player3);
+			//	hs.addEntity(player3);
 				p = (PositionComponent *)player3.getCompByType("Position");
 				p->setPosition(100, 500);
 
@@ -668,13 +795,15 @@ void Game::updateNetwork()
 				player4.addComponent(new AIComponent());
 				break;
 			case 3:
-				player4.addComponent(new HealthComponent(200));
+			//	player4.addComponent(new HealthComponent(200));
 				player4.addComponent(new ControlComponent());
 				player4.addComponent(new ScoreComponent(0));
+				player4.addComponent(new LifeComponent(6, 4, m_renderer, 1));
+				comsystem.addEntity(player4);
 				cs.addEntity(player4);
 				Colls.addEntity(player4);
 				phs.addEntity(player4);
-				hs.addEntity(player4);
+			//	hs.addEntity(player4);
 				p = (PositionComponent *)player4.getCompByType("Position");
 				p->setPosition(500, 500);
 
@@ -684,5 +813,62 @@ void Game::updateNetwork()
 				break;
 			}
 		}
+		else if (msg.substr(5, 5) == "Ready")
+		{
+			if (m_playerIndex == 5)
+			{
+				std::string msg;
+				msg = "What is my Index";
+				m_client->sendMsg(msg);
+			}
+
+
+			bool readyState;
+			if (msg[12] == '1')
+			{
+				readyState = true;
+			}
+			else
+			{
+				readyState = false;
+			}
+			switch (msg[3])
+			{
+			case '0':
+				m_lobbyScreen->changeState(0, readyState);
+				if (readyState)
+				{
+					player.removeComponent(player.getCompByType("AI"));
+				}
+				break;
+			case '1':
+				m_lobbyScreen->changeState(1, readyState);
+				if (readyState)
+				{
+					player2.removeComponent(player2.getCompByType("AI"));
+				}
+				break;
+			case '2':
+				m_lobbyScreen->changeState(2, readyState);
+				if (readyState)
+				{
+					player3.removeComponent(player3.getCompByType("AI"));
+				}
+				break;
+			case '3':
+				m_lobbyScreen->changeState(3, readyState);
+				if (readyState)
+				{
+					player4.removeComponent(player4.getCompByType("AI"));
+				}
+				break;
+			}
+			
+		}
+		else
+		{
+			std::cout << msg << std::endl;
+		}
+		
 	}
 }

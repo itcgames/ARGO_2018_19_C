@@ -24,6 +24,7 @@
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
+    <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -31,6 +32,8 @@
     <ClCompile Include="JumpLeft.cpp" />
     <ClCompile Include="JumpRight.cpp" />
     <ClCompile Include="Left.cpp" />
+    <ClCompile Include="LifeSystem.cpp" />
+    <ClCompile Include="Lobby.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -54,12 +57,14 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="CollisionComp.h" />
     <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="CombatSystem.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControlComponent.h" />
     <ClInclude Include="ControlSystem.h" />
     <ClInclude Include="credits.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="FlagComponent.h" />
     <ClInclude Include="Fuzzy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthComponent.h" />
@@ -68,6 +73,9 @@
     <ClInclude Include="JumpLeft.h" />
     <ClInclude Include="JumpRight.h" />
     <ClInclude Include="Left.h" />
+    <ClInclude Include="LifeComponent.h" />
+    <ClInclude Include="LifeSystem.h" />
+    <ClInclude Include="Lobby.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LTexture.h" />
@@ -75,6 +83,7 @@
     <ClInclude Include="ParticleComponent.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="PickUpComponent.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="PositionSystem.h" />
     <ClInclude Include="PowerUp.h" />
