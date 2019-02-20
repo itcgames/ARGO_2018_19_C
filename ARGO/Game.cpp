@@ -42,7 +42,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::GameOverScreen);
+		m_currentGameState = (GameState::MainMenu);
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 		if (IMG_Init(imgFlags) != imgFlags)
@@ -196,6 +196,7 @@ void Game::initialise()
 	// Screen Initialise
 	m_lobbyScreen = new Lobby(m_renderer);
 	m_gameoverScreen = new GameOverScreen();
+	m_menuScreen = new MenuScreen(m_renderer);
 
 }
 
@@ -291,6 +292,7 @@ void Game::update(float dt)
 		mouseY = -1;
 		break;
 	case GameState::MainMenu:
+		m_menuScreen->update(mouseX, mouseY, m_currentGameState);
 		break;
 	case GameState::Options:
 		break;
@@ -482,6 +484,7 @@ void Game::render(float dt)
 	case GameState::Splash:
 		break;
 	case GameState::MainMenu:
+		m_menuScreen->render(m_renderer);
 		break;
 	case GameState::Options:
 		break;

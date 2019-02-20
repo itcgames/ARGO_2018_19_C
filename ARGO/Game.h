@@ -36,27 +36,13 @@
 //Screens
 #include "Lobby.h"
 #include "GameOver.h"
+#include "menu.h"
 
 
 using namespace std;
 
 
-enum class
-	GameState
-{
-	None,
-	License,
-	Splash,
-	MainMenu,
-	Lobby,
-	GameScreen,
-	GameOverScreen,
-	CoopScreen,
-	Options,
-	Credits,
-	Help
 
-};
 class Game {
 
 public:
@@ -82,15 +68,7 @@ private:
 
 	level* m_level;
 
-	//Entity* m_player;
-	Entity* m_cat;
-	Entity* m_alien;
-	Entity* m_dog;
 	Entity* m_flag;
-	/*HealthComponent* m_healthComponentOne;
-	HealthComponent* m_healthComponentTwo;
-	HealthComponent* m_healthComponentThree;
-	HealthComponent* m_healthComponentFour;*/
 	ControlComponent* m_ctrlComponent;
 	PositionComponent* m_posComponent;
 	CollisionComponent* CollisionComp;
@@ -99,6 +77,7 @@ private:
 	// Screens
 	Lobby * m_lobbyScreen;
 	GameOverScreen * m_gameoverScreen;
+	MenuScreen * m_menuScreen;
 
 	CombatSystem comsystem;
     //LifeSystem ls;

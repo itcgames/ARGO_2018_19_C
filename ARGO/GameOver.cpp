@@ -21,9 +21,9 @@ GameOverScreen::~GameOverScreen()
 
 };
 
-void GameOverScreen::init()
+void GameOverScreen::init(std::vector<int> scores)
 {
-
+	m_scores = scores;
 };
 
 void GameOverScreen::update()

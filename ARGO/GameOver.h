@@ -11,7 +11,7 @@ class GameOverScreen
 public:
 	GameOverScreen();
 	~GameOverScreen();
-	void init();
+	void init(std::vector<int> scores);
 	void update();
 	void render(SDL_Renderer * ren);
 
