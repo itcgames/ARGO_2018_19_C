@@ -63,19 +63,20 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 		}
 		else
 		{
-			SpriteComponent *sc = (SpriteComponent*)entity.getCompByType("Sprite");
-			PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");
-			AnimationComponent * ac = (AnimationComponent*)entity.getCompByType("Animation");
+			
 			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
 
-			/*if (lc!= NULL && lc->getLife() == 0) {
+			if (lc->getLife() != 0) {
 
-				removeEntity(entity.getName());
+				SpriteComponent *sc = (SpriteComponent*)entity.getCompByType("Sprite");
+				PositionComponent * pc = (PositionComponent*)entity.getCompByType("Position");
+				AnimationComponent * ac = (AnimationComponent*)entity.getCompByType("Animation");
+				sc->setPosition(pc->getPositionX(), pc->getPositionY());
+
+				sc->render(m_renderer, ac->sRect);
+
+				
 			}
-*/
-			sc->setPosition(pc->getPositionX(), pc->getPositionY());
-
-			sc->render(m_renderer, ac->sRect);
 
 			lc->render(m_renderer);
 		}

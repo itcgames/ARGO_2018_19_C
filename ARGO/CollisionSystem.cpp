@@ -28,21 +28,21 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 
 		if (entity.getName() == "Player" || entity.getName() == "Player2" || entity.getName() == "Player3" || entity.getName() == "Player4")
 		{
-			posComp1 = (PositionComponent *)entity.getCompByType("Position");
-			cc = (ControlComponent *)entity.getCompByType("Control");
-			spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
-			score = (ScoreComponent*)entity.getCompByType("Score");
+			
 			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
-			x1 = posComp1->getPositionX();
-			y1 = posComp1->getPositionY();
-			width1 =  spriteComp->getWidth();
-			height1 =  spriteComp->getHeight();
-			tileCollision(x1, y1, width1, height1, level, lc);
-			Teleport(x1, y1, width1, height1, level);
+			
+			if (lc->getLife() != 0) {
 
-			if (lc->getLife() == 0) {
-
-				removeEntity(entity.getName());
+				posComp1 = (PositionComponent *)entity.getCompByType("Position");
+				cc = (ControlComponent *)entity.getCompByType("Control");
+				spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
+				score = (ScoreComponent*)entity.getCompByType("Score");
+				x1 = posComp1->getPositionX();
+				y1 = posComp1->getPositionY();
+				width1 = spriteComp->getWidth();
+				height1 = spriteComp->getHeight();
+				tileCollision(x1, y1, width1, height1, level, lc);
+				Teleport(x1, y1, width1, height1, level);
 			}
 
 

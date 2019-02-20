@@ -30,15 +30,14 @@ void CombatSystem::CheckCollision(float dt)
 		if (entity.getName() == "Player")
 		{
 
-			posComp = (PositionComponent *)entity.getCompByType("Position");
-			cc = (ControlComponent *)entity.getCompByType("Control");
-			spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
-			score = (ScoreComponent*)entity.getCompByType("Score");
 			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
 
-			if (lc->getLife() == 0) {
+			if (lc->getLife() != 0) {
 
-				removeEntity(entity.getName());
+				posComp = (PositionComponent *)entity.getCompByType("Position");
+				cc = (ControlComponent *)entity.getCompByType("Control");
+				spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
+				score = (ScoreComponent*)entity.getCompByType("Score");
 			}
 		
 		}
@@ -48,14 +47,13 @@ void CombatSystem::CheckCollision(float dt)
 		}
 		else
 		{
-			posComp2 = (PositionComponent *)entity.getCompByType("Position");
-			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
-			cc2 = (ControlComponent *)entity.getCompByType("Control");
 			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
 
-			if (lc->getLife() == 0) {
+			if (lc->getLife() != 0) {
 
-				removeEntity(entity.getName());
+				posComp2 = (PositionComponent *)entity.getCompByType("Position");
+				spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
+				cc2 = (ControlComponent *)entity.getCompByType("Control");
 			}
 		}
 
