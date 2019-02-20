@@ -113,6 +113,7 @@ void Game::initialise()
 	player2.addComponent(new CollisionComponent());
 	player2.addComponent(new AmmoComponent(m_renderer));
 	player2.addComponent(new LifeComponent(5, 2, m_renderer, 1));
+	player2.addComponent(new AIComponent());
 
 
 	player3.addComponent(new PositionComponent(100, 500));
@@ -120,7 +121,8 @@ void Game::initialise()
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
 	player3.addComponent(new AmmoComponent(m_renderer));
-	player3.addComponent(new LifeComponent(0, 3, m_renderer, 1));
+	player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
+	player3.addComponent(new AIComponent());
 
 
 	player4.addComponent(new PositionComponent(500, 500));
@@ -165,8 +167,12 @@ void Game::initialise()
 	//ais.addEntity(dog);
 	//ais.addEntity(cat);
 
+	player2.addComponent(new ControlComponent());
+	player3.addComponent(new ControlComponent());
+	player4.addComponent(new ControlComponent());
 	ais.addEntity(player2);
 	ais.addEntity(player3);
+
 
 	Colls.addEntity(flag);
 
@@ -186,9 +192,6 @@ void Game::initialise()
 	m_lobbyScreen = new Lobby(m_renderer);
 	updateNetwork();
 
-	player2.addComponent(new ControlComponent());
-	player3.addComponent(new ControlComponent());
-	player4.addComponent(new ControlComponent());
 
 }
 
@@ -292,6 +295,7 @@ void Game::update(float dt)
 		phs.update();
 		comsystem.update(dt, m_playerIndex);
 		ls.update(dt);
+		ais.update();
 		break;
 	case GameState::Credits:
 		break;
@@ -541,101 +545,101 @@ void Game::getDistance() {
 	PositionComponent * p3 = (PositionComponent *)player3.getCompByType("Position");
 
 
-	for (int i = 0; i < ais.getEntityIds().size(); i++) {
+	//for (int i = 0; i < ais.getEntityIds().size(); i++) {
 
 
-		if (ais.getEntityIds()[i] == "Player") {
-			float pVp2 = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
-				+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
+	//	if (ais.getEntityIds()[i] == "Player") {
+	//		float pVp2 = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
+	//			+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
 
-			float pVp3 = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
-				+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
+	//		float pVp3 = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
+	//			+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
 
-			if (pVp2 > pVp3) {
-				int playerX = p->getPositionX();
-				int player3X = p3->getPositionX();
-				if (player3X > playerX) {
-					pVp3 = pVp3 * -1;
-				}
-				disBetweenAiPlayer = pVp3;
+	//		if (pVp2 > pVp3) {
+	//			int playerX = p->getPositionX();
+	//			int player3X = p3->getPositionX();
+	//			if (player3X > playerX) {
+	//				pVp3 = pVp3 * -1;
+	//			}
+	//			disBetweenAiPlayer = pVp3;
 
-				ais.update(disBetweenAiPlayer, ais.getEntityById("Player"));
-			}
-			else {
-				int playerX = p->getPositionX();
-				int player2X = p2->getPositionX();
-				if (player2X > playerX) {
-					pVp2 = pVp2 * -1;
-				}
+	//			ais.update(disBetweenAiPlayer, ais.getEntityById("Player"));
+	//		}
+	//		else {
+	//			int playerX = p->getPositionX();
+	//			int player2X = p2->getPositionX();
+	//			if (player2X > playerX) {
+	//				pVp2 = pVp2 * -1;
+	//			}
 
-				disBetweenAiPlayer = pVp2;
-				ais.update(disBetweenAiPlayer, ais.getEntityById("Player"));
-			}
+	//			disBetweenAiPlayer = pVp2;
+	//			ais.update(disBetweenAiPlayer, ais.getEntityById("Player"));
+	//		}
 
-		}
+	//	}
 
-		if (ais.getEntityIds()[i] == "Player2") {
-			float p2Vp = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
-				+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
+	//	if (ais.getEntityIds()[i] == "Player2") {
+	//		float p2Vp = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
+	//			+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
 
-			float p2Vp3 = sqrt((p3->getPositionX() - p2->getPositionX())*(p3->getPositionX() - p2->getPositionX())
-				+ (p3->getPositionY() - p2->getPositionY())*(p3->getPositionY() - p2->getPositionY()));
+	//		float p2Vp3 = sqrt((p3->getPositionX() - p2->getPositionX())*(p3->getPositionX() - p2->getPositionX())
+	//			+ (p3->getPositionY() - p2->getPositionY())*(p3->getPositionY() - p2->getPositionY()));
 
-			if (p2Vp > p2Vp3) {
-				//get what side thet ai is on
-				int player2X = p2->getPositionX();
-				int player3X = p3->getPositionX();
-				if (player3X > player2X) {
-					p2Vp3 = p2Vp3 * -1;
-				}
-				disBetweenAiPlayer = p2Vp3;
-				ais.update(disBetweenAiPlayer, ais.getEntityById("Player2"));
-			}
-			else {
-				//get what side thet ai is on
-				int playerX = p->getPositionX();
-				int player2X = p2->getPositionX();
-				if (playerX > player2X) {
-					p2Vp = p2Vp * -1;
-				}
-				disBetweenAiPlayer = p2Vp;
-				ais.update(disBetweenAiPlayer, ais.getEntityById("Player2"));
-			}
-		}
+	//		if (p2Vp > p2Vp3) {
+	//			//get what side thet ai is on
+	//			int player2X = p2->getPositionX();
+	//			int player3X = p3->getPositionX();
+	//			if (player3X > player2X) {
+	//				p2Vp3 = p2Vp3 * -1;
+	//			}
+	//			disBetweenAiPlayer = p2Vp3;
+	//			ais.update(disBetweenAiPlayer, ais.getEntityById("Player2"));
+	//		}
+	//		else {
+	//			//get what side thet ai is on
+	//			int playerX = p->getPositionX();
+	//			int player2X = p2->getPositionX();
+	//			if (playerX > player2X) {
+	//				p2Vp = p2Vp * -1;
+	//			}
+	//			disBetweenAiPlayer = p2Vp;
+	//			ais.update(disBetweenAiPlayer, ais.getEntityById("Player2"));
+	//		}
+	//	}
 
-		if (ais.getEntityIds()[i] == "Player3") {
-			float p3Vp2 = sqrt((p3->getPositionX() - p2->getPositionX())*(p3->getPositionX() - p2->getPositionX())
-				+ (p3->getPositionY() - p2->getPositionY())*(p3->getPositionY() - p2->getPositionY()));
+	//	if (ais.getEntityIds()[i] == "Player3") {
+	//		float p3Vp2 = sqrt((p3->getPositionX() - p2->getPositionX())*(p3->getPositionX() - p2->getPositionX())
+	//			+ (p3->getPositionY() - p2->getPositionY())*(p3->getPositionY() - p2->getPositionY()));
 
-			float p3Vp = sqrt((p->getPositionX() - p3->getPositionX())*(p->getPositionX() - p3->getPositionX())
-				+ (p->getPositionY() - p3->getPositionY())*(p->getPositionY() - p3->getPositionY()));
+	//		float p3Vp = sqrt((p->getPositionX() - p3->getPositionX())*(p->getPositionX() - p3->getPositionX())
+	//			+ (p->getPositionY() - p3->getPositionY())*(p->getPositionY() - p3->getPositionY()));
 
 
-			if (p3Vp2 > p3Vp) {
-				disBetweenAiPlayer = p3Vp;
-				//get what side thet ai is on
-				int playerX = p->getPositionX();
-				int player3X = p3->getPositionX();
-				if (playerX > player3X) {
-					p3Vp = p3Vp * -1;
-				}
-				disBetweenAiPlayer = p3Vp;
-				//return disBetweenAiPlayer;
-				ais.update(disBetweenAiPlayer, ais.getEntityById("Player3"));
-			}
-			else {
-				int player2X = p2->getPositionX();
-				int player3X = p3->getPositionX();
-				if (player2X > player3X) {
-					p3Vp2 = p3Vp2 * -1;
-				}
-				disBetweenAiPlayer = p3Vp2;
-				//call update
-				ais.update(disBetweenAiPlayer, ais.getEntityById("Player3"));
-			}
-		}
+	//		if (p3Vp2 > p3Vp) {
+	//			disBetweenAiPlayer = p3Vp;
+	//			//get what side thet ai is on
+	//			int playerX = p->getPositionX();
+	//			int player3X = p3->getPositionX();
+	//			if (playerX > player3X) {
+	//				p3Vp = p3Vp * -1;
+	//			}
+	//			disBetweenAiPlayer = p3Vp;
+	//			//return disBetweenAiPlayer;
+	//			ais.update(disBetweenAiPlayer, ais.getEntityById("Player3"));
+	//		}
+	//		else {
+	//			int player2X = p2->getPositionX();
+	//			int player3X = p3->getPositionX();
+	//			if (player2X > player3X) {
+	//				p3Vp2 = p3Vp2 * -1;
+	//			}
+	//			disBetweenAiPlayer = p3Vp2;
+	//			//call update
+	//			ais.update(disBetweenAiPlayer, ais.getEntityById("Player3"));
+	//		}
+	//	}
 
-	}
+	//}
 
 
 
