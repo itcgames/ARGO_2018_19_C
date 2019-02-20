@@ -114,7 +114,6 @@ void PhysicsSystem::update() {
 		if (!cc->alive)
 		{
 			ac->die();
-			//cc->alive = true;
 		}
 	}
 

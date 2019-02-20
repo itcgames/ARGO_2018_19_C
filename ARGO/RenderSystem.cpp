@@ -61,8 +61,9 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 			AnimationComponent * ac = (AnimationComponent*)entity.getCompByType("Animation");
 			ControlComponent * cc = (ControlComponent*)entity.getCompByType("Control");
 			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
-	if (lc->getLife() != 0)
-	{
+	
+		if (lc->getLife() != 0)
+		{
 			int fps = 15;
 			int ticksPerFrame = 2000 / fps;
 			time = time + dt;
@@ -74,14 +75,6 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 				if (i > 2)
 				{
 					i = 0;
-					if (ac->m_currentState == ac->DieS)
-					{
-						pc->setPosition(680, 100);
-						ac->idle();
-						cc->alive = true;
-						//newLife;
-						break;
-					}
 				}
 				time = 0;
 			}
@@ -89,8 +82,6 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 			sc->setPosition(pc->getPositionX(), pc->getPositionY());
 			sc->animate(i * ac->sRect.x, ac->sRect.y, ac->sRect.w, ac->sRect.h, m_renderer);
 			//sc->render(m_renderer, ac->sRect);
-
-
 		}
 
 			lc->render(m_renderer);

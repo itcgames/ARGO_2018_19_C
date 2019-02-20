@@ -37,6 +37,7 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 				cc = (ControlComponent *)entity.getCompByType("Control");
 				spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
 				score = (ScoreComponent*)entity.getCompByType("Score");
+				ac = (AnimationComponent*)entity.getCompByType("Animation");
 				x1 = posComp1->getPositionX();
 				y1 = posComp1->getPositionY();
 				width1 = spriteComp->getWidth();
@@ -216,12 +217,15 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			(abs(y1 - m_tiles.m_killTiles[i].y) * 2 < (height1 + m_tiles.m_killTiles[i].height)))
 		{
 			std::cout << "KILL TILES COLLIDE" << std::endl;
-<<<<<<< HEAD
 			ac->die();
-=======
+			cc->alive = false;
 			posComp1->setPosition(680, 100);
 			lc->setLifes(lc->getLife() - 1);
->>>>>>> 1282aac90ed528e53277238d0dd1369ca51f074e
+		}
+		if (y1 >= 600 && !cc->alive)
+		{
+			cc->alive = true;
+
 		}
 	}
 

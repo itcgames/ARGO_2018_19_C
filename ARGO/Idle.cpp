@@ -10,7 +10,6 @@ void Idle::jumpLeft(AnimationComponent* a)
 	std::cout << "JumpLeft" << std::endl;
 	a->setCurrent(new JumpLeft());
 	a->setCurrentState(a->jumpLeftS);
-//	destRect.y = 0;
 	a->sRect.y = 0;
 	a->sRect.h = 100 * a->m_scale;
 	a->sRect.w = 80 * a->m_scale;
