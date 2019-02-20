@@ -215,4 +215,67 @@ public:
 		m_texture.render(m_x, m_y, m_renderer, 1, 1);
 	}
 };
+class AmmoUp : public PowerUp
+{
+public:
+	AmmoUp(SDL_Renderer *m_renderer)
+	{
+		m_id = 3;
+		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		{
+			printf("Failed to load dot texture!\n");
+
+		}
+		m_timer = 0;
+	};
+	~AmmoUp()
+	{
+	};
+	void draw(SDL_Renderer *m_renderer)
+	{
+		m_texture.render(m_x, m_y, m_renderer, NULL, 1, 1);
+	}
+};
+class SeekerAmmoUp : public PowerUp
+{
+public:
+	SeekerAmmoUp(SDL_Renderer *m_renderer)
+	{
+		m_id = 4;
+		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		{
+			printf("Failed to load dot texture!\n");
+
+		}
+		m_timer = 0;
+	};
+	~SeekerAmmoUp()
+	{
+	};
+	void draw(SDL_Renderer *m_renderer)
+	{
+		m_texture.render(m_x, m_y, m_renderer, NULL, 1, 1);
+	}
+};
+class ResetUp : public PowerUp
+{
+public:
+	ResetUp(SDL_Renderer *m_renderer)
+	{
+		m_id = 5;
+		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		{
+			printf("Failed to load dot texture!\n");
+
+		}
+		m_timer = 0;
+	};
+	~ResetUp()
+	{
+	};
+	void draw(SDL_Renderer *m_renderer)
+	{
+		m_texture.render(m_x, m_y, m_renderer, NULL, 1, 1);
+	}
+};
 
