@@ -6,7 +6,7 @@
 
 void Idle::jumpLeft(AnimationComponent* a)
 {
-	std::cout << "JumpLeft" << std::endl;
+	//std::cout << "JumpLeft" << std::endl;
 	a->setCurrent(new JumpLeft());
 	a->setCurrentState(a->jumpLeftS);
 //	destRect.y = 0;
@@ -19,7 +19,7 @@ void Idle::jumpLeft(AnimationComponent* a)
 
 void Idle::jumpRight(AnimationComponent* a)
 {
-	std::cout << "JumpRight" << std::endl;
+	//std::cout << "JumpRight" << std::endl;
 	a->setCurrent(new JumpRight());
 	a->setCurrentState(a->jumpRightS);
 //	destRect.y = 265.6;
@@ -31,7 +31,7 @@ void Idle::jumpRight(AnimationComponent* a)
 }
 void Idle::left(AnimationComponent* a)
 {
-	std::cout << "Left" << std::endl;
+	//std::cout << "Left" << std::endl;
 	a->setCurrent(new Left());
 	a->setCurrentState(a->leftS);
 	a->sRect.y = 100 * a->m_scale;
@@ -43,7 +43,7 @@ void Idle::left(AnimationComponent* a)
 
 void Idle::right(AnimationComponent* a)
 {
-	std::cout << "Right" << std::endl;
+	//std::cout << "Right" << std::endl;
 	a->setCurrent(new Right());
 	a->setCurrentState(a->rightS);
 	a->sRect.y = 200 * a->m_scale;

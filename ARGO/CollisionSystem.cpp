@@ -36,7 +36,6 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 		}
 
 		if (posComp1 != NULL && posComp2 != NULL) {
-			std::cout << pickup->getState() << std::endl;
 			if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
 				spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
 

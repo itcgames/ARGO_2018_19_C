@@ -38,7 +38,6 @@ void CombatSystem::CheckCollision(float dt)
 				if (AABB(posComp->getPositionX(), posComp->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
 					spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
 
-					std::cout << "ATTATATATATATA" << std::endl;
 
 					if (cc2->hasFlag && pickup->getState() == pickup->NotCollectable)
 					{

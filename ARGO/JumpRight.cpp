@@ -4,7 +4,7 @@
 
 void JumpRight::idle(AnimationComponent* a)
 {
-	std::cout << "Going from JumpingRight to Idling" << std::endl;
+	//std::cout << "Going from JumpingRight to Idling" << std::endl;
 	a->setCurrent(new Idle());
 	a->setCurrentState(a->idleS);
 	a->sRect.y = 0;
@@ -16,7 +16,7 @@ void JumpRight::idle(AnimationComponent* a)
 
 void JumpRight::jumpLeft(AnimationComponent* a)
 {
-	std::cout << "Going from JumpRight to jumpleft" << std::endl;
+	//std::cout << "Going from JumpRight to jumpleft" << std::endl;
 	a->setCurrent(new JumpLeft());
 	a->setCurrentState(a->jumpLeftS);
 	a->sRect.y = 0;
