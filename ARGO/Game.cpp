@@ -455,7 +455,6 @@ void Game::update(float dt)
 		}
 		ais.update(1000, ais.getEntityById("Player2"));
 		ais.update(1000, ais.getEntityById("Player3"));
-		phs.update();
 		break;
 
 	case GameState::Credits:
