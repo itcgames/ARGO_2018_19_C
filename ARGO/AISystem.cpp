@@ -153,9 +153,9 @@ void AISystem::update(level &m_level) {
 		//}
 
 
-		//if (cc->getDirection() == cc->Up) {
-		//	moveUp();
-		//}
+		if (cc->getDirection() == cc->Up) {
+			moveUp();
+		}
 
 
 		//if (cc->moveLeft == 0 && cc->moveRight == 0)
@@ -202,53 +202,53 @@ void AISystem::leftOrRight(float fx, float fy, float px, float py) {
 }
 
 
-/*
-void PhysicsSystem::speedUp(Entity * entity) {
-
-	maxX++;
-}
-
-void PhysicsSystem::moveLeft() {
-
-	if (vecX > -maxX)
-	{
-		ac->left();
-		int posX = pc->getPositionX();
-		int posY = pc->getPositionY();
-		vecX = -7;
-		posX += vecX;
-
-		pc->setPosition(posX, posY);
-	}
-}
-void PhysicsSystem::moveRight() {
-
-	if (vecX < maxX)
-	{
-		ac->right();
-		int posX = pc->getPositionX();
-		int posY = pc->getPositionY();
-		vecX = 7;
-		posX += vecX;
-		pc->setPosition(posX, posY);
-	}
-
-
-}
-void PhysicsSystem::moveUp() {
+//
+//void PhysicsSystem::speedUp(Entity * entity) {
+//
+//	maxX++;
+//}
+//
+//void PhysicsSystem::moveLeft() {
+//
+//	if (vecX > -maxX)
+//	{
+//		ac->left();
+//		int posX = pc->getPositionX();
+//		int posY = pc->getPositionY();
+//		vecX = -7;
+//		posX += vecX;
+//
+//		pc->setPosition(posX, posY);
+//	}
+//}
+//void PhysicsSystem::moveRight() {
+//
+//	if (vecX < maxX)
+//	{
+//		ac->right();
+//		int posX = pc->getPositionX();
+//		int posY = pc->getPositionY();
+//		vecX = 7;
+//		posX += vecX;
+//		pc->setPosition(posX, posY);
+//	}
+//
+//
+//}
+void AISystem::moveUp() {
 
 	if (cc->jump == 0 && collision == true)
 	{
 		int posX = pc->getPositionX();
 		int posY = pc->getPositionY();
 		vecY = -20;
+	
 		posY += vecY;
 		posX += vecX;
-		pc->setPosition(posX, posY);
+		pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY() - 20);
 		cc->stopFall = false;
 		cc->OnPlatform = false;
 		cc->jump = 1;
 	}
 
-
-}*/
+}

@@ -228,6 +228,9 @@
     <ClInclude Include="VelComponent.h">
       <Filter>Header\Components</Filter>
     </ClInclude>
+    <ClInclude Include="AIComponent.h">
+      <Filter>Header\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Left.bmp" />

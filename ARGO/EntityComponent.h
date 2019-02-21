@@ -12,6 +12,7 @@
 #include "PickUpComponent.h"
 #include "Velcomponent.h"
 #include "AmmoComponent.h"
+#include "AIComponent.h"
 #include <string>
 #include <iostream>
 #include <algorithm>

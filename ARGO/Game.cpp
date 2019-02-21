@@ -114,6 +114,7 @@ void Game::initialise()
 	player2.addComponent(new AmmoComponent(m_renderer));
 	player2.addComponent(new LifeComponent(5, 2, m_renderer, 1));
 	player2.addComponent(new VelocityComponent());
+	player2.addComponent(new AIComponent());
 
 
 
@@ -124,6 +125,7 @@ void Game::initialise()
 	player3.addComponent(new AmmoComponent(m_renderer));
 	player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
 	player3.addComponent(new VelocityComponent());
+	player3.addComponent(new AIComponent());
 
 	player4.addComponent(new PositionComponent(500, 500));
 	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
@@ -131,6 +133,7 @@ void Game::initialise()
 	player4.addComponent(new CollisionComponent());
 	player4.addComponent(new AmmoComponent(m_renderer));
 	player4.addComponent(new LifeComponent(3, 4, m_renderer, 1));
+	player4.addComponent(new AIComponent());
 
 	Entity wall("Wall");
 	//wall.addComponent(new PositionComponent(400, 500));
@@ -176,7 +179,7 @@ void Game::initialise()
 	player4.addComponent(new ScoreComponent(0));
 
 	ais.addEntity(player2);
-	ais.addEntity(player3);
+	//ais.addEntity(player3);
 	ais.addEntity(flag);
 
 
