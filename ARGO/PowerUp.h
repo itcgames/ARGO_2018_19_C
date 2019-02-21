@@ -36,6 +36,7 @@ public:
 			break;
 		}
 	};
+
 	~PowerUp() {};
 	virtual void draw(SDL_Renderer *m_renderer) = 0;
 	bool pickedUp(float x, float y, float w1, float h1)
@@ -91,6 +92,7 @@ public:
 			}
 		}
 	};
+
 	void update() {
 		//std::cout << "Timer: " << std::to_string(m_timer) << std::endl;
 		if (m_headLeft)
@@ -194,6 +196,7 @@ public:
 	}
 };
 
+
 class SpeedUp : public PowerUp
 {
 public:
@@ -215,6 +218,7 @@ public:
 		m_texture.render(m_x, m_y, m_renderer, 1, 1);
 	}
 };
+
 class AmmoUp : public PowerUp
 {
 public:
@@ -236,6 +240,7 @@ public:
 		m_texture.render(m_x, m_y, m_renderer,  1, 1);
 	}
 };
+
 class SeekerAmmoUp : public PowerUp
 {
 public:
@@ -257,15 +262,16 @@ public:
 		m_texture.render(m_x, m_y, m_renderer,  1, 1);
 	}
 };
+
 class ResetUp : public PowerUp
 {
 public:
 	ResetUp(SDL_Renderer *m_renderer)
 	{
 		m_id = 5;
-		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		if (!m_texture.loadFromFile("img/noScore.png", m_renderer, 1))
 		{
-			printf("Failed to load dot texture!\n");
+			printf("Failed to load noScore texture!\n");
 
 		}
 		m_timer = 0;
@@ -278,4 +284,25 @@ public:
 		m_texture.render(m_x, m_y, m_renderer,  1, 1);
 	}
 };
+
+class NoDamage : public PowerUp
+{
+public:
+	NoDamage(SDL_Renderer *m_renderer)
+	{
+		m_id = 6;
+		if (!m_texture.loadFromFile("img/noDamage.png", m_renderer, 1))
+		{
+			printf("Failed to load noDamage Txt");
+		}
+		m_timer = 0;
+	};
+	~NoDamage()
+	{};
+	void draw(SDL_Renderer *m_renderer)
+	{
+		m_texture.render(m_x, m_y, m_renderer, 1, 1);
+	}
+};
+
 

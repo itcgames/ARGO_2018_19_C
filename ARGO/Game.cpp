@@ -55,9 +55,6 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 
 		initialise();
 
-		//phs.initialise();
-
-
 		const auto MAP_PATH = "assets/maps/map2.tmx";
 
 		m_level = new level("Main Level");
@@ -97,8 +94,7 @@ void Game::initialise()
 	flag.addComponent(new PositionComponent(1000, 600));
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
 	flag.addComponent(new PickUpComponent());
-
-
+  
 	player.addComponent(new PositionComponent(300, 100));
 	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player.addComponent(new AnimationComponent());
@@ -131,7 +127,7 @@ void Game::initialise()
 	player4.addComponent(new CollisionComponent());
 	player4.addComponent(new AmmoComponent(m_renderer));
 	player4.addComponent(new LifeComponent(3, 4, m_renderer, 1));
-
+  
 	Entity wall("Wall");
 	//wall.addComponent(new PositionComponent(400, 500));
 	//wall.addComponent(new CollisionComponent());
@@ -280,6 +276,7 @@ void Game::update(float dt)
 	ammos.update();
 
 
+	updateNetwork();
 
 	switch (m_currentGameState)
 	{
@@ -313,7 +310,7 @@ void Game::update(float dt)
 				break;
 
 			case 1:
-				m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
+				m_powerUps.push_back(m_factory->CreateInvincible(m_renderer));
 				break;
 
 			case 2:
@@ -324,14 +321,13 @@ void Game::update(float dt)
 				m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
 				break;
 
-			case 5:
+			case 4:
 				m_powerUps.push_back(m_factory->CreateReset(m_renderer));
 				break;
 
 			}
 			m_timerSpawn = 0;
 		}
-
 
 		for (int i = m_powerUps.size() - 1; i >= 0; i--)
 		{
@@ -368,113 +364,128 @@ void Game::update(float dt)
 			}
 		}
 		updateNetwork();
-
-		ls.update(dt);
-		for (int j = m_powerUps.size() - 1; j >= 0; j--)
-		{
-			if (m_powerUps[j]->getAlive())
+      
+			for (int i = m_powerUps.size() - 1; i >= 0; i--)
 			{
-				m_powerUps[j]->update();
-				//check collision
-
-				PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
-				SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
-
-				switch (m_playerIndex)
+				if (m_powerUps[i]->getAlive())
 				{
-				case 0:
-					p = (PositionComponent *)player.getCompByType("Position");
-					s = (SpriteComponent *)player.getCompByType("Sprite");
-					break;
+					m_powerUps[i]->update();
+					//check collision
 
-				case 1:
-					p = (PositionComponent *)player2.getCompByType("Position");
-					s = (SpriteComponent *)player2.getCompByType("Sprite");
-					break;
+					PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
+					SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
 
-				case 2:
-					p = (PositionComponent *)player3.getCompByType("Position");
-					s = (SpriteComponent *)player3.getCompByType("Sprite");
-					break;
-				case 3:
-					p = (PositionComponent *)player4.getCompByType("Position");
-					s = (SpriteComponent *)player4.getCompByType("Sprite");
-					break;
-				}
-
-				if (m_powerUps[j]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
-				{
-					// switch case
-					switch (m_powerUps[j]->getID())
+					switch (m_playerIndex)
 					{
-					case 1: // Health
-						break;
-					case 2:	// Speed
-						if (phs.getEntityIds()[j] == "Player") {
-							phs.speedUp(phs.getEntityById("Player"));
-						}
-						if (phs.getEntityIds()[j] == "Player2") {
-							phs.speedUp(phs.getEntityById("Player2"));
-						}
-						if (phs.getEntityIds()[j] == "Player3") {
-							phs.speedUp(phs.getEntityById("Player3"));
-						}
-						if (phs.getEntityIds()[j] == "Player4") {
-							phs.speedUp(phs.getEntityById("Player4"));
-						}
-						break;
-					case 3: // Ammo
-						if (ammos.getEntityIds()[j] == "Player") {
-							ammos.addAmmo(ammos.getEntityById("Player"));
-						}
-						if (ammos.getEntityIds()[j] == "Player2") {
-							ammos.addAmmo(ammos.getEntityById("Player2"));
-						}
-						if (ammos.getEntityIds()[j] == "Player3") {
-							ammos.addAmmo(ammos.getEntityById("Player3"));
-						}
-						if (ammos.getEntityIds()[j] == "Player4") {
-							ammos.addAmmo(ammos.getEntityById("Player4"));
-						}
-
-						break;
-					case 4: // SeekerAmmo
-						if (ammos.getEntityIds()[j] == "Player") {
-							ammos.addSeekerAmmo(ammos.getEntityById("Player"));
-						}
-						if (ammos.getEntityIds()[j] == "Player2") {
-							ammos.addSeekerAmmo(ammos.getEntityById("Player2"));
-						}
-						if (ammos.getEntityIds()[j] == "Player3") {
-							ammos.addSeekerAmmo(ammos.getEntityById("Player3"));
-						}
-						if (ammos.getEntityIds()[j] == "Player4") {
-							ammos.addSeekerAmmo(ammos.getEntityById("Player4"));
-						}
-						break;
-					case 5: // Reset
+					case 0:
+						p = (PositionComponent *)player.getCompByType("Position");
+						s = (SpriteComponent *)player.getCompByType("Sprite");
 						break;
 
+					case 1:
+						p = (PositionComponent *)player2.getCompByType("Position");
+						s = (SpriteComponent *)player2.getCompByType("Sprite");
+						break;
+
+					case 2:
+						p = (PositionComponent *)player3.getCompByType("Position");
+						s = (SpriteComponent *)player3.getCompByType("Sprite");
+						break;
+              
+					case 3:
+						p = (PositionComponent *)player4.getCompByType("Position");
+						s = (SpriteComponent *)player4.getCompByType("Sprite");
+						break;
+					}
+					if (m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
+					{
+						// switch case
+						switch (m_powerUps[i]->getID())
+						{
+						case 1: // Health
+							if (Colls.getEntityID()[i + 1] == "Player")
+								Colls.ActivateInvincible();
+							if (Colls.getEntityID()[i + 1] == "Player2")
+								Colls.ActivateInvincible();
+							if (Colls.getEntityID()[i + 1] == "Player3")
+								Colls.ActivateInvincible();
+							if (Colls.getEntityID()[i + 1] == "Player4")
+								Colls.ActivateInvincible();
+							break;
+						case 2:	// Speed
+                if (phs.getEntityIds()[i] == "Player") {
+								phs.speedUp(phs.getEntityById("Player"));
+							}
+							if (phs.getEntityIds()[i] == "Player2") {
+								phs.speedUp(phs.getEntityById("Player2"));
+							}
+							if (phs.getEntityIds()[i] == "Player3") {
+								phs.speedUp(phs.getEntityById("Player3"));
+							}
+							if (phs.getEntityIds()[i] == "Player4") {
+								phs.speedUp(phs.getEntityById("Player4"));
+							}
+							break;
+						case 3: // Ammo
+							if (ammos.getEntityIds()[i] == "Player") {
+								ammos.addAmmo(ammos.getEntityById("Player"));
+							}
+							if (ammos.getEntityIds()[i] == "Player2") {
+								ammos.addAmmo(ammos.getEntityById("Player2"));
+							}
+							if (ammos.getEntityIds()[i] == "Player3") {
+								ammos.addAmmo(ammos.getEntityById("Player3"));
+							}
+							if (ammos.getEntityIds()[i] == "Player4") {
+								ammos.addAmmo(ammos.getEntityById("Player4"));
+							}
+
+							break;
+						case 4: // SeekerAmmo
+							if (ammos.getEntityIds()[i] == "Player") {
+								ammos.addSeekerAmmo(ammos.getEntityById("Player"));
+							}
+							if (ammos.getEntityIds()[i] == "Player2") {
+								ammos.addSeekerAmmo(ammos.getEntityById("Player2"));
+							}
+							if (ammos.getEntityIds()[i] == "Player3") {
+								ammos.addSeekerAmmo(ammos.getEntityById("Player3"));
+							}
+							if (ammos.getEntityIds()[i] == "Player4") {
+								ammos.addSeekerAmmo(ammos.getEntityById("Player4"));
+							}
+							break;
+						case 5: // Reset
+							if (Colls.getEntityID()[i+1] == "Player")
+								Colls.resetScore(Colls.getEntityID()[i+1]); 
+							if (Colls.getEntityID()[i+1] == "Player2")
+								Colls.resetScore(Colls.getEntityID()[i + 1]);
+							if (Colls.getEntityID()[i+1] == "Player3")
+								Colls.resetScore(Colls.getEntityID()[i + 1]);
+							if (Colls.getEntityID()[i+1] == "Player4")
+								Colls.resetScore(Colls.getEntityID()[i + 1]);
+							break;
+						}
 					}
 				}
-
-
+				else
+				{
+					m_powerUps.erase(m_powerUps.begin() + i);
+				}
 			}
-			else
-			{
-				m_powerUps.erase(m_powerUps.begin() + j);
-			}
+
+			getDistance();
+			
+
 		}
-		ais.update(1000, ais.getEntityById("Player2"));
-		ais.update(1000, ais.getEntityById("Player3"));
+  
 		break;
-
 	case GameState::Credits:
 		break;
 	default:
 		break;
-		
 	}
+
 }
 
 void Game::render(float dt)

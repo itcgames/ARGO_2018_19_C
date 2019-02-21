@@ -65,6 +65,7 @@ void CombatSystem::CheckCollision(float dt, int index)
 				posComp2 = (PositionComponent *)entity.getCompByType("Position");
 				spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
 				cc2 = (ControlComponent *)entity.getCompByType("Control");
+				collide = (CollisionComponent*)entity.getCompByType("Collision");
 				vel = (VelocityComponent*)entity.getCompByType("Vel");
 			}
 		}
@@ -76,26 +77,27 @@ void CombatSystem::CheckCollision(float dt, int index)
 				if (AABB(posComp->getPositionX(), posComp->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
 					spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
 
-
-					if (cc2->hasFlag && pickup->getState() == pickup->NotCollectable)
+					if (!collide->m_Invincible)
 					{
-						cc2->hasFlag = false;
-						pickup->setState(pickup->Collectable);
-					}
+						if (cc2->hasFlag && pickup->getState() == pickup->NotCollectable)
+						{
+							cc2->hasFlag = false;
+							pickup->setState(pickup->Collectable);
+						}
 
-					if (posComp->getPositionX() > posComp2->getPositionX())
-					{
-					/*	vel->setVelX(- 10);
+						if (posComp->getPositionX() > posComp2->getPositionX())
+						{
+						/*	vel->setVelX(- 10);
 						vel->setVelY(- 50);*/
 						posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() - 100, posComp2->getPositionY() + vel->getVelY() - 90);
 
-					}
-					else {
-					/*	vel->setVelX(+10);
+					  }
+					  else {
+					/*vel->setVelX(+10);
 						vel->setVelY(-50);*/
 						posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() + 100, posComp2->getPositionY() + vel->getVelY() - 90);
 					}
-				
+					
 					cc->attack = false;
 				}
 			}
