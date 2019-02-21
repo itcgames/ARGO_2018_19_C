@@ -24,6 +24,15 @@ Entity * PhysicsSystem::getEntityById(std::string s)
 	return &entities[0];
 }
 
+std::vector<std::string> PhysicsSystem::getEntityIds() {
+	//only reurns first name
+	std::vector<std::string> v;
+	for (Entity & entity : entities) {
+		v.push_back(entity.getName());
+	}
+	return v;
+}
+
 void PhysicsSystem::update() {
 
 

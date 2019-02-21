@@ -306,7 +306,8 @@ void Game::update(float dt)
 		m_timerSpawn++;
 		if (m_timerSpawn >= m_spawnTimeLimit)
 		{
-			switch (rand() % m_numOfPowerUps)
+			//switch (rand() % m_numOfPowerUps)
+			switch (3)
 			{
 			case 0:
 				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -324,7 +325,7 @@ void Game::update(float dt)
 				m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
 				break;
 
-			case 5:
+			case 4:
 				m_powerUps.push_back(m_factory->CreateReset(m_renderer));
 				break;
 
@@ -341,7 +342,8 @@ void Game::update(float dt)
 				m_timerSpawn++;
 			if (m_timerSpawn >= m_spawnTimeLimit)
 			{
-				switch (rand() % m_numOfPowerUps)
+				//switch (rand() % m_numOfPowerUps)
+				switch (3)
 				{
 				case 0:
 					m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -509,7 +511,7 @@ void Game::render(float dt)
 		m_level->draw(m_renderer);
 		//m_playerDot->render(m_renderer);
 		//m_texture.render(100, 100, m_renderer);
-    ammos.render(m_renderer);
+		ammos.render(m_renderer);
 		for (int i = m_powerUps.size() - 1; i >= 0; i--)
 		{
 			m_powerUps[i]->draw(m_renderer);

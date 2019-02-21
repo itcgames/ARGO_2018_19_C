@@ -137,7 +137,8 @@ void ControlSystem::input(SDL_Event &e) {
 				int posY = posComp->getPositionY();
 				//get current ammo amount and if not 0 place bomb
 				if (ammoComp->getSeekerAmmo() > 0) {
-					ammoComp->dropSeeker(posX, posY);
+					//third value is int for life span 
+					ammoComp->dropSeeker(posX, posY, 200);
 					//take one ammo away
 					int current = ammoComp->getSeekerAmmo();
 					current = 0;
@@ -233,7 +234,7 @@ void ControlSystem::input(SDL_Event &e) {
 				posY = posComp->getPositionY();
 				//get current ammo amount and if not 0 place bomb
 				if (ammoComp->getSeekerAmmo() > 0) {
-					ammoComp->dropSeeker(posX, posY);
+					ammoComp->dropSeeker(posX, posY, 200);
 					//take one ammo away
 					int current = ammoComp->getSeekerAmmo();
 					current = 0;

@@ -62,14 +62,19 @@ public:
 					for (Component * componentTwo : entityTwo.getComponents()) {
 						//AmmoComponent* ammoComp = (AmmoComponent*)entityTwo.getCompByType("Ammo");
 						PositionComponent* posComp = (PositionComponent*)entityTwo.getCompByType("Position");
+						LifeComponent* lc = (LifeComponent*)entityTwo.getCompByType("Life");
 
 						if (entity.getName() != entityTwo.getName()) {
 							posX = posComp->getPositionX();
 							posY = posComp->getPositionY();
+							
+							//if true access the life comp and make life one less
+							if (ammoComp->checkCollision(posX, posY) == true) {
+								float m_life = lc->getLife();
+								m_life--;
+								lc->setLifes(m_life);
+							}
 
-							ammoComp->checkCollision(posX, posY);
-							
-							
 							//if dis is smaller than previous distance then change c_pos
 							if (ammoComp->getClosest(posX, posY) < c_dis) {
 								c_PosX = posX;
@@ -85,6 +90,8 @@ public:
 				//call a method to move the seekers dot
 				ammoComp->seek(c_PosX, c_PosY);
 				
+
+				//if life 0< delete projectile
 			}
 		}
 		
