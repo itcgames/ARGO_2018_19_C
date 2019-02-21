@@ -88,14 +88,6 @@ void Game::initialise()
 		printf("Failed to load wall texture!\n");
 	}
 
-
-
-	Entity flag("Flag");
-	flag.addComponent(new PositionComponent(500, 500));
-	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
-	flag.addComponent(new PickUpComponent());
-
-
 	player.addComponent(new PositionComponent(300, 100));
 	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player.addComponent(new AnimationComponent());
@@ -125,6 +117,11 @@ void Game::initialise()
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 	player4.addComponent(new AmmoComponent(m_renderer));
+
+	Entity flag("Flag");
+	flag.addComponent(new PositionComponent(500, 500));
+	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8, 2));
+	flag.addComponent(new PickUpComponent());
 
 	Entity wall("Wall");
 	//wall.addComponent(new PositionComponent(400, 500));
@@ -292,7 +289,7 @@ void Game::update(float dt)
 		if (m_timerSpawn >= m_spawnTimeLimit)
 		{
 			//switch (rand() % m_numOfPowerUps)
-			switch (6)
+			switch (5)
 			{
 			case 0:
 				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -395,6 +392,14 @@ void Game::update(float dt)
 						switch (m_powerUps[i]->getID())
 						{
 						case 1: // Health
+							if (Colls.getEntityID()[i + 1] == "Player")
+								Colls.ActivateInvincible();
+							if (Colls.getEntityID()[i + 1] == "Player2")
+								Colls.ActivateInvincible();
+							if (Colls.getEntityID()[i + 1] == "Player3")
+								Colls.ActivateInvincible();
+							if (Colls.getEntityID()[i + 1] == "Player4")
+								Colls.ActivateInvincible();
 							break;
 						case 2:	// Speed
 							break;
@@ -428,9 +433,15 @@ void Game::update(float dt)
 							}
 							break;
 						case 5: // Reset
+							if (Colls.getEntityID()[i+1] == "Player")
+								Colls.resetScore(Colls.getEntityID()[i+1]); 
+							if (Colls.getEntityID()[i+1] == "Player2")
+								Colls.resetScore(Colls.getEntityID()[i + 1]);
+							if (Colls.getEntityID()[i+1] == "Player3")
+								Colls.resetScore(Colls.getEntityID()[i + 1]);
+							if (Colls.getEntityID()[i+1] == "Player4")
+								Colls.resetScore(Colls.getEntityID()[i + 1]);
 							break;
-						case 6://Invincible
-							Colls.ActivateInvincible();
 						}
 					}
 				}

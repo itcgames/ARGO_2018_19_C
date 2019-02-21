@@ -52,6 +52,28 @@ void CollisionSystem::setInvincible(float dt, CollisionComponent* m_collide)
 
 }
 
+std::vector<std::string> CollisionSystem::getEntityID()
+{
+	//only returns first name
+	std::vector<std::string> v;
+	for (Entity & entity : entities) {
+		v.push_back(entity.getName());
+	}
+	return v;
+}
+
+void CollisionSystem::resetScore(std::string id)
+{
+	for (Entity& entity : entities)
+	{
+		if (id != entity.getName() && entity.getName() !="Flag")
+		{
+			score = (ScoreComponent*)entity.getCompByType("Score");
+			score->setScore(0);
+		}
+	}
+}
+
 void CollisionSystem::CheckCollision(level &level, float dt)
 {
 

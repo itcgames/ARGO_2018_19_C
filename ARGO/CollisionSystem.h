@@ -15,6 +15,7 @@ public:
 	void addEntity(Entity e);
 	void removeEntity(std::string ID);
 	void setInvincible(float dt, CollisionComponent* m_collide);
+	std::vector<std::string> getEntityID();
 	void update(level &level, float dt);
 	bool squareCollision(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);
 	bool AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);
@@ -22,7 +23,7 @@ public:
 	void Teleport(float x, float y, float width, float height, level &level);
 	void CheckCollision(level &level, float dt);
 	bool getInvincible();
-
+	void resetScore(std::string id);
 	void ActivateInvincible();
 	
 private:
