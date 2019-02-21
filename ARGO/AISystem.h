@@ -14,6 +14,8 @@ class AISystem
 	float posY = 0;
 	float velX = 0;
 	float distance = 1000;
+	float flagX = 0;
+	float flagY = 0;
 
 public:
 	void addEntity(Entity e) {
@@ -50,37 +52,42 @@ public:
 	void update(float dis, Entity * entity) {
 
 		
-		//for (Entity & entity : entities) {
+		for (Entity & entity : entities) {
+			for (Component* component : entity.getComponents()) {
 
-			//Loop through all entities 
-			for (Component* component : entity->getComponents()) {
-
-				//call fuzzy update 
-				m_fuzzy->update(dis);
-
-				//now only do this if the ai has the flag
-
-				//update the ai position
-				pc = (PositionComponent*)entity->getCompByType("Position");
-
-				posX = pc->getPositionX();
-				posY = pc->getPositionY();
-				// get vec from fuzy logic
-				velX = m_fuzzy->runAway();
-				//std::cout << velX << std::endl;
-
-				//determine which side the player is on
-				if (dis < 0) {
-					posX -= velX;
+				//get the flag pos and get the player to move left or right
+				pc = (PositionComponent*)entity.getCompByType("Position");
+				if (entity.getName() == "Flag") {
+					flagX = pc->getPositionX();
+					flagY = pc->getPositionY();
 				}
-				if (dis > 0) {
-					posX += velX;
+				else {
+					posX = pc->getPositionX();
+					posY = pc->getPositionY();
 				}
-				
-				//set position 
-				pc->setPosition(posX, posY);
+				//std::cout << "AI" << std::endl;
 			}
+			if (entity.getName() != "Flag") {
+				leftOrRight(flagX, flagY, posX, posY);
+			}
+			
 		}
+
+	}
+
+	void leftOrRight(float fx, float fy, float px, float py) {
+		//if flag x greater the player x add on to player === go right
+		if (fx > px) {
+			px++;
+			pc->setPosition(px, py);
+		}
+		//=== go left
+		if (fx < px) {
+			px--;
+			pc->setPosition(px, py);
+		}
+
+	}
 	
 
 
