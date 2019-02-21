@@ -410,6 +410,18 @@ void Game::update(float dt)
 					case 1: // Health
 						break;
 					case 2:	// Speed
+						if (phs.getEntityIds()[j] == "Player") {
+							phs.speedUp(phs.getEntityById("Player"));
+						}
+						if (phs.getEntityIds()[j] == "Player2") {
+							phs.speedUp(phs.getEntityById("Player2"));
+						}
+						if (phs.getEntityIds()[j] == "Player3") {
+							phs.speedUp(phs.getEntityById("Player3"));
+						}
+						if (phs.getEntityIds()[j] == "Player4") {
+							phs.speedUp(phs.getEntityById("Player4"));
+						}
 						break;
 					case 3: // Ammo
 						if (ammos.getEntityIds()[j] == "Player") {
