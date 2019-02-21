@@ -122,7 +122,7 @@ public:
 			AmmoComponent* ammoComp = (AmmoComponent*)entity->getCompByType("Ammo");
 			
 			float current = ammoComp->getAmmo();
-			current++;
+			current = 1;
 			ammoComp->setAmmo(current);
 
 		}

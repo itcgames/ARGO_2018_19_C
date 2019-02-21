@@ -42,7 +42,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::GameScreen);
+		m_currentGameState = (GameState::Credits);
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 		if (IMG_Init(imgFlags) != imgFlags)
@@ -196,6 +196,7 @@ void Game::initialise()
 
 	// Screen Initialise
 	m_lobbyScreen = new Lobby(m_renderer);
+	m_creditsScreen = new Credits(m_renderer);
 	updateNetwork();
 
 
@@ -275,11 +276,6 @@ void Game::setGameState(GameState gameState)
 void Game::update(float dt)
 {
 	updateNetwork();
-	Colls.update(*m_level, dt);
-	//hs.update();
-	ammos.update();
-
-
 
 	switch (m_currentGameState)
 	{
@@ -302,12 +298,14 @@ void Game::update(float dt)
 		comsystem.update(dt, m_playerIndex);
 		ls.update(dt);
 		//phs.update();
+		Colls.update(*m_level, dt);
+		//hs.update();
+		ammos.update();
 
 		m_timerSpawn++;
 		if (m_timerSpawn >= m_spawnTimeLimit)
 		{
-			//switch (rand() % m_numOfPowerUps)
-			switch (3)
+			switch (rand() % m_numOfPowerUps)
 			{
 			case 0:
 				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -342,8 +340,7 @@ void Game::update(float dt)
 				m_timerSpawn++;
 			if (m_timerSpawn >= m_spawnTimeLimit)
 			{
-				//switch (rand() % m_numOfPowerUps)
-				switch (3)
+				switch (rand() % m_numOfPowerUps)
 				{
 				case 0:
 					m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -472,6 +469,7 @@ void Game::update(float dt)
 		break;
 
 	case GameState::Credits:
+		m_creditsScreen->update();
 		break;
 	default:
 		break;
@@ -518,6 +516,7 @@ void Game::render(float dt)
 		}
 		break;
 	case GameState::Credits:
+		m_creditsScreen->render(m_renderer);
 		break;
 	default:
 		break;

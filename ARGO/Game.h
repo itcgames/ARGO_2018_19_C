@@ -21,6 +21,7 @@
 #include "PhysicsSystem.h"
 #include "LifeSystem.h"
 #include "Lobby.h"
+#include "Credits.h"
 #include "Level.h"
 #include "Particle.h"
 #include "Factory.h"
@@ -92,6 +93,7 @@ private:
 	ParticleComponent* m_partComponent;
 
 	Lobby * m_lobbyScreen;
+	Credits * m_creditsScreen;
 
 	CombatSystem comsystem;
     //LifeSystem ls;

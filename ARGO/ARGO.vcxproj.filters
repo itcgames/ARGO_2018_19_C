@@ -85,6 +85,9 @@
     <ClCompile Include="AISystem.cpp">
       <Filter>src\System</Filter>
     </ClCompile>
+    <ClCompile Include="Credits.cpp">
+      <Filter>src\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -177,9 +180,6 @@
     <ClInclude Include="RenderSystem.h">
       <Filter>Header\System</Filter>
     </ClInclude>
-    <ClInclude Include="credits.h">
-      <Filter>Header\Screens</Filter>
-    </ClInclude>
     <ClInclude Include="splash.h">
       <Filter>Header\Screens</Filter>
     </ClInclude>
@@ -227,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="VelComponent.h">
       <Filter>Header\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Credits.h">
+      <Filter>Header\Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

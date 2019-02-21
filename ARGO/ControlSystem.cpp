@@ -250,7 +250,7 @@ void ControlSystem::input(SDL_Event &e) {
 					ammoComp->dropProjectile(posX, posY);
 					//take one ammo away
 					int current = ammoComp->getAmmo();
-					current--;
+					current = 0;
 					ammoComp->setAmmo(current);
 				}
 				break;
