@@ -25,7 +25,7 @@ void CombatSystem::CheckCollision(float dt, int index)
 {
 
 	time = time + dt;
-	
+
 	if (index > 0)
 	{
 		playerID = "Player" + std::to_string(index + 1);
@@ -33,11 +33,11 @@ void CombatSystem::CheckCollision(float dt, int index)
 	else {
 		playerID = "Player";
 	}
-	
+
 	for (Entity& entity : entities)
 	{
 
-		
+
 		if (entity.getName() == playerID)
 		{
 
@@ -50,7 +50,7 @@ void CombatSystem::CheckCollision(float dt, int index)
 				spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
 				score = (ScoreComponent*)entity.getCompByType("Score");
 			}
-		
+
 		}
 		else if (entity.getName() == "Flag")
 		{
@@ -70,7 +70,7 @@ void CombatSystem::CheckCollision(float dt, int index)
 			}
 		}
 
-		if (posComp != NULL && posComp2 != NULL ) {
+		if (posComp != NULL && posComp2 != NULL) {
 
 			if (cc->attack) {
 				cc->attack = false;
@@ -87,27 +87,27 @@ void CombatSystem::CheckCollision(float dt, int index)
 
 						if (posComp->getPositionX() > posComp2->getPositionX())
 						{
-						/*	vel->setVelX(- 10);
-						vel->setVelY(- 50);*/
-						posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() - 100, posComp2->getPositionY() + vel->getVelY() - 90);
+							/*	vel->setVelX(- 10);
+							vel->setVelY(- 50);*/
+							posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() - 100, posComp2->getPositionY() + vel->getVelY() - 90);
 
-					  }
-					  else {
-					/*vel->setVelX(+10);
-						vel->setVelY(-50);*/
-						posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() + 100, posComp2->getPositionY() + vel->getVelY() - 90);
+						}
+						else {
+							/*vel->setVelX(+10);
+								vel->setVelY(-50);*/
+							posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() + 100, posComp2->getPositionY() + vel->getVelY() - 90);
+						}
+
+						cc->attack = false;
 					}
-					
-					cc->attack = false;
 				}
+
 			}
 
+
+
+
 		}
-
-
-
-	
-	}
 
 		/*posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 3, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
 		int fps = 1;
@@ -123,7 +123,8 @@ void CombatSystem::CheckCollision(float dt, int index)
 		std::cout << "Score: " << score->getScore() << std::endl;*/
 
 
-	
+
+	}
 }
 
 

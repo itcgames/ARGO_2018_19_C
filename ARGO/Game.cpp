@@ -280,61 +280,27 @@ void Game::update(float dt)
 
 	switch (m_currentGameState)
 	{
-	case GameState::None:
-		break;
-	case GameState::Splash:
-		break;
-	case GameState::Lobby:
-		m_lobbyScreen->update(m_playerIndex, mouseX, mouseY);
-		mouseX = -1;
-		mouseY = -1;
-		break;
-	case GameState::MainMenu:
-		break;
-	case GameState::Options:
-		break;
-	case GameState::GameScreen:
-		//ps.update(m_renderer);
-		phs.update();
-		comsystem.update(dt, m_playerIndex);
-		ls.update(dt);
-		//phs.update();
+		case GameState::None:
+			break;
+		case GameState::Splash:
+			break;
+		case GameState::Lobby:
+			m_lobbyScreen->update(m_playerIndex, mouseX, mouseY);
+			mouseX = -1;
+			mouseY = -1;
+			break;
+		case GameState::MainMenu:
+			break;
+		case GameState::Options:
+			break;
+		case GameState::GameScreen:
+			//ps.update(m_renderer);
+			phs.update();
+			comsystem.update(dt, m_playerIndex);
+			ls.update(dt);
+			//phs.update();
 
-		m_timerSpawn++;
-		if (m_timerSpawn >= m_spawnTimeLimit)
-		{
-			switch (rand() % m_numOfPowerUps)
-			{
-			case 0:
-				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
-				break;
-
-			case 1:
-				m_powerUps.push_back(m_factory->CreateInvincible(m_renderer));
-				break;
-
-			case 2:
-				m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
-				break;
-
-			case 3:
-				m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
-				break;
-
-			case 4:
-				m_powerUps.push_back(m_factory->CreateReset(m_renderer));
-				break;
-
-			}
-			m_timerSpawn = 0;
-		}
-
-		for (int i = m_powerUps.size() - 1; i >= 0; i--)
-		{
-			if (m_powerUps[i]->getAlive())
-
-				// Power ups
-				m_timerSpawn++;
+			m_timerSpawn++;
 			if (m_timerSpawn >= m_spawnTimeLimit)
 			{
 				switch (rand() % m_numOfPowerUps)
@@ -344,7 +310,7 @@ void Game::update(float dt)
 					break;
 
 				case 1:
-					m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
+					m_powerUps.push_back(m_factory->CreateInvincible(m_renderer));
 					break;
 
 				case 2:
@@ -362,9 +328,43 @@ void Game::update(float dt)
 				}
 				m_timerSpawn = 0;
 			}
-		}
-		updateNetwork();
-      
+
+			for (int i = m_powerUps.size() - 1; i >= 0; i--)
+			{
+				if (m_powerUps[i]->getAlive())
+
+					// Power ups
+					m_timerSpawn++;
+				if (m_timerSpawn >= m_spawnTimeLimit)
+				{
+					switch (rand() % m_numOfPowerUps)
+					{
+					case 0:
+						m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
+						break;
+
+					case 1:
+						m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
+						break;
+
+					case 2:
+						m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
+						break;
+
+					case 3:
+						m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
+						break;
+
+					case 4:
+						m_powerUps.push_back(m_factory->CreateReset(m_renderer));
+						break;
+
+					}
+					m_timerSpawn = 0;
+				}
+			}
+			updateNetwork();
+
 			for (int i = m_powerUps.size() - 1; i >= 0; i--)
 			{
 				if (m_powerUps[i]->getAlive())
@@ -391,7 +391,7 @@ void Game::update(float dt)
 						p = (PositionComponent *)player3.getCompByType("Position");
 						s = (SpriteComponent *)player3.getCompByType("Sprite");
 						break;
-              
+
 					case 3:
 						p = (PositionComponent *)player4.getCompByType("Position");
 						s = (SpriteComponent *)player4.getCompByType("Sprite");
@@ -413,7 +413,7 @@ void Game::update(float dt)
 								Colls.ActivateInvincible();
 							break;
 						case 2:	// Speed
-                if (phs.getEntityIds()[i] == "Player") {
+							if (phs.getEntityIds()[i] == "Player") {
 								phs.speedUp(phs.getEntityById("Player"));
 							}
 							if (phs.getEntityIds()[i] == "Player2") {
@@ -456,13 +456,13 @@ void Game::update(float dt)
 							}
 							break;
 						case 5: // Reset
-							if (Colls.getEntityID()[i+1] == "Player")
-								Colls.resetScore(Colls.getEntityID()[i+1]); 
-							if (Colls.getEntityID()[i+1] == "Player2")
+							if (Colls.getEntityID()[i + 1] == "Player")
 								Colls.resetScore(Colls.getEntityID()[i + 1]);
-							if (Colls.getEntityID()[i+1] == "Player3")
+							if (Colls.getEntityID()[i + 1] == "Player2")
 								Colls.resetScore(Colls.getEntityID()[i + 1]);
-							if (Colls.getEntityID()[i+1] == "Player4")
+							if (Colls.getEntityID()[i + 1] == "Player3")
+								Colls.resetScore(Colls.getEntityID()[i + 1]);
+							if (Colls.getEntityID()[i + 1] == "Player4")
 								Colls.resetScore(Colls.getEntityID()[i + 1]);
 							break;
 						}
@@ -473,17 +473,12 @@ void Game::update(float dt)
 					m_powerUps.erase(m_powerUps.begin() + i);
 				}
 			}
-
 			getDistance();
-			
-
-		}
-  
-		break;
-	case GameState::Credits:
-		break;
-	default:
-		break;
+			break;
+		case GameState::Credits:
+			break;
+		default:
+			break;
 	}
 
 }
