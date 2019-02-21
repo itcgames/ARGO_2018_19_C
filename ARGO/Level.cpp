@@ -134,7 +134,7 @@ void level::load(const std::string& path, SDL_Renderer* ren) {
 					height = object.getAABB().height;
 					type = object.getType();
 
-					NodeObjects n(x, y, width, height);
+					NodeObjects n(x, y, width, height, type);
 					m_nodes.push_back(n);
 				}
 			}
