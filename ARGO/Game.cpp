@@ -55,9 +55,6 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 
 		initialise();
 
-		//phs.initialise();
-
-
 		const auto MAP_PATH = "assets/maps/map2.tmx";
 
 		m_level = new level("Main Level");
@@ -270,6 +267,7 @@ void Game::update(float dt)
 	ammos.update();
 
 
+	updateNetwork();
 
 	switch (m_currentGameState)
 	{
@@ -289,59 +287,12 @@ void Game::update(float dt)
 	case GameState::GameScreen:
 		//ps.update(m_renderer);
 		phs.update();
-		break;
-	case GameState::Credits:
-		break;
-	default:
-		break;
-	}
-
-
-	//phs.update();
-
-	//// Power ups
-	m_timerSpawn++;
-	if (m_timerSpawn >= m_spawnTimeLimit)
-	{
-		//switch (rand() % m_numOfPowerUps)
-		switch (2)
-		{
-		case 0:
-			m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
-			break;
-
-		case 1:
-			m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
-			break;
-
-		case 2:
-			m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
-			break;
-
-		case 3:
-			m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
-			break;
-
-		case 5:
-			m_powerUps.push_back(m_factory->CreateReset(m_renderer));
-			break;
-
-		}
-		m_timerSpawn = 0;
-	}
-	updateNetwork();
-	for (int i = m_powerUps.size() - 1; i >= 0; i--)
-	{
-		if (m_powerUps[i]->getAlive())
-			comsystem.update(dt);
-		ls.update(dt);
-		// Power ups
+		//// Power ups
 		m_timerSpawn++;
 		if (m_timerSpawn >= m_spawnTimeLimit)
-
 		{
 			//switch (rand() % m_numOfPowerUps)
-			switch(2)
+			switch (6)
 			{
 			case 0:
 				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -363,95 +314,147 @@ void Game::update(float dt)
 				m_powerUps.push_back(m_factory->CreateReset(m_renderer));
 				break;
 
+			case 6:
+				m_powerUps.push_back(m_factory->CreateInvincible(m_renderer));
+				break;
+
 			}
 			m_timerSpawn = 0;
 		}
+		updateNetwork();
 		for (int i = m_powerUps.size() - 1; i >= 0; i--)
 		{
 			if (m_powerUps[i]->getAlive())
+				comsystem.update(dt);
+			ls.update(dt);
+			// Power ups
+			m_timerSpawn++;
+			if (m_timerSpawn >= m_spawnTimeLimit)
+
 			{
-				m_powerUps[i]->update();
-				//check collision
-
-				PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
-				SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
-
-				switch (m_playerIndex)
+				//switch (rand() % m_numOfPowerUps)
+				switch (2)
 				{
 				case 0:
-					p = (PositionComponent *)player.getCompByType("Position");
-					s = (SpriteComponent *)player.getCompByType("Sprite");
+					m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
 					break;
 
 				case 1:
-					p = (PositionComponent *)player2.getCompByType("Position");
-					s = (SpriteComponent *)player2.getCompByType("Sprite");
+					m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
 					break;
 
-				case 2:	
-					p = (PositionComponent *)player3.getCompByType("Position");
-					s = (SpriteComponent *)player3.getCompByType("Sprite");
+				case 2:
+					m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
 					break;
-				case 3: 
-					p = (PositionComponent *)player4.getCompByType("Position");
-					s = (SpriteComponent *)player4.getCompByType("Sprite");
+
+				case 3:
+					m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
 					break;
+
+				case 5:
+					m_powerUps.push_back(m_factory->CreateReset(m_renderer));
+					break;
+
 				}
-				if (m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
+				m_timerSpawn = 0;
+			}
+			for (int i = m_powerUps.size() - 1; i >= 0; i--)
+			{
+				if (m_powerUps[i]->getAlive())
 				{
-					// switch case
-					switch (m_powerUps[i]->getID())
-					{
-					case 1: // Health
-						break;
-					case 2:	// Speed
-						break;
-					case 3: // Ammo
-						if (ammos.getEntityIds()[i] == "Player") {
-							ammos.addAmmo(ammos.getEntityById("Player"));
-						}
-						if (ammos.getEntityIds()[i] == "Player2") {
-							ammos.addAmmo(ammos.getEntityById("Player2"));
-						}
-						if (ammos.getEntityIds()[i] == "Player3") {
-							ammos.addAmmo(ammos.getEntityById("Player3"));
-						}
-						if (ammos.getEntityIds()[i] == "Player4") {
-							ammos.addAmmo(ammos.getEntityById("Player4"));
-						}
+					m_powerUps[i]->update();
+					//check collision
 
+					PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
+					SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
+
+					switch (m_playerIndex)
+					{
+					case 0:
+						p = (PositionComponent *)player.getCompByType("Position");
+						s = (SpriteComponent *)player.getCompByType("Sprite");
 						break;
-					case 4: // SeekerAmmo
-						if (ammos.getEntityIds()[i] == "Player") {
-							ammos.addSeekerAmmo(ammos.getEntityById("Player"));
-						}
-						if (ammos.getEntityIds()[i] == "Player2") {
-							ammos.addSeekerAmmo(ammos.getEntityById("Player2"));
-						}
-						if (ammos.getEntityIds()[i] == "Player3") {
-							ammos.addSeekerAmmo(ammos.getEntityById("Player3"));
-						}
-						if (ammos.getEntityIds()[i] == "Player4") {
-							ammos.addSeekerAmmo(ammos.getEntityById("Player4"));
-						}
+
+					case 1:
+						p = (PositionComponent *)player2.getCompByType("Position");
+						s = (SpriteComponent *)player2.getCompByType("Sprite");
 						break;
-					case 5: // Reset
+
+					case 2:
+						p = (PositionComponent *)player3.getCompByType("Position");
+						s = (SpriteComponent *)player3.getCompByType("Sprite");
 						break;
-					
+					case 3:
+						p = (PositionComponent *)player4.getCompByType("Position");
+						s = (SpriteComponent *)player4.getCompByType("Sprite");
+						break;
+					}
+					if (m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
+					{
+						// switch case
+						switch (m_powerUps[i]->getID())
+						{
+						case 1: // Health
+							break;
+						case 2:	// Speed
+							break;
+						case 3: // Ammo
+							if (ammos.getEntityIds()[i] == "Player") {
+								ammos.addAmmo(ammos.getEntityById("Player"));
+							}
+							if (ammos.getEntityIds()[i] == "Player2") {
+								ammos.addAmmo(ammos.getEntityById("Player2"));
+							}
+							if (ammos.getEntityIds()[i] == "Player3") {
+								ammos.addAmmo(ammos.getEntityById("Player3"));
+							}
+							if (ammos.getEntityIds()[i] == "Player4") {
+								ammos.addAmmo(ammos.getEntityById("Player4"));
+							}
+
+							break;
+						case 4: // SeekerAmmo
+							if (ammos.getEntityIds()[i] == "Player") {
+								ammos.addSeekerAmmo(ammos.getEntityById("Player"));
+							}
+							if (ammos.getEntityIds()[i] == "Player2") {
+								ammos.addSeekerAmmo(ammos.getEntityById("Player2"));
+							}
+							if (ammos.getEntityIds()[i] == "Player3") {
+								ammos.addSeekerAmmo(ammos.getEntityById("Player3"));
+							}
+							if (ammos.getEntityIds()[i] == "Player4") {
+								ammos.addSeekerAmmo(ammos.getEntityById("Player4"));
+							}
+							break;
+						case 5: // Reset
+							break;
+						case 6://Invincible
+							Colls.m_Invincible=true;
+						}
 					}
 				}
+				else
+				{
+					m_powerUps.erase(m_powerUps.begin() + i);
+				}
 			}
-			else
-			{
-				m_powerUps.erase(m_powerUps.begin() + i);
-			}
+
+			getDistance();
+			
+
 		}
-
-		getDistance();
-
-		updateNetwork();
-
+		break;
+	case GameState::Credits:
+		break;
+	default:
+		break;
 	}
+
+
+	//phs.update();
+
+	
 }
 
 void Game::render(float dt)
