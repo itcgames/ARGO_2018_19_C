@@ -24,12 +24,17 @@ bool CollisionSystem::getInvincible()
 	return collide->m_Invincible;
 }
 
-void CollisionSystem::setInvincible(float dt)
+void CollisionSystem::ActivateInvincible()
+{
+	collide->m_Invincible = true;
+}
+
+void CollisionSystem::setInvincible(float dt, CollisionComponent* m_collide)
 {
 	timer += dt;
 	int fps = 1;
 	int ticksPerFrame = 1000 / fps;
-	if (collide->m_Invincible)
+	if (m_collide->m_Invincible)
 	{
 		if (ticksPerFrame<timer)
 		{
@@ -39,7 +44,7 @@ void CollisionSystem::setInvincible(float dt)
 		}
 		if (count >= 10)
 		{
-			collide->m_Invincible = false;
+			m_collide->m_Invincible = false;
 			std::cout << "INVINCIBLE OVER" << std::endl;
 			count = 0;
 		}
@@ -66,12 +71,14 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 				spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
 				score = (ScoreComponent*)entity.getCompByType("Score");
 				ac = (AnimationComponent*)entity.getCompByType("Animation");
+				collide = (CollisionComponent*)entity.getCompByType("Collision");
 				x1 = posComp1->getPositionX();
 				y1 = posComp1->getPositionY();
 				width1 = spriteComp->getWidth();
 				height1 = spriteComp->getHeight();
 				tileCollision(x1, y1, width1, height1, level, lc);
 				Teleport(x1, y1, width1, height1, level);
+				setInvincible(dt, collide);
 			}
 
 
@@ -111,6 +118,8 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 
 			}
 		}
+
+		
 	}
 }
 
@@ -284,5 +293,4 @@ void CollisionSystem::Teleport(float x, float y, float width, float height, leve
 void CollisionSystem::update(level &level, float dt)
 {
 	CheckCollision(level, dt);
-	setInvincible(dt);
 }

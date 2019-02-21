@@ -430,7 +430,7 @@ void Game::update(float dt)
 						case 5: // Reset
 							break;
 						case 6://Invincible
-							Colls.m_Invincible=true;
+							Colls.ActivateInvincible();
 						}
 					}
 				}
