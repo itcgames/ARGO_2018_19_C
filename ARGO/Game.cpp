@@ -298,7 +298,7 @@ void Game::update(float dt)
 		phs.update();
 		comsystem.update(dt, m_playerIndex);
 		ls.update(dt);
-		ais.update();
+		ais.update(*m_level);
 		break;
 	case GameState::Credits:
 		break;

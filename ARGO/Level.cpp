@@ -12,6 +12,11 @@ MapObjects::MapObjects(float x, float y, float width, float height)
 
 }
 
+NodeObjects::NodeObjects(float x, float y, float width, float height, std::string type)
+	: x(x), y(y), width(width), height(height), type(type)
+{
+
+}
 void tile::draw(SDL_Renderer* ren) {
 	if (!ren || !sheet)
 		return;
@@ -129,7 +134,7 @@ void level::load(const std::string& path, SDL_Renderer* ren) {
 					height = object.getAABB().height;
 					type = object.getType();
 
-					NodeObjects n(x, y, width, height, type);
+					NodeObjects n(x, y, width, height);
 					m_nodes.push_back(n);
 				}
 			}

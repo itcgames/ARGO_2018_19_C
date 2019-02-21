@@ -4,6 +4,7 @@
 #include <vector>
 #include "EntityComponent.h"
 #include "Fuzzy.h"
+#include "Level.h"
 
 class AISystem
 {
@@ -27,7 +28,7 @@ class AISystem
 public:
 	AISystem();
 	void addEntity(Entity e);
-	void update();
+	void update(level &level);
 	void moveLeft();
 	void moveRight();
 	void moveUp();

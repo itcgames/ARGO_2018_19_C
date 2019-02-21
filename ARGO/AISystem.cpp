@@ -29,7 +29,7 @@ Entity * AISystem::getEntityById(std::string s)
 	return &entities[0];
 }
 
-void AISystem::update() {
+void AISystem::update(level &level) {
 
 
 	//std::cout << "PHYSICS SYSTEM:" << std::endl;
