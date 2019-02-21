@@ -118,6 +118,10 @@ void CollisionSystem::nodeCollision(level &level, float x, float y, float width,
 				cc->setDirection(cc->Up);
 				std::cout << "JUMP" << std::endl;
 			}
+			else
+			{
+				cc->jump = 0;
+			}
 		}
 
 	}

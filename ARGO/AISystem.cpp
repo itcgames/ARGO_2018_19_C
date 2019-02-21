@@ -70,11 +70,13 @@ void AISystem::update(level &m_level) {
 				if (vel->getVelY() <= 10)
 				{
 					vel->setVelY(vel->getVelY() + 1);
+					
 				}
 
 				//posY += vecY;
 
 				pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
+				
 				collision = 0;
 
 				if (cc->moveLeft == 1) {
@@ -87,6 +89,7 @@ void AISystem::update(level &m_level) {
 			}
 			else {
 				vel->setVelY(0);
+				pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
 				collision = 1;
 
 				if (ac->m_currentState == ac->jumpLeftS || ac->m_currentState == ac->jumpRightS)
@@ -99,7 +102,7 @@ void AISystem::update(level &m_level) {
 			/*int posX = pc->getPositionX();
 			int posY = pc->getPositionY();
 			posX += vecX;*/
-			pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
+			
 		}
 		else {
 			pc = (PositionComponent*)entity.getCompByType("Position");
@@ -245,7 +248,8 @@ void AISystem::moveUp() {
 	
 		posY += vecY;
 		posX += vecX;
-		pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY() - 20);
+		vel->setVelY(vel->getVelY() - 15);
+		pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
 		cc->stopFall = false;
 		cc->OnPlatform = false;
 		cc->jump = 1;

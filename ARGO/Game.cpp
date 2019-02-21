@@ -179,7 +179,7 @@ void Game::initialise()
 	player4.addComponent(new ScoreComponent(0));
 
 	ais.addEntity(player2);
-	//ais.addEntity(player3);
+	ais.addEntity(player3);
 	ais.addEntity(flag);
 
 
