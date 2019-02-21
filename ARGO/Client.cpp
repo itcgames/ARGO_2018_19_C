@@ -7,7 +7,10 @@
 
 Client::Client()
 {
-	ipAddress = "149.153.106.161";			// IP Address of the server (Jake)
+
+//	ipAddress = "149.153.106.161";			// IP Address of the server (Jake)
+	ipAddress = "149.153.106.163";			// IP Address of the server (Jamie)
+
 	//ipAddress = "149.153.106.164";			// IP Address of the server (Sean)
 	port = 54000;						// Listening port # on the server
 
@@ -102,7 +105,7 @@ std::string Client::receive()
 		{
 			std::cout << "SERVER> " << std::string(buf, 0, bytesReceived) << std::endl;
 			sendIP();
-			
+
 		}
 		else if ((std::string)buf == "Host")
 		{
@@ -151,7 +154,7 @@ void Client::sendIP()
 			if ((offset = line.find(search0, 0)) != std::string::npos)
 			{
 				//   IPv4 Address. . . . . . . . . . . : 1
-				//1234567890123456789012345678901234567890     
+				//1234567890123456789012345678901234567890
 				line.erase(0, 39);
 				sendMsg("IP: " + line);
 				IPFile.close();
