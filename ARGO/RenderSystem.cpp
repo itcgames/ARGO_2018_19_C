@@ -68,7 +68,7 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 			int ticksPerFrame = 2000 / fps;
 			time = time + dt;
 			//SDL_Rect rect = { 0,0,0,0 };
-			if (ticksPerFrame < time)
+		/*	if (ticksPerFrame < time)
 			{
 				i += 1;
 
@@ -77,11 +77,11 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 					i = 0;
 				}
 				time = 0;
-			}
+			}*/
 
 			sc->setPosition(pc->getPositionX(), pc->getPositionY());
-			sc->animate(i * ac->sRect.x, ac->sRect.y, ac->sRect.w, ac->sRect.h, m_renderer);
-			//sc->render(m_renderer, ac->sRect);
+			//sc->animate(i * ac->sRect.x, ac->sRect.y, ac->sRect.w, ac->sRect.h, m_renderer);
+			sc->render(m_renderer, ac->sRect);
 		}
 
 			lc->render(m_renderer);

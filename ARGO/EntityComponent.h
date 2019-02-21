@@ -10,7 +10,7 @@
 #include "ParticleComponent.h"
 #include "ScoreComponent.h"
 #include "PickUpComponent.h"
-#include "AIComponent.h"
+#include "Velcomponent.h"
 #include "AmmoComponent.h"
 #include <string>
 #include <iostream>

@@ -123,9 +123,9 @@ public:
 				//can hardcode w = 80 h 100
 
 
-				if (proX < playerX + 80 &&
+				if (proX < playerX + 40 &&
 					proX + proW > playerX &&
-					proY < playerY + 100 &&
+					proY < playerY + 50 &&
 					proX + proY > playerY) {
 					// collision detected!
 					std::cout << "collision" << std::endl;
@@ -149,9 +149,9 @@ public:
 				//can hardcode w = 80 h 100
 				//will have to change after merge
 
-				if (seekX < playerX + 80 &&
+				if (seekX < playerX + 40 &&
 					seekX + seekW > playerX &&
-					seekY < playerY + 100 &&
+					seekY < playerY + 50 &&
 					seekX + seekY > playerY) {
 					// collision detected!
 					std::cout << "seeker collision" << std::endl;

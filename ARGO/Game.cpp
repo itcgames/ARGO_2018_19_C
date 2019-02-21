@@ -88,6 +88,13 @@ void Game::initialise()
 		printf("Failed to load wall texture!\n");
 	}
 
+
+
+	Entity flag("Flag");
+	flag.addComponent(new PositionComponent(1000, 600));
+	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
+	flag.addComponent(new PickUpComponent());
+  
 	player.addComponent(new PositionComponent(300, 100));
 	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player.addComponent(new AnimationComponent());
@@ -101,28 +108,26 @@ void Game::initialise()
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
 	player2.addComponent(new AmmoComponent(m_renderer));
-	player2.addComponent(new LifeComponent(0, 2, m_renderer, 1));
+	player2.addComponent(new LifeComponent(5, 2, m_renderer, 1));
+	player2.addComponent(new VelocityComponent());
 
 
-	player3.addComponent(new PositionComponent(100, 500));
+
+	player3.addComponent(new PositionComponent(300, 600));
 	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
 	player3.addComponent(new AmmoComponent(m_renderer));
-	player3.addComponent(new LifeComponent(0, 3, m_renderer, 1));
-
+	player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
+	player3.addComponent(new VelocityComponent());
 
 	player4.addComponent(new PositionComponent(500, 500));
 	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 	player4.addComponent(new AmmoComponent(m_renderer));
-
-	Entity flag("Flag");
-	flag.addComponent(new PositionComponent(500, 500));
-	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8, 2));
-	flag.addComponent(new PickUpComponent());
-
+	player4.addComponent(new LifeComponent(3, 4, m_renderer, 1));
+  
 	Entity wall("Wall");
 	//wall.addComponent(new PositionComponent(400, 500));
 	//wall.addComponent(new CollisionComponent());
@@ -159,16 +164,21 @@ void Game::initialise()
 	//ais.addEntity(dog);
 	//ais.addEntity(cat);
 
+	player2.addComponent(new ControlComponent());
+	player3.addComponent(new ControlComponent());
+	player4.addComponent(new ControlComponent());
+	player2.addComponent(new ScoreComponent(0));
+	player3.addComponent(new ScoreComponent(0));
+	player4.addComponent(new ScoreComponent(0));
+
 	ais.addEntity(player2);
 	ais.addEntity(player3);
+	ais.addEntity(flag);
+
 
 	Colls.addEntity(flag);
 
-	/*comsystem.addEntity(player);
-	comsystem.addEntity(player2);
-	comsystem.addEntity(player3);
-	comsystem.addEntity(player4);
-	comsystem.addEntity(flag);*/
+	comsystem.addEntity(flag);
 
 	ps.addEntity(player);
 	ps.addEntity(player2);
@@ -182,6 +192,8 @@ void Game::initialise()
 
 	// Screen Initialise
 	m_lobbyScreen = new Lobby(m_renderer);
+	updateNetwork();
+
 
 }
 
@@ -228,7 +240,7 @@ void Game::processEvents()
 		cs.input(event);
 
 		switch (event.type) {
-		
+
 
 		case SDL_QUIT:
 			exit = true;
@@ -258,7 +270,7 @@ void Game::setGameState(GameState gameState)
 
 void Game::update(float dt)
 {
-
+	updateNetwork();
 	Colls.update(*m_level, dt);
 	//hs.update();
 	ammos.update();
@@ -284,19 +296,21 @@ void Game::update(float dt)
 	case GameState::GameScreen:
 		//ps.update(m_renderer);
 		phs.update();
-		//// Power ups
+		comsystem.update(dt, m_playerIndex);
+		ls.update(dt);
+		//phs.update();
+
 		m_timerSpawn++;
 		if (m_timerSpawn >= m_spawnTimeLimit)
 		{
-			//switch (rand() % m_numOfPowerUps)
-			switch (5)
+			switch (rand() % m_numOfPowerUps)
 			{
 			case 0:
 				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
 				break;
 
 			case 1:
-				m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
+				m_powerUps.push_back(m_factory->CreateInvincible(m_renderer));
 				break;
 
 			case 2:
@@ -307,30 +321,23 @@ void Game::update(float dt)
 				m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
 				break;
 
-			case 5:
+			case 4:
 				m_powerUps.push_back(m_factory->CreateReset(m_renderer));
-				break;
-
-			case 6:
-				m_powerUps.push_back(m_factory->CreateInvincible(m_renderer));
 				break;
 
 			}
 			m_timerSpawn = 0;
 		}
-		updateNetwork();
+
 		for (int i = m_powerUps.size() - 1; i >= 0; i--)
 		{
 			if (m_powerUps[i]->getAlive())
-				comsystem.update(dt);
-			ls.update(dt);
-			// Power ups
-			m_timerSpawn++;
-			if (m_timerSpawn >= m_spawnTimeLimit)
 
+				// Power ups
+				m_timerSpawn++;
+			if (m_timerSpawn >= m_spawnTimeLimit)
 			{
-				//switch (rand() % m_numOfPowerUps)
-				switch (2)
+				switch (rand() % m_numOfPowerUps)
 				{
 				case 0:
 					m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -348,13 +355,16 @@ void Game::update(float dt)
 					m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
 					break;
 
-				case 5:
+				case 4:
 					m_powerUps.push_back(m_factory->CreateReset(m_renderer));
 					break;
 
 				}
 				m_timerSpawn = 0;
 			}
+		}
+		updateNetwork();
+      
 			for (int i = m_powerUps.size() - 1; i >= 0; i--)
 			{
 				if (m_powerUps[i]->getAlive())
@@ -381,6 +391,7 @@ void Game::update(float dt)
 						p = (PositionComponent *)player3.getCompByType("Position");
 						s = (SpriteComponent *)player3.getCompByType("Sprite");
 						break;
+              
 					case 3:
 						p = (PositionComponent *)player4.getCompByType("Position");
 						s = (SpriteComponent *)player4.getCompByType("Sprite");
@@ -402,6 +413,18 @@ void Game::update(float dt)
 								Colls.ActivateInvincible();
 							break;
 						case 2:	// Speed
+                if (phs.getEntityIds()[i] == "Player") {
+								phs.speedUp(phs.getEntityById("Player"));
+							}
+							if (phs.getEntityIds()[i] == "Player2") {
+								phs.speedUp(phs.getEntityById("Player2"));
+							}
+							if (phs.getEntityIds()[i] == "Player3") {
+								phs.speedUp(phs.getEntityById("Player3"));
+							}
+							if (phs.getEntityIds()[i] == "Player4") {
+								phs.speedUp(phs.getEntityById("Player4"));
+							}
 							break;
 						case 3: // Ammo
 							if (ammos.getEntityIds()[i] == "Player") {
@@ -455,6 +478,7 @@ void Game::update(float dt)
 			
 
 		}
+  
 		break;
 	case GameState::Credits:
 		break;
@@ -462,10 +486,6 @@ void Game::update(float dt)
 		break;
 	}
 
-
-	//phs.update();
-
-	
 }
 
 void Game::render(float dt)
@@ -554,101 +574,101 @@ void Game::getDistance() {
 	PositionComponent * p3 = (PositionComponent *)player3.getCompByType("Position");
 
 
-	for (int i = 0; i < ais.getEntityIds().size(); i++) {
+	//for (int i = 0; i < ais.getEntityIds().size(); i++) {
 
 
-		if (ais.getEntityIds()[i] == "Player") {
-			float pVp2 = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
-				+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
+	//	if (ais.getEntityIds()[i] == "Player") {
+	//		float pVp2 = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
+	//			+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
 
-			float pVp3 = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
-				+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
+	//		float pVp3 = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
+	//			+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
 
-			if (pVp2 > pVp3) {
-				int playerX = p->getPositionX();
-				int player3X = p3->getPositionX();
-				if (player3X > playerX) {
-					pVp3 = pVp3 * -1;
-				}
-				disBetweenAiPlayer = pVp3;
+	//		if (pVp2 > pVp3) {
+	//			int playerX = p->getPositionX();
+	//			int player3X = p3->getPositionX();
+	//			if (player3X > playerX) {
+	//				pVp3 = pVp3 * -1;
+	//			}
+	//			disBetweenAiPlayer = pVp3;
 
-				ais.update(disBetweenAiPlayer, ais.getEntityById("Player"));
-			}
-			else {
-				int playerX = p->getPositionX();
-				int player2X = p2->getPositionX();
-				if (player2X > playerX) {
-					pVp2 = pVp2 * -1;
-				}
+	//			ais.update(disBetweenAiPlayer, ais.getEntityById("Player"));
+	//		}
+	//		else {
+	//			int playerX = p->getPositionX();
+	//			int player2X = p2->getPositionX();
+	//			if (player2X > playerX) {
+	//				pVp2 = pVp2 * -1;
+	//			}
 
-				disBetweenAiPlayer = pVp2;
-				ais.update(disBetweenAiPlayer, ais.getEntityById("Player"));
-			}
+	//			disBetweenAiPlayer = pVp2;
+	//			ais.update(disBetweenAiPlayer, ais.getEntityById("Player"));
+	//		}
 
-		}
+	//	}
 
-		if (ais.getEntityIds()[i] == "Player2") {
-			float p2Vp = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
-				+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
+	//	if (ais.getEntityIds()[i] == "Player2") {
+	//		float p2Vp = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
+	//			+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
 
-			float p2Vp3 = sqrt((p3->getPositionX() - p2->getPositionX())*(p3->getPositionX() - p2->getPositionX())
-				+ (p3->getPositionY() - p2->getPositionY())*(p3->getPositionY() - p2->getPositionY()));
+	//		float p2Vp3 = sqrt((p3->getPositionX() - p2->getPositionX())*(p3->getPositionX() - p2->getPositionX())
+	//			+ (p3->getPositionY() - p2->getPositionY())*(p3->getPositionY() - p2->getPositionY()));
 
-			if (p2Vp > p2Vp3) {
-				//get what side thet ai is on
-				int player2X = p2->getPositionX();
-				int player3X = p3->getPositionX();
-				if (player3X > player2X) {
-					p2Vp3 = p2Vp3 * -1;
-				}
-				disBetweenAiPlayer = p2Vp3;
-				ais.update(disBetweenAiPlayer, ais.getEntityById("Player2"));
-			}
-			else {
-				//get what side thet ai is on
-				int playerX = p->getPositionX();
-				int player2X = p2->getPositionX();
-				if (playerX > player2X) {
-					p2Vp = p2Vp * -1;
-				}
-				disBetweenAiPlayer = p2Vp;
-				ais.update(disBetweenAiPlayer, ais.getEntityById("Player2"));
-			}
-		}
+	//		if (p2Vp > p2Vp3) {
+	//			//get what side thet ai is on
+	//			int player2X = p2->getPositionX();
+	//			int player3X = p3->getPositionX();
+	//			if (player3X > player2X) {
+	//				p2Vp3 = p2Vp3 * -1;
+	//			}
+	//			disBetweenAiPlayer = p2Vp3;
+	//			ais.update(disBetweenAiPlayer, ais.getEntityById("Player2"));
+	//		}
+	//		else {
+	//			//get what side thet ai is on
+	//			int playerX = p->getPositionX();
+	//			int player2X = p2->getPositionX();
+	//			if (playerX > player2X) {
+	//				p2Vp = p2Vp * -1;
+	//			}
+	//			disBetweenAiPlayer = p2Vp;
+	//			ais.update(disBetweenAiPlayer, ais.getEntityById("Player2"));
+	//		}
+	//	}
 
-		if (ais.getEntityIds()[i] == "Player3") {
-			float p3Vp2 = sqrt((p3->getPositionX() - p2->getPositionX())*(p3->getPositionX() - p2->getPositionX())
-				+ (p3->getPositionY() - p2->getPositionY())*(p3->getPositionY() - p2->getPositionY()));
+	//	if (ais.getEntityIds()[i] == "Player3") {
+	//		float p3Vp2 = sqrt((p3->getPositionX() - p2->getPositionX())*(p3->getPositionX() - p2->getPositionX())
+	//			+ (p3->getPositionY() - p2->getPositionY())*(p3->getPositionY() - p2->getPositionY()));
 
-			float p3Vp = sqrt((p->getPositionX() - p3->getPositionX())*(p->getPositionX() - p3->getPositionX())
-				+ (p->getPositionY() - p3->getPositionY())*(p->getPositionY() - p3->getPositionY()));
+	//		float p3Vp = sqrt((p->getPositionX() - p3->getPositionX())*(p->getPositionX() - p3->getPositionX())
+	//			+ (p->getPositionY() - p3->getPositionY())*(p->getPositionY() - p3->getPositionY()));
 
 
-			if (p3Vp2 > p3Vp) {
-				disBetweenAiPlayer = p3Vp;
-				//get what side thet ai is on
-				int playerX = p->getPositionX();
-				int player3X = p3->getPositionX();
-				if (playerX > player3X) {
-					p3Vp = p3Vp * -1;
-				}
-				disBetweenAiPlayer = p3Vp;
-				//return disBetweenAiPlayer;
-				ais.update(disBetweenAiPlayer, ais.getEntityById("Player3"));
-			}
-			else {
-				int player2X = p2->getPositionX();
-				int player3X = p3->getPositionX();
-				if (player2X > player3X) {
-					p3Vp2 = p3Vp2 * -1;
-				}
-				disBetweenAiPlayer = p3Vp2;
-				//call update
-				ais.update(disBetweenAiPlayer, ais.getEntityById("Player3"));
-			}
-		}
+	//		if (p3Vp2 > p3Vp) {
+	//			disBetweenAiPlayer = p3Vp;
+	//			//get what side thet ai is on
+	//			int playerX = p->getPositionX();
+	//			int player3X = p3->getPositionX();
+	//			if (playerX > player3X) {
+	//				p3Vp = p3Vp * -1;
+	//			}
+	//			disBetweenAiPlayer = p3Vp;
+	//			//return disBetweenAiPlayer;
+	//			ais.update(disBetweenAiPlayer, ais.getEntityById("Player3"));
+	//		}
+	//		else {
+	//			int player2X = p2->getPositionX();
+	//			int player3X = p3->getPositionX();
+	//			if (player2X > player3X) {
+	//				p3Vp2 = p3Vp2 * -1;
+	//			}
+	//			disBetweenAiPlayer = p3Vp2;
+	//			//call update
+	//			ais.update(disBetweenAiPlayer, ais.getEntityById("Player3"));
+	//		}
+	//	}
 
-	}
+	//}
 
 
 
@@ -781,7 +801,7 @@ void Game::updateNetwork()
 			case 4:
 				ac->m_currentState = ac->AniState::jumpRightS;
 				break;
-			
+
 			default:
 				std::cout << "Oops! Missing animation" << std::endl;
 				break;
@@ -798,16 +818,29 @@ void Game::updateNetwork()
 
 			m_playerIndex = 0;
 			comsystem.addEntity(player);
+			comsystem.addEntity(player2);
+			comsystem.addEntity(player3);
+			comsystem.addEntity(player4);
 			cs.addEntity(player);
 			Colls.addEntity(player);
+			Colls.addEntity(player2);
+			Colls.addEntity(player3);
+			Colls.addEntity(player4);
 			phs.addEntity(player);
 			//hs.addEntity(player);
 			p = (PositionComponent *)player.getCompByType("Position");
 			p->setPosition(100, 100);
 
-			player2.addComponent(new AIComponent());
-			player3.addComponent(new AIComponent());
-			player4.addComponent(new AIComponent());
+			player2.addComponent(new VelocityComponent());
+			player3.addComponent(new VelocityComponent());
+			player4.addComponent(new VelocityComponent());
+
+			player2.addComponent(new ControlComponent());
+			player3.addComponent(new ControlComponent());
+			player4.addComponent(new ControlComponent());
+
+
+
 		}
 		else if (msg.substr(0, 8) == "Joining ")
 		{
@@ -829,9 +862,9 @@ void Game::updateNetwork()
 				p = (PositionComponent *)player2.getCompByType("Position");
 				p->setPosition(500, 100);
 
-				player.addComponent(new AIComponent());
-				player3.addComponent(new AIComponent());
-				player4.addComponent(new AIComponent());
+				player.addComponent(new  VelocityComponent());
+				player3.addComponent(new VelocityComponent());
+				player4.addComponent(new VelocityComponent());
 				break;
 			case 2:
 			//	player3.addComponent(new HealthComponent(200));
@@ -846,9 +879,9 @@ void Game::updateNetwork()
 				p = (PositionComponent *)player3.getCompByType("Position");
 				p->setPosition(100, 500);
 
-				player.addComponent(new AIComponent());
-				player2.addComponent(new AIComponent());
-				player4.addComponent(new AIComponent());
+				player.addComponent(new  VelocityComponent());
+				player2.addComponent(new VelocityComponent());
+				player4.addComponent(new  VelocityComponent());
 				break;
 			case 3:
 			//	player4.addComponent(new HealthComponent(200));
@@ -863,10 +896,9 @@ void Game::updateNetwork()
 				p = (PositionComponent *)player4.getCompByType("Position");
 				p->setPosition(500, 500);
 
-				player.addComponent(new AIComponent());
-				player2.addComponent(new AIComponent());
-				player3.addComponent(new AIComponent());
-				break;
+				player.addComponent(new  VelocityComponent());
+				player2.addComponent(new VelocityComponent());
+				player3.addComponent(new VelocityComponent());
 			}
 		}
 		else if (msg.length() > 5 && msg.substr(5, 5) == "Ready")

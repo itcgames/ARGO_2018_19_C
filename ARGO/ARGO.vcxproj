@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AISystem.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Assets.cpp" />
@@ -48,7 +49,7 @@
     <ClCompile Include="splash.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="VelComponent.h" />
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="AmmoComponent.h" />
     <ClInclude Include="AmmoSystem.h" />
@@ -159,7 +160,7 @@
     <LibraryPath>TMX_Lite\lib;TMX_Lite\lib;$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>include;TMX_Lite\include;$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath);C:\SDL\SDL2_2.0.8\include;C:\SDL\SDL2_Image_2.0.3\include;C:\SDL\SDL2_Mixer_2.0.4\include</IncludePath>
+    <IncludePath>TMX_Lite\include;$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath);C:\SDL\SDL2_2.0.8\include;C:\SDL\SDL2_Image_2.0.3\include;C:\SDL\SDL2_Mixer_2.0.4\include</IncludePath>
     <LibraryPath>TMX_Lite\lib;$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -167,7 +168,7 @@
     <LibraryPath>TMX_Lite\lib;$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>include;TMX_Lite\include;$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath);C:\SDL\SDL2_2.0.8\include;C:\SDL\SDL2_Image_2.0.3\include;C:\SDL\SDL2_Mixer_2.0.4\include</IncludePath>
+    <IncludePath>TMX_Lite\include;$(SDL_MIX_SDK)include;$(SDL_IMG_SDK)include;$(SDL_SDK)include;C:\SDL2\include;$(IncludePath);C:\SDL\SDL2_2.0.8\include;C:\SDL\SDL2_Image_2.0.3\include;C:\SDL\SDL2_Mixer_2.0.4\include</IncludePath>
     <LibraryPath>TMX_Lite\lib;$(SDL_MIX_SDK)lib\x86;$(SDL_IMG_SDK)lib\x86;$(SDL_SDK)lib\x86;C:\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -192,7 +193,7 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -210,7 +211,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -232,7 +233,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -254,7 +255,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
