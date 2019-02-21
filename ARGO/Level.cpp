@@ -119,6 +119,19 @@ void level::load(const std::string& path, SDL_Renderer* ren) {
 					MapObjects t(x, y, width, height);
 					m_teleport.push_back(t);
 				}
+				else if (object.getName() == "Node")
+				{
+					float x, y, width, height;
+					std::string type;
+					x = object.getPosition().x;
+					y = object.getPosition().y;
+					width = object.getAABB().width;
+					height = object.getAABB().height;
+					type = object.getType();
+
+					NodeObjects n(x, y, width, height, type);
+					m_nodes.push_back(n);
+				}
 			}
 			
 		}
