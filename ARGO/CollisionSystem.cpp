@@ -114,19 +114,23 @@ void CollisionSystem::nodeCollision(level &level, float x, float y, float width,
 			if (level.m_nodes[i].type == "JumpRight") {
 
 				cc->setDirection(cc->Up);
+				cc->jump = 0;
+				cc->moveRight = 1;
 				std::cout << "Right" << std::endl;
 				
 			}
 			else if (level.m_nodes[i].type == "JumpLeft") {
 
 				cc->setDirection(cc->Up);
+				cc->jump = 0;
+				cc->moveLeft = 1;
 				std::cout << "JUMP" << std::endl;
 			}
 			
 		}
 		else
 		{
-			cc->setDirection(cc->Left);
+			cc->jump = 1;
 		}
 
 	}

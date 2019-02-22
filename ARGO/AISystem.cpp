@@ -230,21 +230,26 @@ void AISystem::leftOrRight(float fx, float fy, float px, float py) {
 	//if flag x greater the player x add on to player === go right
 
 	//std::cout << "Vel :" << vel->getVelX() << std::endl;
-	if (fx > px) {
-		
-		cc->moveRight = 1;
-	}
-	else {
-		cc->moveRight = 0;
-	}
-	//=== go left
-	if (fx < px) {
 
-		cc->moveLeft = 1;
+	if (cc->collision == 1)
+	{
+		if (fx > px) {
+
+			cc->moveRight = 1;
+		}
+		else {
+			cc->moveRight = 0;
+		}
+		//=== go left
+		if (fx < px) {
+
+			cc->moveLeft = 1;
+		}
+		else {
+			cc->moveLeft = 0;
+		}
 	}
-	else {
-		cc->moveLeft = 0;
-	}
+
 
 }
 

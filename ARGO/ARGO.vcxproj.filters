@@ -85,6 +85,12 @@
     <ClCompile Include="AISystem.cpp">
       <Filter>src\System</Filter>
     </ClCompile>
+    <ClCompile Include="goToFlag.cpp">
+      <Filter>src\FSM\AIFSM</Filter>
+    </ClCompile>
+    <ClCompile Include="NoFlag.cpp">
+      <Filter>src\FSM\AIFSM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -231,6 +237,21 @@
     <ClInclude Include="AIComponent.h">
       <Filter>Header\Components</Filter>
     </ClInclude>
+    <ClInclude Include="AIState.h">
+      <Filter>Header\FSM\AIFSM</Filter>
+    </ClInclude>
+    <ClInclude Include="NoFlag.h">
+      <Filter>Header\FSM\AIFSM</Filter>
+    </ClInclude>
+    <ClInclude Include="GoToFlag.h">
+      <Filter>Header\FSM\AIFSM</Filter>
+    </ClInclude>
+    <ClInclude Include="GoToPowerup.h">
+      <Filter>Header\FSM\AIFSM</Filter>
+    </ClInclude>
+    <ClInclude Include="GoToNode.h">
+      <Filter>Header\FSM\AIFSM</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Left.bmp" />
@@ -292,6 +313,12 @@
     </Filter>
     <Filter Include="Header\LevelLoader">
       <UniqueIdentifier>{59ff70fd-7a1f-4a21-8a78-09c35495934e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\FSM\AIFSM">
+      <UniqueIdentifier>{46140b6d-cbe9-49dd-8f50-b1b559ab7156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\FSM\AIFSM">
+      <UniqueIdentifier>{01c2bf45-cd18-42bc-b12c-aad3523e83c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

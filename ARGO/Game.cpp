@@ -118,7 +118,7 @@ void Game::initialise()
 
 
 
-	player3.addComponent(new PositionComponent(100, 600));
+	player3.addComponent(new PositionComponent(75, 800));
 	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
