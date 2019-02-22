@@ -303,6 +303,7 @@ void Game::update(float dt)
 			m_timerSpawn++;
 			if (m_timerSpawn >= m_spawnTimeLimit)
 			{
+				
 				switch (rand() % m_numOfPowerUps)
 				{
 				case 1:
