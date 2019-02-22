@@ -109,13 +109,16 @@ void Game::initialise()
 	player.addComponent(new ControlComponent());
 	player.addComponent(new AmmoComponent(m_renderer));
 	player.addComponent(new LifeComponent(4, 1, m_renderer, 1));
+	player.addComponent(new ScoreComponent(0));
 	player.addComponent(new VelocityComponent());
+
 
 
 	player2.addComponent(new PositionComponent(500, 100));
 	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
+	player2.addComponent(new ScoreComponent(0));
 	player2.addComponent(new ControlComponent());
 	player2.addComponent(new AmmoComponent(m_renderer));
 	player2.addComponent(new LifeComponent(5, 2, m_renderer, 1));
@@ -129,6 +132,7 @@ void Game::initialise()
 	player3.addComponent(new AmmoComponent(m_renderer));
 	player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
 	player3.addComponent(new VelocityComponent());
+	player3.addComponent(new ScoreComponent(0));
 
 	player4.addComponent(new PositionComponent(500, 500));
 	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
@@ -137,6 +141,7 @@ void Game::initialise()
 	player4.addComponent(new ControlComponent());
 	player4.addComponent(new AmmoComponent(m_renderer));
 	player4.addComponent(new LifeComponent(3, 4, m_renderer, 1));
+	player4.addComponent(new ScoreComponent(0));
 	player4.addComponent(new VelocityComponent());
 
 	Entity wall("Wall");
@@ -300,6 +305,7 @@ void Game::update(float dt)
 			m_timerSpawn++;
 			if (m_timerSpawn >= m_spawnTimeLimit)
 			{
+				
 				switch (rand() % m_numOfPowerUps)
 				{
 				case 1:
@@ -436,7 +442,7 @@ void Game::update(float dt)
 					m_powerUps.erase(m_powerUps.begin() + i);
 				}
 			}
-		
+
 		ais.update(1000, ais.getEntityById("Player2"));
 		ais.update(1000, ais.getEntityById("Player3"));
 
@@ -734,7 +740,6 @@ void Game::updateNetwork()
 			player.addComponent(new ControlComponent());
 			player.addComponent(new ScoreComponent(0));
 			player.addComponent(new LifeComponent(6, 1, m_renderer, 1));
-
 
 			m_playerIndex = 0;
 			m_lobbyScreen->changeState(m_playerIndex, false);

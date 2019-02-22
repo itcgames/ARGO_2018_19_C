@@ -71,6 +71,37 @@ std::vector<std::string> CollisionSystem::getEntityID()
 	return v;
 }
 
+void CollisionSystem::FloatFlag(PositionComponent* pos)
+{
+	if (pos->getPositionX() < 1400 && moveRight)
+	{
+		pos->setPosition(pos->getPositionX() + 0.3, pos->getPositionY());
+	}
+	else
+		moveRight = false;
+	
+	if (pos->getPositionX() > 50 && !moveRight)
+	{
+		pos->setPosition(pos->getPositionX() - 0.3, pos->getPositionY());
+	}
+	else
+		moveRight = true;
+
+	if (pos->getPositionY() < 750 && moveDown)
+	{
+		pos->setPosition(pos->getPositionX(), pos->getPositionY() + 0.3);
+	}
+	else
+		moveDown = false;
+
+	if (pos->getPositionY() > 50 && !moveDown)
+	{
+		pos->setPosition(pos->getPositionX(), pos->getPositionY() - 0.3);
+	}
+	else
+		moveDown = true;
+}
+
 void CollisionSystem::resetScore(std::string id)
 {
 	for (Entity& entity : entities)
@@ -148,6 +179,8 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 				}
 
 			}
+			else
+				FloatFlag(posComp2);
 		}
 
 		
@@ -286,12 +319,8 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			std::cout << "KILL TILES COLLIDE" << std::endl;
 			ac->die();
 			cc->alive = false;
-			posComp1->setPosition(680, 300);
+			posComp1->setPosition(1000, 300);
 			lc->setLifes(lc->getLife() - 1);
-		}
-		if (y1 >= 400 && y1<=500 && !cc->alive)
-		{
-			cc->alive = true;
 		}
 	}
 

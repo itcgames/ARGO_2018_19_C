@@ -30,6 +30,8 @@ public:
 		return crclCollided;
 	}
 
+
+
 	std::string getID() { return id; }
 	
 private:

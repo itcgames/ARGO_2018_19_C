@@ -224,7 +224,7 @@ public:
 	AmmoUp(SDL_Renderer *m_renderer)
 	{
 		m_id = 3;
-		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		if (!m_texture.loadFromFile("img/projectile.png", m_renderer, 1))
 		{
 			printf("Failed to load dot texture!\n");
 
@@ -246,7 +246,7 @@ public:
 	SeekerAmmoUp(SDL_Renderer *m_renderer)
 	{
 		m_id = 4;
-		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		if (!m_texture.loadFromFile("img/seekerprojectile.png", m_renderer, 1))
 		{
 			printf("Failed to load dot texture!\n");
 
