@@ -43,7 +43,7 @@ std::vector<std::string> AISystem::getEntityIds() {
 	}
 
 
-void AISystem::update(float dis, Entity * entity) {
+void AISystem::update(float dis, Entity * otherEntity) {
 
 	for (Entity & entity : entities) {
 

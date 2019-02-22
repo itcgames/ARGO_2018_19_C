@@ -42,7 +42,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::Lobby);
+		m_currentGameState = (GameState::GameOverScreen);
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 		if (IMG_Init(imgFlags) != imgFlags)
@@ -330,7 +330,6 @@ void Game::update(float dt)
 
 		for (int i = m_powerUps.size() - 1; i >= 0; i--)
 		{
-			if (m_powerUps[i]->getAlive())
 
 			m_timerSpawn++;
 			if (m_timerSpawn >= m_spawnTimeLimit)
@@ -364,120 +363,138 @@ void Game::update(float dt)
 
 			updateNetwork();
 
-			for (int i = m_powerUps.size() - 1; i >= 0; i--)
+			
+			if (m_powerUps[i]->getAlive())
 			{
-				if (m_powerUps[i]->getAlive())
+				m_powerUps[i]->update();
+				//check collision
+
+				// Getting player position and the sprite dimensions
+				// Set up the pointer
+				PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
+				SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
+				// Set the pointer to your player
+				switch (m_playerIndex)
 				{
-					m_powerUps[i]->update();
-					//check collision
+				case 0:	// Player 1
+					p = (PositionComponent *)player.getCompByType("Position");
+					s = (SpriteComponent *)player.getCompByType("Sprite");
+					break;
 
-					PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
-					SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
+				case 1:	// Player 2
+					p = (PositionComponent *)player2.getCompByType("Position");
+					s = (SpriteComponent *)player2.getCompByType("Sprite");
+					break;
 
-					switch (m_playerIndex)
+				case 2:	// Player 3
+					p = (PositionComponent *)player3.getCompByType("Position");
+					s = (SpriteComponent *)player3.getCompByType("Sprite");
+					break;
+
+				case 3:	// Player 4
+					p = (PositionComponent *)player4.getCompByType("Position");
+					s = (SpriteComponent *)player4.getCompByType("Sprite");
+					break;
+				}
+				// Check if the power up and the player collided
+				if (m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
+				{
+					// Which power up if it
+					switch (m_powerUps[i]->getID())
 					{
-					case 0:
-						p = (PositionComponent *)player.getCompByType("Position");
-						s = (SpriteComponent *)player.getCompByType("Sprite");
-						break;
-
-					case 1:
-						p = (PositionComponent *)player2.getCompByType("Position");
-						s = (SpriteComponent *)player2.getCompByType("Sprite");
-						break;
-
-					case 2:
-						p = (PositionComponent *)player3.getCompByType("Position");
-						s = (SpriteComponent *)player3.getCompByType("Sprite");
-						break;
-
-					case 3:
-						p = (PositionComponent *)player4.getCompByType("Position");
-						s = (SpriteComponent *)player4.getCompByType("Sprite");
-						break;
-					}
-					if (m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
-					{
-						// switch case
-						switch (m_powerUps[i]->getID())
+					case 1: // Health
+						for (int j = 0; j < Colls.getEntityID().size(); j++)
 						{
-						case 1: // Health
-							if (Colls.getEntityID()[i + 1] == "Player")
+							if (Colls.getEntityID()[j + 1] == "Player")
 								Colls.ActivateInvincible();
-							if (Colls.getEntityID()[i + 1] == "Player2")
+							if (Colls.getEntityID()[j + 1] == "Player2")
 								Colls.ActivateInvincible();
-							if (Colls.getEntityID()[i + 1] == "Player3")
+							if (Colls.getEntityID()[j + 1] == "Player3")
 								Colls.ActivateInvincible();
-							if (Colls.getEntityID()[i + 1] == "Player4")
+							if (Colls.getEntityID()[j + 1] == "Player4")
 								Colls.ActivateInvincible();
-							break;
-						case 2:	// Speed
-							if (phs.getEntityIds()[i] == "Player") {
+						}
+						break;
+					case 2:	// Speed
+						for (int j = 0; j < phs.getEntityIds().size(); j++)
+						{
+							if (phs.getEntityIds()[j] == "Player") {
 								phs.speedUp(phs.getEntityById("Player"));
 							}
-							if (phs.getEntityIds()[i] == "Player2") {
+							if (phs.getEntityIds()[j] == "Player2") {
 								phs.speedUp(phs.getEntityById("Player2"));
 							}
-							if (phs.getEntityIds()[i] == "Player3") {
+							if (phs.getEntityIds()[j] == "Player3") {
 								phs.speedUp(phs.getEntityById("Player3"));
 							}
-							if (phs.getEntityIds()[i] == "Player4") {
+							if (phs.getEntityIds()[j] == "Player4") {
 								phs.speedUp(phs.getEntityById("Player4"));
 							}
-							break;
-						case 3: // Ammo
-							if (ammos.getEntityIds()[i] == "Player") {
+						}
+						break;
+					case 3: // Ammo
+						for (int j = 0; j < ammos.getEntityIds().size(); j++)
+						{
+							if (ammos.getEntityIds()[j] == "Player") {
 								ammos.addAmmo(ammos.getEntityById("Player"));
 							}
-							if (ammos.getEntityIds()[i] == "Player2") {
+							if (ammos.getEntityIds()[j] == "Player2") {
 								ammos.addAmmo(ammos.getEntityById("Player2"));
 							}
-							if (ammos.getEntityIds()[i] == "Player3") {
+							if (ammos.getEntityIds()[j] == "Player3") {
 								ammos.addAmmo(ammos.getEntityById("Player3"));
 							}
-							if (ammos.getEntityIds()[i] == "Player4") {
+							if (ammos.getEntityIds()[j] == "Player4") {
 								ammos.addAmmo(ammos.getEntityById("Player4"));
 							}
+						}
 
-							break;
-						case 4: // SeekerAmmo
-							if (ammos.getEntityIds()[i] == "Player") {
+						break;
+					case 4: // SeekerAmmo
+						for (int j = 0; j < ammos.getEntityIds().size(); j++)
+						{
+							if (ammos.getEntityIds()[j] == "Player") {
 								ammos.addSeekerAmmo(ammos.getEntityById("Player"));
 							}
-							if (ammos.getEntityIds()[i] == "Player2") {
+							if (ammos.getEntityIds()[j] == "Player2") {
 								ammos.addSeekerAmmo(ammos.getEntityById("Player2"));
 							}
-							if (ammos.getEntityIds()[i] == "Player3") {
+							if (ammos.getEntityIds()[j] == "Player3") {
 								ammos.addSeekerAmmo(ammos.getEntityById("Player3"));
 							}
-							if (ammos.getEntityIds()[i] == "Player4") {
+							if (ammos.getEntityIds()[j] == "Player4") {
 								ammos.addSeekerAmmo(ammos.getEntityById("Player4"));
 							}
-							break;
-						case 5: // Reset
-							if (Colls.getEntityID()[i + 1] == "Player")
-								Colls.resetScore(Colls.getEntityID()[i + 1]);
-							if (Colls.getEntityID()[i + 1] == "Player2")
-								Colls.resetScore(Colls.getEntityID()[i + 1]);
-							if (Colls.getEntityID()[i + 1] == "Player3")
-								Colls.resetScore(Colls.getEntityID()[i + 1]);
-							if (Colls.getEntityID()[i + 1] == "Player4")
-								Colls.resetScore(Colls.getEntityID()[i + 1]);
-							break;
 						}
+						break;
+					case 5: // Reset
+						for (int j = 0; j < Colls.getEntityID().size(); j++)
+						{
+							if (Colls.getEntityID()[j + 1] == "Player")
+								Colls.resetScore(Colls.getEntityID()[j + 1]);
+							if (Colls.getEntityID()[j + 1] == "Player2")
+								Colls.resetScore(Colls.getEntityID()[j + 1]);
+							if (Colls.getEntityID()[j + 1] == "Player3")
+								Colls.resetScore(Colls.getEntityID()[j + 1]);
+							if (Colls.getEntityID()[j + 1] == "Player4")
+								Colls.resetScore(Colls.getEntityID()[j + 1]);
+						}
+						break;
 					}
 				}
-				else
-				{
-					m_powerUps.erase(m_powerUps.begin() + i);
-				}
 			}
+			else
+			{
+				m_powerUps.erase(m_powerUps.begin() + i);
+			}
+			
 		}
 		
+		//If Host update ai
 		if (m_playerIndex == 0)
 		{
+			//Update all ai
 			ais.update(1000, ais.getEntityById("Player2"));
-			ais.update(1000, ais.getEntityById("Player3"));
 		}
 
 			getDistance();
@@ -941,7 +958,7 @@ void Game::sendAiToNetwork()
 
 				pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
 				pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
-				pos = pos + ", " + "I: " + std::to_string(2);	// Player Index
+				pos = pos + ", " + "I: " + std::to_string(1);	// Player Index
 				pos = pos + ", " + "L: " + std::to_string(l->getLife()); // Player Life
 				pos = pos + ", " + "A: " + std::to_string(ac->m_currentState); // Player state
 				m_client->sendMsg(pos);
@@ -954,7 +971,7 @@ void Game::sendAiToNetwork()
 
 				pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
 				pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
-				pos = pos + ", " + "I: " + std::to_string(3);	// Player Index
+				pos = pos + ", " + "I: " + std::to_string(2);	// Player Index
 				pos = pos + ", " + "L: " + std::to_string(l->getLife()); // Player Life
 				pos = pos + ", " + "A: " + std::to_string(ac->m_currentState); // Player state
 				m_client->sendMsg(pos);
@@ -968,7 +985,7 @@ void Game::sendAiToNetwork()
 
 				pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
 				pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
-				pos = pos + ", " + "I: " + std::to_string(4);	// Player Index
+				pos = pos + ", " + "I: " + std::to_string(3);	// Player Index
 				pos = pos + ", " + "L: " + std::to_string(l->getLife()); // Player Life
 				pos = pos + ", " + "A: " + std::to_string(ac->m_currentState); // Player state
 				m_client->sendMsg(pos);

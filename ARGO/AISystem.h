@@ -28,7 +28,7 @@ class AISystem
 public:
 	AISystem();
 	void addEntity(Entity e);
-	void update(float dis, Entity * entity);
+	void update(float dis, Entity * otherEntity);
 	void moveLeft();
 	void moveRight();
 	void moveUp();
