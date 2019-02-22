@@ -56,12 +56,11 @@ void AISystem::update(level &m_level) {
 			pc = (PositionComponent*)entity.getCompByType("Position");
 			ac = (AnimationComponent*)entity.getCompByType("Animation");
 			sc = (SpriteComponent*)entity.getCompByType("Sprite");
-			pc = (PositionComponent*)entity.getCompByType("Position");
 			vel = (VelocityComponent*)entity.getCompByType("Vel");
 
 			posX = pc->getPositionX();
 			posY = pc->getPositionY();
-			leftOrRight(flagX, flagY, posX, posY);
+			
 
 			if (!cc->stopFall && !cc->OnPlatform) {
 
@@ -73,11 +72,7 @@ void AISystem::update(level &m_level) {
 					
 				}
 
-				//posY += vecY;
-
-				pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
-				
-				collision = 0;
+				cc->collision = 0;
 
 				if (cc->moveLeft == 1) {
 					ac->leftJump();
@@ -89,8 +84,8 @@ void AISystem::update(level &m_level) {
 			}
 			else {
 				vel->setVelY(0);
-				pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
-				collision = 1;
+				cc->collision = 1;
+				cc->jump = 0;
 
 				if (ac->m_currentState == ac->jumpLeftS || ac->m_currentState == ac->jumpRightS)
 				{
@@ -99,16 +94,60 @@ void AISystem::update(level &m_level) {
 
 			}
 
-			/*int posX = pc->getPositionX();
-			int posY = pc->getPositionY();
-			posX += vecX;*/
 			
 		}
 		else {
-			pc = (PositionComponent*)entity.getCompByType("Position");
-			flagX = pc->getPositionX();
-			flagY = pc->getPositionY();
+			pcFlag = (PositionComponent*)entity.getCompByType("Position");
 		}
+
+		if (pcFlag != NULL)
+		{
+			leftOrRight(pcFlag->getPositionX(), pcFlag->getPositionY(), pc->getPositionX(), pc->getPositionY());
+
+		}
+		
+		if (cc->moveLeft == 1)
+		{
+			moveLeft();
+		}
+		if (cc->moveRight == 1)
+		{
+			moveRight();
+		}
+
+		if (cc->getDirection() == cc->Up) {
+			moveUp();
+		}
+
+		if (cc->moveLeft == 0 && cc->moveRight == 0)
+		{
+			cc->setDirection(cc->Idle);
+			vecX = 0;
+			ac->idle();
+		}
+		if (ac->m_currentState == ac->idleS && cc->moveLeft == 1)
+		{
+			ac->left();
+		}
+		else if (ac->m_currentState == ac->idleS && cc->moveRight == 1)
+		{
+			ac->right();
+		}
+		if (cc->ceilingHit)
+		{
+			vel->setVelY(5);
+			cc->ceilingHit = false;
+		}
+		if (!cc->alive)
+		{
+			ac->die();
+		}
+
+		//Updates position of the ai
+		pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
+
+
+
 
 		//Jamie
 		////call fuzzy update
@@ -156,10 +195,7 @@ void AISystem::update(level &m_level) {
 		//}
 
 
-		if (cc->getDirection() == cc->Up) {
-			moveUp();
-		}
-
+	
 
 		//if (cc->moveLeft == 0 && cc->moveRight == 0)
 		//{
@@ -192,14 +228,22 @@ void AISystem::update(level &m_level) {
 
 void AISystem::leftOrRight(float fx, float fy, float px, float py) {
 	//if flag x greater the player x add on to player === go right
+
+	//std::cout << "Vel :" << vel->getVelX() << std::endl;
 	if (fx > px) {
-		px++;
-		pc->setPosition(px, py);
+		
+		cc->moveRight = 1;
+	}
+	else {
+		cc->moveRight = 0;
 	}
 	//=== go left
 	if (fx < px) {
-		px--;
-		pc->setPosition(px, py);
+
+		cc->moveLeft = 1;
+	}
+	else {
+		cc->moveLeft = 0;
 	}
 
 }
@@ -211,45 +255,27 @@ void AISystem::leftOrRight(float fx, float fy, float px, float py) {
 //	maxX++;
 //}
 //
-//void PhysicsSystem::moveLeft() {
-//
-//	if (vecX > -maxX)
-//	{
-//		ac->left();
-//		int posX = pc->getPositionX();
-//		int posY = pc->getPositionY();
-//		vecX = -7;
-//		posX += vecX;
-//
-//		pc->setPosition(posX, posY);
-//	}
-//}
-//void PhysicsSystem::moveRight() {
-//
-//	if (vecX < maxX)
-//	{
-//		ac->right();
-//		int posX = pc->getPositionX();
-//		int posY = pc->getPositionY();
-//		vecX = 7;
-//		posX += vecX;
-//		pc->setPosition(posX, posY);
-//	}
-//
-//
-//}
+void AISystem::moveLeft() {
+
+	if (vel->getVelX() > -maxX)
+	{
+		ac->left();
+		vel->setVelX(-4);
+	}
+}
+void AISystem::moveRight() {
+
+	if (vecX < maxX)
+	{
+		ac->right();
+		vel->setVelX(4);
+	}
+}
 void AISystem::moveUp() {
 
-	if (cc->jump == 0 && collision == true)
+	if (cc->jump == 0 && cc->collision == 1)
 	{
-		int posX = pc->getPositionX();
-		int posY = pc->getPositionY();
-		vecY = -20;
-	
-		posY += vecY;
-		posX += vecX;
 		vel->setVelY(vel->getVelY() - 15);
-		pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
 		cc->stopFall = false;
 		cc->OnPlatform = false;
 		cc->jump = 1;

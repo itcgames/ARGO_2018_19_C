@@ -266,9 +266,6 @@ void ControlSystem::input(SDL_Event &e) {
 		}
 	}
 
-
-	
-
 }
 void ControlSystem::keyUp(SDL_Event &e) {
 	switch (e.type)

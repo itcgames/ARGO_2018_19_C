@@ -10,6 +10,7 @@ class AISystem
 	std::vector<Entity> entities;
 	Fuzzy* m_fuzzy = new Fuzzy();
 	PositionComponent * pc;
+	PositionComponent * pcFlag;
 	float posX = 0;
 	float posY = 0;
 	float velX = 0;
