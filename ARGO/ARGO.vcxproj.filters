@@ -88,6 +88,9 @@
     <ClCompile Include="Credits.cpp">
       <Filter>src\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>src\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -227,6 +230,9 @@
     </ClInclude>
     <ClInclude Include="VelComponent.h">
       <Filter>Header\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
+      <Filter>Header\Screens</Filter>
     </ClInclude>
     <ClInclude Include="Credits.h">
       <Filter>Header\Screens</Filter>

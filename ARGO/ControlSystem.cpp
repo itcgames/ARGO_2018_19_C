@@ -2,7 +2,7 @@
 
 ControlSystem::ControlSystem() {
 
-	
+
 }
 
 void ControlSystem::init()
@@ -37,14 +37,14 @@ void bb(std::string s)
 
 void ControlSystem::input(SDL_Event &e) {
 
-	for (Entity& entity : entities) 
+	for (Entity& entity : entities)
 	{
-		
+
 		controlComp = (ControlComponent*)entity.getCompByType("Control");
 		amComp = (AnimationComponent*)entity.getCompByType("Animation");
 		AmmoComponent* ammoComp = (AmmoComponent*)entity.getCompByType("Ammo");
 		PositionComponent* posComp = (PositionComponent*)entity.getCompByType("Position");
-	
+
 
 		for (int ControllerIndex = 0;
 			ControllerIndex < MAX_CONTROLLERS;
@@ -81,8 +81,18 @@ void ControlSystem::input(SDL_Event &e) {
 			}
 		}
 
+		if (StickLeftX >= -bitePoint)
+		{
+			controlComp->moveLeft = 0;
+		}
+		if (StickLeftX <= bitePoint)
+		{
+			controlComp->moveRight = 0;
+		}
+
 		switch (e.type)
 		{
+
 		case SDL_JOYHATMOTION:
 			if (Up)
 			{
@@ -137,7 +147,7 @@ void ControlSystem::input(SDL_Event &e) {
 				int posY = posComp->getPositionY();
 				//get current ammo amount and if not 0 place bomb
 				if (ammoComp->getSeekerAmmo() > 0) {
-					//third value is int for life span 
+					//third value is int for life span
 					ammoComp->dropSeeker(posX, posY, 200);
 					//take one ammo away
 					int current = ammoComp->getSeekerAmmo();
@@ -166,6 +176,15 @@ void ControlSystem::input(SDL_Event &e) {
 
 		case SDL_JOYAXISMOTION:
 
+			if (StickLeftX >= -bitePoint)
+			{
+			//	controlComp->moveLeft = 0;
+			}
+			if (StickLeftX <= bitePoint)
+			{
+			//	controlComp->moveRight = 0;
+			}
+
 			if (StickLT >= bitePoint || StickLT <= -bitePoint)
 			{
 				//buttonLT_();
@@ -191,7 +210,7 @@ void ControlSystem::input(SDL_Event &e) {
 			}
 			if (StickLeftY >= bitePoint || StickLeftY <= -bitePoint)
 			{
-				
+
 				//buttonLSY_(StickLeftY);
 			}
 			if (StickRightX >= bitePoint || StickRightX <= -bitePoint)
@@ -257,26 +276,15 @@ void ControlSystem::input(SDL_Event &e) {
 			}
 		}
 
-		if (StickLeftX >= -bitePoint)
-		{
-		//	controlComp->moveLeft = 0;
-		}
-		if (StickLeftX <= bitePoint)
-		{
-		//	controlComp->moveRight = 0;
-		}
+
 	}
-
-
-	
-
 }
 void ControlSystem::keyUp(SDL_Event &e) {
 	switch (e.type)
 	{
 
 	case SDL_KEYUP:
-		
+
 		if (e.key.keysym.sym == SDLK_UP)
 		{
 			controlComp->jump = 0;

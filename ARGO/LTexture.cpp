@@ -6,6 +6,8 @@ LTexture::LTexture()
 	mTexture = NULL;
 	mWidth = 0;
 	mHeight = 0;
+
+	
 }
 
 LTexture::~LTexture()
@@ -56,28 +58,14 @@ bool LTexture::loadFromFile(std::string path, SDL_Renderer *gRenderer, float sca
 	return mTexture != NULL;
 }
 
-#ifdef _SDL_TTF_H
-
-LTexture::LTexture(string fontpath)
-{
-	if (TTF_Init() == -1)
-	{
-		printf("TTF_Init: %s\n", TTF_GetError());
-	}
-	gFont = TTF_OpenFont(fontpath.c_str(), 24);
-	if (!gFont)
-	{
-		cout << "Failed to load font" << endl;
-	}
-}
-
-bool LTexture::loadFromRenderedText(std::string textureText, SDL_Color textColor, SDL_Renderer *gRenderer)
+bool LTexture::loadFromRenderedText(std::string textureText, SDL_Color textColor, SDL_Renderer *gRenderer, TTF_Font *font)
 {
 	//Get rid of preexisting texture
 	free();
+	m_scale = 5;
 
 	//Render text surface
-	SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, textureText.c_str(), textColor);
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);
 	if (textSurface != NULL)
 	{
 		//Create texture from surface pixels
@@ -105,7 +93,6 @@ bool LTexture::loadFromRenderedText(std::string textureText, SDL_Color textColor
 	//Return success
 	return mTexture != NULL;
 }
-#endif
 
 void LTexture::free()
 {

@@ -2,6 +2,7 @@
 #pragma comment(lib, "SDL2.lib")
 #pragma comment(lib, "SDL2main.lib")
 #pragma comment(lib, "SDL2_image.lib")
+#pragma comment(lib, "SDL2_ttf.lib")
 
 #if _DEBUG
 #pragma comment(lib, "libtmxlite-s-d.lib")
