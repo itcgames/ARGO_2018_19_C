@@ -42,7 +42,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::MainMenu);
+		m_currentGameState = (GameState::Lobby);
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 		if (IMG_Init(imgFlags) != imgFlags)
@@ -172,8 +172,6 @@ void Game::initialise()
 	//ais.addEntity(dog);
 	//ais.addEntity(cat);
 
-	ais.addEntity(player2);
-	ais.addEntity(player3);
 
 	Colls.addEntity(flag);
 
@@ -274,10 +272,7 @@ void Game::setGameState(GameState gameState)
 void Game::update(float dt)
 {
 
-	Colls.update(*m_level, dt);
-	//hs.update();
-	ammos.update();
-
+	
 
 
 	switch (m_currentGameState)
@@ -287,74 +282,31 @@ void Game::update(float dt)
 	case GameState::Splash:
 		break;
 	case GameState::Lobby:
-		m_lobbyScreen->update(m_playerIndex, mouseX, mouseY);
+		m_lobbyScreen->update(m_playerIndex, mouseX, mouseY, m_currentGameState);
 		mouseX = -1;
 		mouseY = -1;
+		updateNetwork();
 		break;
 	case GameState::MainMenu:
 		m_menuScreen->update(mouseX, mouseY, m_currentGameState);
+		mouseX = -1;
+		mouseY = -1;
 		break;
 	case GameState::Options:
 		break;
 	case GameState::GameScreen:
 		//ps.update(m_renderer);
+		Colls.update(*m_level, dt);
+		//hs.update();
+		ammos.update();
+
 		phs.update();
-		break;
-	case GameState::GameOverScreen:
-		m_gameoverScreen->update();
-		break;
-	case GameState::Credits:
-		break;
-	default:
-		break;
-	}
-
-
-	//phs.update();
-
-	//// Power ups
-	m_timerSpawn++;
-	if (m_timerSpawn >= m_spawnTimeLimit)
-	{
-		//switch (rand() % m_numOfPowerUps)
-		switch (2)
-		{
-		case 0:
-			m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
-			break;
-
-		case 1:
-			m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
-			break;
-
-		case 2:
-			m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
-			break;
-
-		case 3:
-			m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
-			break;
-
-		case 5:
-			m_powerUps.push_back(m_factory->CreateReset(m_renderer));
-			break;
-
-		}
-		m_timerSpawn = 0;
-	}
-	updateNetwork();
-	for (int i = m_powerUps.size() - 1; i >= 0; i--)
-	{
-		if (m_powerUps[i]->getAlive())
-			comsystem.update(dt);
-		ls.update(dt);
-		// Power ups
+		//// Power ups
 		m_timerSpawn++;
 		if (m_timerSpawn >= m_spawnTimeLimit)
-
 		{
 			//switch (rand() % m_numOfPowerUps)
-			switch(2)
+			switch (2)
 			{
 			case 0:
 				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
@@ -379,6 +331,44 @@ void Game::update(float dt)
 			}
 			m_timerSpawn = 0;
 		}
+
+		for (int i = m_powerUps.size() - 1; i >= 0; i--)
+		{
+			if (m_powerUps[i]->getAlive())
+				comsystem.update(dt);
+			ls.update(dt);
+			// Power ups
+			m_timerSpawn++;
+			if (m_timerSpawn >= m_spawnTimeLimit)
+
+			{
+				//switch (rand() % m_numOfPowerUps)
+				switch (2)
+				{
+				case 0:
+					m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
+					break;
+
+				case 1:
+					m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
+					break;
+
+				case 2:
+					m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
+					break;
+
+				case 3:
+					m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
+					break;
+
+				case 5:
+					m_powerUps.push_back(m_factory->CreateReset(m_renderer));
+					break;
+
+				}
+				m_timerSpawn = 0;
+			}
+		}
 		for (int i = m_powerUps.size() - 1; i >= 0; i--)
 		{
 			if (m_powerUps[i]->getAlive())
@@ -401,11 +391,11 @@ void Game::update(float dt)
 					s = (SpriteComponent *)player2.getCompByType("Sprite");
 					break;
 
-				case 2:	
+				case 2:
 					p = (PositionComponent *)player3.getCompByType("Position");
 					s = (SpriteComponent *)player3.getCompByType("Sprite");
 					break;
-				case 3: 
+				case 3:
 					p = (PositionComponent *)player4.getCompByType("Position");
 					s = (SpriteComponent *)player4.getCompByType("Sprite");
 					break;
@@ -450,7 +440,7 @@ void Game::update(float dt)
 						break;
 					case 5: // Reset
 						break;
-					
+
 					}
 				}
 			}
@@ -463,9 +453,22 @@ void Game::update(float dt)
 		getDistance();
 
 		updateNetwork();
-
+		break;
+	case GameState::GameOverScreen:
+		m_gameoverScreen->update();
+		break;
+	case GameState::Credits:
+		break;
+	default:
+		break;
 	}
+
+	m_previousGameState = m_currentGameState;
+
+	
+
 }
+
 
 void Game::render(float dt)
 {
@@ -500,7 +503,7 @@ void Game::render(float dt)
 		m_level->draw(m_renderer);
 		//m_playerDot->render(m_renderer);
 		//m_texture.render(100, 100, m_renderer);
-    ammos.render(m_renderer);
+		ammos.render(m_renderer);
 		for (int i = m_powerUps.size() - 1; i >= 0; i--)
 		{
 			m_powerUps[i]->draw(m_renderer);
@@ -653,7 +656,7 @@ void Game::getDistance() {
 
 	}
 
-
+	sendAiToNetwork();
 
 
 }
@@ -667,6 +670,13 @@ void Game::updateNetwork()
 	if (m_playerIndex != 5)
 	{
 		std::string pos;
+		if (m_currentGameState == GameState::MainMenu && m_previousGameState == GameState::Lobby)
+		{
+			std::string msg;
+			msg = "i: " + std::to_string(m_playerIndex) + " " + m_lobbyScreen->sendMsg(m_playerIndex);
+			m_client->sendMsg(msg);
+		}
+
 		switch (m_currentGameState)
 		{
 		case GameState::GameScreen:
@@ -704,14 +714,42 @@ void Game::updateNetwork()
 			break;
 
 		case GameState::Lobby:
-			std::string msg;
-			msg = "i: " + std::to_string(m_playerIndex) + " " + m_lobbyScreen->sendMsg(m_playerIndex);
-			m_client->sendMsg(msg);
-
-			if (m_lobbyScreen->everyoneReady())
+			if (m_lobbyScreen->everyoneReady(m_stateTimer))
 			{
 				if (m_stateTimer > m_stateTimerLimit)
 				{
+					if (!m_lobbyScreen->getInLobby(0))
+					{
+						// Player 1 is an Ai
+						std::cout << "Player 1 is an AI" << std::endl;
+						ais.addEntity(player);
+						player.addComponent(new AIComponent());
+					}
+					
+					if (!m_lobbyScreen->getInLobby(1))
+					{
+						// Player 2 is an Ai
+						std::cout << "Player 2 is an AI" << std::endl;
+						ais.addEntity(player2);
+						player2.addComponent(new AIComponent());
+					}
+
+					if (!m_lobbyScreen->getInLobby(2))
+					{
+						// Player 3 is an Ai
+						std::cout << "Player 3 is an AI" << std::endl;
+						ais.addEntity(player3);
+						player3.addComponent(new AIComponent());
+					}
+
+					if (!m_lobbyScreen->getInLobby(3))
+					{
+						// Player 4 is an Ai
+						std::cout << "Player 4 is an AI" << std::endl;
+						ais.addEntity(player4);
+						player4.addComponent(new AIComponent());
+					}
+
 					m_stateTimer = 0;
 					setGameState(GameState::GameScreen);
 				}
@@ -724,6 +762,11 @@ void Game::updateNetwork()
 			{
 				m_stateTimer = 0;
 			}
+
+			std::string msg;
+			msg = "i: " + std::to_string(m_playerIndex) + " " + m_lobbyScreen->sendMsg(m_playerIndex);
+			m_client->sendMsg(msg);
+
 			break;
 
 		}
@@ -800,6 +843,7 @@ void Game::updateNetwork()
 
 
 			m_playerIndex = 0;
+			m_lobbyScreen->changeState(m_playerIndex, false);
 			comsystem.addEntity(player);
 			cs.addEntity(player);
 			Colls.addEntity(player);
@@ -808,15 +852,13 @@ void Game::updateNetwork()
 			p = (PositionComponent *)player.getCompByType("Position");
 			p->setPosition(100, 100);
 
-			player2.addComponent(new AIComponent());
-			player3.addComponent(new AIComponent());
-			player4.addComponent(new AIComponent());
 		}
 		else if (msg.substr(0, 8) == "Joining ")
 		{
 			std::string indexString = msg.substr(14, 1);
 			int index = std::stoi(indexString);
 			m_playerIndex = index;
+			m_lobbyScreen->changeState(m_playerIndex, false);
 			switch (index)
 			{
 			case 1:
@@ -832,9 +874,6 @@ void Game::updateNetwork()
 				p = (PositionComponent *)player2.getCompByType("Position");
 				p->setPosition(500, 100);
 
-				player.addComponent(new AIComponent());
-				player3.addComponent(new AIComponent());
-				player4.addComponent(new AIComponent());
 				break;
 			case 2:
 			//	player3.addComponent(new HealthComponent(200));
@@ -849,9 +888,6 @@ void Game::updateNetwork()
 				p = (PositionComponent *)player3.getCompByType("Position");
 				p->setPosition(100, 500);
 
-				player.addComponent(new AIComponent());
-				player2.addComponent(new AIComponent());
-				player4.addComponent(new AIComponent());
 				break;
 			case 3:
 			//	player4.addComponent(new HealthComponent(200));
@@ -866,16 +902,15 @@ void Game::updateNetwork()
 				p = (PositionComponent *)player4.getCompByType("Position");
 				p->setPosition(500, 500);
 
-				player.addComponent(new AIComponent());
-				player2.addComponent(new AIComponent());
-				player3.addComponent(new AIComponent());
 				break;
 			}
 		}
 		else if (msg.length() > 5 && msg.substr(5, 5) == "Ready")
 		{
+			// If you don't have a player index 
 			if (m_playerIndex == 5)
 			{
+				// Ask for your index
 				std::string msg;
 				msg = "What is my Index";
 				m_client->sendMsg(msg);
@@ -891,32 +926,48 @@ void Game::updateNetwork()
 			{
 				readyState = false;
 			}
+
+			bool lobby;
+			if (msg[17] == '1')
+			{
+				lobby = true;
+			}
+			else
+			{
+				lobby = false;
+			}
+
+			// Set other player lobby states
 			switch (msg[3])
 			{
 			case '0':
 				m_lobbyScreen->changeState(0, readyState);
-				if (readyState)
+				m_lobbyScreen->inLobby(0, lobby);
+				if (readyState && lobby)
 				{
 					player.removeComponent(player.getCompByType("AI"));
 				}
 				break;
 			case '1':
 				m_lobbyScreen->changeState(1, readyState);
-				if (readyState)
+				m_lobbyScreen->inLobby(1, lobby);
+				if (readyState && lobby)
 				{
 					player2.removeComponent(player2.getCompByType("AI"));
 				}
 				break;
 			case '2':
 				m_lobbyScreen->changeState(2, readyState);
-				if (readyState)
+				m_lobbyScreen->inLobby(2, lobby);
+				if (readyState && lobby)
 				{
 					player3.removeComponent(player3.getCompByType("AI"));
 				}
 				break;
 			case '3':
 				m_lobbyScreen->changeState(3, readyState);
-				if (readyState)
+				m_lobbyScreen->inLobby(3, lobby);
+				if (readyState && lobby)
 				{
 					player4.removeComponent(player4.getCompByType("AI"));
 				}
@@ -929,5 +980,62 @@ void Game::updateNetwork()
 			std::cout << "Error! Unknown message:" << msg << std::endl;
 		}
 
+	}
+}
+
+void Game::sendAiToNetwork()
+{
+	if (m_playerIndex == 0)
+	{
+		std::vector<std::string> aiIDs = ais.getEntityIds();
+
+		PositionComponent * p = (PositionComponent *)player2.getCompByType("Position");
+		LifeComponent * l = (LifeComponent *)player2.getCompByType("Life");
+		AnimationComponent * ac = (AnimationComponent *)player2.getCompByType("Animation");
+		std::string pos;
+		for (int i = 0; i < aiIDs.size(); i++)
+		{
+			if (aiIDs[i] == "Player2")
+			{
+				p = (PositionComponent *)player2.getCompByType("Position");
+				l = (LifeComponent *)player2.getCompByType("Life");
+				ac = (AnimationComponent *)player2.getCompByType("Animation");
+
+				pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
+				pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
+				pos = pos + ", " + "I: " + std::to_string(2);	// Player Index
+				pos = pos + ", " + "L: " + std::to_string(l->getLife()); // Player Life
+				pos = pos + ", " + "A: " + std::to_string(ac->m_currentState); // Player state
+				m_client->sendMsg(pos);
+			}
+			else if (aiIDs[i] == "Player3")
+			{
+				p = (PositionComponent *)player3.getCompByType("Position");
+				l = (LifeComponent *)player3.getCompByType("Life");
+				ac = (AnimationComponent *)player3.getCompByType("Animation");
+
+				pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
+				pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
+				pos = pos + ", " + "I: " + std::to_string(3);	// Player Index
+				pos = pos + ", " + "L: " + std::to_string(l->getLife()); // Player Life
+				pos = pos + ", " + "A: " + std::to_string(ac->m_currentState); // Player state
+				m_client->sendMsg(pos);
+
+			}
+			else if (aiIDs[i] == "Player4")
+			{
+				p = (PositionComponent *)player4.getCompByType("Position");
+				l = (LifeComponent *)player4.getCompByType("Life");
+				ac = (AnimationComponent *)player4.getCompByType("Animation");
+
+				pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
+				pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
+				pos = pos + ", " + "I: " + std::to_string(4);	// Player Index
+				pos = pos + ", " + "L: " + std::to_string(l->getLife()); // Player Life
+				pos = pos + ", " + "A: " + std::to_string(ac->m_currentState); // Player state
+				m_client->sendMsg(pos);
+
+			}
+		}
 	}
 }

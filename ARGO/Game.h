@@ -123,9 +123,10 @@ private:
 	// Network
 	Client * m_client;
 	void updateNetwork();
+	void sendAiToNetwork();
 
 	int m_stateTimer;
-	const int m_stateTimerLimit = 300;
+	const int m_stateTimerLimit = 200;
 
 };
 
