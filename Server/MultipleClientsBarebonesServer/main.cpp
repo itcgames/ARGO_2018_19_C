@@ -28,6 +28,14 @@ void main()
 	std::vector<std::string> lobby;
 	std::vector<std::string> lobbyBuf;
 	std::vector<SOCKET> lobbySocks;
+	std::vector<std::vector<int>> lobbies;
+	
+	std::vector<int> temp;
+	for (int i = 0; i < 4; i++)
+	{
+		temp.push_back(-1);
+	}
+	lobbies.push_back(temp);
 
 	int wsOk = WSAStartup(ver, &wsData);
 	if (wsOk != 0)
@@ -220,6 +228,25 @@ void main()
 					else if (buf[0] == 'i')
 					{
 						std::cout << buf << std::endl;
+
+						if (buf[17] == '0')
+						{
+							// Left lobby
+							int leftIndex = (int)buf[3] - 48;
+							std::cout << "Left lobby: ";
+							std::cout << buf[3] << std::endl;
+
+							for (int i = 0; i < lobbySocks.size(); i++)
+							{
+								if (sock == lobbySocks[i])
+								{
+									std::cout << "Index: " << std::to_string(i) << std::endl;
+								}
+							}
+							
+
+						}
+
 						lobbyBuf.push_back(buf);
 
 						bool ready = true;
@@ -253,35 +280,6 @@ void main()
 										if (lobbyBuf[3][12] == '0')
 										{
 											ready = false;
-										}
-										// If they are all ready
-										if (ready&& false)
-										{
-											// start game (TODO: send it to all players)
-											for (int i = 0; i < master.fd_count; i++)
-											{
-												SOCKET outSock = master.fd_array[i];
-												if (outSock != listening && outSock != sock)
-												{
-													ostringstream ss;
-													ss << "Begin Game" << "\r\n";
-													string strOut = ss.str();
-
-													NetworkMessage netMsg;
-													//netMsg.type = "Begin";
-													netMsg.type = 2; // Begin
-													netMsg.playerIndex = 0;
-													netMsg.hostIndex = i;
-
-													send(lobbySocks[i], strOut.c_str(), strOut.size() + 1, 0);
-													netMsg.playerIndex = 1;
-													send(lobbySocks[i + 1], strOut.c_str(), strOut.size() + 1, 0);
-													netMsg.playerIndex = 2;
-													send(lobbySocks[i + 2], strOut.c_str(), strOut.size() + 1, 0);
-													netMsg.playerIndex = 3;
-													send(lobbySocks[i + 3], strOut.c_str(), strOut.size() + 1, 0);
-												}
-											}
 										}
 									}
 								}

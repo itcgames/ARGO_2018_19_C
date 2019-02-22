@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include <SDL_timer.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <WS2tcpip.h>
@@ -21,6 +23,7 @@
 #include "PhysicsSystem.h"
 #include "LifeSystem.h"
 #include "Lobby.h"
+#include "Credits.h"
 #include "Level.h"
 #include "Particle.h"
 #include "Factory.h"
@@ -32,26 +35,16 @@
 #include <sstream>
 #include "Animation.h"
 
+//Screens
+#include "Lobby.h"
+#include "GameOver.h"
+#include "menu.h"
+
 
 using namespace std;
 
 
-enum class
-	GameState
-{
-	None,
-	License,
-	Splash,
-	MainMenu,
-	Lobby,
-	GameScreen,
-	GameOverScreen,
-	CoopScreen,
-	Options,
-	Credits,
-	Help
 
-};
 class Game {
 
 public:
@@ -77,21 +70,17 @@ private:
 
 	level* m_level;
 
-	//Entity* m_player;
-	Entity* m_cat;
-	Entity* m_alien;
-	Entity* m_dog;
 	Entity* m_flag;
-	/*HealthComponent* m_healthComponentOne;
-	HealthComponent* m_healthComponentTwo;
-	HealthComponent* m_healthComponentThree;
-	HealthComponent* m_healthComponentFour;*/
 	ControlComponent* m_ctrlComponent;
 	PositionComponent* m_posComponent;
 	CollisionComponent* CollisionComp;
 	ParticleComponent* m_partComponent;
 
+	// Screens
 	Lobby * m_lobbyScreen;
+	Credits * m_creditsScreen;
+	GameOverScreen * m_gameoverScreen;
+	MenuScreen * m_menuScreen;
 
 	CombatSystem comsystem;
     //LifeSystem ls;
@@ -137,9 +126,10 @@ private:
 	// Network
 	Client * m_client;
 	void updateNetwork();
+	void sendAiToNetwork();
 
 	int m_stateTimer;
-	const int m_stateTimerLimit = 300;
+	const int m_stateTimerLimit = 200;
 
 };
 
