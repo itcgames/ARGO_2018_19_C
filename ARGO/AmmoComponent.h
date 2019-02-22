@@ -22,7 +22,6 @@ public:
 		return positionY;
 	}
 
-
 	void setPosition(float x, float y) {
 		this->positionX = x;
 		this->positionY = y;
@@ -65,7 +64,6 @@ public:
 	}
 	
 	void dropProjectile(float x, float y) {
-
 		projectiles.push_back(new Projectile(x, y, renderer));
 	}
 

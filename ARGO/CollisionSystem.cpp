@@ -19,6 +19,61 @@ void CollisionSystem::removeEntity(std::string ID) {
 	}
 }
 
+bool CollisionSystem::getInvincible()
+{
+	return collide->m_Invincible;
+}
+
+void CollisionSystem::ActivateInvincible()
+{
+	collide->m_Invincible = true;
+}
+
+void CollisionSystem::setInvincible(float dt, CollisionComponent* m_collide)
+{
+	timer += dt;
+	int fps = 1;
+	int ticksPerFrame = 1000 / fps;
+	if (m_collide->m_Invincible)
+	{
+		if (ticksPerFrame<timer)
+		{
+			count += 1;
+			timer = 0;
+			std::cout << "INVINCIBLE" << std::endl;
+		}
+		if (count >= 10)
+		{
+			m_collide->m_Invincible = false;
+			std::cout << "INVINCIBLE OVER" << std::endl;
+			count = 0;
+		}
+	}
+
+}
+
+std::vector<std::string> CollisionSystem::getEntityID()
+{
+	//only returns first name
+	std::vector<std::string> v;
+	for (Entity & entity : entities) {
+		v.push_back(entity.getName());
+	}
+	return v;
+}
+
+void CollisionSystem::resetScore(std::string id)
+{
+	for (Entity& entity : entities)
+	{
+		if (id != entity.getName() && entity.getName() !="Flag")
+		{
+			score = (ScoreComponent*)entity.getCompByType("Score");
+			score->setScore(0);
+		}
+	}
+}
+
 void CollisionSystem::CheckCollision(level &level, float dt)
 {
 
@@ -38,12 +93,14 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 				spriteComp = (SpriteComponent *)entity.getCompByType("Sprite");
 				score = (ScoreComponent*)entity.getCompByType("Score");
 				ac = (AnimationComponent*)entity.getCompByType("Animation");
+				collide = (CollisionComponent*)entity.getCompByType("Collision");
 				x1 = posComp1->getPositionX();
 				y1 = posComp1->getPositionY();
 				width1 = spriteComp->getWidth();
 				height1 = spriteComp->getHeight();
 				tileCollision(x1, y1, width1, height1, level, lc);
 				Teleport(x1, y1, width1, height1, level);
+				setInvincible(dt, collide);
 			}
 
 
@@ -83,6 +140,8 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 
 			}
 		}
+
+		
 	}
 }
 
@@ -213,18 +272,17 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 	for (int i = 0; i < m_tiles.m_killTiles.size(); i++)
 	{
 		if ((abs(x1 - m_tiles.m_killTiles[i].x) * 2 < (width1 + m_tiles.m_killTiles[i].width)) &&
-			(abs(y1 - m_tiles.m_killTiles[i].y) * 2 < (height1 + m_tiles.m_killTiles[i].height)))
+			(abs(y1 - m_tiles.m_killTiles[i].y) * 2 < (height1 + m_tiles.m_killTiles[i].height)) && !collide->m_Invincible)
 		{
 			std::cout << "KILL TILES COLLIDE" << std::endl;
 			ac->die();
 			cc->alive = false;
-			posComp1->setPosition(680, 100);
+			posComp1->setPosition(680, 300);
 			lc->setLifes(lc->getLife() - 1);
 		}
-		if (y1 >= 600 && !cc->alive)
+		if (y1 >= 400 && y1<=500 && !cc->alive)
 		{
 			cc->alive = true;
-
 		}
 	}
 
@@ -254,7 +312,7 @@ void CollisionSystem::Teleport(float x, float y, float width, float height, leve
 	}
 }
 
-void CollisionSystem::update(level &level,float dt)
+void CollisionSystem::update(level &level, float dt)
 {
 	CheckCollision(level, dt);
 }
