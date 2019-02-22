@@ -12,6 +12,11 @@ public:
 
 	void update();
 	void render(SDL_Renderer * renderer);
+	void read();
+	bool endCredits();
+
+	int timer = 0;
+	int timeLimit = 300;
 private:
 
 	LTexture m_texture;

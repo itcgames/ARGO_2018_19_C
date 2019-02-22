@@ -469,6 +469,10 @@ void Game::update(float dt)
 		break;
 
 	case GameState::Credits:
+		if (m_creditsScreen->endCredits() == true)
+		{
+			setGameState(GameState::MainMenu);
+		}
 		m_creditsScreen->update();
 		break;
 	default:
