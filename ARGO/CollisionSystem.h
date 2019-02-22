@@ -21,7 +21,7 @@ public:
 	bool AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);
 	void tileCollision(float x, float y, float width, float height, level &level, LifeComponent * lc);
 	void Teleport(float x, float y, float width, float height, level &level);
-	void CheckCollision(level &level, float dt);
+	void CheckCollision(level &level, float dt, std::string playerID);
 
 private:
 	std::vector<Entity>entities;

@@ -21,18 +21,10 @@ void CombatSystem::removeEntity(std::string ID) {
 }
 
 
-void CombatSystem::CheckCollision(float dt, int index)
+void CombatSystem::update(float dt, std::string playerID)
 {
 
 	time = time + dt;
-	
-	if (index > 0)
-	{
-		playerID = "Player" + std::to_string(index + 1);
-	}
-	else {
-		playerID = "Player";
-	}
 	
 	for (Entity& entity : entities)
 	{
@@ -131,12 +123,6 @@ bool CombatSystem::AABB(float x1, float y1, float x2, float y2, float width1, fl
 {
 	return(abs(x1 - x2) * 2 < (width1 + width2)) &&
 		(abs(y1 - y2) * 2 < (height1 + height2));
-}
-
-
-void CombatSystem::update(float dt, int playerindex)
-{
-	CheckCollision(dt, playerindex);
 }
 
 

@@ -19,7 +19,7 @@ void CollisionSystem::removeEntity(std::string ID) {
 	}
 }
 
-void CollisionSystem::CheckCollision(level &level, float dt)
+void CollisionSystem::CheckCollision(level &level, float dt, std::string playerID)
 {
 
 	time = time + dt;
@@ -44,6 +44,10 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 				height1 = spriteComp->getHeight();
 				tileCollision(x1, y1, width1, height1, level, lc);
 				Teleport(x1, y1, width1, height1, level);
+				if (entity.getName() != playerID) {
+					nodeCollision(level, posComp1->getPositionX(), posComp1->getPositionY(), spriteComp->getWidth(), spriteComp->getHeight());
+				}
+				
 			}
 
 
@@ -85,11 +89,11 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 
 			}
 		}
-		for (Component* component : entity.getComponents()) {
-			if (component->getID() == "AI") {
-				nodeCollision(level, posComp1->getPositionX(), posComp1->getPositionY(), spriteComp->getWidth(), spriteComp->getHeight());
-			}
-		}
+		//for (Component* component : entity.getComponents()) {
+			//if (component->getID() == "AI") {
+				//nodeCollision(level, posComp1->getPositionX(), posComp1->getPositionY(), spriteComp->getWidth(), spriteComp->getHeight());
+			//}
+		//}
 
 	}
 }
@@ -286,9 +290,4 @@ void CollisionSystem::Teleport(float x, float y, float width, float height, leve
 			posComp1->setPosition(m_tiles.m_teleport[0].x + width, m_tiles.m_teleport[0].y);
 		}
 	}
-}
-
-void CollisionSystem::update(level &level,float dt)
-{
-	CheckCollision(level, dt);
 }

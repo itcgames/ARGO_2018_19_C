@@ -141,6 +141,8 @@ private:
 	int m_stateTimer;
 	const int m_stateTimerLimit = 300;
 
+	std::string playerID;
+
 };
 
 #endif // !GAME

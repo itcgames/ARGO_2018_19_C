@@ -278,9 +278,18 @@ void Game::setGameState(GameState gameState)
 void Game::update(float dt)
 {
 	updateNetwork();
-	Colls.update(*m_level, dt);
+	
 	//hs.update();
 	ammos.update();
+
+	if (m_playerIndex> 0)
+	{
+		playerID = "Player" + std::to_string(m_playerIndex + 1);
+	}
+	else {
+		playerID = "Player";
+	}
+
 
 
 
@@ -302,9 +311,10 @@ void Game::update(float dt)
 	case GameState::GameScreen:
 		//ps.update(m_renderer);
 		phs.update();
-		comsystem.update(dt, m_playerIndex);
+		comsystem.update(dt, playerID);
 		ls.update(dt);
 		ais.update(*m_level);
+		Colls.CheckCollision(*m_level, dt, playerID);
 
 		m_timerSpawn++;
 		if (m_timerSpawn >= m_spawnTimeLimit)
