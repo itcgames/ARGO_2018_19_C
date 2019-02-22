@@ -196,7 +196,7 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO/assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -214,7 +214,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO/assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -236,7 +236,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO/assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -258,7 +258,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO/assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

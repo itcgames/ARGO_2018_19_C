@@ -473,8 +473,12 @@ void Game::update(float dt)
 				}
 			}
 		}
-		ais.update(1000, ais.getEntityById("Player2"));
-		ais.update(1000, ais.getEntityById("Player3"));
+		
+		if (m_playerIndex == 0)
+		{
+			ais.update(1000, ais.getEntityById("Player2"));
+			ais.update(1000, ais.getEntityById("Player3"));
+		}
 
 			getDistance();
 			break;
