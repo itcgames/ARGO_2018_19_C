@@ -110,6 +110,8 @@ void Game::initialise()
 	player.addComponent(new AmmoComponent(m_renderer));
 	player.addComponent(new LifeComponent(4, 1, m_renderer, 1));
 	player.addComponent(new ScoreComponent(0));
+	player.addComponent(new VelocityComponent());
+
 
 
 	player2.addComponent(new PositionComponent(500, 100));
@@ -140,6 +142,7 @@ void Game::initialise()
 	player4.addComponent(new AmmoComponent(m_renderer));
 	player4.addComponent(new LifeComponent(3, 4, m_renderer, 1));
 	player4.addComponent(new ScoreComponent(0));
+	player4.addComponent(new VelocityComponent());
 
 	Entity wall("Wall");
 	//wall.addComponent(new PositionComponent(400, 500));
@@ -155,7 +158,6 @@ void Game::initialise()
 	//hs.addEntity(player2);
 	//hs.addEntity(player3);
 
-	player4.addComponent(new LifeComponent(0, 4, m_renderer, 1));
 
 
 
@@ -330,40 +332,6 @@ void Game::update(float dt)
 				m_timerSpawn = 0;
 			}
       
-			for (int i = m_powerUps.size() - 1; i >= 0; i--)
-			{
-				if (m_powerUps[i]->getAlive())
-
-					// Power ups
-					m_timerSpawn++;
-				if (m_timerSpawn >= m_spawnTimeLimit)
-				{
-					switch (rand() % m_numOfPowerUps)
-					{
-					case 0:
-						m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
-						break;
-
-					case 1:
-						m_powerUps.push_back(m_factory->CreateInvincible(m_renderer));
-						break;
-              
-           	case 2:
-						m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
-						break;
-
-					case 3:
-						m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
-						break;
-
-					case 4:
-						m_powerUps.push_back(m_factory->CreateReset(m_renderer));
-						break;
-
-					}
-					m_timerSpawn = 0;
-				}
-			}
 			updateNetwork();
 
 			for (int i = m_powerUps.size() - 1; i >= 0; i--)
@@ -474,15 +442,16 @@ void Game::update(float dt)
 					m_powerUps.erase(m_powerUps.begin() + i);
 				}
 			}
+
 		ais.update(1000, ais.getEntityById("Player2"));
 		ais.update(1000, ais.getEntityById("Player3"));
 
 			getDistance();
-			break;
-		case GameState::GameOverScreen:
-			m_gameoverScreen->update();
-			break;
-		case GameState::Credits:
+		break;
+	case GameState::GameOverScreen:
+		m_gameoverScreen->update();
+		break;
+	case GameState::Credits:
       if (m_creditsScreen->endCredits() == true)
       {
         setGameState(GameState::MainMenu);
