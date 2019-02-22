@@ -175,21 +175,20 @@ protected:
 
 };
 
-class HealthUp : public PowerUp
+class NoDamage : public PowerUp
 {
 public:
-	HealthUp(SDL_Renderer *m_renderer) {
+	NoDamage(SDL_Renderer *m_renderer)
+	{
 		m_id = 1;
-		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		if (!m_texture.loadFromFile("img/noDamage.png", m_renderer, 1))
 		{
-			printf("Failed to load dot texture!\n");
-
+			printf("Failed to load noDamage Txt");
 		}
 		m_timer = 0;
 	};
-	~HealthUp()
-	{
-	};
+	~NoDamage()
+	{};
 	void draw(SDL_Renderer *m_renderer)
 	{
 		m_texture.render(m_x, m_y, m_renderer, 1, 1);
@@ -285,24 +284,6 @@ public:
 	}
 };
 
-class NoDamage : public PowerUp
-{
-public:
-	NoDamage(SDL_Renderer *m_renderer)
-	{
-		m_id = 6;
-		if (!m_texture.loadFromFile("img/noDamage.png", m_renderer, 1))
-		{
-			printf("Failed to load noDamage Txt");
-		}
-		m_timer = 0;
-	};
-	~NoDamage()
-	{};
-	void draw(SDL_Renderer *m_renderer)
-	{
-		m_texture.render(m_x, m_y, m_renderer, 1, 1);
-	}
-};
+
 
 

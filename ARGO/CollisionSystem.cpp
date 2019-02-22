@@ -24,9 +24,17 @@ bool CollisionSystem::getInvincible()
 	return collide->m_Invincible;
 }
 
-void CollisionSystem::ActivateInvincible()
+void CollisionSystem::ActivateInvincible(std::string ID)
 {
-	collide->m_Invincible = true;
+	for (Entity & entity : entities)
+	{
+		if (entity.getName() == ID)
+		{
+			collide = (CollisionComponent*)entity.getCompByType("Collision");
+			collide->m_Invincible = true;
+		}
+
+	}
 }
 
 void CollisionSystem::setInvincible(float dt, CollisionComponent* m_collide)
@@ -57,6 +65,7 @@ std::vector<std::string> CollisionSystem::getEntityID()
 	//only returns first name
 	std::vector<std::string> v;
 	for (Entity & entity : entities) {
+		if(entity.getName()!="Flag")
 		v.push_back(entity.getName());
 	}
 	return v;
