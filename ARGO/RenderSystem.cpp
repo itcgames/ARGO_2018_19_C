@@ -62,7 +62,7 @@ void RenderSystem::update(SDL_Renderer *m_renderer, float dt) {
 			ControlComponent * cc = (ControlComponent*)entity.getCompByType("Control");
 			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
 	
-		if (lc->getLife() != 0)
+		if (lc->getLife() > 0)
 		{
 			int fps = 15;
 			int ticksPerFrame = 2000 / fps;

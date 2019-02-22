@@ -64,7 +64,10 @@ public:
 						PositionComponent* posComp = (PositionComponent*)entityTwo.getCompByType("Position");
 						LifeComponent* lc = (LifeComponent*)entityTwo.getCompByType("Life");
 
-						if (entity.getName() != entityTwo.getName()) {
+						if (lc->getLife() > 0) {
+
+						}
+						if (entity.getName() != entityTwo.getName() && lc->getLife() > 0) {
 							posX = posComp->getPositionX();
 							posY = posComp->getPositionY();
 							

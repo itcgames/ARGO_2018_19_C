@@ -32,7 +32,7 @@ void LifeSystem::update( float dt) {
 		
 		LifeComponent *lc = (LifeComponent*)entity.getCompByType("Life");
 
-		if (lc->getLife() == 0 && lc->dead == false) {
+		if (lc->getLife() <= 0 && lc->dead == false) {
 
 			deadEntities.push_back(entity);
 			lc->dead = true;

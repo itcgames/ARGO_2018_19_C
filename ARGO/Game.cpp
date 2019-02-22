@@ -118,7 +118,7 @@ void Game::initialise()
 	player2.addComponent(new CollisionComponent());
 	player2.addComponent(new ControlComponent());
 	player2.addComponent(new AmmoComponent(m_renderer));
-	player2.addComponent(new LifeComponent(5, 2, m_renderer, 1));
+	player2.addComponent(new LifeComponent(1, 2, m_renderer, 1));
 	player2.addComponent(new VelocityComponent());
 
 	player3.addComponent(new PositionComponent(300, 600));
@@ -127,7 +127,7 @@ void Game::initialise()
 	player3.addComponent(new CollisionComponent());
 	player3.addComponent(new ControlComponent());
 	player3.addComponent(new AmmoComponent(m_renderer));
-	player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
+	player3.addComponent(new LifeComponent(1, 3, m_renderer, 1));
 	player3.addComponent(new VelocityComponent());
 
 	player4.addComponent(new PositionComponent(500, 500));
@@ -136,7 +136,7 @@ void Game::initialise()
 	player4.addComponent(new CollisionComponent());
 	player4.addComponent(new ControlComponent());
 	player4.addComponent(new AmmoComponent(m_renderer));
-	player4.addComponent(new LifeComponent(3, 4, m_renderer, 1));
+	player4.addComponent(new LifeComponent(1, 4, m_renderer, 1));
 	player4.addComponent(new VelocityComponent());
 
 	Entity wall("Wall");
@@ -300,7 +300,8 @@ void Game::update(float dt)
 			m_timerSpawn++;
 			if (m_timerSpawn >= m_spawnTimeLimit)
 			{
-				switch (rand() % m_numOfPowerUps)
+				//switch (rand() % m_numOfPowerUps)
+				switch(4)
 				{
 				case 1:
 					m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
