@@ -9,9 +9,9 @@ Client::Client()
 {
 	//ipAddress = "149.153.106.162";			// IP Address of the server (Jack)
 	//ipAddress = "149.153.106.161";			// IP Address of the server (Jake)
-	//ipAddress = "149.153.106.163";			// IP Address of the server (Jamie)
+	ipAddress = "149.153.106.163";			// IP Address of the server (Jamie)
 
-	ipAddress = "149.153.106.164";			// IP Address of the server (Sean)
+	//ipAddress = "149.153.106.164";			// IP Address of the server (Sean)
 	port = 54000;						// Listening port # on the server
 
 										// Initialize WinSock

@@ -42,7 +42,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::Credits);
+		m_currentGameState = (GameState::GameScreen);
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 		if (IMG_Init(imgFlags) != imgFlags)
@@ -109,6 +109,7 @@ void Game::initialise()
 	player.addComponent(new ControlComponent());
 	player.addComponent(new AmmoComponent(m_renderer));
 	player.addComponent(new LifeComponent(4, 1, m_renderer, 1));
+	player.addComponent(new VelocityComponent());
 
 
 	player2.addComponent(new PositionComponent(500, 100));
@@ -136,6 +137,7 @@ void Game::initialise()
 	player4.addComponent(new ControlComponent());
 	player4.addComponent(new AmmoComponent(m_renderer));
 	player4.addComponent(new LifeComponent(3, 4, m_renderer, 1));
+	player4.addComponent(new VelocityComponent());
 
 	Entity wall("Wall");
 	//wall.addComponent(new PositionComponent(400, 500));
@@ -324,40 +326,6 @@ void Game::update(float dt)
 				m_timerSpawn = 0;
 			}
       
-			for (int i = m_powerUps.size() - 1; i >= 0; i--)
-			{
-				if (m_powerUps[i]->getAlive())
-
-					// Power ups
-					m_timerSpawn++;
-				if (m_timerSpawn >= m_spawnTimeLimit)
-				{
-					switch (rand() % m_numOfPowerUps)
-					{
-					case 0:
-						m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
-						break;
-
-					case 1:
-						m_powerUps.push_back(m_factory->CreateInvincible(m_renderer));
-						break;
-              
-           	case 2:
-						m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
-						break;
-
-					case 3:
-						m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
-						break;
-
-					case 4:
-						m_powerUps.push_back(m_factory->CreateReset(m_renderer));
-						break;
-
-					}
-					m_timerSpawn = 0;
-				}
-			}
 			updateNetwork();
 
 			for (int i = m_powerUps.size() - 1; i >= 0; i--)
