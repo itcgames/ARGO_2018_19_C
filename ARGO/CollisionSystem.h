@@ -24,7 +24,7 @@ public:
 	void CheckCollision(level &level, float dt);
 	bool getInvincible();
 	void resetScore(std::string id);
-	void ActivateInvincible();
+	void ActivateInvincible(std::string ID);
 	
 private:
 	std::vector<Entity>entities;
