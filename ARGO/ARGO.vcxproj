@@ -27,6 +27,7 @@
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
+    <ClCompile Include="Credits.cpp" />
     <ClCompile Include="Die.cpp" />
     <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -49,6 +50,7 @@
     <ClCompile Include="splash.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Credits.h" />
     <ClInclude Include="VelComponent.h" />
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="AmmoComponent.h" />
@@ -63,7 +65,6 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControlComponent.h" />
     <ClInclude Include="ControlSystem.h" />
-    <ClInclude Include="credits.h" />
     <ClInclude Include="Die.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="Factory.h" />

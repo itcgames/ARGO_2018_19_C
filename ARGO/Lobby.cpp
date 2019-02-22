@@ -121,3 +121,5 @@ void Lobby::render(SDL_Renderer * ren)
 	}
 
 }
+
+

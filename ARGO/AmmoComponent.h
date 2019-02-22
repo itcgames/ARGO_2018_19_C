@@ -67,9 +67,19 @@ public:
 		projectiles.push_back(new Projectile(x, y, renderer));
 	}
 
-	void dropSeeker(float x, float y) {
+	void dropSeeker(float x, float y, int life) {
 
 		seekers.push_back(new Seeker(x, y, renderer));
+	}
+
+	void deleteProjectile(int index) {
+		//pass the index 
+		projectiles.erase(projectiles.begin() + index);
+	}
+
+	void deleteSeeker(int index) {
+		//pass the index 
+		seekers.erase(seekers.begin() + index);
 	}
 
 	void render() {
@@ -85,32 +95,38 @@ public:
 	}
 
 	void seek(float x, float y) {
+
 		for (std::vector<int>::size_type i = 0; i != seekers.size(); i++) {
-			if (x > seekers[i]->getPositionX()) {
-				float posX = seekers[i]->getPositionX() + 1;
-				float posY = seekers[i]->getPositionY();
-				seekers[i]->setPosition(posX, posY);
-			}
-			if (x < seekers[i]->getPositionX()) {
-				float posX = seekers[i]->getPositionX() - 1;
-				float posY = seekers[i]->getPositionY();
-				seekers[i]->setPosition(posX, posY);
-			}
-			if (y > seekers[i]->getPositionY()) {
-				float posX = seekers[i]->getPositionX();
-				float posY = seekers[i]->getPositionY() + 1;
-				seekers[i]->setPosition(posX, posY);
-			}
-			if (y < seekers[i]->getPositionY()) {
-				float posX = seekers[i]->getPositionX();
-				float posY = seekers[i]->getPositionY() - 1;
-				seekers[i]->setPosition(posX, posY);
-			}
-			
+
+			// x & y flag == playerPosition
+			// seekers[i]->x & seekers[i]->y projectile == m_position
+
+			float m_velocityX;
+			float m_velocityY;
+			float m_velocityF;
+			float m_maxSpeed = 1.5f;
+			//m_velocity = playerPosition - m_position;
+			m_velocityX = x - seekers[i]->getPositionX();
+			m_velocityY = y - seekers[i]->getPositionY();
+			//Get magnitude of vector
+			m_velocityF = std::sqrt(m_velocityX*m_velocityX + m_velocityY * m_velocityY);
+
+			//Normalize vector
+			m_velocityX = m_velocityX / m_velocityF;
+			m_velocityY = m_velocityY / m_velocityF;
+
+			m_velocityX = m_velocityX * m_maxSpeed;
+			m_velocityY = m_velocityY * m_maxSpeed;
+
+			//m_position = m_position + m_velocity;
+			float newX = seekers[i]->getPositionX() + m_velocityX;
+			float newY = seekers[i]->getPositionY() + m_velocityY;
+			seekers[i]->setPosition(newX, newY);
 		}
+		
 	}
 
-	void checkCollision(float playerX, float playerY)
+	bool checkCollision(float playerX, float playerY)
 	{
 		if (projectiles.size() > 0)
 		{
@@ -126,13 +142,13 @@ public:
 				if (proX < playerX + 40 &&
 					proX + proW > playerX &&
 					proY < playerY + 50 &&
-					proX + proY > playerY) {
+					proY + proH > playerY) {
 					// collision detected!
 					std::cout << "collision" << std::endl;
 
 					//int j = projectiles.size() -  i; 
 					projectiles.erase(projectiles.begin() + i);
-
+					return true;
 				}
 			}
 		}
@@ -152,15 +168,16 @@ public:
 				if (seekX < playerX + 40 &&
 					seekX + seekW > playerX &&
 					seekY < playerY + 50 &&
-					seekX + seekY > playerY) {
+					seekY + seekH > playerY) {
 					// collision detected!
 					std::cout << "seeker collision" << std::endl;
 					
 					seekers.erase(seekers.begin() + i);
-
+					return true;
 				}
 			}
 		}
+		return false;
 
 	}
 	
@@ -174,5 +191,6 @@ private:
 	LTexture m_texture;
 	SDL_Renderer* renderer;
 	float closestDis = 10000;
+
 
 };

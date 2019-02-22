@@ -42,7 +42,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::GameScreen);
+		m_currentGameState = (GameState::Credits);
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 		if (IMG_Init(imgFlags) != imgFlags)
@@ -192,6 +192,7 @@ void Game::initialise()
 
 	// Screen Initialise
 	m_lobbyScreen = new Lobby(m_renderer);
+	m_creditsScreen = new Credits(m_renderer);
 	updateNetwork();
 
 
@@ -271,34 +272,65 @@ void Game::setGameState(GameState gameState)
 void Game::update(float dt)
 {
 	updateNetwork();
-	Colls.update(*m_level, dt);
-	//hs.update();
-	ammos.update();
-
-
-	updateNetwork();
-
+  
 	switch (m_currentGameState)
 	{
-		case GameState::None:
-			break;
-		case GameState::Splash:
-			break;
-		case GameState::Lobby:
-			m_lobbyScreen->update(m_playerIndex, mouseX, mouseY);
-			mouseX = -1;
-			mouseY = -1;
-			break;
-		case GameState::MainMenu:
-			break;
-		case GameState::Options:
-			break;
-		case GameState::GameScreen:
-			//ps.update(m_renderer);
-			phs.update();
-			comsystem.update(dt, m_playerIndex);
-			ls.update(dt);
-			//phs.update();
+	case GameState::None:
+		break;
+	case GameState::Splash:
+		break;
+	case GameState::Lobby:
+		m_lobbyScreen->update(m_playerIndex, mouseX, mouseY);
+		mouseX = -1;
+		mouseY = -1;
+		break;
+	case GameState::MainMenu:
+		break;
+	case GameState::Options:
+		break;
+	case GameState::GameScreen:
+		//ps.update(m_renderer);
+		phs.update();
+		comsystem.update(dt, m_playerIndex);
+		ls.update(dt);
+		//phs.update();
+		Colls.update(*m_level, dt);
+		//hs.update();
+		ammos.update();
+
+		m_timerSpawn++;
+		if (m_timerSpawn >= m_spawnTimeLimit)
+		{
+			switch (rand() % m_numOfPowerUps)
+			{
+			case 0:
+				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
+				break;
+
+			case 1:
+				m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
+				break;
+
+			case 2:
+				m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
+				break;
+
+			case 3:
+				m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
+				break;
+
+			case 4:
+				m_powerUps.push_back(m_factory->CreateReset(m_renderer));
+				break;
+
+			}
+			m_timerSpawn = 0;
+		}
+
+
+		for (int i = m_powerUps.size() - 1; i >= 0; i--)
+		{
+			if (m_powerUps[i]->getAlive())
 
 			m_timerSpawn++;
 			if (m_timerSpawn >= m_spawnTimeLimit)
@@ -473,10 +505,19 @@ void Game::update(float dt)
 					m_powerUps.erase(m_powerUps.begin() + i);
 				}
 			}
+		}
+		ais.update(1000, ais.getEntityById("Player2"));
+		ais.update(1000, ais.getEntityById("Player3"));
+
 			getDistance();
 			break;
 		case GameState::Credits:
-			break;
+      if (m_creditsScreen->endCredits() == true)
+      {
+        setGameState(GameState::MainMenu);
+      }
+      m_creditsScreen->update();
+      break;
 		default:
 			break;
 	}
@@ -515,13 +556,14 @@ void Game::render(float dt)
 		m_level->draw(m_renderer);
 		//m_playerDot->render(m_renderer);
 		//m_texture.render(100, 100, m_renderer);
-    ammos.render(m_renderer);
+		ammos.render(m_renderer);
 		for (int i = m_powerUps.size() - 1; i >= 0; i--)
 		{
 			m_powerUps[i]->draw(m_renderer);
 		}
 		break;
 	case GameState::Credits:
+		m_creditsScreen->render(m_renderer);
 		break;
 	default:
 		break;
