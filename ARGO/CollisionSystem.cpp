@@ -319,12 +319,8 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			std::cout << "KILL TILES COLLIDE" << std::endl;
 			ac->die();
 			cc->alive = false;
-			posComp1->setPosition(680, 300);
+			posComp1->setPosition(1000, 300);
 			lc->setLifes(lc->getLife() - 1);
-		}
-		if (y1 >= 400 && y1<=500 && !cc->alive)
-		{
-			cc->alive = true;
 		}
 	}
 

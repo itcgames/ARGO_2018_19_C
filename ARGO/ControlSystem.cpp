@@ -235,10 +235,14 @@ void ControlSystem::input(SDL_Event &e) {
 			case SDLK_LEFT:
 				controlComp->setDirection(controlComp->Left);
 				controlComp->moveLeft = 1;
+				if (!controlComp->alive)
+					controlComp->alive = true;
 				break;
 			case SDLK_RIGHT:
 				controlComp->setDirection(controlComp->Right);
 				controlComp->moveRight = 1;
+				if (!controlComp->alive)
+					controlComp->alive = true;
 				break;
 			case SDLK_s:
 				if (!pressed)
