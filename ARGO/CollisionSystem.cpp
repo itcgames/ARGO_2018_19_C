@@ -95,7 +95,7 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 
 			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
 
-			if (lc->getLife() != 0) {
+			if (lc->getLife() > 0) {
 
 				posComp1 = (PositionComponent *)entity.getCompByType("Position");
 				cc = (ControlComponent *)entity.getCompByType("Control");
@@ -308,6 +308,9 @@ void CollisionSystem::Teleport(float x, float y, float width, float height, leve
 			y <= m_tiles.m_teleport[i].y + m_tiles.m_teleport[i].height)
 		{
 			posComp1->setPosition(m_tiles.m_teleport[1].x - width, m_tiles.m_teleport[1].y);
+			if (cc->hasFlag == true) {
+				posComp2->setPosition(m_tiles.m_teleport[1].x - width, m_tiles.m_teleport[1].y);
+			}
 		}
 
 		//left of tile
@@ -317,6 +320,9 @@ void CollisionSystem::Teleport(float x, float y, float width, float height, leve
 			y <= m_tiles.m_teleport[i].y + m_tiles.m_teleport[i].height)
 		{
 			posComp1->setPosition(m_tiles.m_teleport[0].x + width, m_tiles.m_teleport[0].y);
+			if (cc->hasFlag == true) {
+				posComp2->setPosition(m_tiles.m_teleport[0].x + width, m_tiles.m_teleport[0].y);
+			}
 		}
 	}
 }
