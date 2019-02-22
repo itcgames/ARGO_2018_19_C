@@ -42,7 +42,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::Lobby);
+		m_currentGameState = (GameState::Credits);
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 		if (IMG_Init(imgFlags) != imgFlags)
@@ -151,7 +151,6 @@ void Game::initialise()
 	//hs.addEntity(player2);
 	//hs.addEntity(player3);
 
-	player4.addComponent(new LifeComponent(0, 4, m_renderer, 1));
 
 
 
@@ -469,16 +468,16 @@ void Game::update(float dt)
 					m_powerUps.erase(m_powerUps.begin() + i);
 				}
 			}
-		}
+		
 		ais.update(1000, ais.getEntityById("Player2"));
 		ais.update(1000, ais.getEntityById("Player3"));
 
 			getDistance();
-			break;
-		case GameState::GameOverScreen:
-			m_gameoverScreen->update();
-			break;
-		case GameState::Credits:
+		break;
+	case GameState::GameOverScreen:
+		m_gameoverScreen->update();
+		break;
+	case GameState::Credits:
       if (m_creditsScreen->endCredits() == true)
       {
         setGameState(GameState::MainMenu);
