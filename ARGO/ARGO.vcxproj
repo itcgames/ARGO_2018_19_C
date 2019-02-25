@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NoFlag.cpp" />
     <ClCompile Include="AISystem.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AudioManager.cpp" />
@@ -31,7 +30,6 @@
     <ClCompile Include="Die.cpp" />
     <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GoToFlag.cpp" />
     <ClCompile Include="Idle.cpp" />
     <ClCompile Include="JumpLeft.cpp" />
     <ClCompile Include="JumpRight.cpp" />
@@ -52,11 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
-    <ClInclude Include="AIState.h" />
-    <ClInclude Include="GoToFlag.h" />
-    <ClInclude Include="GoToPowerup.h" />
-    <ClInclude Include="GoToNode.h" />
-    <ClInclude Include="NoFlag.h" />
     <ClInclude Include="VelComponent.h" />
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="AmmoComponent.h" />
