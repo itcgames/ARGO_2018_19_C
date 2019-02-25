@@ -5,9 +5,7 @@ Windows IP Configuration
 Ethernet adapter Ethernet:
 
    Connection-specific DNS Suffix  . : itcarlow.ie
-
    IPv4 Address. . . . . . . . . . . : 149.153.106.161
-
    Subnet Mask . . . . . . . . . . . : 255.255.255.0
    Default Gateway . . . . . . . . . : 149.153.106.254
 

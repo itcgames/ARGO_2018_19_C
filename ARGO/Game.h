@@ -70,7 +70,7 @@ private:
 
 	level* m_level;
 
-	Entity* m_flag;
+	Entity flag;
 	ControlComponent* m_ctrlComponent;
 	PositionComponent* m_posComponent;
 	CollisionComponent* CollisionComp;

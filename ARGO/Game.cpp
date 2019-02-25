@@ -27,7 +27,7 @@ std::vector<float> msgToPos(std::string s)
 	return vec;
 }
 
-Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4("Player4")
+Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4("Player4"), flag("Flag")
 {
 
 	//Initialize SDL
@@ -42,7 +42,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::GameScreen);
+		m_currentGameState = (GameState::Lobby);
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 		if (IMG_Init(imgFlags) != imgFlags)
@@ -97,7 +97,7 @@ void Game::initialise()
 
 
 
-	Entity flag("Flag");
+	
 	flag.addComponent(new PositionComponent(1000, 600));
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
 	flag.addComponent(new PickUpComponent());
@@ -109,8 +109,6 @@ void Game::initialise()
 	player.addComponent(new ControlComponent());
 	player.addComponent(new AmmoComponent(m_renderer));
 	player.addComponent(new LifeComponent(4, 1, m_renderer, 1));
-	player.addComponent(new ScoreComponent(0));
-	player.addComponent(new VelocityComponent());
 
 
 
@@ -118,7 +116,6 @@ void Game::initialise()
 	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
-	player2.addComponent(new ScoreComponent(0));
 	player2.addComponent(new ControlComponent());
 	player2.addComponent(new AmmoComponent(m_renderer));
 	player2.addComponent(new LifeComponent(5, 2, m_renderer, 1));
@@ -136,7 +133,6 @@ void Game::initialise()
 	player3.addComponent(new AmmoComponent(m_renderer));
 	player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
 	player3.addComponent(new VelocityComponent());
-	player3.addComponent(new ScoreComponent(0));
 
 
 	player4.addComponent(new PositionComponent(500, 500));
@@ -146,7 +142,6 @@ void Game::initialise()
 	player4.addComponent(new ControlComponent());
 	player4.addComponent(new AmmoComponent(m_renderer));
 	player4.addComponent(new LifeComponent(3, 4, m_renderer, 1));
-	player4.addComponent(new ScoreComponent(0));
 	player4.addComponent(new VelocityComponent());
 
 
@@ -180,12 +175,15 @@ void Game::initialise()
 	ls.addEntity(player4);
 
 
+	ais.addEntity(player2);
+
 	ais.addEntity(flag);
 
 
 	Colls.addEntity(flag);
 
-	comsystem.addEntity(flag);
+	
+	
 
 	ps.addEntity(player);
 	ps.addEntity(player2);
@@ -354,7 +352,6 @@ void Game::update(float dt)
 				m_timerSpawn = 0;
 			}
       
-			updateNetwork();
 
 			for (int i = m_powerUps.size() - 1; i >= 0; i--)
 			{
@@ -465,16 +462,15 @@ void Game::update(float dt)
 				}
 			}
 
-		}
+		
 		//ais.update(1000, ais.getEntityById("Player2"));
 		//ais.update(1000, ais.getEntityById("Player3"));
-		break;
 
 			getDistance();
 		break;
-	case GameState::GameOverScreen:
-		m_gameoverScreen->update();
-		break;
+	//case GameState::GameOverScreen:
+	//	m_gameoverScreen->update();
+	//	break;
 	case GameState::Credits:
       if (m_creditsScreen->endCredits() == true)
       {
@@ -761,22 +757,26 @@ void Game::updateNetwork()
 		else if (msg == "Host")
 		{
 			//player.addComponent(new HealthComponent(200));
-			player.addComponent(new ControlComponent());
 			player.addComponent(new ScoreComponent(0));
 			player.addComponent(new LifeComponent(6, 1, m_renderer, 1));
 
 			m_playerIndex = 0;
 			m_lobbyScreen->changeState(m_playerIndex, false);
-			comsystem.addEntity(player);
-			comsystem.addEntity(player2);
-			comsystem.addEntity(player3);
-			comsystem.addEntity(player4);
+			
 			cs.addEntity(player);
 			Colls.addEntity(player);
 			Colls.addEntity(player2);
 			Colls.addEntity(player3);
 			Colls.addEntity(player4);
 			phs.addEntity(player);
+
+			comsystem.addEntity(player);
+			comsystem.addEntity(player2);
+			comsystem.addEntity(player3);
+			comsystem.addEntity(player4);
+			comsystem.addEntity(flag);
+
+
 			p = (PositionComponent *)player.getCompByType("Position");
 			p->setPosition(100, 100);
 
@@ -791,42 +791,34 @@ void Game::updateNetwork()
 			{
 			case 1:
 				//player2.addComponent(new HealthComponent(200));
-				player2.addComponent(new ControlComponent());
 				player2.addComponent(new ScoreComponent(0));
 				player2.addComponent(new LifeComponent(6, 2, m_renderer, 1));
 				comsystem.addEntity(player2);
 				cs.addEntity(player2);
 				Colls.addEntity(player2);
 				phs.addEntity(player2);
-				//hs.addEntity(player2);
 				p = (PositionComponent *)player2.getCompByType("Position");
 				p->setPosition(500, 100);
 
 				break;
 			case 2:
-			//	player3.addComponent(new HealthComponent(200));
-				player3.addComponent(new ControlComponent());
 				player3.addComponent(new ScoreComponent(0));
 				player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
 				comsystem.addEntity(player3);
 				cs.addEntity(player3);
 				Colls.addEntity(player3);
 				phs.addEntity(player3);
-			//	hs.addEntity(player3);
 				p = (PositionComponent *)player3.getCompByType("Position");
 				p->setPosition(100, 500);
 
 				break;
 			case 3:
-			//	player4.addComponent(new HealthComponent(200));
-				player4.addComponent(new ControlComponent());
 				player4.addComponent(new ScoreComponent(0));
 				player4.addComponent(new LifeComponent(6, 4, m_renderer, 1));
 				comsystem.addEntity(player4);
 				cs.addEntity(player4);
 				Colls.addEntity(player4);
 				phs.addEntity(player4);
-			//	hs.addEntity(player4);
 				p = (PositionComponent *)player4.getCompByType("Position");
 				p->setPosition(500, 500);
 

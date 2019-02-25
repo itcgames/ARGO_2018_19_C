@@ -51,7 +51,7 @@ void CombatSystem::update(float dt, std::string playerID)
 	
 	}
 
-	if (cc->attack) {
+	if (cc != NULL && cc->attack) {
 		
 		for (Entity& entity : entities)
 		{
