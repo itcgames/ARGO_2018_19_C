@@ -181,7 +181,7 @@ public:
 	NoDamage(SDL_Renderer *m_renderer)
 	{
 		m_id = 1;
-		if (!m_texture.loadFromFile("img/noDamage.png", m_renderer, 1))
+		if (!m_texture.loadFromFile("assets/img/noDamage.png", m_renderer, 1))
 		{
 			printf("Failed to load noDamage Txt");
 		}
@@ -202,7 +202,7 @@ public:
 	SpeedUp(SDL_Renderer *m_renderer)
 	{
 		m_id = 2;
-		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		if (!m_texture.loadFromFile("assets/dot1.bmp", m_renderer, 1))
 		{
 			printf("Failed to load dot texture!\n");
 
@@ -224,7 +224,7 @@ public:
 	AmmoUp(SDL_Renderer *m_renderer)
 	{
 		m_id = 3;
-		if (!m_texture.loadFromFile("img/projectile.png", m_renderer, 1))
+		if (!m_texture.loadFromFile("assets/img/projectile.png", m_renderer, 1))
 		{
 			printf("Failed to load dot texture!\n");
 
@@ -246,7 +246,7 @@ public:
 	SeekerAmmoUp(SDL_Renderer *m_renderer)
 	{
 		m_id = 4;
-		if (!m_texture.loadFromFile("img/seekerprojectile.png", m_renderer, 1))
+		if (!m_texture.loadFromFile("assets/img/seekerprojectile.png", m_renderer, 1))
 		{
 			printf("Failed to load dot texture!\n");
 
@@ -268,7 +268,7 @@ public:
 	ResetUp(SDL_Renderer *m_renderer)
 	{
 		m_id = 5;
-		if (!m_texture.loadFromFile("img/noScore.png", m_renderer, 1))
+		if (!m_texture.loadFromFile("assets/img/noScore.png", m_renderer, 1))
 		{
 			printf("Failed to load noScore texture!\n");
 

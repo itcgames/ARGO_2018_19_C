@@ -42,7 +42,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::GameScreen);
+		m_currentGameState = (GameState::MainMenu);
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 		if (IMG_Init(imgFlags) != imgFlags)
@@ -99,11 +99,11 @@ void Game::initialise()
 
 	Entity flag("Flag");
 	flag.addComponent(new PositionComponent(1000, 600));
-	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
+	flag.addComponent(new SpriteComponent("assets/img/flag.png", 0.3, m_renderer, 8 , 2));
 	flag.addComponent(new PickUpComponent());
 
 	player.addComponent(new PositionComponent(300, 100));
-	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
+	player.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
 	player.addComponent(new ControlComponent());
@@ -115,7 +115,7 @@ void Game::initialise()
 
 
 	player2.addComponent(new PositionComponent(500, 100));
-	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
+	player2.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
 	player2.addComponent(new ScoreComponent(0));
@@ -125,7 +125,7 @@ void Game::initialise()
 	player2.addComponent(new VelocityComponent());
 
 	player3.addComponent(new PositionComponent(300, 600));
-	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
+	player3.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
 	player3.addComponent(new ControlComponent());
@@ -135,7 +135,7 @@ void Game::initialise()
 	player3.addComponent(new ScoreComponent(0));
 
 	player4.addComponent(new PositionComponent(500, 500));
-	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
+	player4.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 	player4.addComponent(new ControlComponent());
