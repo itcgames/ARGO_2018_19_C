@@ -143,7 +143,7 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 				Teleport(x1, y1, width1, height1, level);
 
 				if (entity.getName() != playerID) {
-					nodeCollision(level, posComp1->getPositionX(), posComp1->getPositionY(), spriteComp->getWidth(), spriteComp->getHeight());
+					//nodeCollision(level, posComp1->getPositionX(), posComp1->getPositionY(), spriteComp->getWidth(), spriteComp->getHeight());
 				}
 				
 				setInvincible(dt, collide);
