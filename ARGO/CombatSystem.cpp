@@ -100,22 +100,6 @@ void CombatSystem::update(float dt, std::string playerID)
 		}
 
 	}
-			
-		/*posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 3, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
-		int fps = 1;
-		int ticksPerFrame = 1000 / fps;
-
-		if (ticksPerFrame < time)
-		{
-			score->setScore(score->getScore() + 1);
-
-			time = 0;
-		}
-
-		std::cout << "Score: " << score->getScore() << std::endl;*/
-
-
-	
 }
 
 

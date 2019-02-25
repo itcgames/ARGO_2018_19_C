@@ -8,7 +8,6 @@ Seeker::Seeker(int x, int y, SDL_Renderer* m_renderer)
 	//Initialize the offsets
 	m_posX = x;
 	m_posY = y;
-
 	//width = 20;
 	//height = 20;
 
@@ -61,3 +60,4 @@ float Seeker::getPositionX() {
 float Seeker::getPositionY() {
 	return m_posY;
 }
+

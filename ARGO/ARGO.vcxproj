@@ -27,9 +27,11 @@
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
+    <ClCompile Include="Credits.cpp" />
     <ClCompile Include="Die.cpp" />
     <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Idle.cpp" />
     <ClCompile Include="JumpLeft.cpp" />
     <ClCompile Include="JumpRight.cpp" />
@@ -50,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="Credits.h" />
     <ClInclude Include="VelComponent.h" />
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="AmmoComponent.h" />
@@ -64,13 +67,13 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControlComponent.h" />
     <ClInclude Include="ControlSystem.h" />
-    <ClInclude Include="credits.h" />
     <ClInclude Include="Die.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="FlagComponent.h" />
     <ClInclude Include="Fuzzy.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="Idle.h" />
     <ClInclude Include="JumpLeft.h" />
     <ClInclude Include="JumpRight.h" />
@@ -194,7 +197,7 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO/assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -234,7 +237,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -256,7 +259,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

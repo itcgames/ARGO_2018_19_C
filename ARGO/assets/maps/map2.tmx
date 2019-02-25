@@ -64,6 +64,7 @@
   <object id="117" name="Ceiling" x="0" y="230" width="300" height="10"/>
   <object id="118" name="Wall" x="290" y="190" width="10" height="40"/>
   <object id="119" name="Ceiling" x="40" y="50" width="1415" height="10"/>
+
   <object id="120" name="Node" type="JumpRight" x="165.458" y="794.208" width="25" height="25"/>
   <object id="123" name="Node" type="JumpLeft" x="510.167" y="808.25" width="25"/>
   <object id="124" name="Node" type="JumpRight" x="976.667" y="794" width="25" height="25"/>
@@ -73,6 +74,7 @@
   <object id="129" name="Node" type="JumpLeft" x="693" y="495.667" width="25" height="25"/>
   <object id="130" name="Node" type="JumpRight" x="781.667" y="499" width="25" height="25"/>
   <object id="131" name="Node" type="JumpRight" x="198.333" y="436.333" width="25" height="25"/>
+
   <object id="132" name="Node" type="JumpLeft" x="1269.33" y="449.333"/>
   <object id="133" name="Node" type="JumpRight" x="1201" y="613" width="25" height="25"/>
   <object id="134" name="Node" type="JumpLeft" x="1023.33" y="623.333" width="25" height="25"/>
