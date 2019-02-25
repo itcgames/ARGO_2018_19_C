@@ -44,9 +44,9 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 				height1 = spriteComp->getHeight();
 				tileCollision(x1, y1, width1, height1, level, lc);
 				Teleport(x1, y1, width1, height1, level);
-				if (entity.getName() != playerID) {
+				/*if (entity.getName() != playerID) {
 					nodeCollision(level, posComp1->getPositionX(), posComp1->getPositionY(), spriteComp->getWidth(), spriteComp->getHeight());
-				}
+				}*/
 				
 			}
 

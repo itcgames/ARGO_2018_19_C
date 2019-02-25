@@ -5,7 +5,7 @@
 #include "EntityComponent.h"
 #include "Fuzzy.h"
 #include "AISystem.h"
-
+#include <cmath>
 AISystem::AISystem() {
 
 }
@@ -100,7 +100,7 @@ void AISystem::update(level &m_level) {
 			pcFlag = (PositionComponent*)entity.getCompByType("Position");
 		}
 
-		if (cc->hasFlag == false)
+		if (cc->hasFlag == false && pcFlag!= NULL)
 		{
 
 			if (checkFlagInRange())
@@ -109,7 +109,16 @@ void AISystem::update(level &m_level) {
 			}
 			else 
 			{
-				// got to neatest node
+				if (nearestNode(m_level).x >= pc->getPositionX())
+				{
+					cc->moveRight = 1;
+					cc->moveLeft = 0;
+				}
+				else if (nearestNode(m_level).x <= pc->getPositionX())
+				{
+					cc->moveRight = 0;
+					cc->moveLeft = 1;
+				}
 			}
 
 		}
@@ -120,7 +129,7 @@ void AISystem::update(level &m_level) {
 
 		if (pcFlag != NULL)
 		{
-			leftOrRight(pcFlag->getPositionX(), pcFlag->getPositionY(), pc->getPositionX(), pc->getPositionY());
+			//leftOrRight(pcFlag->getPositionX(), pcFlag->getPositionY(), pc->getPositionX(), pc->getPositionY());
 
 		}
 		
@@ -278,6 +287,75 @@ void AISystem::leftOrRight(float fx, float fy, float px, float py) {
 //	maxX++;
 //}
 //
+bool AISystem::AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2)
+{
+	return(abs(x1 - x2) * 2 < (width1 + width2)) &&
+		(abs(y1 - y2) * 2 < (height1 + height2));
+}
+
+void AISystem::nodeCollision(level &level, float x, float y, float width, float height)
+{
+	for (int i = 0; i < level.m_nodes.size(); i++) {
+
+		if (AABB(x, y, level.m_nodes[i].x, level.m_nodes[i].y, width, height, level.m_nodes[i].width, level.m_nodes[i].height)) {
+
+			if (level.m_nodes[i].type == "JumpRight") {
+
+				cc->setDirection(cc->Up);
+				cc->jump = 0;
+				cc->moveRight = 1;
+				std::cout << "Right" << std::endl;
+
+			}
+			else if (level.m_nodes[i].type == "JumpLeft") {
+
+				cc->setDirection(cc->Up);
+				cc->jump = 0;
+				cc->moveLeft = 1;
+				std::cout << "JUMP" << std::endl;
+			}
+
+		}
+		else
+		{
+			cc->jump = 1;
+		}
+
+	}
+
+}
+NodeObjects AISystem::nearestNode(level &level) {
+
+	float closestN = 10000;
+
+	for (int i = 0; i < level.m_nodes.size(); i++) {
+
+		//Check if node is on the same y level as the player 
+		if (level.m_nodes[i].y < pc->getPositionY() + sc->getHeight() &&
+			level.m_nodes[i].y > pc->getPositionY() - sc->getHeight()) {
+
+			float temp = dist(pc->getPositionX(), level.m_nodes[i].x, pc->getPositionY(), level.m_nodes[i].y);
+			std::cout << temp << std::endl;
+			if (temp < closestN) {
+				closestN = temp;
+				closestNode = level.m_nodes[i];
+
+			}
+
+		}
+	}
+
+	return closestNode;
+
+}
+float AISystem::dist(float x1, float x2, float y1, float y2) {
+
+	float distanceX = x1 - x2;
+	float distanceY = y1 - y2;
+
+	return std::sqrt(distanceX * distanceX + distanceY * distanceY);
+
+}
 bool AISystem::checkFlagInRange() {
 
 	if (pcFlag->getPositionY() > pc->getPositionY()  &&

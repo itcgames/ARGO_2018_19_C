@@ -40,6 +40,7 @@
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LTexture.cpp" />
+    <ClCompile Include="NoFlag.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="Projectile.cpp" />
@@ -50,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="AIState.h" />
+    <ClInclude Include="GoToNode.h" />
     <ClInclude Include="VelComponent.h" />
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="AmmoComponent.h" />

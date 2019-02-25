@@ -2,14 +2,14 @@
 #include "GoToFlag.h"
 #include "GoToNode.h"
 #include "GoToPowerup.h"
-AiComponent::AiComponent()
-{
-	m_current = new GoToNode();
-	/*sRect.y = 0;
-	sRect.h = 100 * m_scale;
-	sRect.w = 80 * m_scale;
-	sRect.x = 80 * m_scale;*/
-}
+//AiComponent::AiComponent()
+//{
+//	m_current = new GoToNode();
+//	/*sRect.y = 0;
+//	sRect.h = 100 * m_scale;
+//	sRect.w = 80 * m_scale;
+//	sRect.x = 80 * m_scale;*/
+//}
 
 void AiComponent::goToNode()
 {

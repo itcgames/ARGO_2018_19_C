@@ -85,6 +85,9 @@
     <ClCompile Include="AISystem.cpp">
       <Filter>src\System</Filter>
     </ClCompile>
+    <ClCompile Include="NoFlag.cpp">
+      <Filter>src\FSM\AIFSM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -229,7 +232,13 @@
       <Filter>Header\Components</Filter>
     </ClInclude>
     <ClInclude Include="AIComponent.h">
-      <Filter>Header\Components</Filter>
+      <Filter>Header\FSM\AIFSM</Filter>
+    </ClInclude>
+    <ClInclude Include="AIState.h">
+      <Filter>Header\FSM\AIFSM</Filter>
+    </ClInclude>
+    <ClInclude Include="GoToNode.h">
+      <Filter>Header\FSM\AIFSM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
