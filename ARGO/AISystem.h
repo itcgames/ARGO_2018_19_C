@@ -31,6 +31,7 @@ public:
 	AISystem();
 	void addEntity(Entity e);
 	void update(level &level);
+	bool checkFlagInRange();
 	//void update(float dis, Entity * entity);
 	void moveLeft();
 	void moveRight();

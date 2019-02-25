@@ -1,26 +1,24 @@
 #pragma once
 #include "Component.h"
-class HasFlag : public Component
+class AiComponent: public Component 
 {
 	class AIState* m_current;
 public:
-	HasFlag() {};
+	AiComponent() {};
 	void setCurrent(AIState* s);
 	AIState* getCurrent();
 
-	void nearestNode();
+	void goToNode();
 
 	void goToFlag();
 
-	void powerUp();
+	void goToPowerUp();
 
 	std::string getID()
 	{
 		return id;
 	}
 
-
-
 private:
-	std::string  id = "AI";
+	std::string  id = "Ai";
 };

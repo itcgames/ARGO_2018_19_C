@@ -100,6 +100,24 @@ void AISystem::update(level &m_level) {
 			pcFlag = (PositionComponent*)entity.getCompByType("Position");
 		}
 
+		if (cc->hasFlag == false)
+		{
+
+			if (checkFlagInRange())
+			{
+				//left and right
+			}
+			else 
+			{
+				// got to neatest node
+			}
+
+		}
+		else
+		{
+
+		}
+
 		if (pcFlag != NULL)
 		{
 			leftOrRight(pcFlag->getPositionX(), pcFlag->getPositionY(), pc->getPositionX(), pc->getPositionY());
@@ -260,6 +278,19 @@ void AISystem::leftOrRight(float fx, float fy, float px, float py) {
 //	maxX++;
 //}
 //
+bool AISystem::checkFlagInRange() {
+
+	if (pcFlag->getPositionY() > pc->getPositionY()  &&
+		pcFlag->getPositionY() < pc->getPositionY() + sc->getHeight() * 2)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+	
+}
 void AISystem::moveLeft() {
 
 	if (vel->getVelX() > -maxX)
