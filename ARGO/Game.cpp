@@ -123,8 +123,12 @@ void Game::initialise()
 	player2.addComponent(new AmmoComponent(m_renderer));
 	player2.addComponent(new LifeComponent(5, 2, m_renderer, 1));
 	player2.addComponent(new VelocityComponent());
+	//player2.addComponent(new AIComponent());
 
-	player3.addComponent(new PositionComponent(300, 600));
+
+
+
+	player3.addComponent(new PositionComponent(75, 800));
 	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
@@ -133,6 +137,7 @@ void Game::initialise()
 	player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
 	player3.addComponent(new VelocityComponent());
 	player3.addComponent(new ScoreComponent(0));
+
 
 	player4.addComponent(new PositionComponent(500, 500));
 	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
@@ -143,6 +148,7 @@ void Game::initialise()
 	player4.addComponent(new LifeComponent(3, 4, m_renderer, 1));
 	player4.addComponent(new ScoreComponent(0));
 	player4.addComponent(new VelocityComponent());
+
 
 	Entity wall("Wall");
 	//wall.addComponent(new PositionComponent(400, 500));
@@ -172,6 +178,7 @@ void Game::initialise()
 	ls.addEntity(player2);
 	ls.addEntity(player3);
 	ls.addEntity(player4);
+
 
 	ais.addEntity(flag);
 
@@ -273,6 +280,19 @@ void Game::setGameState(GameState gameState)
 void Game::update(float dt)
 {
 
+	updateNetwork();
+	
+	//hs.update();
+	ammos.update();
+
+	if (m_playerIndex> 0)
+	{
+		playerID = "Player" + std::to_string(m_playerIndex + 1);
+	}
+	else {
+		playerID = "Player";
+	}
+
 	switch (m_currentGameState)
 	{
 	case GameState::None:
@@ -295,12 +315,14 @@ void Game::update(float dt)
 	case GameState::GameScreen:
 		//ps.update(m_renderer);
 		phs.update();
-		comsystem.update(dt, m_playerIndex);
+		comsystem.update(dt, playerID);
 		ls.update(dt);
-		//phs.update();
-		Colls.update(*m_level, dt);
-		//hs.update();
+
+		ais.update(*m_level);
+		Colls.CheckCollision(*m_level, dt, playerID);
+
 		ammos.update();
+
 
 			m_timerSpawn++;
 			if (m_timerSpawn >= m_spawnTimeLimit)
@@ -443,8 +465,10 @@ void Game::update(float dt)
 				}
 			}
 
-		ais.update(1000, ais.getEntityById("Player2"));
-		ais.update(1000, ais.getEntityById("Player3"));
+		}
+		//ais.update(1000, ais.getEntityById("Player2"));
+		//ais.update(1000, ais.getEntityById("Player3"));
+		break;
 
 			getDistance();
 		break;

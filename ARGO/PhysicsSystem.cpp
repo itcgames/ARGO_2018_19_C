@@ -46,11 +46,13 @@ void PhysicsSystem::update() {
 		//collide
 		//Gravity
 			if (!cc->stopFall && !cc->OnPlatform) {
-
+				
 				posY = pc->getPositionY();
 				posX = pc->getPositionX();
-				if (vecY <= 15)
+				if (vecY <= 15) {
 					vecY++;
+				}
+					
 				posY += vecY;
 				pc->setPosition(posX, posY);
 				collision = 0;
@@ -124,6 +126,7 @@ void PhysicsSystem::update() {
 		}
 	}
 
+	std::cout << "Vel :" << vecX<< std::endl;
 
 }
 void PhysicsSystem::speedUp(Entity * entity) {

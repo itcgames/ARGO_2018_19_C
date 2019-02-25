@@ -281,7 +281,16 @@ void ControlSystem::input(SDL_Event &e) {
 		}
 
 
+		if (StickLeftX >= -bitePoint)
+		{
+			//controlComp->moveLeft = 0;
+		}
+		if (StickLeftX <= bitePoint)
+		{
+			//controlComp->moveRight = 0;
+		}
 	}
+
 }
 void ControlSystem::keyUp(SDL_Event &e) {
 	switch (e.type)

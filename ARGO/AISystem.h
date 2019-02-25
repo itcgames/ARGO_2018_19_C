@@ -3,12 +3,14 @@
 #include <vector>
 #include "EntityComponent.h"
 #include "Fuzzy.h"
+#include "Level.h"
 
 class AISystem
 {
 	std::vector<Entity> entities;
 	Fuzzy* m_fuzzy = new Fuzzy();
 	PositionComponent * pc;
+	PositionComponent * pcFlag;
 	float posX = 0;
 	float posY = 0;
 	float velX = 0;
@@ -28,7 +30,8 @@ class AISystem
 public:
 	AISystem();
 	void addEntity(Entity e);
-	void update(float dis, Entity * entity);
+	void update(level &level);
+	//void update(float dis, Entity * entity);
 	void moveLeft();
 	void moveRight();
 	void moveUp();

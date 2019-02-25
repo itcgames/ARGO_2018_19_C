@@ -231,6 +231,8 @@
     <ClInclude Include="VelComponent.h">
       <Filter>Header\Components</Filter>
     </ClInclude>
+    <ClInclude Include="AIComponent.h">
+      <Filter>Header\Components</Filter>
     <ClInclude Include="GameOver.h">
       <Filter>Header\Screens</Filter>
     </ClInclude>
@@ -298,6 +300,12 @@
     </Filter>
     <Filter Include="Header\LevelLoader">
       <UniqueIdentifier>{59ff70fd-7a1f-4a21-8a78-09c35495934e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\FSM\AIFSM">
+      <UniqueIdentifier>{46140b6d-cbe9-49dd-8f50-b1b559ab7156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\FSM\AIFSM">
+      <UniqueIdentifier>{01c2bf45-cd18-42bc-b12c-aad3523e83c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
