@@ -4,7 +4,7 @@ class AiComponent: public Component
 {
 	class AIState* m_current;
 public:
-	AiComponent() {};
+	AiComponent();
 	void setCurrent(AIState* s);
 	AIState* getCurrent();
 
@@ -19,6 +19,14 @@ public:
 		return id;
 	}
 
+	enum AiStateS {
+		goToNodeS,
+		goToFlagS,
+		goToPowerupS
+	};
+	AiStateS m_currentState;
+
+	void setCurrentState(AiStateS a);
 private:
 	std::string  id = "Ai";
 };

@@ -30,6 +30,7 @@
     <ClCompile Include="Die.cpp" />
     <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GoToNode.cpp" />
     <ClCompile Include="Idle.cpp" />
     <ClCompile Include="JumpLeft.cpp" />
     <ClCompile Include="JumpRight.cpp" />
@@ -40,7 +41,7 @@
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LTexture.cpp" />
-    <ClCompile Include="NoFlag.cpp" />
+    <ClCompile Include="AIComponent.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="Projectile.cpp" />

@@ -26,6 +26,7 @@ class AISystem
 	SpriteComponent * sc;
 	CollisionComponent * Coll;
 	VelocityComponent *vel;
+	AiComponent *ai;
 	NodeObjects closestNode;
 
 public:

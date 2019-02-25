@@ -57,10 +57,14 @@ void AISystem::update(level &m_level) {
 			ac = (AnimationComponent*)entity.getCompByType("Animation");
 			sc = (SpriteComponent*)entity.getCompByType("Sprite");
 			vel = (VelocityComponent*)entity.getCompByType("Vel");
+			ai = (AiComponent*)entity.getCompByType("Ai");
 
 			posX = pc->getPositionX();
 			posY = pc->getPositionY();
 			
+			if (ai->m_currentState == ai->goToNodeS) {
+			nodeCollision(m_level, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight());
+			}
 
 			if (!cc->stopFall && !cc->OnPlatform) {
 
@@ -102,29 +106,49 @@ void AISystem::update(level &m_level) {
 
 		if (cc->hasFlag == false && pcFlag!= NULL)
 		{
-
-			if (checkFlagInRange())
+			
+			if (checkFlagInRange() || pc->getPositionY() - sc->getHeight() < pcFlag->getPositionY())
 			{
 				//left and right
+				ai->goToFlag();
+
 			}
-			else 
+			else if(checkFlagInRange() == false && pc->getPositionY() - sc->getHeight() > pcFlag ->getPositionY())
 			{
-				if (nearestNode(m_level).x >= pc->getPositionX())
-				{
-					cc->moveRight = 1;
-					cc->moveLeft = 0;
-				}
-				else if (nearestNode(m_level).x <= pc->getPositionX())
-				{
-					cc->moveRight = 0;
-					cc->moveLeft = 1;
-				}
+
+				ai->goToNode();
+				
 			}
 
 		}
 		else
 		{
 
+		}
+
+		switch (ai->m_currentState)
+		{
+		case 0:
+
+			if (nearestNode(m_level).x >= pc->getPositionX())
+			{
+				cc->moveRight = 1;
+				cc->moveLeft = 0;
+			}
+			else if (nearestNode(m_level).x <= pc->getPositionX())
+			{
+				cc->moveRight = 0;
+				cc->moveLeft = 1;
+			}
+
+			break;
+
+		case 1:
+
+			break;
+
+		default:
+			break;
 		}
 
 		if (pcFlag != NULL)
@@ -299,7 +323,7 @@ void AISystem::nodeCollision(level &level, float x, float y, float width, float 
 
 		if (AABB(x, y, level.m_nodes[i].x, level.m_nodes[i].y, width, height, level.m_nodes[i].width, level.m_nodes[i].height)) {
 
-			if (level.m_nodes[i].type == "JumpRight") {
+			if (level.m_nodes[i].type == "JumpRight" && pcFlag->getPositionX() > pcFlag->getPositionX()) {
 
 				cc->setDirection(cc->Up);
 				cc->jump = 0;
@@ -307,18 +331,22 @@ void AISystem::nodeCollision(level &level, float x, float y, float width, float 
 				std::cout << "Right" << std::endl;
 
 			}
-			else if (level.m_nodes[i].type == "JumpLeft") {
+			else if (level.m_nodes[i].type == "JumpLeft" && pcFlag->getPositionX() < pcFlag->getPositionX()) {
 
 				cc->setDirection(cc->Up);
 				cc->jump = 0;
 				cc->moveLeft = 1;
 				std::cout << "JUMP" << std::endl;
 			}
+			else {
+				ai->goToFlag();
+			}
 
 		}
 		else
 		{
 			cc->jump = 1;
+			
 		}
 
 	}

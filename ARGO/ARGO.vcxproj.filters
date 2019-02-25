@@ -85,7 +85,10 @@
     <ClCompile Include="AISystem.cpp">
       <Filter>src\System</Filter>
     </ClCompile>
-    <ClCompile Include="NoFlag.cpp">
+    <ClCompile Include="AIComponent.cpp">
+      <Filter>src\FSM\AIFSM</Filter>
+    </ClCompile>
+    <ClCompile Include="GoToNode.cpp">
       <Filter>src\FSM\AIFSM</Filter>
     </ClCompile>
   </ItemGroup>
