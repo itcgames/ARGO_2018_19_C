@@ -300,15 +300,20 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			x >= m_tiles.m_ceiling[i].x - width &&
 			x <= m_tiles.m_ceiling[i].x + m_tiles.m_ceiling[i].width)
 		{
-			if (cc->getDirection() == cc->Idle)
+			if (cc->m_currentDirection == cc->Up||
+				cc->m_currentDirection == cc->Idle||
+				cc->m_currentDirection == cc->Right||
+				cc->m_currentDirection == cc->Left)
 			{
 				cc->stopFall = false;
 				cc->OnPlatform = false;
 				cc->ceilingHit = true;
-				break;
+				cc->setDirection(cc->Idle);
+				posComp1->setPosition(posComp1->getPositionX(), posComp1->getPositionY() + 10);
 			}
-
+			
 		}
+		
 	}
 
 	for (int i = 0; i < m_tiles.m_killTiles.size(); i++)

@@ -51,7 +51,7 @@
   <object id="102" name="Ceiling" x="360" y="410" width="300" height="10"/>
   <object id="103" name="Wall" x="650" y="370" width="10" height="40"/>
   <object id="104" name="Wall" x="359.697" y="370" width="10" height="40"/>
-  <object id="105" name="Ceiling" x="840.151" y="409.667" width="300" height="10"/>
+  <object id="105" name="Ceiling" x="840.151" y="408" width="300" height="11.667"/>
   <object id="106" name="Wall" x="1130.15" y="369.667" width="10" height="40"/>
   <object id="107" name="Wall" x="839.848" y="369.667" width="10" height="40"/>
   <object id="108" name="Ceiling" x="600" y="230" width="300" height="10"/>

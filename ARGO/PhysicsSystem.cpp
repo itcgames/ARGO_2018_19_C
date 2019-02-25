@@ -116,6 +116,7 @@ void PhysicsSystem::update() {
 		if (cc->ceilingHit)
 		{
 			vecY = 5;
+			posY += 10;
 			cc->ceilingHit = false;
 		}
 		if (!cc->alive)
