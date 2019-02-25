@@ -148,7 +148,13 @@ void main()
 					}
 					std::string message = buf;
 					// Tell player if they are the host or a client
-					if (message.substr(0, 3) == "IP:")
+					int indexIP = message.find("IP:");
+					int indexQ = message.find("What is my Index");
+					int indexPlayer = message.find("Player");
+					int indexLobby = message.find("Lobby");
+					int indexPU = message.find("Power Ups");
+					int indexFlag = message.find("Flag");
+					if (indexIP > 0)
 					{
 						std::cout << message << std::endl;
 						if (lobby.size() == 0)
@@ -191,7 +197,7 @@ void main()
 
 						}
 					}
-					else if (message == "What is my Index")
+					else if (indexQ >= 0)
 					{
 						for (int i = 0; i < lobbySocks.size(); i++)
 						{
@@ -208,7 +214,7 @@ void main()
 							}
 						}
 					}// Send message to other clients, and definiately NOT the listening socket
-					else if (buf[0] == 'X')
+					else if (indexPlayer >= 0) // || buf[0] == 'X')
 					{
 						std::cout << buf << std::endl;
 
@@ -225,7 +231,7 @@ void main()
 							}
 						}
 					}
-					else if (buf[0] == 'i')
+					else if (indexLobby >= 0 || buf[6] == 'i')
 					{
 						std::cout << buf << std::endl;
 
@@ -300,6 +306,38 @@ void main()
 
 									send(outSock, strOut.c_str(), strOut.size() + 1, 0);
 								}
+							}
+						}
+					}
+					else if (indexPU >= 0 || message.substr(0, 9) == "Power Ups")
+					{
+						std::cout << buf << std::endl;
+
+						for (int i = 0; i < master.fd_count; i++)
+						{
+							SOCKET outSock = master.fd_array[i];
+							if (outSock != listening && outSock != sock)
+							{
+								ostringstream ss;
+								ss << buf;
+								string strOut = ss.str();
+
+								send(outSock, strOut.c_str(), strOut.size() + 1, 0);
+							}
+						}
+					}
+					else if (indexFlag >= 0 || message.substr(0, 5) == "Flag ")
+					{
+						for (int i = 0; i < master.fd_count; i++)
+						{
+							SOCKET outSock = master.fd_array[i];
+							if (outSock != listening && outSock != sock)
+							{
+								ostringstream ss;
+								ss << buf;
+								string strOut = ss.str();
+
+								send(outSock, strOut.c_str(), strOut.size() + 1, 0);
 							}
 						}
 					}

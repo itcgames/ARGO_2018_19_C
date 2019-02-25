@@ -101,18 +101,22 @@ std::string Client::receive()
 	{
 		// Echo response to console
 		std::string msg = buf;
-		if ((std::string)buf == "Joined Game")
+		int indexJG = msg.find("Joined Game");
+		int indexH = msg.find("Host");
+		int indexJ = msg.find("Joining ");
+
+		if (indexJG >= 0 )
 		{
 			std::cout << "SERVER> " << std::string(buf, 0, bytesReceived) << std::endl;
 			sendIP();
 
 		}
-		else if ((std::string)buf == "Host")
+		else if (indexH >= 0)
 		{
 			// Host server
 			std::cout << "Host" << std::endl;
 		}
-		else if (msg.substr(0, 8) == "Joining ")
+		else if (indexJ >= 0)
 		{
 			std::cout << msg << std::endl;
 
@@ -124,7 +128,16 @@ std::string Client::receive()
 
 void Client::sendMsg(std::string msg)
 {
-	int sendResult = send(sock, msg.c_str(), msg.size() + 1, 0);
+	m_message = m_message + " " + msg;
+}
+
+void Client::sendFinalMsg()
+{
+	if (m_message.length() > 0)
+	{
+		int sendResult = send(sock, m_message.c_str(), m_message.size() + 1, 0);
+		m_message = "";
+	}
 }
 
 void Client::close()

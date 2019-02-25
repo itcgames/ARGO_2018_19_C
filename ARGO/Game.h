@@ -99,22 +99,28 @@ private:
 	PhysicsSystem phs;
 	LifeSystem ls;
 
-	Factory* m_factory;
-	std::vector<PowerUp*> m_powerUps;
 	double disBetweenAiPlayer = 10000;
 
+	// Power ups
+	Factory* m_factory;
+	std::vector<PowerUp*> m_powerUps;
 	int m_timerSpawn;
 	const int m_spawnTimeLimit = 1000;
 	const int m_numOfPowerUps = 5;
+	void powerUpSpawn();
 
-
+	// Window
 	void rumble();
 	void resetCamera();
 	int rTimer = 0;
 	int SCREEN_WIDTH = 1500;
 	int SCREEN_HEIGHT = 1000;
-	int mouseX, mouseY;
 	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	int mouseX, mouseY;
+
+
+	Entity flag;
+	int whoHasFlag();
 
 	// Player
 	int m_playerIndex = 5;
@@ -127,6 +133,8 @@ private:
 	Client * m_client;
 	void updateNetwork();
 	void sendAiToNetwork();
+	void sendPUToNetwork();
+	void updatePlayerNet(std::string s);
 
 	int m_stateTimer;
 	const int m_stateTimerLimit = 200;

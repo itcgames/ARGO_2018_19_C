@@ -27,7 +27,7 @@ std::vector<float> msgToPos(std::string s)
 	return vec;
 }
 
-Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4("Player4")
+Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4("Player4"), flag("Flag")
 {
 
 	//Initialize SDL
@@ -42,7 +42,7 @@ Game::Game(): player("Player"), player2("Player2"), player3("Player3"), player4(
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::GameOverScreen);
+		m_currentGameState = (GameState::Lobby);
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 		if (IMG_Init(imgFlags) != imgFlags)
@@ -97,10 +97,11 @@ void Game::initialise()
 
 
 
-	Entity flag("Flag");
 	flag.addComponent(new PositionComponent(1000, 600));
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
 	flag.addComponent(new PickUpComponent());
+
+	//Initialise player with all the Components and systems they need (AI or Player)
 
 	player.addComponent(new PositionComponent(300, 100));
 	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
@@ -109,7 +110,7 @@ void Game::initialise()
 	player.addComponent(new ControlComponent());
 	player.addComponent(new AmmoComponent(m_renderer));
 	player.addComponent(new LifeComponent(4, 1, m_renderer, 1));
-
+	player.addComponent(new VelocityComponent());
 
 	player2.addComponent(new PositionComponent(500, 100));
 	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
@@ -119,9 +120,7 @@ void Game::initialise()
 	player2.addComponent(new AmmoComponent(m_renderer));
 	player2.addComponent(new LifeComponent(5, 2, m_renderer, 1));
 	player2.addComponent(new VelocityComponent());
-
-
-
+	   
 	player3.addComponent(new PositionComponent(300, 600));
 	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player3.addComponent(new AnimationComponent());
@@ -138,6 +137,7 @@ void Game::initialise()
 	player4.addComponent(new ControlComponent());
 	player4.addComponent(new AmmoComponent(m_renderer));
 	player4.addComponent(new LifeComponent(3, 4, m_renderer, 1));
+	player4.addComponent(new VelocityComponent());
 
 	Entity wall("Wall");
 	//wall.addComponent(new PositionComponent(400, 500));
@@ -289,206 +289,23 @@ void Game::update(float dt)
 	case GameState::Options:
 		break;
 	case GameState::GameScreen:
+
 		//ps.update(m_renderer);
 		phs.update();
-		comsystem.update(dt, m_playerIndex);
+		comsystem.update(dt, m_playerIndex, *m_client);
 		ls.update(dt);
 		//phs.update();
 		Colls.update(*m_level, dt);
 		//hs.update();
 		ammos.update();
-
-		m_timerSpawn++;
-		if (m_timerSpawn >= m_spawnTimeLimit)
+		
+		// Network
+		updateNetwork();
+		if (m_playerIndex == 0)
 		{
-			switch (rand() % m_numOfPowerUps)
-			{
-			case 0:
-				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
-				break;
-
-			case 1:
-				m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
-				break;
-
-			case 2:
-				m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
-				break;
-
-			case 3:
-				m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
-				break;
-
-			case 4:
-				m_powerUps.push_back(m_factory->CreateReset(m_renderer));
-				break;
-
-			}
-			m_timerSpawn = 0;
+			powerUpSpawn();
 		}
-
-
-		for (int i = m_powerUps.size() - 1; i >= 0; i--)
-		{
-
-			m_timerSpawn++;
-			if (m_timerSpawn >= m_spawnTimeLimit)
-			{
-				switch (rand() % m_numOfPowerUps)
-				{
-				case 0:
-					m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
-					break;
-
-				case 1:
-					m_powerUps.push_back(m_factory->CreateInvincible(m_renderer));
-					break;
-
-				case 2:
-					m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
-					break;
-
-				case 3:
-					m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
-					break;
-
-				case 4:
-					m_powerUps.push_back(m_factory->CreateReset(m_renderer));
-					break;
-
-				}
-				m_timerSpawn = 0;
-			}
-
-
-			updateNetwork();
-
-			
-			if (m_powerUps[i]->getAlive())
-			{
-				m_powerUps[i]->update();
-				//check collision
-
-				// Getting player position and the sprite dimensions
-				// Set up the pointer
-				PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
-				SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
-				// Set the pointer to your player
-				switch (m_playerIndex)
-				{
-				case 0:	// Player 1
-					p = (PositionComponent *)player.getCompByType("Position");
-					s = (SpriteComponent *)player.getCompByType("Sprite");
-					break;
-
-				case 1:	// Player 2
-					p = (PositionComponent *)player2.getCompByType("Position");
-					s = (SpriteComponent *)player2.getCompByType("Sprite");
-					break;
-
-				case 2:	// Player 3
-					p = (PositionComponent *)player3.getCompByType("Position");
-					s = (SpriteComponent *)player3.getCompByType("Sprite");
-					break;
-
-				case 3:	// Player 4
-					p = (PositionComponent *)player4.getCompByType("Position");
-					s = (SpriteComponent *)player4.getCompByType("Sprite");
-					break;
-				}
-				// Check if the power up and the player collided
-				if (m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
-				{
-					// Which power up if it
-					switch (m_powerUps[i]->getID())
-					{
-					case 1: // Health
-						for (int j = 0; j < Colls.getEntityID().size(); j++)
-						{
-							if (Colls.getEntityID()[j + 1] == "Player")
-								Colls.ActivateInvincible();
-							if (Colls.getEntityID()[j + 1] == "Player2")
-								Colls.ActivateInvincible();
-							if (Colls.getEntityID()[j + 1] == "Player3")
-								Colls.ActivateInvincible();
-							if (Colls.getEntityID()[j + 1] == "Player4")
-								Colls.ActivateInvincible();
-						}
-						break;
-					case 2:	// Speed
-						for (int j = 0; j < phs.getEntityIds().size(); j++)
-						{
-							if (phs.getEntityIds()[j] == "Player") {
-								phs.speedUp(phs.getEntityById("Player"));
-							}
-							if (phs.getEntityIds()[j] == "Player2") {
-								phs.speedUp(phs.getEntityById("Player2"));
-							}
-							if (phs.getEntityIds()[j] == "Player3") {
-								phs.speedUp(phs.getEntityById("Player3"));
-							}
-							if (phs.getEntityIds()[j] == "Player4") {
-								phs.speedUp(phs.getEntityById("Player4"));
-							}
-						}
-						break;
-					case 3: // Ammo
-						for (int j = 0; j < ammos.getEntityIds().size(); j++)
-						{
-							if (ammos.getEntityIds()[j] == "Player") {
-								ammos.addAmmo(ammos.getEntityById("Player"));
-							}
-							if (ammos.getEntityIds()[j] == "Player2") {
-								ammos.addAmmo(ammos.getEntityById("Player2"));
-							}
-							if (ammos.getEntityIds()[j] == "Player3") {
-								ammos.addAmmo(ammos.getEntityById("Player3"));
-							}
-							if (ammos.getEntityIds()[j] == "Player4") {
-								ammos.addAmmo(ammos.getEntityById("Player4"));
-							}
-						}
-
-						break;
-					case 4: // SeekerAmmo
-						for (int j = 0; j < ammos.getEntityIds().size(); j++)
-						{
-							if (ammos.getEntityIds()[j] == "Player") {
-								ammos.addSeekerAmmo(ammos.getEntityById("Player"));
-							}
-							if (ammos.getEntityIds()[j] == "Player2") {
-								ammos.addSeekerAmmo(ammos.getEntityById("Player2"));
-							}
-							if (ammos.getEntityIds()[j] == "Player3") {
-								ammos.addSeekerAmmo(ammos.getEntityById("Player3"));
-							}
-							if (ammos.getEntityIds()[j] == "Player4") {
-								ammos.addSeekerAmmo(ammos.getEntityById("Player4"));
-							}
-						}
-						break;
-					case 5: // Reset
-						for (int j = 0; j < Colls.getEntityID().size(); j++)
-						{
-							if (Colls.getEntityID()[j + 1] == "Player")
-								Colls.resetScore(Colls.getEntityID()[j + 1]);
-							if (Colls.getEntityID()[j + 1] == "Player2")
-								Colls.resetScore(Colls.getEntityID()[j + 1]);
-							if (Colls.getEntityID()[j + 1] == "Player3")
-								Colls.resetScore(Colls.getEntityID()[j + 1]);
-							if (Colls.getEntityID()[j + 1] == "Player4")
-								Colls.resetScore(Colls.getEntityID()[j + 1]);
-						}
-						break;
-					}
-				}
-			}
-			else
-			{
-				m_powerUps.erase(m_powerUps.begin() + i);
-			}
-			
-		}
+		sendPUToNetwork();
 		
 		//If Host update ai
 		if (m_playerIndex == 0)
@@ -501,19 +318,23 @@ void Game::update(float dt)
 			break;
 		case GameState::GameOverScreen:
 			m_gameoverScreen->update();
+
 			break;
 		case GameState::Credits:
-      if (m_creditsScreen->endCredits() == true)
-      {
-        setGameState(GameState::MainMenu);
-      }
-      m_creditsScreen->update();
-      break;
+
+			if (m_creditsScreen->endCredits() == true)
+			{
+				setGameState(GameState::MainMenu);
+			}
+			m_creditsScreen->update();
+		  break;
 		default:
 			break;
 	}
 
-		m_previousGameState = m_currentGameState;
+
+	m_client->sendFinalMsg();
+	m_previousGameState = m_currentGameState;
 }
 
 
@@ -607,7 +428,6 @@ void Game::getDistance() {
 	PositionComponent * p2 = (PositionComponent *)player2.getCompByType("Position");
 	PositionComponent * p3 = (PositionComponent *)player3.getCompByType("Position");
 
-	sendAiToNetwork();
 
 
 }
@@ -624,7 +444,7 @@ void Game::updateNetwork()
 		if (m_currentGameState == GameState::MainMenu && m_previousGameState == GameState::Lobby)
 		{
 			std::string msg;
-			msg = "i: " + std::to_string(m_playerIndex) + " " + m_lobbyScreen->sendMsg(m_playerIndex);
+			msg = "Lobby i: " + std::to_string(m_playerIndex) + " " + m_lobbyScreen->sendMsg(m_playerIndex);
 			m_client->sendMsg(msg);
 		}
 
@@ -638,6 +458,8 @@ void Game::updateNetwork()
 				p = (PositionComponent *)player.getCompByType("Position");
 				l = (LifeComponent *)player.getCompByType("Life");
 				ac = (AnimationComponent *)player.getCompByType("Animation");
+
+				sendAiToNetwork();
 				break;
 			case 1:
 				p = (PositionComponent *)player2.getCompByType("Position");
@@ -656,7 +478,7 @@ void Game::updateNetwork()
 				break;
 			}
 
-			pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
+			pos = "Player X: " + std::to_string((int)p->getPositionX());	// Pos X
 			pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
 			pos = pos +", " + "I: " + std::to_string(m_playerIndex);	// Player Index
 			pos = pos + ", " + "L: " + std::to_string(l->getLife()); // Player Life
@@ -715,7 +537,7 @@ void Game::updateNetwork()
 			}
 
 			std::string msg;
-			msg = "i: " + std::to_string(m_playerIndex) + " " + m_lobbyScreen->sendMsg(m_playerIndex);
+			msg = "Lobby i: " + std::to_string(m_playerIndex) + " " + m_lobbyScreen->sendMsg(m_playerIndex);
 			m_client->sendMsg(msg);
 
 			break;
@@ -725,67 +547,38 @@ void Game::updateNetwork()
 
 	// Turn message to position.
 	string msg = m_client->receive();
+
 	if (msg.length() > 0)
 	{
+		int indexPlayer = msg.find("Player");
+
+		// Setting other player positions
 		char firstChar = msg.at(0);
-		if (firstChar == 'S' && msg.substr(13, 3) != "IP:")
+		//if (firstChar == 'S' && msg.substr(13, 3) != "IP:")
+		if(indexPlayer >= 0)
 		{
-			switch ((int)msgToPos(msg)[3])
+			// Update first player
+			updatePlayerNet(msg.substr(indexPlayer));
+			// Check if there is ai being sent with the player
+			indexPlayer = msg.find("Player", indexPlayer + 1);
+			if (indexPlayer >= 0)
 			{
-			case 0:
-				p = (PositionComponent *)player.getCompByType("Position");
-				l = (LifeComponent *)player.getCompByType("Life");
-				ac = (AnimationComponent *)player.getCompByType("Animation");
-				break;
-			case 1:
-				p = (PositionComponent *)player2.getCompByType("Position");
-				l = (LifeComponent *)player2.getCompByType("Life");
-				ac = (AnimationComponent *)player2.getCompByType("Animation");
-				break;
-			case 2:
-				p = (PositionComponent *)player3.getCompByType("Position");
-				l = (LifeComponent *)player3.getCompByType("Life");
-				ac = (AnimationComponent *)player3.getCompByType("Animation");
-				break;
-			case 3:
-				p = (PositionComponent *)player4.getCompByType("Position");
-				l = (LifeComponent *)player4.getCompByType("Life");
-				ac = (AnimationComponent *)player4.getCompByType("Animation");
-				break;
-			}
-
-			p->setPosition(msgToPos(msg)[1], msgToPos(msg)[2]);
-			l->setLifes(msgToPos(msg)[4]);
-
-			switch ((int)msgToPos(msg)[5])
-			{
-			case 0:
-				ac->m_currentState = ac->AniState::idleS;
-				break;
-
-			case 1:
-				ac->m_currentState = ac->AniState::leftS;
-				break;
-
-			case 2:
-				ac->m_currentState = ac->AniState::rightS;
-				break;
-
-			case 3:
-				ac->m_currentState = ac->AniState::jumpLeftS;
-				break;
-
-			case 4:
-				ac->m_currentState = ac->AniState::jumpRightS;
-				break;
-
-			default:
-				std::cout << "Oops! Missing animation" << std::endl;
-				break;
+				// Update AI
+				updatePlayerNet(msg.substr(indexPlayer));
+				// Check if there is another AI
+				indexPlayer = msg.find("Player", indexPlayer + 1);
+				if (indexPlayer >= 0)
+				{
+					// Update second AI
+					updatePlayerNet(msg.substr(indexPlayer));
+				}
 			}
 
 		}
-		else if (msg == "Host")
+		
+
+		int index = msg.find("Host");
+		if (index >= 0)
 		{
 			//player.addComponent(new HealthComponent(200));
 			player.addComponent(new ControlComponent());
@@ -809,16 +602,17 @@ void Game::updateNetwork()
 			p->setPosition(100, 100);
 
 		}
-		else if (msg.substr(0, 8) == "Joining ")
+
+
+		index = msg.find("Joining");
+		if (index >= 0)
 		{
-			std::string indexString = msg.substr(14, 1);
-			int index = std::stoi(indexString);
-			m_playerIndex = index;
+			std::string indexString = msg.substr(index + 14, 1);
+			m_playerIndex = std::stoi(indexString);
 			m_lobbyScreen->changeState(m_playerIndex, false);
-			switch (index)
+			switch (m_playerIndex)
 			{
 			case 1:
-				//player2.addComponent(new HealthComponent(200));
 				player2.addComponent(new ControlComponent());
 				player2.addComponent(new ScoreComponent(0));
 				player2.addComponent(new LifeComponent(6, 2, m_renderer, 1));
@@ -826,13 +620,11 @@ void Game::updateNetwork()
 				cs.addEntity(player2);
 				Colls.addEntity(player2);
 				phs.addEntity(player2);
-				//hs.addEntity(player2);
 				p = (PositionComponent *)player2.getCompByType("Position");
 				p->setPosition(500, 100);
 
 				break;
 			case 2:
-			//	player3.addComponent(new HealthComponent(200));
 				player3.addComponent(new ControlComponent());
 				player3.addComponent(new ScoreComponent(0));
 				player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
@@ -840,13 +632,11 @@ void Game::updateNetwork()
 				cs.addEntity(player3);
 				Colls.addEntity(player3);
 				phs.addEntity(player3);
-			//	hs.addEntity(player3);
 				p = (PositionComponent *)player3.getCompByType("Position");
 				p->setPosition(100, 500);
 
 				break;
 			case 3:
-			//	player4.addComponent(new HealthComponent(200));
 				player4.addComponent(new ControlComponent());
 				player4.addComponent(new ScoreComponent(0));
 				player4.addComponent(new LifeComponent(6, 4, m_renderer, 1));
@@ -854,13 +644,14 @@ void Game::updateNetwork()
 				cs.addEntity(player4);
 				Colls.addEntity(player4);
 				phs.addEntity(player4);
-			//	hs.addEntity(player4);
 				p = (PositionComponent *)player4.getCompByType("Position");
 				p->setPosition(500, 500);
 
 			}
 		}
-		else if (msg.length() > 5 && msg.substr(5, 5) == "Ready")
+
+		index = msg.find("Lobby");
+		if (index >= 0)
 		{
 			// If you don't have a player index
 			if (m_playerIndex == 5)
@@ -873,7 +664,8 @@ void Game::updateNetwork()
 
 
 			bool readyState;
-			if (msg[12] == '1')
+			
+			if ((int)msgToPos(msg.substr(index))[1] == 1)
 			{
 				readyState = true;
 			}
@@ -883,7 +675,7 @@ void Game::updateNetwork()
 			}
 
 			bool lobby;
-			if (msg[17] == '1')
+			if ((int)msgToPos(msg.substr(index))[2] == 1)
 			{
 				lobby = true;
 			}
@@ -893,9 +685,9 @@ void Game::updateNetwork()
 			}
 
 			// Set other player lobby states
-			switch (msg[3])
+			switch ((int)msgToPos(msg.substr(index))[0])
 			{
-			case '0':
+			case 0:
 				m_lobbyScreen->changeState(0, readyState);
 				m_lobbyScreen->inLobby(0, lobby);
 				if (readyState && lobby)
@@ -903,7 +695,7 @@ void Game::updateNetwork()
 					player.removeComponent(player.getCompByType("AI"));
 				}
 				break;
-			case '1':
+			case 1:
 				m_lobbyScreen->changeState(1, readyState);
 				m_lobbyScreen->inLobby(1, lobby);
 				if (readyState && lobby)
@@ -911,7 +703,7 @@ void Game::updateNetwork()
 					player2.removeComponent(player2.getCompByType("AI"));
 				}
 				break;
-			case '2':
+			case 2:
 				m_lobbyScreen->changeState(2, readyState);
 				m_lobbyScreen->inLobby(2, lobby);
 				if (readyState && lobby)
@@ -919,7 +711,7 @@ void Game::updateNetwork()
 					player3.removeComponent(player3.getCompByType("AI"));
 				}
 				break;
-			case '3':
+			case 3:
 				m_lobbyScreen->changeState(3, readyState);
 				m_lobbyScreen->inLobby(3, lobby);
 				if (readyState && lobby)
@@ -930,9 +722,147 @@ void Game::updateNetwork()
 			}
 
 		}
-		else
+
+		index = msg.find("Collected");
+		if (index >= 0)
 		{
-			std::cout << "Error! Unknown message:" << msg << std::endl;
+			std::cout << "Collected: " << (int)msgToPos(msg.substr(index))[0] << std::endl;
+		}
+
+		index = msg.find("Power Ups");
+		if (index >= 0)
+		{
+
+			int i = (int)msgToPos(msg.substr(index))[3];
+
+			// If the vector isn't the right size
+			if (m_powerUps.size() < i + 1)
+			{
+				m_powerUps.resize(i + 1);
+				
+			}
+			
+			// If there is already a powerup in this space
+			if (m_powerUps[i] != nullptr) 
+			{
+				// Update pos
+				m_powerUps[i]->setX(msgToPos(msg.substr(index))[0]);
+				m_powerUps[i]->setY(msgToPos(msg.substr(index))[1]);
+			}
+			else
+			{	
+				// If the vector position doesnt point to anything
+				switch ((int)msgToPos(msg.substr(index))[2])
+				{
+				case 0:
+					m_powerUps[i] = m_factory->CreateSpeed(m_renderer);
+					break;
+
+				case 1:
+					m_powerUps[i] = m_factory->CreateHealth(m_renderer);
+					break;
+
+				case 2:
+					m_powerUps[i] = m_factory->CreateAmmo(m_renderer);
+					break;
+
+				case 3:
+					m_powerUps[i] = m_factory->CreateSeekerAmmo(m_renderer);
+					break;
+
+				case 4:
+					m_powerUps[i] = m_factory->CreateReset(m_renderer);
+					break;
+
+				}
+			}
+		}
+
+		index = msg.find("Score");
+		if (index >= 0)
+		{
+			m_gameoverScreen->addPlayerScore((int)msgToPos(msg.substr(index))[1], (int)msgToPos(msg.substr(index))[0]);
+		}
+
+		index = msg.find("Flag");
+		if (index >= 0)
+		{
+			// Set flag position and if it can be taken
+			PositionComponent * fp = (PositionComponent *)flag.getCompByType("Position");
+			fp->setPosition((int)msgToPos(msg.substr(index))[0], (int)msgToPos(msg.substr(index))[1]);
+			switch ((int)msgToPos(msg.substr(index))[2])
+			{
+			case 0:
+				break;
+
+			case 1:
+				break;
+
+			case 2:
+				break;
+
+			case 3:
+				break;
+			}
+		}
+
+		index = msg.find("Planted");
+		if (index >= 0)
+		{
+			// Put Bomb on pos given
+		}
+
+		index = msg.find("Fire");
+		if (index >= 0)
+		{
+			// Fire rocket
+		}
+		
+
+		index = msg.find("Kicked");
+		if (index >= 0)
+		{
+			VelocityComponent * v = (VelocityComponent*)player.getCompByType("Vel");
+			switch ((int)msgToPos(msg.substr(index))[0])
+			{
+			case 0:
+				// Player 1
+				v = (VelocityComponent*)player.getCompByType("Vel");
+				p = (PositionComponent*)player.getCompByType("Position");
+				break;
+
+			case 1:
+				// Player 2
+				v = (VelocityComponent*)player2.getCompByType("Vel");
+				p = (PositionComponent*)player2.getCompByType("Position");
+				break;
+
+			case 2:
+				// Player 3
+				v = (VelocityComponent*)player3.getCompByType("Vel");
+				p = (PositionComponent*)player3.getCompByType("Position");
+				break;
+
+			case 3:
+				// Player 4
+				v = (VelocityComponent*)player4.getCompByType("Vel");
+				p = (PositionComponent*)player4.getCompByType("Position");
+				break;
+			}
+
+			if ((int)msgToPos(msg.substr(index))[1] == 0)
+			{
+				// Left
+				std::cout << "Kicked left" << std::endl;
+				p->setPosition(p->getPositionX() + v->getVelX() - 100, p->getPositionY() + v->getVelY() - 90);
+			}
+			else
+			{
+				// Right
+				std::cout << "Kicked right" << std::endl;
+				p->setPosition(p->getPositionX() + v->getVelX() + 100, p->getPositionY() + v->getVelY() - 90);
+
+			}
 		}
 
 	}
@@ -956,7 +886,7 @@ void Game::sendAiToNetwork()
 				l = (LifeComponent *)player2.getCompByType("Life");
 				ac = (AnimationComponent *)player2.getCompByType("Animation");
 
-				pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
+				pos = "Player X: " + std::to_string((int)p->getPositionX());	// Pos X
 				pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
 				pos = pos + ", " + "I: " + std::to_string(1);	// Player Index
 				pos = pos + ", " + "L: " + std::to_string(l->getLife()); // Player Life
@@ -969,7 +899,7 @@ void Game::sendAiToNetwork()
 				l = (LifeComponent *)player3.getCompByType("Life");
 				ac = (AnimationComponent *)player3.getCompByType("Animation");
 
-				pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
+				pos = "Player X: " + std::to_string((int)p->getPositionX());	// Pos X
 				pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
 				pos = pos + ", " + "I: " + std::to_string(2);	// Player Index
 				pos = pos + ", " + "L: " + std::to_string(l->getLife()); // Player Life
@@ -983,7 +913,7 @@ void Game::sendAiToNetwork()
 				l = (LifeComponent *)player4.getCompByType("Life");
 				ac = (AnimationComponent *)player4.getCompByType("Animation");
 
-				pos = "X: " + std::to_string((int)p->getPositionX());	// Pos X
+				pos = "Player X: " + std::to_string((int)p->getPositionX());	// Pos X
 				pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
 				pos = pos + ", " + "I: " + std::to_string(3);	// Player Index
 				pos = pos + ", " + "L: " + std::to_string(l->getLife()); // Player Life
@@ -991,6 +921,299 @@ void Game::sendAiToNetwork()
 				m_client->sendMsg(pos);
 
 			}
+			else if (aiIDs[i] == "Flag")
+			{
+				p = (PositionComponent *)flag.getCompByType("Position");
+
+				pos = "Flag X: " + std::to_string((int)p->getPositionX());	// Pos X
+				pos = pos + ", " + "Y: " + std::to_string((int)p->getPositionY());	// Pos Y
+				pos = pos + ", " + "H: " + std::to_string(whoHasFlag());	// If someone has it
+				m_client->sendMsg(pos);
+			}
+
 		}
+
+	}
+}
+
+int Game::whoHasFlag()
+{
+	ControlComponent * cc = (ControlComponent *)player.getCompByType("Control");
+	if (cc->hasFlag)
+	{
+		return 0;
+	}
+
+	cc = (ControlComponent *)player2.getCompByType("Control");
+	if (cc->hasFlag)
+	{
+		return 1;
+	}
+
+	cc = (ControlComponent *)player3.getCompByType("Control");
+	if (cc->hasFlag)
+	{
+		return 2;
+	}
+
+	cc = (ControlComponent *)player4.getCompByType("Control");
+	if (cc->hasFlag)
+	{
+		return 3;
+	}
+
+	return -1;
+
+}
+
+void Game::sendPUToNetwork()
+{
+	if (m_playerIndex == 0)
+	{
+		// Position
+		// id
+		// index
+
+		for (int i = 0; i < m_powerUps.size(); i++)
+		{
+			std::string pu = "Power Ups ";
+			pu = pu + "X: " + std::to_string((int)m_powerUps[i]->getX());
+			pu = pu + " Y: " + std::to_string((int)m_powerUps[i]->getY());
+			pu = pu + " ID: " + std::to_string(m_powerUps[i]->getID());
+			pu = pu + " I: " + std::to_string(i);
+			m_client->sendMsg(pu);
+		}
+	}
+}
+
+void Game::powerUpSpawn()
+{
+	m_timerSpawn++;
+	if (m_timerSpawn >= m_spawnTimeLimit)
+	{
+		switch (rand() % m_numOfPowerUps)
+		{
+		case 0:
+			m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
+			break;
+
+		case 1:
+			m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
+			break;
+
+		case 2:
+			m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
+			break;
+
+		case 3:
+			m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
+			break;
+
+		case 4:
+			m_powerUps.push_back(m_factory->CreateReset(m_renderer));
+			break;
+
+		}
+		m_timerSpawn = 0;
+	}
+
+
+	for (int i = m_powerUps.size() - 1; i >= 0; i--)
+	{
+		if (m_powerUps[i]->getAlive())
+		{
+			m_powerUps[i]->update();
+			//check collision
+
+			// Getting player position and the sprite dimensions
+			// Set up the pointer
+			PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
+			SpriteComponent * s = (SpriteComponent *)player.getCompByType("Sprite");
+			// Set the pointer to your player
+			switch (m_playerIndex)
+			{
+			case 0:	// Player 1
+				p = (PositionComponent *)player.getCompByType("Position");
+				s = (SpriteComponent *)player.getCompByType("Sprite");
+				break;
+
+			case 1:	// Player 2
+				p = (PositionComponent *)player2.getCompByType("Position");
+				s = (SpriteComponent *)player2.getCompByType("Sprite");
+				break;
+
+			case 2:	// Player 3
+				p = (PositionComponent *)player3.getCompByType("Position");
+				s = (SpriteComponent *)player3.getCompByType("Sprite");
+				break;
+
+			case 3:	// Player 4
+				p = (PositionComponent *)player4.getCompByType("Position");
+				s = (SpriteComponent *)player4.getCompByType("Sprite");
+				break;
+			}
+			// Check if the power up and the player collided
+			if (m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
+			{
+				// Which power up if it
+				switch (m_powerUps[i]->getID())
+				{
+				case 1: // Health
+					for (int j = 0; j < Colls.getEntityID().size(); j++)
+					{
+						if (Colls.getEntityID()[j] == "Player")
+							Colls.ActivateInvincible();
+						if (Colls.getEntityID()[j] == "Player2")
+							Colls.ActivateInvincible();
+						if (Colls.getEntityID()[j] == "Player3")
+							Colls.ActivateInvincible();
+						if (Colls.getEntityID()[j] == "Player4")
+							Colls.ActivateInvincible();
+					}
+					break;
+
+				case 2:	// Speed
+					for (int j = 0; j < phs.getEntityIds().size(); j++)
+					{
+						if (phs.getEntityIds()[j] == "Player") {
+							phs.speedUp(phs.getEntityById("Player"));
+						}
+						if (phs.getEntityIds()[j] == "Player2") {
+							phs.speedUp(phs.getEntityById("Player2"));
+						}
+						if (phs.getEntityIds()[j] == "Player3") {
+							phs.speedUp(phs.getEntityById("Player3"));
+						}
+						if (phs.getEntityIds()[j] == "Player4") {
+							phs.speedUp(phs.getEntityById("Player4"));
+						}
+					}
+					break;
+
+				case 3: // Ammo
+					for (int j = 0; j < ammos.getEntityIds().size(); j++)
+					{
+						if (ammos.getEntityIds()[j] == "Player") {
+							ammos.addAmmo(ammos.getEntityById("Player"));
+						}
+						if (ammos.getEntityIds()[j] == "Player2") {
+							ammos.addAmmo(ammos.getEntityById("Player2"));
+						}
+						if (ammos.getEntityIds()[j] == "Player3") {
+							ammos.addAmmo(ammos.getEntityById("Player3"));
+						}
+						if (ammos.getEntityIds()[j] == "Player4") {
+							ammos.addAmmo(ammos.getEntityById("Player4"));
+						}
+					}
+					break;
+
+				case 4: // SeekerAmmo
+					for (int j = 0; j < ammos.getEntityIds().size(); j++)
+					{
+						if (ammos.getEntityIds()[j] == "Player") {
+							ammos.addSeekerAmmo(ammos.getEntityById("Player"));
+						}
+						if (ammos.getEntityIds()[j] == "Player2") {
+							ammos.addSeekerAmmo(ammos.getEntityById("Player2"));
+						}
+						if (ammos.getEntityIds()[j] == "Player3") {
+							ammos.addSeekerAmmo(ammos.getEntityById("Player3"));
+						}
+						if (ammos.getEntityIds()[j] == "Player4") {
+							ammos.addSeekerAmmo(ammos.getEntityById("Player4"));
+						}
+					}
+					break;
+
+				case 5: // Reset
+					for (int j = 0; j < Colls.getEntityID().size(); j++)
+					{
+						if (Colls.getEntityID()[j + 1] == "Player")
+							Colls.resetScore(Colls.getEntityID()[j + 1]);
+						if (Colls.getEntityID()[j + 1] == "Player2")
+							Colls.resetScore(Colls.getEntityID()[j + 1]);
+						if (Colls.getEntityID()[j + 1] == "Player3")
+							Colls.resetScore(Colls.getEntityID()[j + 1]);
+						if (Colls.getEntityID()[j + 1] == "Player4")
+							Colls.resetScore(Colls.getEntityID()[j + 1]);
+					}
+					break;
+
+				}
+			}
+		}
+		else
+		{
+			m_powerUps.erase(m_powerUps.begin() + i);
+		}
+
+	}
+}
+
+void Game::updatePlayerNet(std::string s)
+{
+
+	PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
+	LifeComponent * l = (LifeComponent *)player.getCompByType("Life");
+	AnimationComponent * ac = (AnimationComponent *)player.getCompByType("Animation");
+
+	switch ((int)msgToPos(s)[2])
+	{
+	case 0:
+		p = (PositionComponent *)player.getCompByType("Position");
+		l = (LifeComponent *)player.getCompByType("Life");
+		ac = (AnimationComponent *)player.getCompByType("Animation");
+		break;
+	case 1:
+		p = (PositionComponent *)player2.getCompByType("Position");
+		l = (LifeComponent *)player2.getCompByType("Life");
+		ac = (AnimationComponent *)player2.getCompByType("Animation");
+		break;
+	case 2:
+		p = (PositionComponent *)player3.getCompByType("Position");
+		l = (LifeComponent *)player3.getCompByType("Life");
+		ac = (AnimationComponent *)player3.getCompByType("Animation");
+		break;
+	case 3:
+		p = (PositionComponent *)player4.getCompByType("Position");
+		l = (LifeComponent *)player4.getCompByType("Life");
+		ac = (AnimationComponent *)player4.getCompByType("Animation");
+		break;
+	}
+
+	p->setPosition(msgToPos(s)[0], msgToPos(s)[1]);
+	l->setLifes(msgToPos(s)[3]);
+
+	switch ((int)msgToPos(s)[4])
+	{
+	case 0:
+		ac->m_currentState = ac->AniState::idleS;
+		ac->idle();
+		break;
+
+	case 1:
+		ac->m_currentState = ac->AniState::leftS;
+		ac->left();
+		break;
+
+	case 2:
+		ac->m_currentState = ac->AniState::rightS;
+		ac->right();
+		break;
+
+	case 3:
+		ac->m_currentState = ac->AniState::jumpLeftS;
+		ac->leftJump();
+		break;
+
+	case 4:
+		ac->m_currentState = ac->AniState::jumpRightS;
+		ac->rightJump();
+		break;
+
+	default:
+		std::cout << "Oops! Missing animation" << std::endl;
+		break;
 	}
 }

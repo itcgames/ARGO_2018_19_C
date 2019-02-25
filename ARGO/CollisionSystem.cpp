@@ -57,6 +57,7 @@ std::vector<std::string> CollisionSystem::getEntityID()
 	//only returns first name
 	std::vector<std::string> v;
 	for (Entity & entity : entities) {
+		if(entity.getName()!="Flag")
 		v.push_back(entity.getName());
 	}
 	return v;

@@ -4,16 +4,12 @@ GameOverScreen::GameOverScreen()
 {
 	for (int i = 0; i < 4; i++)
 	{
-		m_scores.push_back(100);
+		m_scores.push_back(-1);
 		m_scoresIncreasing.push_back(0);
 	}
 	//Open the font
 	m_font = TTF_OpenFont("assets/Fonts/Amatic-Bold.ttf", 28);
 
-	m_scores[0] = 10;
-	m_scores[1] = 400;
-	m_scores[2] = 0;
-	m_scores[3] = 21000;
 };
 
 GameOverScreen::~GameOverScreen()
@@ -21,10 +17,18 @@ GameOverScreen::~GameOverScreen()
 
 };
 
-void GameOverScreen::init(std::vector<int> scores)
+void GameOverScreen::init()
 {
-	m_scores = scores;
+	for (int i = 0; i < 4; i++)
+	{
+		m_scores[i] = -1;
+	}
 };
+
+void GameOverScreen::addPlayerScore(int index, int score)
+{
+	m_scores[index] = score;
+}
 
 void GameOverScreen::update()
 {
