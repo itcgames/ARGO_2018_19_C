@@ -197,7 +197,7 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO/assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)/assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
