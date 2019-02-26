@@ -38,6 +38,7 @@
 //Screens
 #include "Lobby.h"
 #include "GameOver.h"
+#include "Options.h"
 #include "menu.h"
 
 
@@ -81,6 +82,7 @@ private:
 	Credits * m_creditsScreen;
 	GameOverScreen * m_gameoverScreen;
 	MenuScreen * m_menuScreen;
+	optionsScreen * m_optionsScreen;
 
 	CombatSystem comsystem;
     //LifeSystem ls;

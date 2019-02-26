@@ -11,6 +11,13 @@ MenuScreen::MenuScreen(SDL_Renderer * ren)
 	m_bgW = m_bg.getWidth();
 	m_bgH = m_bg.getHeight();
 
+	if (m_title.loadFromFile("assets/img/title.png", ren, 1))
+	{
+		printf("Error loading title Image!\n");
+	}
+	m_titleX = 100;
+	m_titleY = 0;
+
 	if (!m_playTexture.loadFromFile("assets/img/play.png",ren,1))
 	{
 		printf("Failed to load play texture!\n");
@@ -74,6 +81,9 @@ void MenuScreen::render(SDL_Renderer * renderer)
 {
 	//Background Image
 	m_bg.render(m_bgX, m_bgY, renderer, 1, 1);
+
+	//Title Image
+	m_title.render(m_titleX, m_titleY, renderer, 1, 1);
 
 	// Play button
 	m_playTexture.render(m_playX, m_playY, renderer, 1, 1);

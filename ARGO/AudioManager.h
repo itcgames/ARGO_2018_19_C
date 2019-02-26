@@ -21,8 +21,12 @@ public:
 
 	void PlayMusic(std::string filename, int loops);
 	void PlaySFX(std::string filename, int loops);
+	void muteSFX(int vol);
+	void unmuteSFX(int vol);
 	void clearSoundMap();
 	void PauseMusic();
+	void VolumeUp();
+	void VolumeDown();
 	void ResumeMusic();
 
 	
@@ -32,7 +36,7 @@ private:
 
 	std::map<std::string, Mix_Chunk*> m_SFX;
 	std::map<std::string, Mix_Music*> m_Music;
-
+	int vol = -1;
 	AudioManager();
 	~AudioManager();
 

@@ -188,7 +188,7 @@ void Game::initialise()
 
 	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
 	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
-	//AudioManager::Instance()->PlayMusic("song1", -1);
+	AudioManager::Instance()->PlayMusic("song1", -1);
 
 	// Screen Initialise
 	m_lobbyScreen = new Lobby(m_renderer);
@@ -196,6 +196,7 @@ void Game::initialise()
 
 	m_gameoverScreen = new GameOverScreen();
 	m_menuScreen = new MenuScreen(m_renderer);
+	m_optionsScreen = new optionsScreen(m_renderer);
 
 }
 
@@ -291,6 +292,9 @@ void Game::update(float dt)
 		mouseY = -1;
 		break;
 	case GameState::Options:
+		m_optionsScreen->update(mouseX, mouseY, m_currentGameState);
+		mouseX = -1;
+		mouseY = -1;
 		break;
 	case GameState::GameScreen:
 		//ps.update(m_renderer);
@@ -486,6 +490,7 @@ void Game::render(float dt)
 		m_menuScreen->render(m_renderer);
 		break;
 	case GameState::Options:
+		m_optionsScreen->render(m_renderer);
 		break;
 	case GameState::Lobby:
 		m_lobbyScreen->render(m_renderer);

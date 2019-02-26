@@ -87,7 +87,6 @@ void Credits::drawText(SDL_Renderer * ren, std::string s, int x, int y)
 	if (!m_textTexture.loadFromRenderedText(s, textColor, ren, m_font))
 	{
 		printf("Failed to render text texture!\n");
-
 	}
 
 	m_textTexture.render(x, y, ren, 1, 1);

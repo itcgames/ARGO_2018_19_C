@@ -17,7 +17,6 @@ enum class
 	Options,
 	Credits,
 	Help
-
 };
 
 class MenuScreen
@@ -30,6 +29,9 @@ public:
 	void render(SDL_Renderer * renderer);
 
 private:
+	//Title button
+	LTexture m_title;
+
 	// Play button
 	LTexture m_playTexture;
 	
@@ -50,5 +52,5 @@ private:
 	int m_bgX, m_bgY, m_bgW, m_bgH;
 	int m_cursorX, m_cursorY, m_cursorW, m_cursorH;
 	int m_optionsX, m_optionsY, m_optionsW, m_optionsH;
-
+	int m_titleX, m_titleY;
 };

@@ -72,7 +72,17 @@ void AudioManager::PlayMusic(std::string filename, int loops)
 
 void AudioManager::PlaySFX(std::string filename, int loops)
 {
-	Mix_PlayChannel(-1, m_SFX[filename], loops);
+	Mix_PlayChannel(vol, m_SFX[filename], loops);
+}
+
+void AudioManager::muteSFX(int volume)
+{
+	vol = volume;
+}
+
+void AudioManager::unmuteSFX(int volume)
+{
+	vol = volume;
 }
 
 void AudioManager::PauseMusic()
