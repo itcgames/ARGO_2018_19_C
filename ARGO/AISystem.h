@@ -21,6 +21,7 @@ class AISystem
 	ControlComponent * cc;
 	float flagX = 0;
 	float flagY = 0;
+	float threat_Y = 0;
 
 	AnimationComponent * ac;
 	SpriteComponent * sc;
@@ -33,8 +34,8 @@ public:
 	void update(level &level);
 	void checkNearest(float dis, Entity * entity, float c_y);
 	//void update(float dis, Entity * entity);
-	void moveLeft();
-	void moveRight();
+	void moveLeft(float fuzz);
+	void moveRight(float fuzz);
 	void moveUp();
 	void moveDown();
 	void speedUp(Entity * entity);

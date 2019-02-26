@@ -61,7 +61,7 @@ void AISystem::update(level &m_level) {
 			posX = pc->getPositionX();
 			posY = pc->getPositionY();
 			
-			nodeCollision(m_level, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight());
+			nodeCollision(m_level, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight(), threat_Y);
 
 			if (!cc->stopFall && !cc->OnPlatform) {
 
@@ -97,11 +97,11 @@ void AISystem::update(level &m_level) {
 			//animation
 			if (cc->moveLeft == 1)
 			{
-				moveLeft();
+				moveLeft(velX);
 			}
 			if (cc->moveRight == 1)
 			{
-				moveRight();
+				moveRight(velX);
 			}
 
 			if (cc->getDirection() == cc->Up) {
@@ -222,20 +222,33 @@ void AISystem::leftOrRight(float fx, float fy, float px, float py) {
 
 }
 
-void AISystem::moveLeft() {
-
-	if (vel->getVelX() > -maxX)
-	{
-		ac->left();
-		vel->setVelX(-4);
+void AISystem::moveLeft(float fuzz) {
+	if (cc->hasFlag != true) {
+		if (vel->getVelX() > -maxX)
+		{
+			ac->left();
+			vel->setVelX(-4);
+		}
 	}
+	else {
+		//add code to move player using fuzzy velocity
+		ac->left();
+		vel->setVelX(-fuzz);
+	}
+	
 }
-void AISystem::moveRight() {
-
-	if (vecX < maxX)
-	{
-		ac->right();
-		vel->setVelX(4);
+void AISystem::moveRight(float fuzz) {
+	if (cc->hasFlag != true) {
+		if (vecX < maxX)
+		{
+			ac->right();
+			vel->setVelX(4);
+		}
+	}
+	else {
+		//add code to move player using fuzzy velocity
+		ac->left();
+		vel->setVelX(fuzz);
 	}
 }
 void AISystem::moveUp() {
@@ -268,16 +281,17 @@ void AISystem::checkNearest(float dis, Entity * entity, float c_y) {
 			// get vec from fuzy logic
 			velX = m_fuzzy->runAway();
 			//std::cout << velX << std::endl;
-			
+			threat_Y = c_y;
 			//instead of moving th pos here use the phys class
 
 			//determine which side the player is on
 			if (dis < 0) {
-				posX -= velX;
+				moveLeft(-velX);
 			}
 			if (dis > 0) {
-				posX += velX;
+				moveRight(velX);
 			}
+
 
 			//set position 
 			pc->setPosition(posX, posY);
@@ -298,8 +312,11 @@ void AISystem::nodeCollision(level &level, float x, float y, float width, float 
 	for (int i = 0; i < level.m_nodes.size(); i++) {
 
 		if (AABB(x, y, level.m_nodes[i].x, level.m_nodes[i].y, width, height, level.m_nodes[i].width, level.m_nodes[i].height)) {
-
-			if (c_y >= pc->getPositionY()) {
+		
+			if (c_y < 0 && cc->hasFlag == true) {
+				//
+			}
+			else {
 				if (level.m_nodes[i].type == "JumpRight") {
 
 					cc->setDirection(cc->Up);
@@ -316,7 +333,6 @@ void AISystem::nodeCollision(level &level, float x, float y, float width, float 
 					//std::cout << "JUMP" << std::endl;
 				}
 			}
-			
 
 		}
 		else
