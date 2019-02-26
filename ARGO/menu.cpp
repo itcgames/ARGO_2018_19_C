@@ -44,8 +44,6 @@ MenuScreen::MenuScreen(SDL_Renderer * ren)
 	m_CreditsY = 200;
 	m_CreditsW = m_Credits.getWidth();
 	m_CreditsH = m_Credits.getHeight();
-
-
 }
 
 

@@ -90,6 +90,8 @@ void AudioManager::PauseMusic()
 	if (Mix_PlayingMusic != 0)
 	{
 		Mix_PauseMusic();
+		current_ObserverState = MUSIC_MUTED;
+		notify(current_ObserverState);
 	}
 }
 
@@ -98,5 +100,7 @@ void AudioManager::ResumeMusic()
 	if (Mix_PausedMusic() != 0)
 	{
 		Mix_ResumeMusic();
+		current_ObserverState = MUSIC_UNMUTED;
+		notify(current_ObserverState);
 	}
 }
