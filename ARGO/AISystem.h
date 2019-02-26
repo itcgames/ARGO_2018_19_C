@@ -21,6 +21,7 @@ class AISystem
 	ControlComponent * cc;
 	float flagX = 0;
 	float flagY = 0;
+	float threat_Y = 0;
 
 	AnimationComponent * ac;
 	SpriteComponent * sc;
@@ -31,9 +32,10 @@ public:
 	AISystem();
 	void addEntity(Entity e);
 	void update(level &level);
+	void checkNearest(float dis, Entity * entity, float c_y);
 	//void update(float dis, Entity * entity);
-	void moveLeft();
-	void moveRight();
+	void moveLeft(float fuzz);
+	void moveRight(float fuzz);
 	void moveUp();
 	void moveDown();
 	void speedUp(Entity * entity);
@@ -42,4 +44,6 @@ public:
 	std::vector<std::string> getEntityIds();
 	float setDistance(float dis);
 	void leftOrRight(float fx, float fy, float px, float py);
+	bool AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);
+	void nodeCollision(level &level, float x, float y, float width, float height, float c_y);
 };

@@ -109,7 +109,7 @@ void Game::initialise()
 	player.addComponent(new ControlComponent());
 	player.addComponent(new AmmoComponent(m_renderer));
 	player.addComponent(new LifeComponent(4, 1, m_renderer, 1));
-
+	player.addComponent(new ScoreComponent(0));
 
 
 	player2.addComponent(new PositionComponent(500, 100));
@@ -120,8 +120,7 @@ void Game::initialise()
 	player2.addComponent(new AmmoComponent(m_renderer));
 	player2.addComponent(new LifeComponent(5, 2, m_renderer, 1));
 	player2.addComponent(new VelocityComponent());
-	//player2.addComponent(new AIComponent());
-
+	player2.addComponent(new ScoreComponent(0));
 
 
 
@@ -133,6 +132,7 @@ void Game::initialise()
 	player3.addComponent(new AmmoComponent(m_renderer));
 	player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
 	player3.addComponent(new VelocityComponent());
+	player3.addComponent(new ScoreComponent(0));
 
 
 	player4.addComponent(new PositionComponent(500, 500));
@@ -143,7 +143,7 @@ void Game::initialise()
 	player4.addComponent(new AmmoComponent(m_renderer));
 	player4.addComponent(new LifeComponent(3, 4, m_renderer, 1));
 	player4.addComponent(new VelocityComponent());
-
+	player4.addComponent(new ScoreComponent(0));
 
 	Entity wall("Wall");
 	//wall.addComponent(new PositionComponent(400, 500));
@@ -174,8 +174,6 @@ void Game::initialise()
 	ls.addEntity(player3);
 	ls.addEntity(player4);
 
-
-	ais.addEntity(player2);
 
 	ais.addEntity(flag);
 
@@ -571,11 +569,229 @@ void Game::resetCamera()
 void Game::getDistance() {
 	//how to tell if an entity is Ai
 
+
 	//get distance of oncoming object
 	PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
 	PositionComponent * p2 = (PositionComponent *)player2.getCompByType("Position");
 	PositionComponent * p3 = (PositionComponent *)player3.getCompByType("Position");
+	PositionComponent * p4 = (PositionComponent *)player4.getCompByType("Position");
 
+
+	for (int i = 0; i < ais.getEntityIds().size(); i++) {
+
+		if (ais.getEntityIds()[i] == "Player") {
+			float pVp2 = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
+				+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
+
+			float pVp3 = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
+				+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
+
+			float pVp4 = sqrt((p->getPositionX() - p4->getPositionX())*(p->getPositionX() - p4->getPositionX())
+				+ (p->getPositionY() - p4->getPositionY())*(p->getPositionY() - p4->getPositionY()));
+
+			if (pVp2 < pVp3 && pVp2 < pVp4) {
+				int playerX = p->getPositionX();
+				int player2X = p2->getPositionX();
+				if (player2X > playerX) {
+					pVp2 = pVp2 * -1;
+				}
+				disBetweenAiPlayer = pVp2;
+				//check if ai is aboce or below threat
+				float playerY = p->getPositionY();
+				float player2Y = p2->getPositionY();
+				float c_y = playerY - player2Y;
+
+				ais.checkNearest(disBetweenAiPlayer, ais.getEntityById("Player"), c_y);
+			}
+			if (pVp3 < pVp2 && pVp3 < pVp4) {
+				int playerX = p->getPositionX();
+				int player3X = p3->getPositionX();
+				if (player3X > playerX) {
+					pVp3 = pVp3 * -1;
+				}
+
+				disBetweenAiPlayer = pVp3;
+				//check if ai is aboce or below threat
+				float playerY = p->getPositionY();
+				float player3Y = p3->getPositionY();
+				float c_y = playerY - player3Y;
+				ais.checkNearest(disBetweenAiPlayer, ais.getEntityById("Player"), c_y);
+			}
+			if (pVp4 < pVp2 && pVp4 < pVp3) {
+				int playerX = p->getPositionX();
+				int player4X = p4->getPositionX();
+				if (player4X > playerX) {
+					pVp4 = pVp4 * -1;
+				}
+
+				disBetweenAiPlayer = pVp4;
+				//check if ai is aboce or below threat
+				float playerY = p->getPositionY();
+				float player4Y = p4->getPositionY();
+				float c_y = playerY - player4Y;
+				ais.checkNearest(disBetweenAiPlayer, ais.getEntityById("Player"), c_y);
+			}
+		}
+
+		if (ais.getEntityIds()[i] == "Player2") {
+			float p2Vp = sqrt((p->getPositionX() - p2->getPositionX())*(p->getPositionX() - p2->getPositionX())
+				+ (p->getPositionY() - p2->getPositionY())*(p->getPositionY() - p2->getPositionY()));
+
+			float p2Vp3 = sqrt((p3->getPositionX() - p2->getPositionX())*(p3->getPositionX() - p2->getPositionX())
+				+ (p3->getPositionY() - p2->getPositionY())*(p3->getPositionY() - p2->getPositionY()));
+
+			float p2Vp4 = sqrt((p2->getPositionX() - p4->getPositionX())*(p2->getPositionX() - p4->getPositionX())
+				+ (p2->getPositionY() - p4->getPositionY())*(p2->getPositionY() - p4->getPositionY()));
+
+			if (p2Vp < p2Vp3 && p2Vp < p2Vp4) {
+				//get what side thet ai is on
+				int player2X = p2->getPositionX();
+				int playerX = p->getPositionX();
+				if (playerX > player2X) {
+					p2Vp = p2Vp * -1;
+				}
+				//check if ai is aboce or below threat
+				float player2Y = p2->getPositionY();
+				float playerY = p->getPositionY();
+				float c_y = player2Y - playerY;
+				disBetweenAiPlayer = p2Vp;
+				ais.checkNearest(disBetweenAiPlayer, ais.getEntityById("Player2"), c_y);
+			}
+			if (p2Vp3 < p2Vp && p2Vp3 < p2Vp4) {
+				//get what side thet ai is on
+				int player2X = p2->getPositionX();
+				int player3X = p3->getPositionX();
+				if (player3X > player2X) {
+					p2Vp3 = p2Vp3 * -1;
+				}
+				//check if ai is aboce or below threat
+				float player2Y = p2->getPositionY();
+				float player3Y = p3->getPositionY();
+				float c_y = player2Y - player3Y;
+				disBetweenAiPlayer = p2Vp3;
+				ais.checkNearest(disBetweenAiPlayer, ais.getEntityById("Player2"), c_y);
+			}
+			if (p2Vp4 < p2Vp && p2Vp4 < p2Vp3) {
+				//get what side thet ai is on
+				int player2X = p2->getPositionX();
+				int player4X = p4->getPositionX();
+				if (player4X > player2X) {
+					p2Vp4 = p2Vp4  * -1;
+				}
+				//check if ai is aboce or below threat
+				float player2Y = p2->getPositionY();
+				float player4Y = p4->getPositionY();
+				float c_y = player2Y - player4Y;
+				disBetweenAiPlayer = p2Vp4;
+				ais.checkNearest(disBetweenAiPlayer, ais.getEntityById("Player2"), c_y);
+			}
+		}
+
+		if (ais.getEntityIds()[i] == "Player3") {
+			float p3Vp2 = sqrt((p3->getPositionX() - p2->getPositionX())*(p3->getPositionX() - p2->getPositionX())
+				+ (p3->getPositionY() - p2->getPositionY())*(p3->getPositionY() - p2->getPositionY()));
+
+			float p3Vp = sqrt((p->getPositionX() - p3->getPositionX())*(p->getPositionX() - p3->getPositionX())
+				+ (p->getPositionY() - p3->getPositionY())*(p->getPositionY() - p3->getPositionY()));
+
+			float p3Vp4 = sqrt((p3->getPositionX() - p4->getPositionX())*(p3->getPositionX() - p4->getPositionX())
+				+ (p3->getPositionY() - p4->getPositionY())*(p3->getPositionY() - p4->getPositionY()));
+
+
+			if (p3Vp < p3Vp2 && p3Vp < p3Vp4) {
+				//get what side thet ai is on
+				int player3X = p3->getPositionX();
+				int playerX = p->getPositionX();
+				if (playerX > player3X) {
+					p3Vp = p3Vp * -1;
+				}
+				//check if ai is aboce or below threat
+				float player3Y = p3->getPositionY();
+				float playerY = p->getPositionY();
+				float c_y = playerY - player3Y;
+				disBetweenAiPlayer = p3Vp;
+				ais.checkNearest(disBetweenAiPlayer, ais.getEntityById("Player3"), c_y);
+			}
+			if (p3Vp2 < p3Vp && p3Vp2 < p3Vp4) {
+				int player2X = p2->getPositionX();
+				int player3X = p3->getPositionX();
+				if (player2X > player3X) {
+					p3Vp2 = p3Vp2 * -1;
+				}
+				//check if ai is aboce or below threat
+				float player3Y = p3->getPositionY();
+				float player2Y = p2->getPositionY();
+				float c_y = player2Y - player3Y;
+				disBetweenAiPlayer = p3Vp2;
+				ais.checkNearest(disBetweenAiPlayer, ais.getEntityById("Player3"), c_y);
+			}
+			if (p3Vp4 < p3Vp2 && p3Vp4 < p3Vp) {
+				int player4X = p4->getPositionX();
+				int player3X = p3->getPositionX();
+				if (player4X > player3X) {
+					p3Vp4 = p3Vp4 * -1;
+				}
+				float player3Y = p3->getPositionY();
+				float player4Y = p4->getPositionY();
+				float c_y = player4Y - player3Y;
+				disBetweenAiPlayer = p3Vp4;
+				ais.checkNearest(disBetweenAiPlayer, ais.getEntityById("Player3"), c_y);
+			}
+		}
+
+		if (ais.getEntityIds()[i] == "Player4") {
+			float p4Vp = sqrt((p4->getPositionX() - p->getPositionX())*(p4->getPositionX() - p->getPositionX())
+				+ (p4->getPositionY() - p->getPositionY())*(p4->getPositionY() - p->getPositionY()));
+
+			float p4Vp2 = sqrt((p4->getPositionX() - p2->getPositionX())*(p4->getPositionX() - p2->getPositionX())
+				+ (p4->getPositionY() - p2->getPositionY())*(p4->getPositionY() - p2->getPositionY()));
+
+			float p4Vp3 = sqrt((p4->getPositionX() - p3->getPositionX())*(p4->getPositionX() - p3->getPositionX())
+				+ (p4->getPositionY() - p3->getPositionY())*(p4->getPositionY() - p3->getPositionY()));
+
+			if (p4Vp < p4Vp2 && p4Vp < p4Vp3) {
+				//get what side thet ai is on
+				int playerX = p->getPositionX();
+				int player4X = p4->getPositionX();
+				if (playerX > player4X) {
+					p4Vp = p4Vp * -1;
+				}
+				float player4Y = p4->getPositionY();
+				float playerY = p->getPositionY();
+				float c_y = playerY - player4Y;
+				disBetweenAiPlayer = p4Vp;
+				ais.checkNearest(disBetweenAiPlayer, ais.getEntityById("Player4"), c_y);
+			}
+			if (p4Vp2 < p4Vp && p4Vp2 < p4Vp3) {
+				int player2X = p2->getPositionX();
+				int player4X = p4->getPositionX();
+				if (player2X > player4X) {
+					p4Vp2 = p4Vp2 * -1;
+				}
+				float player4Y = p4->getPositionY();
+				float player2Y = p2->getPositionY();
+				float c_y = player2Y - player4Y;
+				disBetweenAiPlayer = p4Vp2;
+				ais.checkNearest(disBetweenAiPlayer, ais.getEntityById("Player4"), c_y);
+			}
+			if (p4Vp3 < p4Vp && p4Vp3 < p4Vp2) {
+				int player3X = p3->getPositionX();
+				int player4X = p4->getPositionX();
+				if (player3X > player4X) {
+					p4Vp3 = p4Vp3 * -1;
+				}
+				float player4Y = p4->getPositionY();
+				float player3Y = p3->getPositionY();
+				float c_y = player3Y - player4Y;
+				disBetweenAiPlayer = p4Vp3;
+				ais.checkNearest(disBetweenAiPlayer, ais.getEntityById("Player4"), c_y);
+			}
+		}
+
+	}
+
+
+	//rego put this in
 	sendAiToNetwork();
 
 
@@ -757,7 +973,7 @@ void Game::updateNetwork()
 		else if (msg == "Host")
 		{
 			//player.addComponent(new HealthComponent(200));
-			player.addComponent(new ScoreComponent(0));
+			//player.addComponent(new ScoreComponent(0));
 			player.addComponent(new LifeComponent(6, 1, m_renderer, 1));
 
 			m_playerIndex = 0;
@@ -791,7 +1007,7 @@ void Game::updateNetwork()
 			{
 			case 1:
 				//player2.addComponent(new HealthComponent(200));
-				player2.addComponent(new ScoreComponent(0));
+				//player2.addComponent(new ScoreComponent(0));
 				player2.addComponent(new LifeComponent(6, 2, m_renderer, 1));
 				comsystem.addEntity(player2);
 				cs.addEntity(player2);
@@ -802,7 +1018,7 @@ void Game::updateNetwork()
 
 				break;
 			case 2:
-				player3.addComponent(new ScoreComponent(0));
+				//player3.addComponent(new ScoreComponent(0));
 				player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
 				comsystem.addEntity(player3);
 				cs.addEntity(player3);
@@ -813,7 +1029,7 @@ void Game::updateNetwork()
 
 				break;
 			case 3:
-				player4.addComponent(new ScoreComponent(0));
+				//player4.addComponent(new ScoreComponent(0));
 				player4.addComponent(new LifeComponent(6, 4, m_renderer, 1));
 				comsystem.addEntity(player4);
 				cs.addEntity(player4);
