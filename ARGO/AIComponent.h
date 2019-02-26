@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Level.h"
 class AiComponent: public Component 
 {
 	class AIState* m_current;
@@ -25,6 +26,11 @@ public:
 		goToPowerupS
 	};
 	AiStateS m_currentState;
+
+	float closestN;
+	float tempClosest;
+
+	NodeObjects closestNode;
 
 	void setCurrentState(AiStateS a);
 private:

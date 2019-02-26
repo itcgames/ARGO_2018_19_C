@@ -40,14 +40,14 @@ public:
 	void moveUp();
 	void moveDown();
 	void speedUp(Entity * entity);
-	NodeObjects nearestNode(level &level);
+	NodeObjects nearestNode(level &level, std::string type);
 	float dist(float x1, float x2, float y1, float y2);
 	std::string getEntity();
 	Entity * getEntityById(std::string s);
 	std::vector<std::string> getEntityIds();
 	float setDistance(float dis);
 	void leftOrRight(float fx, float fy, float px, float py);
-	void nodeCollision(level &level, float x, float y, float width, float height);
+	void nodeCollision(NodeObjects closestNode, float x, float y, float width, float height, int type);
 	bool AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);
 
 

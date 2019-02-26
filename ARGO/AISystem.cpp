@@ -62,9 +62,9 @@ void AISystem::update(level &m_level) {
 			posX = pc->getPositionX();
 			posY = pc->getPositionY();
 			
-			if (ai->m_currentState == ai->goToNodeS) {
-			nodeCollision(m_level, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight());
-			}
+			//if (ai->m_currentState == ai->goToNodeS) {
+			//nodeCollision(m_level, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight());
+			//}
 
 			if (!cc->stopFall && !cc->OnPlatform) {
 
@@ -107,55 +107,56 @@ void AISystem::update(level &m_level) {
 		if (cc->hasFlag == false && pcFlag!= NULL)
 		{
 			
-			if (checkFlagInRange() || pc->getPositionY() - sc->getHeight() < pcFlag->getPositionY())
+			if (checkFlagInRange() )
 			{
 				//left and right
-				ai->goToFlag();
+				//ai->goToFlag();
+				leftOrRight(pcFlag->getPositionX(), pcFlag->getPositionY(), pc->getPositionX(), pc->getPositionY());
+
+			}
+			else if (checkFlagInRange() == false &&  pc->getPositionY() < pcFlag->getPositionY()) {
+
+				if (cc->collision == 1) {
+					nodeCollision(closestNode, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight(), 2);
+				}
+
+				if (nearestNode(m_level, "Edge").x >= pc->getPositionX() && cc->collision == 1)
+				{
+					cc->moveRight = 1;
+					cc->moveLeft = 0;
+				}
+				else if (nearestNode(m_level, "Edge").x <= pc->getPositionX() && cc->collision == 1)
+				{
+					cc->moveRight = 0;
+					cc->moveLeft = 1;
+				}
 
 			}
 			else if(checkFlagInRange() == false && pc->getPositionY() - sc->getHeight() > pcFlag ->getPositionY())
 			{
 
-				ai->goToNode();
+				//ai->goToNode();
+				if (cc->collision == 1) {
+					nodeCollision(closestNode, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight(), 1);
+				}
+			
+
+				if (nearestNode(m_level,"Jump").x >= pc->getPositionX() && cc->collision == 1)
+				{
+					cc->moveRight = 1;
+					cc->moveLeft = 0;
+				}
+				else if (nearestNode(m_level,"Jump").x <= pc->getPositionX() && cc->collision == 1)
+				{
+					cc->moveRight = 0;
+					cc->moveLeft = 1;
+				}
+				
 				
 			}
 
 		}
-		else
-		{
-
-		}
-
-		switch (ai->m_currentState)
-		{
-		case 0:
-
-			if (nearestNode(m_level).x >= pc->getPositionX())
-			{
-				cc->moveRight = 1;
-				cc->moveLeft = 0;
-			}
-			else if (nearestNode(m_level).x <= pc->getPositionX())
-			{
-				cc->moveRight = 0;
-				cc->moveLeft = 1;
-			}
-
-			break;
-
-		case 1:
-
-			break;
-
-		default:
-			break;
-		}
-
-		if (pcFlag != NULL)
-		{
-			//leftOrRight(pcFlag->getPositionX(), pcFlag->getPositionY(), pc->getPositionX(), pc->getPositionY());
-
-		}
+	
 		
 		if (cc->moveLeft == 1)
 		{
@@ -167,13 +168,13 @@ void AISystem::update(level &m_level) {
 		}
 
 		if (cc->getDirection() == cc->Up) {
-			moveUp();
+			//moveUp();
 		}
 
 		if (cc->moveLeft == 0 && cc->moveRight == 0)
 		{
 			cc->setDirection(cc->Idle);
-			vecX = 0;
+			vel->setVelX(0);
 			ac->idle();
 		}
 		if (ac->m_currentState == ac->idleS && cc->moveLeft == 1)
@@ -317,42 +318,37 @@ bool AISystem::AABB(float x1, float y1, float x2, float y2, float width1, float 
 		(abs(y1 - y2) * 2 < (height1 + height2));
 }
 
-void AISystem::nodeCollision(level &level, float x, float y, float width, float height)
+void AISystem::nodeCollision(NodeObjects closestNode, float x, float y, float width, float height, int type)
 {
-	for (int i = 0; i < level.m_nodes.size(); i++) {
+	
 
-		if (AABB(x, y, level.m_nodes[i].x, level.m_nodes[i].y, width, height, level.m_nodes[i].width, level.m_nodes[i].height)) {
+		if (AABB(x, y, closestNode.x, closestNode.y, width, height, closestNode.width, closestNode.height)) {
 
-			if (level.m_nodes[i].type == "JumpRight" && pcFlag->getPositionX() > pcFlag->getPositionX()) {
+			if (closestNode.type == "JumpRight" && pc->getPositionX() < pcFlag->getPositionX()) {
 
 				cc->setDirection(cc->Up);
-				cc->jump = 0;
+				moveUp();
 				cc->moveRight = 1;
+				cc->moveLeft = 0;
+
 				std::cout << "Right" << std::endl;
+		
 
 			}
-			else if (level.m_nodes[i].type == "JumpLeft" && pcFlag->getPositionX() < pcFlag->getPositionX()) {
+			else if (closestNode.type == "JumpLeft" && pc->getPositionX() > pcFlag->getPositionX()) {
 
 				cc->setDirection(cc->Up);
-				cc->jump = 0;
+				moveUp();
 				cc->moveLeft = 1;
-				std::cout << "JUMP" << std::endl;
-			}
-			else {
-				ai->goToFlag();
+				cc->moveRight = 0;
+				
 			}
 
 		}
-		else
-		{
-			cc->jump = 1;
-			
-		}
-
-	}
+		
 
 }
-NodeObjects AISystem::nearestNode(level &level) {
+NodeObjects AISystem::nearestNode(level &level, std::string type) {
 
 	float closestN = 10000;
 
@@ -362,12 +358,43 @@ NodeObjects AISystem::nearestNode(level &level) {
 		if (level.m_nodes[i].y < pc->getPositionY() + sc->getHeight() &&
 			level.m_nodes[i].y > pc->getPositionY() - sc->getHeight()) {
 
-			float temp = dist(pc->getPositionX(), level.m_nodes[i].x, pc->getPositionY(), level.m_nodes[i].y);
-			std::cout << temp << std::endl;
-			if (temp < closestN) {
-				closestN = temp;
-				closestNode = level.m_nodes[i];
+			if (type == "Jump")
+			{
+				if (level.m_nodes[i].type == "JumpRight" && pc->getPositionX() < pcFlag->getPositionX())
+				{
+					float temp = dist(pc->getPositionX(), level.m_nodes[i].x, pc->getPositionY(), level.m_nodes[i].y);
+					std::cout << temp << std::endl;
+					if (temp < closestN) {
+						closestN = temp;
+						closestNode = level.m_nodes[i];
 
+					}
+				}
+				else if (level.m_nodes[i].type == "JumpLeft" && pc->getPositionX() > pcFlag->getPositionX())
+				{
+					float temp = dist(pc->getPositionX(), level.m_nodes[i].x, pc->getPositionY(), level.m_nodes[i].y);
+					std::cout << temp << std::endl;
+					if (temp < closestN) {
+						closestN = temp;
+						closestNode = level.m_nodes[i];
+
+					}
+				}
+
+
+			}
+			else
+			{
+				if (level.m_nodes[i].type == type)
+				{
+					float temp = dist(pcFlag->getPositionX(), level.m_nodes[i].x, pcFlag->getPositionY(), level.m_nodes[i].y);
+					std::cout << temp << std::endl;
+					if (temp < closestN) {
+						closestN = temp;
+						closestNode = level.m_nodes[i];
+
+					}
+				}
 			}
 
 		}
@@ -386,8 +413,8 @@ float AISystem::dist(float x1, float x2, float y1, float y2) {
 }
 bool AISystem::checkFlagInRange() {
 
-	if (pcFlag->getPositionY() > pc->getPositionY()  &&
-		pcFlag->getPositionY() < pc->getPositionY() + sc->getHeight() * 2)
+	if (pcFlag->getPositionY() < pc->getPositionY()  &&
+		pcFlag->getPositionY() > pc->getPositionY() - sc->getHeight() * 1)
 	{
 		return true;
 	}
@@ -402,7 +429,7 @@ void AISystem::moveLeft() {
 	if (vel->getVelX() > -maxX)
 	{
 		ac->left();
-		vel->setVelX(-4);
+		vel->setVelX(-2);
 	}
 }
 void AISystem::moveRight() {
@@ -410,7 +437,7 @@ void AISystem::moveRight() {
 	if (vecX < maxX)
 	{
 		ac->right();
-		vel->setVelX(4);
+		vel->setVelX(2);
 	}
 }
 void AISystem::moveUp() {

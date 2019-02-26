@@ -53,6 +53,7 @@ struct NodeObjects {
 };
 
 
+
 class level {
 public:
 	level(const std::string& name);

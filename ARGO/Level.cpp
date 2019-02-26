@@ -17,6 +17,8 @@ NodeObjects::NodeObjects(float x, float y, float width, float height, std::strin
 {
 
 }
+
+
 void tile::draw(SDL_Renderer* ren) {
 	if (!ren || !sheet)
 		return;

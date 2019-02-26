@@ -94,7 +94,7 @@ void Game::initialise()
 
 
 	Entity flag("Flag");
-	flag.addComponent(new PositionComponent(1000, 600));
+	flag.addComponent(new PositionComponent(100, 200));
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, m_renderer, 8 , 2));
 	flag.addComponent(new PickUpComponent());
 
@@ -134,6 +134,7 @@ void Game::initialise()
 	player4.addComponent(new AmmoComponent(m_renderer));
 	player4.addComponent(new LifeComponent(3, 4, m_renderer, 1));
 	player4.addComponent(new AiComponent());
+	player4.addComponent(new VelocityComponent());
 //	player4.addComponent(new AIComponent());
 
 	Entity wall("Wall");
@@ -180,7 +181,8 @@ void Game::initialise()
 	player4.addComponent(new ScoreComponent(0));
 
 	ais.addEntity(player3);
-	//ais.addEntity(player3);
+	//ais.addEntity(player2);
+	//ais.addEntity(player4);
 	ais.addEntity(flag);
 
 
