@@ -154,6 +154,8 @@ void main()
 					int indexLobby = message.find("Lobby");
 					int indexPU = message.find("Power Ups");
 					int indexFlag = message.find("Flag");
+					int indexPUC = message.find("Collected");
+					int indexPlant = message.find("Planted");
 					if (indexIP > 0)
 					{
 						std::cout << message << std::endl;
@@ -313,6 +315,21 @@ void main()
 					{
 						std::cout << buf << std::endl;
 
+						for (int i = 0; i < master.fd_count; i++)
+						{
+							SOCKET outSock = master.fd_array[i];
+							if (outSock != listening && outSock != sock)
+							{
+								ostringstream ss;
+								ss << buf;
+								string strOut = ss.str();
+
+								send(outSock, strOut.c_str(), strOut.size() + 1, 0);
+							}
+						}
+					}
+					else if (indexPUC >= 0 || indexPlant >= 0)
+					{
 						for (int i = 0; i < master.fd_count; i++)
 						{
 							SOCKET outSock = master.fd_array[i];

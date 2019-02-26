@@ -169,12 +169,17 @@ void Game::initialise()
 	ls.addEntity(player3);
 	ls.addEntity(player4);
 
+
 	ais.addEntity(flag);
 
 
 	Colls.addEntity(flag);
 
 	comsystem.addEntity(flag);
+	comsystem.addEntity(player);
+	comsystem.addEntity(player2);
+	comsystem.addEntity(player3);
+	comsystem.addEntity(player4);
 
 	ps.addEntity(player);
 	ps.addEntity(player2);
@@ -235,7 +240,7 @@ void Game::processEvents()
 	while (SDL_PollEvent(&event)) {
 
 
-		cs.input(event);
+		cs.input(event, *m_client);
 
 		switch (event.type) {
 
@@ -301,10 +306,7 @@ void Game::update(float dt)
 		
 		// Network
 		updateNetwork();
-		if (m_playerIndex == 0)
-		{
-			powerUpSpawn();
-		}
+		powerUpSpawn();
 		sendPUToNetwork();
 		
 		//If Host update ai
@@ -578,7 +580,7 @@ void Game::updateNetwork()
 		
 
 		int index = msg.find("Host");
-		if (index >= 0)
+		if (msg == "Host")
 		{
 			//player.addComponent(new HealthComponent(200));
 			player.addComponent(new ControlComponent());
@@ -588,10 +590,6 @@ void Game::updateNetwork()
 
 			m_playerIndex = 0;
 			m_lobbyScreen->changeState(m_playerIndex, false);
-			comsystem.addEntity(player);
-			comsystem.addEntity(player2);
-			comsystem.addEntity(player3);
-			comsystem.addEntity(player4);
 			cs.addEntity(player);
 			Colls.addEntity(player);
 			Colls.addEntity(player2);
@@ -616,7 +614,6 @@ void Game::updateNetwork()
 				player2.addComponent(new ControlComponent());
 				player2.addComponent(new ScoreComponent(0));
 				player2.addComponent(new LifeComponent(6, 2, m_renderer, 1));
-				comsystem.addEntity(player2);
 				cs.addEntity(player2);
 				Colls.addEntity(player2);
 				phs.addEntity(player2);
@@ -628,7 +625,6 @@ void Game::updateNetwork()
 				player3.addComponent(new ControlComponent());
 				player3.addComponent(new ScoreComponent(0));
 				player3.addComponent(new LifeComponent(6, 3, m_renderer, 1));
-				comsystem.addEntity(player3);
 				cs.addEntity(player3);
 				Colls.addEntity(player3);
 				phs.addEntity(player3);
@@ -640,7 +636,6 @@ void Game::updateNetwork()
 				player4.addComponent(new ControlComponent());
 				player4.addComponent(new ScoreComponent(0));
 				player4.addComponent(new LifeComponent(6, 4, m_renderer, 1));
-				comsystem.addEntity(player4);
 				cs.addEntity(player4);
 				Colls.addEntity(player4);
 				phs.addEntity(player4);
@@ -726,7 +721,9 @@ void Game::updateNetwork()
 		index = msg.find("Collected");
 		if (index >= 0)
 		{
-			std::cout << "Collected: " << (int)msgToPos(msg.substr(index))[0] << std::endl;
+			int temp = (int)msgToPos(msg.substr(index))[0];
+			std::cout << "Collected: " << temp << std::endl;
+			m_powerUps.erase(m_powerUps.begin() + temp);
 		}
 
 		index = msg.find("Power Ups");
@@ -810,6 +807,31 @@ void Game::updateNetwork()
 		if (index >= 0)
 		{
 			// Put Bomb on pos given
+			int pIndex = (int)msgToPos(msg.substr(index))[0];
+			int x = (int)msgToPos(msg.substr(index))[1];
+			int y = (int)msgToPos(msg.substr(index))[2];
+
+			AmmoComponent* ammoComp = (AmmoComponent*)player.getCompByType("Ammo");
+
+			switch (pIndex)
+			{
+			case 0:
+				ammoComp = (AmmoComponent*)player.getCompByType("Ammo");
+				break;
+
+			case 1:
+				ammoComp = (AmmoComponent*)player2.getCompByType("Ammo");
+				break;
+
+			case 2:
+				ammoComp = (AmmoComponent*)player3.getCompByType("Ammo");
+				break;
+
+			case 3:
+				ammoComp = (AmmoComponent*)player4.getCompByType("Ammo");
+				break;
+			}
+			ammoComp->dropProjectile(x, y);
 		}
 
 		index = msg.find("Fire");
@@ -823,32 +845,42 @@ void Game::updateNetwork()
 		if (index >= 0)
 		{
 			VelocityComponent * v = (VelocityComponent*)player.getCompByType("Vel");
+			ControlComponent * cc = (ControlComponent*)player.getCompByType("Control");
+
+			PickUpComponent * pickup = (PickUpComponent *)flag.getCompByType("PickUp");
+
 			switch ((int)msgToPos(msg.substr(index))[0])
 			{
 			case 0:
 				// Player 1
 				v = (VelocityComponent*)player.getCompByType("Vel");
 				p = (PositionComponent*)player.getCompByType("Position");
+				cc = (ControlComponent*)player.getCompByType("Control");
 				break;
 
 			case 1:
 				// Player 2
 				v = (VelocityComponent*)player2.getCompByType("Vel");
 				p = (PositionComponent*)player2.getCompByType("Position");
+				cc = (ControlComponent*)player2.getCompByType("Control");
 				break;
 
 			case 2:
 				// Player 3
 				v = (VelocityComponent*)player3.getCompByType("Vel");
 				p = (PositionComponent*)player3.getCompByType("Position");
+				cc = (ControlComponent*)player3.getCompByType("Control");
 				break;
 
 			case 3:
 				// Player 4
 				v = (VelocityComponent*)player4.getCompByType("Vel");
 				p = (PositionComponent*)player4.getCompByType("Position");
+				cc = (ControlComponent*)player4.getCompByType("Control");
 				break;
 			}
+
+
 
 			if ((int)msgToPos(msg.substr(index))[1] == 0)
 			{
@@ -861,7 +893,12 @@ void Game::updateNetwork()
 				// Right
 				std::cout << "Kicked right" << std::endl;
 				p->setPosition(p->getPositionX() + v->getVelX() + 100, p->getPositionY() + v->getVelY() - 90);
+			}
 
+			if ((int)msgToPos(msg.substr(index))[2] == 1)
+			{
+				cc->hasFlag = false;
+				pickup->setState(pickup->Collectable);
 			}
 		}
 
@@ -988,33 +1025,37 @@ void Game::sendPUToNetwork()
 
 void Game::powerUpSpawn()
 {
-	m_timerSpawn++;
-	if (m_timerSpawn >= m_spawnTimeLimit)
+	if (m_playerIndex == 0)
 	{
-		switch (rand() % m_numOfPowerUps)
+		m_timerSpawn++;
+		if (m_timerSpawn >= m_spawnTimeLimit)
 		{
-		case 0:
-			m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
-			break;
+			//switch (rand() % m_numOfPowerUps)
+			switch (2)
+			{
+			case 0:
+				m_powerUps.push_back(m_factory->CreateSpeed(m_renderer));
+				break;
 
-		case 1:
-			m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
-			break;
+			case 1:
+				m_powerUps.push_back(m_factory->CreateHealth(m_renderer));
+				break;
 
-		case 2:
-			m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
-			break;
+			case 2:
+				m_powerUps.push_back(m_factory->CreateAmmo(m_renderer));
+				break;
 
-		case 3:
-			m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
-			break;
+			case 3:
+				m_powerUps.push_back(m_factory->CreateSeekerAmmo(m_renderer));
+				break;
 
-		case 4:
-			m_powerUps.push_back(m_factory->CreateReset(m_renderer));
-			break;
+			case 4:
+				m_powerUps.push_back(m_factory->CreateReset(m_renderer));
+				break;
 
+			}
+			m_timerSpawn = 0;
 		}
-		m_timerSpawn = 0;
 	}
 
 
@@ -1022,7 +1063,11 @@ void Game::powerUpSpawn()
 	{
 		if (m_powerUps[i]->getAlive())
 		{
-			m_powerUps[i]->update();
+			if (m_playerIndex == 0)
+			{
+				m_powerUps[i]->update();
+			}
+
 			//check collision
 
 			// Getting player position and the sprite dimensions
@@ -1055,6 +1100,8 @@ void Game::powerUpSpawn()
 			// Check if the power up and the player collided
 			if (m_powerUps[i]->pickedUp(p->getPositionX(), p->getPositionY(), s->getWidth(), s->getWidth()))
 			{
+				std::string msg = "Collected: i: " + std::to_string(i) + " pi: " + std::to_string(m_playerIndex);
+				m_client->sendMsg(msg);
 				// Which power up if it
 				switch (m_powerUps[i]->getID())
 				{
