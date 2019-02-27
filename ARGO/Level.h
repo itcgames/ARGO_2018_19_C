@@ -15,21 +15,29 @@ typedef int gid;
 
 // Stores information about an individual tile to be
 // displayed.
+
+struct tileProp
+{
+	SDL_Texture* tset;
+
+	int tx, ty;
+	int width, height;
+
+	tileProp(SDL_Texture* tset, int tx = 0, int ty = 0, int width = 0, int height = 0);
+};
+
 struct tile {
-	SDL_Texture* sheet;
+	
+	SDL_Texture * sheet;
 	// x coordinate in the world
 	int x;
 	// y coordinate in the world
 	int y;
-	// the x coordinate on the sprite sheet
-	int tx;
-	// the y coordinate on the sprite sheet
-	int ty;
-	int width;
-	int height;
+	int tx, ty, width, height;
 
-	tile(SDL_Texture* tset, int x = 0, int y = 0,
-		int tx = 0, int ty = 0, int w = 0, int h = 0);
+	tileProp *model;
+	
+	tile( int x, int y, tileProp *tp);
 	void draw(SDL_Renderer* ren);
 };
 
@@ -72,6 +80,7 @@ private:
 	// The rows variable is the number of tiles from top to bottom (Y axis).
 	int rows;
 	// The cols variable is the number of tiles from left to right (X axis).
+	tileProp * tpPointer;
 	int cols;
 	int tile_width;
 	int tile_height;

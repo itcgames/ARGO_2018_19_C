@@ -91,6 +91,9 @@
     <ClCompile Include="GameOver.cpp">
       <Filter>src\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="Options.cpp">
+      <Filter>src\Screens</Filter>
+    </ClCompile>
     <ClCompile Include="GameScreen.cpp">
       <Filter>src\Screens</Filter>
     </ClCompile>
@@ -238,6 +241,9 @@
       <Filter>Header\Screens</Filter>
     </ClInclude>
     <ClInclude Include="Credits.h">
+      <Filter>Header\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Options.h">
       <Filter>Header\Screens</Filter>
     </ClInclude>
     <ClInclude Include="GameScreen.h">

@@ -8,6 +8,7 @@ AudioManager* AudioManager::Instance()
 	{
 		sInstance = new AudioManager();
 	}
+	
 	return sInstance;
 }
 
@@ -34,6 +35,10 @@ AudioManager::~AudioManager()
 
 bool AudioManager::load(std::string filename, std::string id, sound_type type)
 {
+	for (int i = 0; i < 3; i++)
+	{ 
+		observers.push_back(observer_);
+	}
 	filename = "Sounds/" + filename;
 	if (type == SOUND_MUSIC)
 	{
@@ -72,14 +77,27 @@ void AudioManager::PlayMusic(std::string filename, int loops)
 
 void AudioManager::PlaySFX(std::string filename, int loops)
 {
-	Mix_PlayChannel(-1, m_SFX[filename], loops);
+	Mix_PlayChannel(vol, m_SFX[filename], loops);
+}
+
+void AudioManager::muteSFX(int volume)
+{
+	vol = volume;
+}
+
+void AudioManager::unmuteSFX(int volume)
+{
+	vol = volume;
 }
 
 void AudioManager::PauseMusic()
 {
+
 	if (Mix_PlayingMusic != 0)
 	{
 		Mix_PauseMusic();
+		current_ObserverState = MUSIC_MUTED;
+		notify(current_ObserverState);
 	}
 }
 
@@ -88,5 +106,7 @@ void AudioManager::ResumeMusic()
 	if (Mix_PausedMusic() != 0)
 	{
 		Mix_ResumeMusic();
+		current_ObserverState = MUSIC_UNMUTED;
+		notify(current_ObserverState);
 	}
 }

@@ -31,7 +31,7 @@ Lobby::Lobby(SDL_Renderer *ren, Game * game):m_game(game)
 	m_font = TTF_OpenFont("assets/Fonts/Amatic-Bold.ttf", 28);
 
 
-	if (!m_readyTexture.loadFromFile("img/ReadyButton.png", ren, 1))
+	if (!m_readyTexture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
@@ -41,7 +41,7 @@ Lobby::Lobby(SDL_Renderer *ren, Game * game):m_game(game)
 	m_readyW = m_readyTexture.getWidth();
 	m_readyH = m_readyTexture.getHeight();
 
-	if (!m_backTexture.loadFromFile("img/ReadyButton.png", ren, 1))
+	if (!m_backTexture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
@@ -51,22 +51,22 @@ Lobby::Lobby(SDL_Renderer *ren, Game * game):m_game(game)
 	m_backW = m_backTexture.getWidth();
 	m_backH = m_backTexture.getHeight();
 
-	if (!m_playerTexture.loadFromFile("img/ReadyButton.png", ren, 1))
+	if (!m_playerTexture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
 
-	if (!m_player2Texture.loadFromFile("img/ReadyButton.png", ren, 1))
+	if (!m_player2Texture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
 
-	if (!m_player3Texture.loadFromFile("img/ReadyButton.png", ren, 1))
+	if (!m_player3Texture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
 
-	if (!m_player4Texture.loadFromFile("img/ReadyButton.png", ren, 1))
+	if (!m_player4Texture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}

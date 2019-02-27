@@ -40,7 +40,8 @@ Game::Game()
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::Lobby);
+		m_currentGameState = (GameState::MainMenu);
+
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 		if (IMG_Init(imgFlags) != imgFlags)
@@ -78,7 +79,7 @@ void Game::initialise()
 
 	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
 	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
-	//AudioManager::Instance()->PlayMusic("song1", -1);
+	AudioManager::Instance()->PlayMusic("song1", -1);
 
 	// Screen Initialise
 	m_lobbyScreen = new Lobby(m_renderer, this);
@@ -87,6 +88,7 @@ void Game::initialise()
 	m_gameScreen->init(m_renderer, &m_playerIndex);
 	m_gameoverScreen = new GameOverScreen();
 	m_menuScreen = new MenuScreen(m_renderer);
+	m_optionsScreen = new optionsScreen(m_renderer);
 
 }
 
@@ -175,6 +177,9 @@ void Game::update(float dt)
 		mouseY = -1;
 		break;
 	case GameState::Options:
+		m_optionsScreen->update(mouseX, mouseY, m_currentGameState);
+		mouseX = -1;
+		mouseY = -1;
 		break;
 	case GameState::GameScreen:
 		m_gameScreen->update(m_client, dt, m_renderer);
@@ -218,6 +223,7 @@ void Game::render(float dt)
 		m_menuScreen->render(m_renderer);
 		break;
 	case GameState::Options:
+		m_optionsScreen->render(m_renderer);
 		break;
 	case GameState::Lobby:
 		m_lobbyScreen->render(m_renderer);

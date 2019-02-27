@@ -4,7 +4,7 @@
 Credits::Credits(SDL_Renderer *ren)
 {
 
-	if (!m_texture.loadFromFile("Background_1.png", ren, 1))
+	if (!m_texture.loadFromFile("assets/img/optionsBG.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
@@ -83,11 +83,10 @@ bool Credits::endCredits()
 void Credits::drawText(SDL_Renderer * ren, std::string s, int x, int y)
 {
 	//Render text
-	SDL_Color textColor = { 255, 0, 0 };
+	SDL_Color textColor = { 255, 255, 255 };
 	if (!m_textTexture.loadFromRenderedText(s, textColor, ren, m_font))
 	{
 		printf("Failed to render text texture!\n");
-
 	}
 
 	m_textTexture.render(x, y, ren, 1, 1);
