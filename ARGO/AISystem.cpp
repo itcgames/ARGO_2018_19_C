@@ -99,7 +99,7 @@ void AISystem::update(level &m_level) {
 				}
 
 			}
-			//pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
+			pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
 
 		}
 		else {
@@ -202,7 +202,7 @@ void AISystem::update(level &m_level) {
 		}
 
 		//Updates position of the ai
-		pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
+		//pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
 
 
 
@@ -338,7 +338,7 @@ void AISystem::nodeCollision(NodeObjects closestNode, float x, float y, float wi
 			cc->moveLeft = 0;
 
 			std::cout << "Right" << std::endl;
-			//pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
+			pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
 
 
 		}
@@ -348,7 +348,7 @@ void AISystem::nodeCollision(NodeObjects closestNode, float x, float y, float wi
 			moveUp();
 			cc->moveLeft = 1;
 			cc->moveRight = 0;
-			//pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
+			pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
 
 		}
 
@@ -424,6 +424,17 @@ bool AISystem::checkFlagInRange() {
 	if (pcFlag->getPositionY() < pc->getPositionY() &&
 		pcFlag->getPositionY() > pc->getPositionY() - sc->getHeight() * 1)
 	{
+		if (pc->getPositionX() >= pcFlag->getPositionX() &&
+			pc->getPositionX() < pcFlag->getPositionX() + sc->getWidth()
+			&& pickup->getState() == pickup->Collectable) {
+
+			cc->setDirection(cc->Up);
+			moveUp();
+
+
+			pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
+
+		}
 		return true;
 	}
 	else
@@ -437,7 +448,7 @@ void AISystem::moveLeft() {
 	if (vel->getVelX() > -maxX)
 	{
 		ac->left();
-		vel->setVelX(-2);
+		vel->setVelX(-5);
 	}
 }
 void AISystem::moveRight() {
@@ -445,14 +456,14 @@ void AISystem::moveRight() {
 	if (vecX < maxX)
 	{
 		ac->right();
-		vel->setVelX(2);
+		vel->setVelX(5);
 	}
 }
 void AISystem::moveUp() {
 
 	if (cc->jump == 0 && cc->collision == 1)
 	{
-		vel->setVelY(vel->getVelY() - 15);
+		vel->setVelY(vel->getVelY() - 20);
 		cc->stopFall = false;
 		cc->OnPlatform = false;
 		cc->jump = 1;

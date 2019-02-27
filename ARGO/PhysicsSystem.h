@@ -35,5 +35,6 @@ private:
 	SpriteComponent * sc;
 
 	CollisionComponent * Coll;
+	VelocityComponent *vel;
 
 };

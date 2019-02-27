@@ -105,6 +105,7 @@ void Game::initialise()
 	player.addComponent(new CollisionComponent());
 	player.addComponent(new AmmoComponent(m_renderer));
 	player.addComponent(new LifeComponent(4, 1, m_renderer, 1));
+	player.addComponent(new VelocityComponent());
 
 
 	player2.addComponent(new PositionComponent(500, 800));
@@ -180,9 +181,9 @@ void Game::initialise()
 	player3.addComponent(new ScoreComponent(0));
 	player4.addComponent(new ScoreComponent(0));
 
-	//ais.addEntity(player3);
+	ais.addEntity(player3);
 	ais.addEntity(player2);
-	//ais.addEntity(player4);
+	ais.addEntity(player4);
 	ais.addEntity(flag);
 
 

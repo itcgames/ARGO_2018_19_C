@@ -164,7 +164,7 @@ void CombatSystem::updateAI() {
 					}
 
 					if (AABB(posComp->getPositionX(), posComp->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
-						spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
+						spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight()) && cc2->hasFlag) {
 
 
 						if (cc2->hasFlag && pickup->getState() == pickup->NotCollectable)
