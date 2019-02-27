@@ -1,311 +1,89 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Game.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>src\FSM</Filter>
-    </ClCompile>
-    <ClCompile Include="Assets.cpp">
-      <Filter>src\Art</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioManager.cpp">
-      <Filter>src\Art</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionSystem.cpp">
-      <Filter>src\System</Filter>
-    </ClCompile>
-    <ClCompile Include="CombatSystem.cpp">
-      <Filter>src\System</Filter>
-    </ClCompile>
-    <ClCompile Include="ControlSystem.cpp">
-      <Filter>src\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Left.cpp">
-      <Filter>src\FSM</Filter>
-    </ClCompile>
-    <ClCompile Include="JumpRight.cpp">
-      <Filter>src\FSM</Filter>
-    </ClCompile>
-    <ClCompile Include="JumpLeft.cpp">
-      <Filter>src\FSM</Filter>
-    </ClCompile>
-    <ClCompile Include="Idle.cpp">
-      <Filter>src\FSM</Filter>
-    </ClCompile>
-    <ClCompile Include="Die.cpp">
-      <Filter>src\FSM</Filter>
-    </ClCompile>
-    <ClCompile Include="LifeSystem.cpp">
-      <Filter>src\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Lobby.cpp">
-      <Filter>src\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="menu.cpp">
-      <Filter>src\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="LTexture.cpp">
-      <Filter>src\Art</Filter>
-    </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>src\Art</Filter>
-    </ClCompile>
-    <ClCompile Include="Right.cpp">
-      <Filter>src\FSM</Filter>
-    </ClCompile>
-    <ClCompile Include="splash.cpp">
-      <Filter>src\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="SeekerProjectile.cpp">
-      <Filter>src\PowerUps</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>src\PowerUps</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderSystem.cpp">
-      <Filter>src\System</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>src\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>src\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="Fuzzy.cpp">
-      <Filter>src\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>src\LevelLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="AISystem.cpp">
-      <Filter>src\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Credits.cpp">
-      <Filter>src\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="GameOver.cpp">
-      <Filter>src\Screens</Filter>
-    </ClCompile>
+    <ClCompile Include="AISystem.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Assets.cpp" />
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="CollisionSystem.cpp" />
+    <ClCompile Include="CombatSystem.cpp" />
+    <ClCompile Include="ControlSystem.cpp" />
+    <ClCompile Include="Credits.cpp" />
+    <ClCompile Include="Die.cpp" />
+    <ClCompile Include="Fuzzy.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="Idle.cpp" />
+    <ClCompile Include="JumpLeft.cpp" />
+    <ClCompile Include="JumpRight.cpp" />
+    <ClCompile Include="Left.cpp" />
+    <ClCompile Include="LifeSystem.cpp" />
+    <ClCompile Include="Lobby.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LTexture.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="Right.cpp" />
+    <ClCompile Include="SeekerProjectile.cpp" />
+    <ClCompile Include="splash.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Header\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="Die.h">
-      <Filter>Header\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="JumpLeft.h">
-      <Filter>Header\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="Idle.h">
-      <Filter>Header\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="JumpRight.h">
-      <Filter>Header\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="Left.h">
-      <Filter>Header\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="Right.h">
-      <Filter>Header\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Header\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="AmmoComponent.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionComp.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ControlComponent.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityComponent.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FlagComponent.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteComponent.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreComponent.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PositionComponent.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PickUpComponent.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleComponent.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="LifeComponent.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="AmmoSystem.h">
-      <Filter>Header\System</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionSystem.h">
-      <Filter>Header\System</Filter>
-    </ClInclude>
-    <ClInclude Include="CombatSystem.h">
-      <Filter>Header\System</Filter>
-    </ClInclude>
-    <ClInclude Include="ControlSystem.h">
-      <Filter>Header\System</Filter>
-    </ClInclude>
-    <ClInclude Include="LifeSystem.h">
-      <Filter>Header\System</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem.h">
-      <Filter>Header\System</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsSystem.h">
-      <Filter>Header\System</Filter>
-    </ClInclude>
-    <ClInclude Include="PositionSystem.h">
-      <Filter>Header\System</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderSystem.h">
-      <Filter>Header\System</Filter>
-    </ClInclude>
-    <ClInclude Include="splash.h">
-      <Filter>Header\Screens</Filter>
-    </ClInclude>
-    <ClInclude Include="menu.h">
-      <Filter>Header\Screens</Filter>
-    </ClInclude>
-    <ClInclude Include="Lobby.h">
-      <Filter>Header\Screens</Filter>
-    </ClInclude>
-    <ClInclude Include="SeekerProjectile.h">
-      <Filter>Header\PowerUps</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>Header\PowerUps</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerUp.h">
-      <Filter>Header\PowerUps</Filter>
-    </ClInclude>
-    <ClInclude Include="Assets.h">
-      <Filter>Header\Art</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioManager.h">
-      <Filter>Header\Art</Filter>
-    </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>Header\Art</Filter>
-    </ClInclude>
-    <ClInclude Include="LTexture.h">
-      <Filter>Header\Art</Filter>
-    </ClInclude>
-    <ClInclude Include="Factory.h">
-      <Filter>Header\PowerUps</Filter>
-    </ClInclude>
-    <ClInclude Include="Fuzzy.h">
-      <Filter>Header\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Client.h">
-      <Filter>Header\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Header\LevelLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="AISystem.h">
-      <Filter>Header\System</Filter>
-    </ClInclude>
-    <ClInclude Include="VelComponent.h">
-      <Filter>Header\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="AIComponent.h">
-      <Filter>Header\Components</Filter>
-    <ClInclude Include="GameOver.h">
-      <Filter>Header\Screens</Filter>
-    </ClInclude>
-    <ClInclude Include="Credits.h">
-      <Filter>Header\Screens</Filter>
-    </ClInclude>
+    <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="Credits.h" />
+    <ClInclude Include="VelComponent.h" />
+    <ClInclude Include="AISystem.h" />
+    <ClInclude Include="AmmoComponent.h" />
+    <ClInclude Include="AmmoSystem.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Assets.h" />
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="CollisionComp.h" />
+    <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="CombatSystem.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ControlComponent.h" />
+    <ClInclude Include="ControlSystem.h" />
+    <ClInclude Include="Die.h" />
+    <ClInclude Include="EntityComponent.h" />
+    <ClInclude Include="Factory.h" />
+    <ClInclude Include="FlagComponent.h" />
+    <ClInclude Include="Fuzzy.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameOver.h" />
+    <ClInclude Include="Idle.h" />
+    <ClInclude Include="JumpLeft.h" />
+    <ClInclude Include="JumpRight.h" />
+    <ClInclude Include="Left.h" />
+    <ClInclude Include="LifeComponent.h" />
+    <ClInclude Include="LifeSystem.h" />
+    <ClInclude Include="Lobby.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="LTexture.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleComponent.h" />
+    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="PickUpComponent.h" />
+    <ClInclude Include="PositionComponent.h" />
+    <ClInclude Include="PositionSystem.h" />
+    <ClInclude Include="PowerUp.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="Right.h" />
+    <ClInclude Include="ScoreComponent.h" />
+    <ClInclude Include="SeekerProjectile.h" />
+    <ClInclude Include="splash.h" />
+    <ClInclude Include="SpriteComponent.h" />
+    <ClInclude Include="State.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Left.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Header">
-      <UniqueIdentifier>{8bfd74b9-1450-4670-9dae-8dbb928c0cd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src">
-      <UniqueIdentifier>{8d3dd9f4-83dc-42c5-8cd4-77a079d8ada7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\FSM">
-      <UniqueIdentifier>{8db15537-4447-4c80-8a73-02860de90cb7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\Components">
-      <UniqueIdentifier>{5eb9bf60-8d9e-4b4e-9f4f-207ab1e5239e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\System">
-      <UniqueIdentifier>{bb7eb669-bbcd-4d3a-af23-f6c7ab653800}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\Screens">
-      <UniqueIdentifier>{87fcb198-25a4-4f65-a836-8137ddee3d37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\PowerUps">
-      <UniqueIdentifier>{532a0e14-a634-4261-ae63-381451cefaa4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\Art">
-      <UniqueIdentifier>{e3b91b97-79af-4a25-a474-afb07611e8c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\FSM">
-      <UniqueIdentifier>{575ddd0f-6ab0-4f9b-9be5-06aba6c14952}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Art">
-      <UniqueIdentifier>{c365bd2f-df5a-4d06-9127-7f03f2479d6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\PowerUps">
-      <UniqueIdentifier>{8efeab45-b6aa-4136-9b00-7ed85ffc8765}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Screens">
-      <UniqueIdentifier>{dbf4d045-e1f3-4971-8532-fb48758a6c6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\System">
-      <UniqueIdentifier>{a329583e-e329-4ffa-93e1-6c13a3f3574d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Network">
-      <UniqueIdentifier>{a477d7ab-80b1-4456-9d37-661ce712de64}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\AI">
-      <UniqueIdentifier>{fdd50a55-435e-4143-9e04-9ff4b29343dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\LevelLoader">
-      <UniqueIdentifier>{c750be61-bd65-4513-9b1d-2b1ef24a81a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\AI">
-      <UniqueIdentifier>{d438322c-f4fb-418f-9105-78d3630df8d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\Network">
-      <UniqueIdentifier>{0f1f7091-85c8-4a1e-979d-bc6c99e299b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\LevelLoader">
-      <UniqueIdentifier>{59ff70fd-7a1f-4a21-8a78-09c35495934e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\FSM\AIFSM">
-      <UniqueIdentifier>{46140b6d-cbe9-49dd-8f50-b1b559ab7156}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\FSM\AIFSM">
-      <UniqueIdentifier>{01c2bf45-cd18-42bc-b12c-aad3523e83c9}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>
