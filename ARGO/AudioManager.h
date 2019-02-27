@@ -19,6 +19,7 @@ enum observer_State {
 class Observer {
 
 public:
+	Observer() {};
 	virtual ~Observer() {};
 	virtual void onNotify(observer_State s) = 0;
 };
@@ -53,11 +54,14 @@ public:
 
 protected:
 	void notify(observer_State s) {
+		for(int i=0; i<observers.size(); i++)
 		onNotify(s);
 	}
 
 private:
 	static AudioManager* sInstance;
+	Observer* observer_;
+	std::vector<Observer*> observers;
 	std::map<std::string, Mix_Chunk*> m_SFX;
 	std::map<std::string, Mix_Music*> m_Music;
 	observer_State current_ObserverState;
