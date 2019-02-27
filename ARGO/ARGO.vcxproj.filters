@@ -92,7 +92,7 @@
       <Filter>src\Screens</Filter>
     </ClCompile>
     <ClCompile Include="GameScreen.cpp">
-      <Filter>src\System</Filter>
+      <Filter>src\Screens</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

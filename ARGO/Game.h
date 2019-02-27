@@ -44,6 +44,7 @@
 using namespace std;
 
 class Lobby;
+class GameScreen;
 
 class Game {
 
@@ -54,7 +55,8 @@ public:
 	void run();
 	void setGameState(GameState gameState);
 	void playerAI(int pIndex, bool ai);
-	void setPlayer(int pIndex);
+	void setPlayer(int pIndex); 
+	void addPlayerScore(int index, int score);
 
 private:
 

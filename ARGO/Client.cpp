@@ -111,7 +111,7 @@ std::string Client::receive()
 			sendIP();
 
 		}
-		else if (indexH >= 0)
+		else if (msg == "Host")
 		{
 			// Host server
 			std::cout << "Host" << std::endl;

@@ -252,6 +252,24 @@ void ControlSystem::input(SDL_Event &e, Client & client) {
 				posY = posComp->getPositionY();
 				//get current ammo amount and if not 0 place bomb
 				if (ammoComp->getSeekerAmmo() > 0) {
+					if (entity.getName() == "Player")
+					{
+						msg = "Fire I: 0";
+					}
+					else if (entity.getName() == "Player2")
+					{
+						msg = "Fire I: 1";
+					}
+					else if (entity.getName() == "Player3")
+					{
+						msg = "Fire I: 2";
+					}
+					else if (entity.getName() == "Player4")
+					{
+						msg = "Fire I: 3";
+					}
+					msg = msg + " X: " + std::to_string(posX) + " Y: " + std::to_string(posY);
+					client.sendMsg(msg);
 					ammoComp->dropSeeker(posX, posY, 200);
 					//take one ammo away
 					int current = ammoComp->getSeekerAmmo();

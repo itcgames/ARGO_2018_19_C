@@ -233,32 +233,35 @@ void Lobby::updateNetwork(Client * client, int pIndex, std::string s)
 		if (m_stateTimer > m_stateTimerLimit)
 		{
 			m_game->setGameState(GameState::GameScreen);
-			if (!getInLobby(0))
+			if (pIndex == 0)
 			{
-				// Player 1 is an Ai
-				std::cout << "Player 1 is an AI" << std::endl;
-				m_game->playerAI(0, true);
-			}
+				if (!getInLobby(0))
+				{
+					// Player 1 is an Ai
+					std::cout << "Player 1 is an AI" << std::endl;
+					m_game->playerAI(0, true);
+				}
 
-			if (!getInLobby(1))
-			{
-				// Player 2 is an Ai
-				std::cout << "Player 2 is an AI" << std::endl;
-				m_game->playerAI(1, true);
-			}
+				if (!getInLobby(1))
+				{
+					// Player 2 is an Ai
+					std::cout << "Player 2 is an AI" << std::endl;
+					m_game->playerAI(1, true);
+				}
 
-			if (!getInLobby(2))
-			{
-				// Player 3 is an Ai
-				std::cout << "Player 3 is an AI" << std::endl;
-				m_game->playerAI(2, true);
-			}
+				if (!getInLobby(2))
+				{
+					// Player 3 is an Ai
+					std::cout << "Player 3 is an AI" << std::endl;
+					m_game->playerAI(2, true);
+				}
 
-			if (!getInLobby(3))
-			{
-				// Player 4 is an Ai
-				std::cout << "Player 4 is an AI" << std::endl;
-				m_game->playerAI(3, true);
+				if (!getInLobby(3))
+				{
+					// Player 4 is an Ai
+					std::cout << "Player 4 is an AI" << std::endl;
+					m_game->playerAI(3, true);
+				}
 			}
 
 			// Start game
@@ -318,7 +321,7 @@ void Lobby::updateNetwork(Client * client, int pIndex, std::string s)
 			inLobby(0, lobby);
 			if (readyState && lobby)
 			{
-				m_game->playerAI(0, true);
+				m_game->playerAI(0, false);
 			}
 			break;
 		case 1:
@@ -326,7 +329,7 @@ void Lobby::updateNetwork(Client * client, int pIndex, std::string s)
 			inLobby(1, lobby);
 			if (readyState && lobby)
 			{
-				m_game->playerAI(1, true);
+				m_game->playerAI(1, false);
 			}
 			break;
 		case 2:
@@ -334,7 +337,7 @@ void Lobby::updateNetwork(Client * client, int pIndex, std::string s)
 			inLobby(2, lobby);
 			if (readyState && lobby)
 			{
-				m_game->playerAI(2, true);
+				m_game->playerAI(2, false);
 			}
 			break;
 		case 3:
@@ -342,7 +345,7 @@ void Lobby::updateNetwork(Client * client, int pIndex, std::string s)
 			inLobby(3, lobby);
 			if (readyState && lobby)
 			{
-				m_game->playerAI(3, true);
+				m_game->playerAI(3, false);
 			}
 			break;
 		}

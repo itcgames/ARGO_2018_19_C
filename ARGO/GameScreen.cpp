@@ -25,7 +25,7 @@ std::vector<float> GameScreen::msgToPos(std::string s)
 	return vec;
 }
 
-GameScreen::GameScreen(SDL_Renderer * ren) : player("Player"), player2("Player2"), player3("Player3"), player4("Player4"), flag("Flag")
+GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("Player"), player2("Player2"), player3("Player3"), player4("Player4"), flag("Flag")
 {
 	m_factory = new PowerUpFactory;
 
@@ -37,7 +37,9 @@ GameScreen::GameScreen(SDL_Renderer * ren) : player("Player"), player2("Player2"
 	{
 		printf("Failed to load wall texture!\n");
 	}
-
+	
+	//Open the font
+	m_font = TTF_OpenFont("assets/Fonts/Amatic-Bold.ttf", 28);
 
 	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, ren, 8, 2));
 	flag.addComponent(new PickUpComponent());
@@ -120,6 +122,9 @@ void GameScreen::init(SDL_Renderer * ren, int * pIndex)
 	m_playerIndex = pIndex;
 	m_timerSpawn = 0;
 
+	m_countdownSec = 0;
+	m_countdownMinute = 1;
+
 	flag.addComponent(new PositionComponent(1000, 600));
 
 	//Initialise player with all the Components and systems they need (AI or Player)
@@ -175,7 +180,62 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 		//Update all ai
 		ais.update(1000, ais.getEntityById("Player2"));
 	}
+	if (m_countdownMinute <= 0  && m_countdownSec > 30000)
+	{
+		ScoreComponent * sc = (ScoreComponent *)player.getCompByType("Score");
+		switch (*m_playerIndex)
+		{
+		case 0:
+			sc = (ScoreComponent *)player.getCompByType("Score");
+			break;
+		
+		case 1:
+			sc = (ScoreComponent *)player2.getCompByType("Score");
+			break;
 
+		case 2:
+			sc = (ScoreComponent *)player3.getCompByType("Score");
+			break;
+
+		case 3:
+			sc = (ScoreComponent *)player4.getCompByType("Score");
+			break;
+		}
+		// change state
+		m_game->setGameState(GameState::GameOverScreen);
+		m_game->addPlayerScore(*m_playerIndex, sc->getScore());
+		std::string msg = "Score s: " + std::to_string(sc->getScore()) + " i: " + std::to_string(*m_playerIndex);
+		client->sendMsg(msg);
+		if(*m_playerIndex == 0)
+		{
+			for (int i = 0; i < ais.getEntityIds().size(); i++)
+			{
+				switch (i)
+				{
+				case 1:
+					sc = (ScoreComponent *)player2.getCompByType("Score");
+					msg = "Score s: " + std::to_string(sc->getScore()) + " i: " + std::to_string(i);
+					client->sendMsg(msg);
+					std::cout << "Ai 2 sent" << std::endl;
+					break;
+
+				case 2:
+					sc = (ScoreComponent *)player3.getCompByType("Score");
+					msg = "Score s: " + std::to_string(sc->getScore()) + " i: " + std::to_string(i);
+					client->sendMsg(msg);
+					std::cout << "Ai 3 sent" << std::endl;
+					break;
+
+				case 3:
+					sc = (ScoreComponent *)player4.getCompByType("Score");
+					msg = "Score s: " + std::to_string(sc->getScore()) + " i: " + std::to_string(i);
+					client->sendMsg(msg);
+					std::cout << "Ai 4 sent" << std::endl;
+					break;
+				}
+			}
+		}
+	}
 	// ?? getDistance();
 }
 
@@ -190,6 +250,22 @@ void GameScreen::render(SDL_Renderer * ren, float dt)
 	for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{
 		m_powerUps[i]->draw(ren);
+	}
+
+	if (m_font == NULL)
+	{
+		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
+	}
+	else
+	{
+		m_countdownSec += dt / 2;
+		if (m_countdownSec > 30000)
+		{
+			m_countdownSec = 0;
+			m_countdownMinute--;
+		}
+		
+		drawText(ren, std::to_string(m_countdownMinute) + ":" + std::to_string((30000 - m_countdownSec) / 500), 50, 50);
 	}
 }
 
@@ -236,6 +312,18 @@ void GameScreen::resetCamera()
 	SCREEN_HEIGHT = 1020;
 }
 
+void GameScreen::drawText(SDL_Renderer * ren, std::string s, int x, int y)
+{
+	//Render text
+	SDL_Color textColor = { 255, 0, 0 };
+	if (!m_textTexture.loadFromRenderedText(s, textColor, ren, m_font))
+	{
+		printf("Failed to render text texture!\n");
+
+	}
+
+	m_textTexture.render(x, y, ren, 1, 1);
+}
 
 void GameScreen::sendAiToNetwork(Client * client)
 {
@@ -362,8 +450,7 @@ void GameScreen::powerUpSpawn(SDL_Renderer * ren, Client * client)
 		m_timerSpawn++;
 		if (m_timerSpawn >= m_spawnTimeLimit)
 		{
-			//switch (rand() % m_numOfPowerUps)
-			switch (2)
+			switch (rand() % m_numOfPowerUps)
 			{
 			case 0:
 				m_powerUps.push_back(m_factory->CreateSpeed(ren));
@@ -437,21 +524,7 @@ void GameScreen::powerUpSpawn(SDL_Renderer * ren, Client * client)
 				// Which power up if it
 				switch (m_powerUps[i]->getID())
 				{
-				case 1: // Health
-					for (int j = 0; j < Colls.getEntityID().size(); j++)
-					{
-						if (Colls.getEntityID()[j] == "Player")
-							Colls.ActivateInvincible();
-						if (Colls.getEntityID()[j] == "Player2")
-							Colls.ActivateInvincible();
-						if (Colls.getEntityID()[j] == "Player3")
-							Colls.ActivateInvincible();
-						if (Colls.getEntityID()[j] == "Player4")
-							Colls.ActivateInvincible();
-					}
-					break;
-
-				case 2:	// Speed
+				case 1:	// Speed
 					for (int j = 0; j < phs.getEntityIds().size(); j++)
 					{
 						if (phs.getEntityIds()[j] == "Player") {
@@ -466,6 +539,20 @@ void GameScreen::powerUpSpawn(SDL_Renderer * ren, Client * client)
 						if (phs.getEntityIds()[j] == "Player4") {
 							phs.speedUp(phs.getEntityById("Player4"));
 						}
+					}
+					break;
+
+				case 2: // Health
+					for (int j = 0; j < Colls.getEntityID().size(); j++)
+					{
+						if (Colls.getEntityID()[j] == "Player")
+							Colls.ActivateInvincible();
+						if (Colls.getEntityID()[j] == "Player2")
+							Colls.ActivateInvincible();
+						if (Colls.getEntityID()[j] == "Player3")
+							Colls.ActivateInvincible();
+						if (Colls.getEntityID()[j] == "Player4")
+							Colls.ActivateInvincible();
 					}
 					break;
 
@@ -597,7 +684,6 @@ void GameScreen::updatePlayerNet(std::string s)
 	}
 }
 
-
 void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * ren)
 {
 	PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
@@ -648,9 +734,6 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 
 	if (msg.length() > 0)
 	{
-
-		updatePlayerNet(msg);
-
 		int indexPlayer = msg.find("Player");
 
 		// Setting other player positions
@@ -742,20 +825,7 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 			// Set flag position and if it can be taken
 			PositionComponent * fp = (PositionComponent *)flag.getCompByType("Position");
 			fp->setPosition((int)msgToPos(msg.substr(index))[0], (int)msgToPos(msg.substr(index))[1]);
-			switch ((int)msgToPos(msg.substr(index))[2])
-			{
-			case 0:
-				break;
-
-			case 1:
-				break;
-
-			case 2:
-				break;
-
-			case 3:
-				break;
-			}
+			
 		}
 
 		index = msg.find("Planted");
@@ -792,7 +862,32 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 		index = msg.find("Fire");
 		if (index >= 0)
 		{
-			// Fire rocket
+			// Put Bomb on pos given
+			int pIndex = (int)msgToPos(msg.substr(index))[0];
+			int x = (int)msgToPos(msg.substr(index))[1];
+			int y = (int)msgToPos(msg.substr(index))[2];
+
+			AmmoComponent* ammoComp = (AmmoComponent*)player.getCompByType("Ammo");
+
+			switch (pIndex)
+			{
+			case 0:
+				ammoComp = (AmmoComponent*)player.getCompByType("Ammo");
+				break;
+
+			case 1:
+				ammoComp = (AmmoComponent*)player2.getCompByType("Ammo");
+				break;
+
+			case 2:
+				ammoComp = (AmmoComponent*)player3.getCompByType("Ammo");
+				break;
+
+			case 3:
+				ammoComp = (AmmoComponent*)player4.getCompByType("Ammo");
+				break;
+			}
+			ammoComp->dropSeeker(x, y, 200);
 		}
 
 
@@ -860,7 +955,6 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 	}
 }
 
-
 void GameScreen::playerAI(int pIndex, bool ai)
 {
 	if (ai)
@@ -900,7 +994,6 @@ void GameScreen::playerAI(int pIndex, bool ai)
 		}
 	}
 }
-
 
 void GameScreen::setPlayer(int pIndex)
 {

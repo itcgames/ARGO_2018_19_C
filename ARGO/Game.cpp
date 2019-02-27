@@ -83,7 +83,7 @@ void Game::initialise()
 	// Screen Initialise
 	m_lobbyScreen = new Lobby(m_renderer, this);
 	m_creditsScreen = new Credits(m_renderer);
-	m_gameScreen = new GameScreen(m_renderer);
+	m_gameScreen = new GameScreen(m_renderer, this);
 	m_gameScreen->init(m_renderer, &m_playerIndex);
 	m_gameoverScreen = new GameOverScreen();
 	m_menuScreen = new MenuScreen(m_renderer);
@@ -243,6 +243,11 @@ void Game::updateNetwork()
 
 	// Turn message to position.
 	std::string s = m_client->receive();
+	
+	if (s == "Host")
+	{
+		std::cout << "Shouldn't happen" << std::endl;
+	}
 
 	if (m_playerIndex != 5)
 	{
@@ -273,6 +278,11 @@ void Game::updateNetwork()
 	}
 	
 
+}
+
+void Game::addPlayerScore(int index, int score)
+{
+	m_gameoverScreen->addPlayerScore(index, score);
 }
 
 void Game::playerAI(int pIndex, bool ai)

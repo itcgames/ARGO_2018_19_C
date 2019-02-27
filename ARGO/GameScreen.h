@@ -17,11 +17,14 @@
 #include "LifeSystem.h"
 #include "Factory.h"
 #include <sstream>
+#include "Game.h"
+
+class Game;
 
 class GameScreen
 {
 public:
-	GameScreen(SDL_Renderer * ren);
+	GameScreen(SDL_Renderer * ren, Game * game);
 	~GameScreen();
 	void init(SDL_Renderer * ren, int * pIndex);
 	void update(Client * client, float dt, SDL_Renderer * ren);
@@ -89,4 +92,13 @@ private:
 	std::vector<float> msgToPos(std::string s);
 	
 	void getDistance();
+
+	Game * m_game;
+
+	// Countdown
+	int m_countdownSec;
+	int m_countdownMinute;
+	TTF_Font *m_font;
+	LTexture m_textTexture;
+	void drawText(SDL_Renderer * ren, std::string s, int x, int y);
 };
