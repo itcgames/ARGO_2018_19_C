@@ -27,8 +27,8 @@ public:
 	};
 	AiStateS m_currentState;
 
-	float closestN;
-	float tempClosest;
+	float closestN = 10000;
+	float temp;
 
 	NodeObjects closestNode;
 

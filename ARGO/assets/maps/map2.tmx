@@ -12,7 +12,7 @@
 137,0,0,0,0,0,137,137,137,137,137,0,0,0,137,137,137,137,137,0,0,0,0,0,137,
 137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,
 137,137,137,137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,137,137,137,
-137,0,0,0,0,0,0,0,0,0,137,137,137,137,137,0,0,0,0,0,0,0,0,0,137,
+137,0,0,0,0,0,0,0,0,48,137,137,137,137,137,48,0,0,0,0,0,0,0,0,137,
 137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,137,
 137,0,0,0,137,137,137,137,0,0,0,0,0,0,0,0,0,137,137,137,137,0,0,0,137,
 137,0,0,0,0,0,0,0,0,0,25,25,25,25,0,0,0,0,0,0,0,0,0,0,2,
@@ -45,9 +45,9 @@
   <object id="96" name="Ceiling" x="1019.33" y="709.667" width="240" height="10"/>
   <object id="97" name="Wall" x="1249.33" y="669.667" width="10" height="40"/>
   <object id="98" name="Wall" x="1019.33" y="669.667" width="10" height="40"/>
-  <object id="99" name="Ceiling" x="600.5" y="590" width="300" height="10"/>
-  <object id="100" name="Wall" x="890" y="550" width="10" height="40"/>
-  <object id="101" name="Wall" x="600.5" y="549.5" width="10" height="40"/>
+  <object id="99" name="Ceiling" x="540.5" y="590" width="418.667" height="10"/>
+  <object id="100" name="Wall" x="949" y="550" width="10" height="40"/>
+  <object id="101" name="Wall" x="540.5" y="550.833" width="10" height="40"/>
   <object id="102" name="Ceiling" x="360" y="410" width="300" height="10"/>
   <object id="103" name="Wall" x="650" y="370" width="10" height="40"/>
   <object id="104" name="Wall" x="359.697" y="370" width="10" height="40"/>
@@ -148,8 +148,8 @@
   <object id="141" name="Node" type="Edge" x="732" y="314" width="26" height="26"/>
   <object id="142" name="Node" type="Edge" x="286" y="314" width="36" height="38"/>
   <object id="143" name="Node" type="Edge" x="302" y="442" width="32" height="30"/>
-  <object id="144" name="Node" type="Edge" x="962" y="500" width="28" height="30"/>
-  <object id="145" name="Node" type="Edge" x="510" y="492" width="36" height="42"/>
+  <object id="144" name="Node" type="Edge" x="980.667" y="498.667" width="28" height="30"/>
+  <object id="145" name="Node" type="Edge" x="478" y="493.333" width="36" height="42"/>
   <object id="146" name="Node" type="Edge" x="140" y="620" width="32" height="44"/>
   <object id="147" name="Node" type="Edge" x="526" y="622" width="42" height="30"/>
   <object id="148" name="Node" type="Edge" x="1336" y="616" width="30" height="32"/>

@@ -33,6 +33,7 @@ public:
 				return comp;
 			}
 		}
+		return nullptr;
 	}
 	void removeComponent(Component* c) {
 		/*TBI*/

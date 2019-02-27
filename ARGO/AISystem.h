@@ -10,7 +10,9 @@ class AISystem
 	std::vector<Entity> entities;
 	Fuzzy* m_fuzzy = new Fuzzy();
 	PositionComponent * pc;
+	PositionComponent * pc2;
 	PositionComponent * pcFlag;
+	PickUpComponent * pickup;
 	float posX = 0;
 	float posY = 0;
 	float velX = 0;
@@ -18,16 +20,22 @@ class AISystem
 	int vecX, vecY;
 	int maxX = 10, maxY = 10;
 	int collision = false;
-	ControlComponent * cc;
+
 	float flagX = 0;
 	float flagY = 0;
 
 	AnimationComponent * ac;
 	SpriteComponent * sc;
+	SpriteComponent * sc2;
 	CollisionComponent * Coll;
 	VelocityComponent *vel;
+	ControlComponent * cc2;
+	ControlComponent * cc;
+	VelocityComponent *vel2;
 	AiComponent *ai;
 	NodeObjects closestNode;
+
+	std::string currentEntity;
 
 public:
 	AISystem();

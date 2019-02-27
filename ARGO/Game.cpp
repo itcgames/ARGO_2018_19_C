@@ -107,7 +107,7 @@ void Game::initialise()
 	player.addComponent(new LifeComponent(4, 1, m_renderer, 1));
 
 
-	player2.addComponent(new PositionComponent(500, 100));
+	player2.addComponent(new PositionComponent(500, 800));
 	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, m_renderer, 3, 5));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
@@ -180,8 +180,8 @@ void Game::initialise()
 	player3.addComponent(new ScoreComponent(0));
 	player4.addComponent(new ScoreComponent(0));
 
-	ais.addEntity(player3);
-	//ais.addEntity(player2);
+	//ais.addEntity(player3);
+	ais.addEntity(player2);
 	//ais.addEntity(player4);
 	ais.addEntity(flag);
 
