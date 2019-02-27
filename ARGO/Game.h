@@ -40,11 +40,12 @@
 #include "GameOver.h"
 #include "Options.h"
 #include "menu.h"
-
+#include "GameScreen.h"
 
 using namespace std;
 
-
+class Lobby;
+class GameScreen;
 
 class Game {
 
@@ -54,6 +55,9 @@ public:
 
 	void run();
 	void setGameState(GameState gameState);
+	void playerAI(int pIndex, bool ai);
+	void setPlayer(int pIndex); 
+	void addPlayerScore(int index, int score);
 
 private:
 
@@ -61,21 +65,21 @@ private:
 	void update(float dt);
 	void render(float dt);
 	void initialise();
-	void getDistance();
+
+	std::vector<float> msgToPos(std::string s);
 
 
 	SDL_Window *m_window;
+	int SCREEN_WIDTH = 1500;
+	int SCREEN_HEIGHT = 1000;
 	SDL_Renderer *m_renderer;
 	SDL_Event event;
 	bool exit;
 
-	level* m_level;
-
-	Entity* m_flag;
-	ControlComponent* m_ctrlComponent;
-	PositionComponent* m_posComponent;
-	CollisionComponent* CollisionComp;
-	ParticleComponent* m_partComponent;
+	//ControlComponent* m_ctrlComponent;
+	//PositionComponent* m_posComponent;
+	//CollisionComponent* CollisionComp;
+	//ParticleComponent* m_partComponent;
 
 	// Screens
 	Lobby * m_lobbyScreen;
@@ -83,55 +87,23 @@ private:
 	GameOverScreen * m_gameoverScreen;
 	MenuScreen * m_menuScreen;
 	optionsScreen * m_optionsScreen;
+	GameScreen * m_gameScreen;
 
-	CombatSystem comsystem;
-    //LifeSystem ls;
-	RenderSystem rs;
-	AISystem ais;
-	ParticleSystem ps;
-	ControlSystem cs;
 	GameState m_currentGameState;
 	GameState m_previousGameState;
-	AmmoSystem ammos;
 
-	CollisionSystem Colls;
-	LTexture m_texture, wallTxt;
-
-
-	PhysicsSystem phs;
-	LifeSystem ls;
-
-	Factory* m_factory;
-	std::vector<PowerUp*> m_powerUps;
-	double disBetweenAiPlayer = 10000;
-
-	int m_timerSpawn;
-	const int m_spawnTimeLimit = 1000;
-	const int m_numOfPowerUps = 5;
-
-
-	void rumble();
-	void resetCamera();
-	int rTimer = 0;
-	int SCREEN_WIDTH = 1500;
-	int SCREEN_HEIGHT = 1000;
+	
 	int mouseX, mouseY;
-	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-	// Player
-	int m_playerIndex = 5;
-	Entity player;
-	Entity player2;
-	Entity player3;
-	Entity player4;
-
-	// Network
+	
+	
 	Client * m_client;
-	void updateNetwork();
-	void sendAiToNetwork();
 
-	int m_stateTimer;
-	const int m_stateTimerLimit = 200;
+	int m_playerIndex = 5;
+
+	void updateNetwork();
+
+	std::string playerID;
 
 };
 

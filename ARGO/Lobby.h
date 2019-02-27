@@ -4,11 +4,15 @@
 #include "LTexture.h"
 #include <vector>
 #include "menu.h"
+#include "Client.h"
+#include "Game.h"
+
+class Game;
 
 class Lobby
 {
 public:
-	Lobby(SDL_Renderer * ren);
+	Lobby(SDL_Renderer * ren, Game * game);
 	~Lobby();
 	void init();
 	void changeState(int index, bool state);
@@ -17,9 +21,12 @@ public:
 	bool everyoneReady(int countdown);
 	void update(int index, int x, int y, GameState & gs);
 	void render(SDL_Renderer * ren);
+	void updateNetwork(Client * client, int pIndex, std::string s);
 	std::string sendMsg(int index);
 
 private:
+	Game * m_game;
+
 	// Buttons
 	LTexture m_readyTexture;
 	int m_readyX, m_readyY, m_readyW, m_readyH;
@@ -30,6 +37,7 @@ private:
 	std::vector<bool> m_playerReady;
 	std::vector<bool> m_playerInLobby;
 	bool m_inLobby;
+	std::vector<float> msgToPos(std::string s);
 
 	// Player Characters
 	LTexture m_playerTexture;
@@ -42,4 +50,8 @@ private:
 	TTF_Font *m_font;
 	LTexture m_textTexture;
 	void drawText(SDL_Renderer * ren, std::string s, int x, int y);
+
+	// Network 
+	int m_stateTimer;
+	const int m_stateTimerLimit = 200;
 };

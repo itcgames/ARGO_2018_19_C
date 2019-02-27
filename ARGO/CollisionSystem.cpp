@@ -114,7 +114,8 @@ void CollisionSystem::resetScore(std::string id)
 	}
 }
 
-void CollisionSystem::CheckCollision(level &level, float dt)
+void CollisionSystem::CheckCollision(level &level, float dt, std::string playerID)
+
 {
 
 	time = time + dt;
@@ -140,7 +141,13 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 				height1 = spriteComp->getHeight();
 				tileCollision(x1, y1, width1, height1, level, lc);
 				Teleport(x1, y1, width1, height1, level);
+
+				if (entity.getName() != playerID) {
+					//nodeCollision(level, posComp1->getPositionX(), posComp1->getPositionY(), spriteComp->getWidth(), spriteComp->getHeight());
+				}
+				
 				setInvincible(dt, collide);
+
 			}
 
 
@@ -153,6 +160,8 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 			pickup = (PickUpComponent *)entity.getCompByType("PickUp");
 
 		}
+
+		
 
 		if (posComp1 != NULL && posComp2 != NULL) {
 			if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
@@ -182,8 +191,6 @@ void CollisionSystem::CheckCollision(level &level, float dt)
 			else
 				FloatFlag(posComp2);
 		}
-
-		
 	}
 }
 
@@ -194,6 +201,37 @@ bool CollisionSystem::AABB(float x1, float y1, float x2, float y2, float width1,
 		(abs(y1 - y2) * 2 < (height1 + height2));
 }
 
+void CollisionSystem::nodeCollision(level &level, float x, float y, float width, float height)
+{
+	for (int i = 0; i < level.m_nodes.size(); i++) {
+
+		if (AABB(x, y, level.m_nodes[i].x, level.m_nodes[i].y, width, height, level.m_nodes[i].width, level.m_nodes[i].height)) {
+
+			if (level.m_nodes[i].type == "JumpRight") {
+
+				cc->setDirection(cc->Up);
+				cc->jump = 0;
+				cc->moveRight = 1;
+				std::cout << "Right" << std::endl;
+				
+			}
+			else if (level.m_nodes[i].type == "JumpLeft") {
+
+				cc->setDirection(cc->Up);
+				cc->jump = 0;
+				cc->moveLeft = 1;
+				std::cout << "JUMP" << std::endl;
+			}
+			
+		}
+		else
+		{
+			cc->jump = 1;
+		}
+
+	}
+
+}
 
 bool CollisionSystem::squareCollision(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2)
 {
@@ -355,7 +393,3 @@ void CollisionSystem::Teleport(float x, float y, float width, float height, leve
 	}
 }
 
-void CollisionSystem::update(level &level, float dt)
-{
-	CheckCollision(level, dt);
-}

@@ -11,9 +11,10 @@ class GameOverScreen
 public:
 	GameOverScreen();
 	~GameOverScreen();
-	void init(std::vector<int> scores);
+	void init();
 	void update();
 	void render(SDL_Renderer * ren);
+	void addPlayerScore(int index, int score);
 
 private:
 	std::vector<int> m_scores;

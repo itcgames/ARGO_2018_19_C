@@ -24,7 +24,7 @@ public:
 	void setVelY(float vel) {
 		velY = vel;
 	}
-	
+	float distance;
 	// might need to change the ai pos
 	//check how the phy class gets reference the the position
 	std::string getID() { return id; }
@@ -33,7 +33,7 @@ private:
 	float positionY;
 	float velX = 0;
 	float velY = 0;
-	float distance;
+	
 	std::string  id = "Vel";
 
 

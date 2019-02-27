@@ -14,7 +14,7 @@ public:
 	void addEntity(Entity e);
 	void removeEntity(std::vector<Entity>&entities, std::string ID);
 
-	void update( float dt);
+	void update();
 
 
 private:

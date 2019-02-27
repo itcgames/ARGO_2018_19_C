@@ -1,6 +1,31 @@
 #include "Lobby.h"
 
-Lobby::Lobby(SDL_Renderer *ren)
+struct not_digit {
+	bool operator()(const char c)
+	{
+		return c != ' ' && !isdigit(c);
+	}
+};
+
+std::vector<float> Lobby::msgToPos(std::string s)
+{
+	not_digit notADigit;
+
+	std::string::iterator end = std::remove_if(s.begin(), s.end(), notADigit);
+
+	std::string all_numbers(s.begin(), end);
+
+	std::stringstream ss(all_numbers);
+	std::vector<float> vec;
+	int i;
+	for (; ss >> i;)
+	{
+		vec.push_back(i);
+	}
+	return vec;
+}
+
+Lobby::Lobby(SDL_Renderer *ren, Game * game):m_game(game)
 {
 	//Open the font
 	m_font = TTF_OpenFont("assets/Fonts/Amatic-Bold.ttf", 28);
@@ -51,6 +76,8 @@ Lobby::Lobby(SDL_Renderer *ren)
 		m_playerReady.push_back(true);
 		m_playerInLobby.push_back(false);
 	}
+
+	m_stateTimer = 0;
 }
 
 
@@ -197,4 +224,153 @@ void Lobby::drawText(SDL_Renderer * ren, std::string s, int x, int y)
 	}
 
 	m_textTexture.render(x, y, ren, 1, 1);
+}
+
+void Lobby::updateNetwork(Client * client, int pIndex, std::string s)
+{
+	if (everyoneReady(m_stateTimer))
+	{
+		if (m_stateTimer > m_stateTimerLimit)
+		{
+			m_game->setGameState(GameState::GameScreen);
+			if (pIndex == 0)
+			{
+				if (!getInLobby(0))
+				{
+					// Player 1 is an Ai
+					std::cout << "Player 1 is an AI" << std::endl;
+					m_game->playerAI(0, true);
+				}
+
+				if (!getInLobby(1))
+				{
+					// Player 2 is an Ai
+					std::cout << "Player 2 is an AI" << std::endl;
+					m_game->playerAI(1, true);
+				}
+
+				if (!getInLobby(2))
+				{
+					// Player 3 is an Ai
+					std::cout << "Player 3 is an AI" << std::endl;
+					m_game->playerAI(2, true);
+				}
+
+				if (!getInLobby(3))
+				{
+					// Player 4 is an Ai
+					std::cout << "Player 4 is an AI" << std::endl;
+					m_game->playerAI(3, true);
+				}
+			}
+
+			// Start game
+			m_stateTimer = 0;
+			//setGameState(GameState::GameScreen);
+		}
+		else
+		{
+			m_stateTimer++;
+		}
+	}
+	else
+	{
+		m_stateTimer = 0;
+	}
+	
+	
+	int index = s.find("Lobby");
+	if (index >= 0)
+	{
+		// If you don't have a player index
+		if (pIndex == 5)
+		{
+			// Ask for your index
+			std::string msg;
+			msg = "What is my Index";
+			client->sendMsg(msg);
+		}
+
+
+		bool readyState;
+
+		if ((int)msgToPos(s.substr(index))[1] == 1)
+		{
+			readyState = true;
+		}
+		else
+		{
+			readyState = false;
+		}
+
+		bool lobby;
+		if ((int)msgToPos(s.substr(index))[2] == 1)
+		{
+			lobby = true;
+		}
+		else
+		{
+			lobby = false;
+		}
+
+		// Set other player lobby states
+		switch ((int)msgToPos(s.substr(index))[0])
+		{
+		case 0:
+			changeState(0, readyState);
+			inLobby(0, lobby);
+			if (readyState && lobby)
+			{
+				m_game->playerAI(0, false);
+			}
+			break;
+		case 1:
+			changeState(1, readyState);
+			inLobby(1, lobby);
+			if (readyState && lobby)
+			{
+				m_game->playerAI(1, false);
+			}
+			break;
+		case 2:
+			changeState(2, readyState);
+			inLobby(2, lobby);
+			if (readyState && lobby)
+			{
+				m_game->playerAI(2, false);
+			}
+			break;
+		case 3:
+			changeState(3, readyState);
+			inLobby(3, lobby);
+			if (readyState && lobby)
+			{
+				m_game->playerAI(3, false);
+			}
+			break;
+		}
+
+	}
+
+	index = s.find("Joining");
+	if (index >= 0 || s == "Host")
+	{
+		int pI = 0;
+		if (s != "Host")
+		{
+			std::string indexString = s.substr(index + 14, 1);
+			pI = std::stoi(indexString);
+		}
+		changeState(pI, false);
+		m_game->setPlayer(pI);
+	}
+
+	if (pIndex != 5)
+	{
+		std::string msg;
+		msg = "Lobby i: " + std::to_string(pIndex) + " " + sendMsg(pIndex);
+		client->sendMsg(msg);
+	}
+
+
 }

@@ -40,6 +40,9 @@ public:
 	int getHeight();
 	int getSRect();
 
+
+	void setScale(float scale);
+
 private:
 	//The actual hardware texture
 	SDL_Texture * mTexture;

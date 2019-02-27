@@ -50,6 +50,17 @@ struct MapObjects {
 	MapObjects(float x = 0, float y = 0, float width = 0, float height = 0);
 };
 
+struct NodeObjects {
+	int x;
+	int y;
+	int width;
+	int height;
+	std::string type;
+
+	NodeObjects(float x = 0, float y = 0, float width = 0, float height = 0, std::string type = "");
+};
+
+
 class level {
 public:
 	level(const std::string& name);
@@ -61,6 +72,7 @@ public:
 	std::vector<MapObjects>m_ceiling;
 	std::vector<MapObjects> m_killTiles;
 	std::vector<MapObjects> m_teleport;
+	std::vector<NodeObjects> m_nodes;
 private:
 	std::string name;
 	// Think of the dimensions as a 2D array (after all, that's what our

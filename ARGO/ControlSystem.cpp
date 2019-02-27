@@ -35,7 +35,7 @@ void bb(std::string s)
 
 }
 
-void ControlSystem::input(SDL_Event &e) {
+void ControlSystem::input(SDL_Event &e, Client & client) {
 
 	for (Entity& entity : entities)
 	{
@@ -252,11 +252,28 @@ void ControlSystem::input(SDL_Event &e) {
 				}
 				break;
 			case SDLK_a:
-				//amComp->idle();
 				posX = posComp->getPositionX();
 				posY = posComp->getPositionY();
 				//get current ammo amount and if not 0 place bomb
 				if (ammoComp->getSeekerAmmo() > 0) {
+					if (entity.getName() == "Player")
+					{
+						msg = "Fire I: 0";
+					}
+					else if (entity.getName() == "Player2")
+					{
+						msg = "Fire I: 1";
+					}
+					else if (entity.getName() == "Player3")
+					{
+						msg = "Fire I: 2";
+					}
+					else if (entity.getName() == "Player4")
+					{
+						msg = "Fire I: 3";
+					}
+					msg = msg + " X: " + std::to_string(posX) + " Y: " + std::to_string(posY);
+					client.sendMsg(msg);
 					ammoComp->dropSeeker(posX, posY, 200);
 					//take one ammo away
 					int current = ammoComp->getSeekerAmmo();
@@ -265,11 +282,28 @@ void ControlSystem::input(SDL_Event &e) {
 				}
 				break;
 			case SDLK_SPACE:
-				//amComp->idle();
 				posX = posComp->getPositionX();
 				posY = posComp->getPositionY();
 				//get current ammo amount and if not 0 place bomb
 				if (ammoComp->getAmmo() > 0) {
+					if(entity.getName() == "Player")
+					{
+						msg = "Planted I: 0";
+					}
+					else if (entity.getName() == "Player2")
+					{
+						msg = "Planted I: 1";
+					}
+					else if (entity.getName() == "Player3")
+					{
+						msg = "Planted I: 2";
+					}
+					else if (entity.getName() == "Player4")
+					{
+						msg = "Planted I: 3";
+					}
+					msg = msg + " X: " + std::to_string(posX) + " Y: " + std::to_string(posY);
+					client.sendMsg(msg);
 					ammoComp->dropProjectile(posX, posY);
 					//take one ammo away
 					int current = ammoComp->getAmmo();
@@ -281,7 +315,16 @@ void ControlSystem::input(SDL_Event &e) {
 		}
 
 
+		if (StickLeftX >= -bitePoint)
+		{
+			//controlComp->moveLeft = 0;
+		}
+		if (StickLeftX <= bitePoint)
+		{
+			//controlComp->moveRight = 0;
+		}
 	}
+
 }
 void ControlSystem::keyUp(SDL_Event &e) {
 	switch (e.type)

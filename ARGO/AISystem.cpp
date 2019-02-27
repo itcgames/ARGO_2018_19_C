@@ -29,6 +29,8 @@ Entity * AISystem::getEntityById(std::string s)
 	return &entities[0];
 }
 
+
+
 std::vector<std::string> AISystem::getEntityIds() {
 		//only reurns first name
 		std::vector<std::string> v;
@@ -36,14 +38,15 @@ std::vector<std::string> AISystem::getEntityIds() {
 			v.push_back(entity.getName());
 		}
 		return v;
-	}
+}
 
-	float AISystem::setDistance(float dis) {
-		return distance;
-	}
+float AISystem::setDistance(float dis) {
+	return distance;
+}
 
 
-void AISystem::update(float dis, Entity * entity) {
+
+void AISystem::update(level &m_level) {
 
 	for (Entity & entity : entities) {
 
@@ -53,12 +56,12 @@ void AISystem::update(float dis, Entity * entity) {
 			pc = (PositionComponent*)entity.getCompByType("Position");
 			ac = (AnimationComponent*)entity.getCompByType("Animation");
 			sc = (SpriteComponent*)entity.getCompByType("Sprite");
-			pc = (PositionComponent*)entity.getCompByType("Position");
 			vel = (VelocityComponent*)entity.getCompByType("Vel");
 
 			posX = pc->getPositionX();
 			posY = pc->getPositionY();
-			leftOrRight(flagX, flagY, posX, posY);
+			
+			nodeCollision(m_level, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight(), threat_Y);
 
 			if (!cc->stopFall && !cc->OnPlatform) {
 
@@ -67,12 +70,10 @@ void AISystem::update(float dis, Entity * entity) {
 				if (vel->getVelY() <= 10)
 				{
 					vel->setVelY(vel->getVelY() + 1);
+					
 				}
 
-				//posY += vecY;
-
-				pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
-				collision = 0;
+				cc->collision = 0;
 
 				if (cc->moveLeft == 1) {
 					ac->leftJump();
@@ -84,7 +85,8 @@ void AISystem::update(float dis, Entity * entity) {
 			}
 			else {
 				vel->setVelY(0);
-				collision = 1;
+				cc->collision = 1;
+				cc->jump = 0;
 
 				if (ac->m_currentState == ac->jumpLeftS || ac->m_currentState == ac->jumpRightS)
 				{
@@ -92,52 +94,69 @@ void AISystem::update(float dis, Entity * entity) {
 				}
 
 			}
+			//animation
+			if (cc->moveLeft == 1)
+			{
+				moveLeft(velX);
+			}
+			if (cc->moveRight == 1)
+			{
+				moveRight(velX);
+			}
 
-			/*int posX = pc->getPositionX();
-			int posY = pc->getPositionY();
-			posX += vecX;*/
+			if (cc->getDirection() == cc->Up) {
+				moveUp();
+			}
+
+			if (cc->moveLeft == 0 && cc->moveRight == 0)
+			{
+				cc->setDirection(cc->Idle);
+				vecX = 0;
+				ac->idle();
+			}
+			if (ac->m_currentState == ac->idleS && cc->moveLeft == 1)
+			{
+				ac->left();
+			}
+			else if (ac->m_currentState == ac->idleS && cc->moveRight == 1)
+			{
+				ac->right();
+			}
+			if (cc->ceilingHit)
+			{
+				vel->setVelY(5);
+				cc->ceilingHit = false;
+			}
+			if (!cc->alive)
+			{
+				ac->die();
+			}
+
+
+			//Updates position of the ai
 			pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
+
+			//if the Ai doesnt have the flag 
+			if (cc->hasFlag != true) {
+				//if not flag check position of the flag and decide whether or not to move left or right
+				if (pcFlag != NULL)
+				{
+					leftOrRight(pcFlag->getPositionX(), pcFlag->getPositionY(), pc->getPositionX(), pc->getPositionY());
+
+				}
+			}
+			else {
+
+			}
+			
 		}
 		else {
-			pc = (PositionComponent*)entity.getCompByType("Position");
-			flagX = pc->getPositionX();
-			flagY = pc->getPositionY();
+			pcFlag = (PositionComponent*)entity.getCompByType("Position");
 		}
 
-		//Jamie
-		////call fuzzy update
-		//m_fuzzy->update(dis);
-
-		////now only do this if the ai has the flag
-
-		////update the ai position
-
-
-		//posX = pc->getPositionX();
-		//posY = pc->getPositionY();
-		//// get vec from fuzy logic
-		//velX = m_fuzzy->runAway();
-		////std::cout << velX << std::endl;
-
-		////determine which side the player is on
-		//if (dis < 0) {
-		//	posX -= velX;
-		//}
-		//if (dis > 0) {
-		//	posX += velX;
-		//}
-
-		////set position
-		//pc->setPosition(posX, posY);
-
-		//collide
 		//Gravity
-		
-		
-
 
 		//Coll = (CollisionComponent *)entity.getCompByType("Collision");
-
 
 		//if (cc->moveLeft == 1)
 		//{
@@ -148,12 +167,6 @@ void AISystem::update(float dis, Entity * entity) {
 		//{
 		//	moveRight();
 		//}
-
-
-		//if (cc->getDirection() == cc->Up) {
-		//	moveUp();
-		//}
-
 
 		//if (cc->moveLeft == 0 && cc->moveRight == 0)
 		//{
@@ -175,77 +188,156 @@ void AISystem::update(float dis, Entity * entity) {
 		//	vecY = 5;
 		//	cc->ceilingHit = false;
 
-
 		//}
 
-
 	}
-
-
+	
 }
 
 void AISystem::leftOrRight(float fx, float fy, float px, float py) {
 	//if flag x greater the player x add on to player === go right
-	if (fx > px) {
-		px++;
-		pc->setPosition(px, py);
-	}
-	//=== go left
-	if (fx < px) {
-		px--;
-		pc->setPosition(px, py);
-	}
-
-}
 
 
-/*
-void PhysicsSystem::speedUp(Entity * entity) {
-
-	maxX++;
-}
-
-void PhysicsSystem::moveLeft() {
-
-	if (vecX > -maxX)
+	if (cc->collision == 1)
 	{
+		if (fx > px) {
+
+			cc->moveRight = 1;
+		}
+		else {
+			cc->moveRight = 0;
+		}
+		//=== go left
+		if (fx < px) {
+
+			cc->moveLeft = 1;
+		}
+		else {
+			cc->moveLeft = 0;
+		}
+	}
+
+
+}
+
+void AISystem::moveLeft(float fuzz) {
+	if (cc->hasFlag != true) {
+		if (vel->getVelX() > -maxX)
+		{
+			ac->left();
+			vel->setVelX(-4);
+		}
+	}
+	else {
+		//add code to move player using fuzzy velocity
 		ac->left();
-		int posX = pc->getPositionX();
-		int posY = pc->getPositionY();
-		vecX = -7;
-		posX += vecX;
-
-		pc->setPosition(posX, posY);
+		vel->setVelX(-fuzz);
+	}
+	
+}
+void AISystem::moveRight(float fuzz) {
+	if (cc->hasFlag != true) {
+		if (vecX < maxX)
+		{
+			ac->right();
+			vel->setVelX(4);
+		}
+	}
+	else {
+		//add code to move player using fuzzy velocity
+		ac->left();
+		vel->setVelX(fuzz);
 	}
 }
-void PhysicsSystem::moveRight() {
+void AISystem::moveUp() {
 
-	if (vecX < maxX)
+	if (cc->jump == 0 && cc->collision == 1)
 	{
-		ac->right();
-		int posX = pc->getPositionX();
-		int posY = pc->getPositionY();
-		vecX = 7;
-		posX += vecX;
-		pc->setPosition(posX, posY);
-	}
-
-
-}
-void PhysicsSystem::moveUp() {
-
-	if (cc->jump == 0 && collision == true)
-	{
-		int posX = pc->getPositionX();
-		int posY = pc->getPositionY();
-		vecY = -20;
-		posY += vecY;
-		posX += vecX;
-		pc->setPosition(posX, posY);
+		vel->setVelY(vel->getVelY() - 15);
 		cc->stopFall = false;
 		cc->OnPlatform = false;
 		cc->jump = 1;
 	}
 
+}
 
-}*/
+void AISystem::checkNearest(float dis, Entity * entity, float c_y) {
+
+	//Loop through all entities 
+	for (Component* component : entity->getComponents()) {
+
+		cc = (ControlComponent*)entity->getCompByType("Control");
+		if (cc->hasFlag == true) {
+			//call fuzzy update 
+			m_fuzzy->update(dis);
+
+			//update the ai position
+			pc = (PositionComponent*)entity->getCompByType("Position");
+
+			posX = pc->getPositionX();
+			posY = pc->getPositionY();
+			// get vec from fuzy logic
+			velX = m_fuzzy->runAway();
+			//std::cout << velX << std::endl;
+			threat_Y = c_y;
+			//instead of moving th pos here use the phys class
+
+			//determine which side the player is on
+			if (dis < 0) {
+				moveLeft(-velX);
+			}
+			if (dis > 0) {
+				moveRight(velX);
+			}
+
+
+			//set position 
+			pc->setPosition(posX, posY);
+
+		}
+		
+	}
+}
+
+bool AISystem::AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2)
+{
+	return(abs(x1 - x2) * 2 < (width1 + width2)) &&
+		(abs(y1 - y2) * 2 < (height1 + height2));
+}
+
+void AISystem::nodeCollision(level &level, float x, float y, float width, float height, float c_y)
+{
+	for (int i = 0; i < level.m_nodes.size(); i++) {
+
+		if (AABB(x, y, level.m_nodes[i].x, level.m_nodes[i].y, width, height, level.m_nodes[i].width, level.m_nodes[i].height)) {
+		
+			if (c_y < 0 && cc->hasFlag == true) {
+				//
+			}
+			else {
+				if (level.m_nodes[i].type == "JumpRight") {
+
+					cc->setDirection(cc->Up);
+					cc->jump = 0;
+					cc->moveRight = 1;
+					//std::cout << "Right" << std::endl;
+
+				}
+				else if (level.m_nodes[i].type == "JumpLeft") {
+
+					cc->setDirection(cc->Up);
+					cc->jump = 0;
+					cc->moveLeft = 1;
+					//std::cout << "JUMP" << std::endl;
+				}
+			}
+
+		}
+		else
+		{
+			cc->jump = 1;
+		}
+
+	}
+
+}
