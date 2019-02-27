@@ -7,6 +7,7 @@
 #include "Animation.h"
 #include "Client.h"
 #include "Command.h"
+#include "menu.h"
 
 #define MAX_CONTROLLERS 4
 
@@ -19,7 +20,7 @@ public:
 	void init();
 	void addEntity(Entity e);
 	void idle();
-	void input(SDL_Event & e, Client & client);
+	void input(SDL_Event &e, Client & client, GameState & gs, bool & changeReady);
 	void keyUp(SDL_Event & e);
 private:
 	std::vector<Entity> entities;
@@ -44,7 +45,13 @@ private:
 	bool BButton;
 	bool XButton;
 	bool YButton;
-	bool Up;
+	int StickLeftX;
+
+	bool AButtonPrevious;
+	bool BButtonPrevious;
+
+
+	/*bool Up;
 	bool Down;
 	bool Left;
 	bool Right;
@@ -52,12 +59,11 @@ private:
 	bool Back;
 	bool LeftShoulder;
 	bool RightShoulder;
-	int StickLeftX;
 	int StickLeftY;
 	int StickRightX;
 	int StickRightY;
 	int StickLT;
-	int StickRT;
+	int StickRT;*/
 
 	Command * stickLeft;
 	Command * stickRight;

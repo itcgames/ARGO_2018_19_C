@@ -28,7 +28,7 @@ public:
 	~GameScreen();
 	void init(SDL_Renderer * ren, int * pIndex);
 	void update(Client * client, float dt, SDL_Renderer * ren);
-	void input(SDL_Event * e, Client * client);
+	void input(SDL_Event * e, Client * client, GameState & gs, bool & changeReady);
 	void render(SDL_Renderer * ren, float dt);
 	void playerAI(int pIndex, bool ai);
 	void updateNetwork(Client * client, std::string msg, SDL_Renderer * ren);

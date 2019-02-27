@@ -87,6 +87,7 @@ void Game::initialise()
 	m_gameScreen->init(m_renderer, &m_playerIndex);
 	m_gameoverScreen = new GameOverScreen();
 	m_menuScreen = new MenuScreen(m_renderer);
+	m_changeReady = false;
 
 }
 
@@ -128,7 +129,7 @@ void Game::processEvents()
 {
 
 	while (SDL_PollEvent(&event)) {
-		m_gameScreen->input(&event, m_client);
+		m_gameScreen->input(&event, m_client, m_currentGameState, m_changeReady);
 		switch (event.type) {
 
 		case SDL_QUIT:
@@ -148,6 +149,15 @@ void Game::processEvents()
 	}
 }
 
+void Game::readyButton()
+{
+	if (m_changeReady)
+	{
+		m_lobbyScreen->setReadyButton(!m_lobbyScreen->getReadyButton());
+		m_changeReady = false;
+	}
+}
+
 void Game::setGameState(GameState gameState)
 {
 	m_currentGameState = gameState;
@@ -164,6 +174,7 @@ void Game::update(float dt)
 	case GameState::Splash:
 		break;
 	case GameState::Lobby:
+		readyButton();
 		m_lobbyScreen->update(m_playerIndex, mouseX, mouseY, m_currentGameState);
 		mouseX = -1;
 		mouseY = -1;

@@ -149,9 +149,9 @@ void GameScreen::init(SDL_Renderer * ren, int * pIndex)
 */
 }
 
-void GameScreen::input(SDL_Event * e, Client * client)
+void GameScreen::input(SDL_Event * e, Client * client, GameState & gs, bool & changeReady)
 {
-	cs.input(*e, *client);
+	cs.input(*e, *client, gs, changeReady);
 
 	if (e->type == SDL_KEYUP)
 	{
