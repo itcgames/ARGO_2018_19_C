@@ -1,15 +1,14 @@
 #pragma once
 #include "Command.h"
-class JumpCommand : public Command
+class KickCommand : public Command
 {
 public:
-	JumpCommand() {};
-	~JumpCommand() {}
+	KickCommand() {};
+	~KickCommand() {}
 	void execute(Entity * e, Client & client)
 	{
 		ControlComponent * controlComp = (ControlComponent*)e->getCompByType("Control");
-		controlComp->setDirection(controlComp->Up);
-		AudioManager::Instance()->PlaySFX("Jump", 0);
+		controlComp->kick();
 	};
 
 	void stop(Entity * e)

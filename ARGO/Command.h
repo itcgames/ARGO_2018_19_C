@@ -1,10 +1,13 @@
 #pragma once
-#include <iostream>
+#include "EntityComponent.h"
+#include "Client.h"
+
 class Command
 {
 public:
 	virtual ~Command() {}
-	virtual void execute() = 0;
+	virtual void execute(Entity * e, Client & client) = 0;
+	virtual void stop(Entity * e) = 0;
 
 protected:
 	Command() {}

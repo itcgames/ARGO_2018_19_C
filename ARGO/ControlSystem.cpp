@@ -1,7 +1,18 @@
 #include "ControlSystem.h"
+#include "LeftCommand.h"
+#include "RightCommand.h"
+#include "JumpCommand.h"
+#include "BombCommand.h"
+#include "SeekerCommand.h"
+#include "KickCommand.h"
 
 ControlSystem::ControlSystem() {
-
+	stickLeft = new LeftCommand();
+	stickRight = new RightCommand();
+	buttonA = new JumpCommand();
+	buttonB = new BombCommand();
+	buttonX = new KickCommand();
+	buttonY = new SeekerCommand();
 
 }
 
@@ -115,45 +126,25 @@ void ControlSystem::input(SDL_Event &e, Client & client) {
 		case SDL_JOYBUTTONDOWN:
 			if (AButton)
 			{
-				controlComp->setDirection(controlComp->Up);
-				AudioManager::Instance()->PlaySFX("Jump", 0);
+				buttonA->execute(&entity, client);
 			}
 			if (BButton)
 			{
-				//amComp->idle();
-				int posX = posComp->getPositionX();
-				int posY = posComp->getPositionY();
-				//get current ammo amount and if not 0 place bomb
-				if (ammoComp->getAmmo() > 0) {
-					ammoComp->dropProjectile(posX, posY);
-					//take one ammo away
-					int current = ammoComp->getAmmo();
-					current--;
-					ammoComp->setAmmo(current);
-				}
+
+				buttonB->execute(&entity, client);
 			}
 			if (XButton)
 			{
 				if (!pressed)
 				{
-					controlComp->attack = true;
+					buttonX->execute(&entity, client);
 					pressed = true;
 				}
 			}
 			if (YButton)
 			{
-				//amComp->idle();
-				int posX = posComp->getPositionX();
-				int posY = posComp->getPositionY();
-				//get current ammo amount and if not 0 place bomb
-				if (ammoComp->getSeekerAmmo() > 0) {
-					//third value is int for life span
-					ammoComp->dropSeeker(posX, posY, 200);
-					//take one ammo away
-					int current = ammoComp->getSeekerAmmo();
-					current = 0;
-					ammoComp->setSeekerAmmo(current);
-				}
+
+				buttonY->execute(&entity, client);
 			}
 
 			if (Start)
@@ -194,19 +185,29 @@ void ControlSystem::input(SDL_Event &e, Client & client) {
 				//buttonRT_();
 			}
 
+			if (StickLeftX < -bitePoint)
+			{
+				std::cout << StickLeftX << " : " << -bitePoint << std::endl;
+				stickLeft->execute(&entity, client);
+			}
+			else
+			{
+				stickLeft->stop(&entity);
+			}
+
+			if (StickLeftX > bitePoint)
+			{
+				std::cout << StickLeftX << " : " << bitePoint << std::endl;
+				stickRight->execute(&entity, client);
+			}
+			else
+			{
+				stickRight->stop(&entity);
+			}
+
 			if (StickLeftX >= bitePoint || StickLeftX <= -bitePoint)
 			{
-				if (StickLeftX < 0)
-				{
-					controlComp->setDirection(controlComp->Left);
-					controlComp->moveLeft = 1;
-				}
-				else if (StickLeftX > 0)
-				{
-					controlComp->setDirection(controlComp->Right);
-					controlComp->moveRight = 1;
-				}
-				//buttonLSX_(StickLeftX);
+				
 			}
 			if (StickLeftY >= bitePoint || StickLeftY <= -bitePoint)
 			{
@@ -226,90 +227,27 @@ void ControlSystem::input(SDL_Event &e, Client & client) {
 		case SDL_KEYDOWN:
 			switch (e.key.keysym.sym)
 			{
-				int posX;
-				int posY;
 			case SDLK_UP:
-				controlComp->setDirection(controlComp->Up);
-				AudioManager::Instance()->PlaySFX("Jump", 0);
+				buttonA->execute(&entity, client);
 				break;
 			case SDLK_LEFT:
-				controlComp->setDirection(controlComp->Left);
-				controlComp->moveLeft = 1;
-				if (!controlComp->alive)
-					controlComp->alive = true;
+				stickLeft->execute(&entity, client);
 				break;
 			case SDLK_RIGHT:
-				controlComp->setDirection(controlComp->Right);
-				controlComp->moveRight = 1;
-				if (!controlComp->alive)
-					controlComp->alive = true;
+				stickRight->execute(&entity, client);
 				break;
 			case SDLK_s:
 				if (!pressed)
 				{
-					controlComp->attack = true;
+					buttonX->execute(&entity, client);
 					pressed = true;
 				}
 				break;
 			case SDLK_a:
-				posX = posComp->getPositionX();
-				posY = posComp->getPositionY();
-				//get current ammo amount and if not 0 place bomb
-				if (ammoComp->getSeekerAmmo() > 0) {
-					if (entity.getName() == "Player")
-					{
-						msg = "Fire I: 0";
-					}
-					else if (entity.getName() == "Player2")
-					{
-						msg = "Fire I: 1";
-					}
-					else if (entity.getName() == "Player3")
-					{
-						msg = "Fire I: 2";
-					}
-					else if (entity.getName() == "Player4")
-					{
-						msg = "Fire I: 3";
-					}
-					msg = msg + " X: " + std::to_string(posX) + " Y: " + std::to_string(posY);
-					client.sendMsg(msg);
-					ammoComp->dropSeeker(posX, posY, 200);
-					//take one ammo away
-					int current = ammoComp->getSeekerAmmo();
-					current = 0;
-					ammoComp->setSeekerAmmo(current);
-				}
+				buttonY->execute(&entity, client);
 				break;
 			case SDLK_SPACE:
-				posX = posComp->getPositionX();
-				posY = posComp->getPositionY();
-				//get current ammo amount and if not 0 place bomb
-				if (ammoComp->getAmmo() > 0) {
-					if(entity.getName() == "Player")
-					{
-						msg = "Planted I: 0";
-					}
-					else if (entity.getName() == "Player2")
-					{
-						msg = "Planted I: 1";
-					}
-					else if (entity.getName() == "Player3")
-					{
-						msg = "Planted I: 2";
-					}
-					else if (entity.getName() == "Player4")
-					{
-						msg = "Planted I: 3";
-					}
-					msg = msg + " X: " + std::to_string(posX) + " Y: " + std::to_string(posY);
-					client.sendMsg(msg);
-					ammoComp->dropProjectile(posX, posY);
-					//take one ammo away
-					int current = ammoComp->getAmmo();
-					current = 0;
-					ammoComp->setAmmo(current);
-				}
+				buttonB->execute(&entity, client);
 				break;
 			}
 		}

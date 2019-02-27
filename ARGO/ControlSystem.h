@@ -6,6 +6,7 @@
 #include "LTexture.h"
 #include "Animation.h"
 #include "Client.h"
+#include "Command.h"
 
 #define MAX_CONTROLLERS 4
 
@@ -58,19 +59,11 @@ private:
 	int StickLT;
 	int StickRT;
 
-	void(*buttonUp_)();
-	void(*buttonDown_)();
-	void(*buttonRight_)();
-	void(*buttonLeft_)();
-	void(*buttonLB_)();
-	void(*buttonRB_)();
-	void(*buttonLT_)();
-	void(*buttonRT_)();
-	void(*buttonStart_)();
-	void(*buttonBack_)();
-	void(*buttonRSX_)(int);
-	void(*buttonRSY_)(int);
-	void(*buttonLSX_)(int);
-	void(*buttonLSY_)(int);
+	Command * stickLeft;
+	Command * stickRight;
+	Command * buttonA;
+	Command * buttonB;
+	Command * buttonX;
+	Command * buttonY;
 
 };

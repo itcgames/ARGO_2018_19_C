@@ -246,6 +246,27 @@
     <ClInclude Include="AIComponent.h">
       <Filter>Header\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="LeftCommand.h">
+      <Filter>Header\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="RightCommand.h">
+      <Filter>Header\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpCommand.h">
+      <Filter>Header\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="KickCommand.h">
+      <Filter>Header\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="SeekerCommand.h">
+      <Filter>Header\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="BombCommand.h">
+      <Filter>Header\Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Left.bmp" />
@@ -307,6 +328,9 @@
     </Filter>
     <Filter Include="Header\LevelLoader">
       <UniqueIdentifier>{59ff70fd-7a1f-4a21-8a78-09c35495934e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Command">
+      <UniqueIdentifier>{b673def6-2e89-4519-982d-325bfacd1041}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

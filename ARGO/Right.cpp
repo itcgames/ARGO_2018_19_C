@@ -55,7 +55,7 @@ void Right::jumpRight(AnimationComponent* a)
 
 void Right::die(AnimationComponent* a)
 {
-	std::cout << "Going from left to Die" << std::endl;
+	//std::cout << "Going from left to Die" << std::endl;
 	a->setCurrent(new Die());
 	a->setCurrentState(a->DieS);
 	a->sRect.y = 400;

@@ -53,8 +53,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="Command.h" />
     <ClInclude Include="Credits.h" />
+    <ClInclude Include="BombCommand.h" />
     <ClInclude Include="GameScreen.h" />
+    <ClInclude Include="JumpCommand.h" />
+    <ClInclude Include="KickCommand.h" />
+    <ClInclude Include="LeftCommand.h" />
+    <ClInclude Include="RightCommand.h" />
+    <ClInclude Include="SeekerCommand.h" />
     <ClInclude Include="VelComponent.h" />
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="AmmoComponent.h" />
@@ -199,7 +206,7 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -217,7 +224,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -239,7 +246,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -261,7 +268,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

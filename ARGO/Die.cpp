@@ -2,7 +2,7 @@
 
 void Die::idle(AnimationComponent* a)
 {
-	std::cout << "Going from Left to Idling" << std::endl;
+	//std::cout << "Going from Left to Idling" << std::endl;
 	a->setCurrent(new Idle());
 	a->setCurrentState(a->idleS);
 	//	destRect.y = 531.3;
