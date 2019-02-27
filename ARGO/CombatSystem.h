@@ -6,6 +6,7 @@
 #include "SDL.h"
 #include"LTexture.h"
 #include "Level.h"
+#include "Client.h"
 
 class CombatSystem
 {
@@ -17,11 +18,11 @@ public:
 
 
 
-	void update(float dt, std::string playerindex);
+	void update(std::string playerindex, Client & client);
 	bool squareCollision(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);
 	bool AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);
 	void tileCollision(float x, float y, float width, float height, level &level, LifeComponent* lc);
-	void CheckCollision(float dt, std::string playerID);
+	void CheckCollision(std::string playerID, Client & client);
 
 private:
 	std::vector<Entity>entities;

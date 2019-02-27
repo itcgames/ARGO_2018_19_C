@@ -157,8 +157,11 @@ public:
 	};
 	int getID() { return m_id; };
 	bool getAlive() { return m_alive; };
+	void setAlive(bool a) { m_alive = a; };
 	float getX() { return m_x; };
 	float getY() { return m_y; };
+	void setX(int x) { m_x = x; };
+	void setY(int y) { m_y = y; };
 	int getWidth() { return m_texture.getWidth(); };
 	int getHeight() { return m_texture.getHeight(); };
 

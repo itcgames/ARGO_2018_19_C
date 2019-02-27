@@ -143,3 +143,8 @@ int LTexture::getHeight()
 {
 	return mHeight * m_scale ;
 }
+
+void LTexture::setScale(float scale)
+{
+	m_scale = scale;
+}

@@ -26,6 +26,7 @@ public:
 	bool run();
 	std::string receive();
 	void sendMsg(std::string msg);
+	void sendFinalMsg();
 	void close();
 
 private:
@@ -40,4 +41,5 @@ private:
 	char buf[4096];
 	std::string userInput;
 	void sendIP();
+	std::string m_message;
 };

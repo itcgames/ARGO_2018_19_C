@@ -191,14 +191,12 @@ void AISystem::update(level &m_level) {
 		//}
 
 	}
-
-
+	
 }
 
 void AISystem::leftOrRight(float fx, float fy, float px, float py) {
 	//if flag x greater the player x add on to player === go right
 
-	//std::cout << "Vel :" << vel->getVelX() << std::endl;
 
 	if (cc->collision == 1)
 	{
