@@ -41,42 +41,46 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	//Open the font
 	m_font = TTF_OpenFont("assets/Fonts/Amatic-Bold.ttf", 28);
 
-	flag.addComponent(new SpriteComponent("img/flag.png", 0.3, ren, 8, 2));
+	flag.addComponent(new SpriteComponent("assets/img/flag.png", 0.3, ren, 8, 2));
 	flag.addComponent(new PickUpComponent());
 	flag.addComponent(new PositionComponent(1000, 600));
 
-	player.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, ren, 3, 5));
+	player.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, ren, 3, 5));
 	player.addComponent(new AmmoComponent(ren));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
 	player.addComponent(new ControlComponent());
+	player.addComponent(new ScoreComponent(0));
 	player.addComponent(new PositionComponent(300, 100));
 	player.addComponent(new LifeComponent(4, 1, ren, 1));
 	player.addComponent(new VelocityComponent());
 
-	player2.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, ren, 3, 5));
+	player2.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, ren, 3, 5));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
 	player2.addComponent(new ControlComponent());
 	player2.addComponent(new AmmoComponent(ren));
+	player2.addComponent(new ScoreComponent(0));
 	player2.addComponent(new PositionComponent(500, 100));
 	player2.addComponent(new LifeComponent(5, 2, ren, 1));
 	player2.addComponent(new VelocityComponent());
 
-	player3.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, ren, 3, 5));
+	player3.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, ren, 3, 5));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
 	player3.addComponent(new ControlComponent());
+	player3.addComponent(new ScoreComponent(0));
 	player3.addComponent(new AmmoComponent(ren));
 	player3.addComponent(new PositionComponent(300, 600));
 	player3.addComponent(new LifeComponent(6, 3, ren, 1));
 	player3.addComponent(new VelocityComponent());
 
 
-	player4.addComponent(new SpriteComponent("img/playerSheet.png", 0.5, ren, 3, 5));
+	player4.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, ren, 3, 5));
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 	player4.addComponent(new ControlComponent());
+	player4.addComponent(new ScoreComponent(0));
 	player4.addComponent(new AmmoComponent(ren));
 	player4.addComponent(new PositionComponent(500, 500));
 	player4.addComponent(new LifeComponent(3, 4, ren, 1));
@@ -123,7 +127,7 @@ void GameScreen::init(SDL_Renderer * ren, int * pIndex)
 	m_timerSpawn = 0;
 
 	m_countdownSec = 0;
-	m_countdownMinute = 1;
+	m_countdownMinute = 2;
 
 	flag.addComponent(new PositionComponent(1000, 600));
 
@@ -189,7 +193,7 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 		//Update all ai
 		ais.update(*m_level);
 	}
-	if (m_countdownMinute <= 0  && m_countdownSec > 30000)
+	if (m_countdownMinute <= 0  && m_countdownSec > 20000)
 	{
 		ScoreComponent * sc = (ScoreComponent *)player.getCompByType("Score");
 		switch (*m_playerIndex)
@@ -1229,7 +1233,7 @@ void GameScreen::setPlayer(int pIndex)
 	{
 	case 0:
 		//player.addComponent(new ControlComponent());
-		player.addComponent(new ScoreComponent(0));
+	
 		//player.addComponent(new LifeComponent(6, 1, m_renderer, 1));
 
 		cs.addEntity(player);
@@ -1245,7 +1249,7 @@ void GameScreen::setPlayer(int pIndex)
 	case 1:
 		//player2.addComponent(new ControlComponent());
 		//player2.addComponent(new LifeComponent(6, 2, ren, 1));
-		player2.addComponent(new ScoreComponent(0));
+
 		cs.addEntity(player2);
 		Colls.addEntity(player2);
 		phs.addEntity(player2);
@@ -1256,7 +1260,7 @@ void GameScreen::setPlayer(int pIndex)
 	case 2:
 		//player3.addComponent(new ControlComponent());
 		//player3.addComponent(new LifeComponent(6, 3, ren, 1));
-		player3.addComponent(new ScoreComponent(0));
+
 		cs.addEntity(player3);
 		Colls.addEntity(player3);
 		phs.addEntity(player3);
@@ -1267,7 +1271,7 @@ void GameScreen::setPlayer(int pIndex)
 	case 3:
 		//player4.addComponent(new ControlComponent());
 		//player4.addComponent(new LifeComponent(6, 4, ren, 1));
-		player4.addComponent(new ScoreComponent(0));
+		
 		cs.addEntity(player4);
 		Colls.addEntity(player4);
 		phs.addEntity(player4);

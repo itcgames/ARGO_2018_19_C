@@ -21,8 +21,8 @@
   <ItemGroup>
     <ClCompile Include="AISystem.cpp" />
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Assets.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="Assets.h" />
     <ClInclude Include="Credits.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="GameScreen.h" />
@@ -63,7 +64,6 @@
     <ClInclude Include="AmmoSystem.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="Assets.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="CollisionComp.h" />
     <ClInclude Include="CollisionSystem.h" />
@@ -201,7 +201,7 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -219,7 +219,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

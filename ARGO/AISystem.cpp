@@ -16,6 +16,7 @@ void AISystem::addEntity(Entity e) {
 std::string AISystem::getEntity() {
 	//only reurns first name
 	for (Entity & entity : entities) {
+		if(entity.getName() != "Flag")
 		return entity.getName();
 	}
 }

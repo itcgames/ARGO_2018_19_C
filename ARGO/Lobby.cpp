@@ -279,19 +279,18 @@ void Lobby::updateNetwork(Client * client, int pIndex, std::string s)
 	}
 	
 	
+	// If you don't have a player index
+	if (pIndex == 5)
+	{
+		// Ask for your index
+		std::string msg;
+		msg = "What is my Index";
+		client->sendMsg(msg);
+	}
+
 	int index = s.find("Lobby");
 	if (index >= 0)
 	{
-		// If you don't have a player index
-		if (pIndex == 5)
-		{
-			// Ask for your index
-			std::string msg;
-			msg = "What is my Index";
-			client->sendMsg(msg);
-		}
-
-
 		bool readyState;
 
 		if ((int)msgToPos(s.substr(index))[1] == 1)

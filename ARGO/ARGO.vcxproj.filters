@@ -10,9 +10,6 @@
     <ClCompile Include="Animation.cpp">
       <Filter>src\FSM</Filter>
     </ClCompile>
-    <ClCompile Include="Assets.cpp">
-      <Filter>src\Art</Filter>
-    </ClCompile>
     <ClCompile Include="AudioManager.cpp">
       <Filter>src\Art</Filter>
     </ClCompile>
@@ -96,6 +93,9 @@
     </ClCompile>
     <ClCompile Include="GameScreen.cpp">
       <Filter>src\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets.cpp">
+      <Filter>src\Art</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -207,9 +207,6 @@
     <ClInclude Include="PowerUp.h">
       <Filter>Header\PowerUps</Filter>
     </ClInclude>
-    <ClInclude Include="Assets.h">
-      <Filter>Header\Art</Filter>
-    </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>Header\Art</Filter>
     </ClInclude>
@@ -251,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="AIComponent.h">
       <Filter>Header\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets.h">
+      <Filter>Header\Art</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
