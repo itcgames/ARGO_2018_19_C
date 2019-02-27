@@ -36,7 +36,7 @@ AudioManager::~AudioManager()
 bool AudioManager::load(std::string filename, std::string id, sound_type type)
 {
 	for (int i = 0; i < 3; i++)
-	{
+	{ 
 		observers.push_back(observer_);
 	}
 	filename = "Sounds/" + filename;

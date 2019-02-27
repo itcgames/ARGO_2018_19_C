@@ -18,6 +18,8 @@ enum observer_State {
 
 class Observer {
 
+
+
 public:
 	Observer() {};
 	virtual ~Observer() {};
@@ -54,7 +56,7 @@ public:
 
 protected:
 	void notify(observer_State s) {
-		for(int i=0; i<observers.size(); i++)
+		for(int i=0; i< observers.size(); i++)
 		onNotify(s);
 	}
 
