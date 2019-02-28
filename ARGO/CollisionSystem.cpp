@@ -75,28 +75,28 @@ void CollisionSystem::FloatFlag(PositionComponent* pos)
 {
 	if (pos->getPositionX() < 1400 && moveRight)
 	{
-		pos->setPosition(pos->getPositionX() + 0.3, pos->getPositionY());
+		pos->setPosition(pos->getPositionX() + 0.2, pos->getPositionY());
 	}
 	else
 		moveRight = false;
 	
 	if (pos->getPositionX() > 50 && !moveRight)
 	{
-		pos->setPosition(pos->getPositionX() - 0.3, pos->getPositionY());
+		pos->setPosition(pos->getPositionX() - 0.2, pos->getPositionY());
 	}
 	else
 		moveRight = true;
 
 	if (pos->getPositionY() < 750 && moveDown)
 	{
-		pos->setPosition(pos->getPositionX(), pos->getPositionY() + 0.3);
+		pos->setPosition(pos->getPositionX(), pos->getPositionY() + 0.2);
 	}
 	else
 		moveDown = false;
 
 	if (pos->getPositionY() > 50 && !moveDown)
 	{
-		pos->setPosition(pos->getPositionX(), pos->getPositionY() - 0.3);
+		pos->setPosition(pos->getPositionX(), pos->getPositionY() - 0.2);
 	}
 	else
 		moveDown = true;
@@ -165,7 +165,7 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 
 		if (posComp1 != NULL && posComp2 != NULL) {
 			if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
-				spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight())) {
+				spriteComp->getWidth() + 20, spriteComp->getHeight() + 20, spriteComp2->getWidth() + 20, spriteComp2->getHeight() + 20)) {
 
 				if (pickup->getState() == pickup->Collectable)
 				{
@@ -191,8 +191,10 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 				}
 				
 			}
-			else
+			if (pickup->getState() == pickup->Collectable) {
+
 				FloatFlag(posComp2);
+			}
 			
 		}
 	}
