@@ -23,6 +23,7 @@ class AISystem
 
 	float flagX = 0;
 	float flagY = 0;
+	float threat_Y = 0;
 
 	AnimationComponent * ac;
 	SpriteComponent * sc;
@@ -43,8 +44,8 @@ public:
 	void update(level &level);
 	bool checkFlagInRange();
 	//void update(float dis, Entity * entity);
-	void moveLeft();
-	void moveRight();
+	void moveLeft(float fuzz);
+	void moveRight(float fuzz);
 	void moveUp();
 	void moveDown();
 	void speedUp(Entity * entity);
@@ -55,8 +56,7 @@ public:
 	std::vector<std::string> getEntityIds();
 	float setDistance(float dis);
 	void leftOrRight(float fx, float fy, float px, float py);
-	void nodeCollision(NodeObjects closestNode, float x, float y, float width, float height, int type);
+	void nodeCollision(NodeObjects closestNode, float x, float y, float width, float height);
 	bool AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);
-
 
 };

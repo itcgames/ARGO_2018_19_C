@@ -24,6 +24,15 @@ Entity * PhysicsSystem::getEntityById(std::string s)
 	return &entities[0];
 }
 
+std::vector<std::string> PhysicsSystem::getEntityIds() {
+	//only reurns first name
+	std::vector<std::string> v;
+	for (Entity & entity : entities) {
+		v.push_back(entity.getName());
+	}
+	return v;
+}
+
 void PhysicsSystem::update() {
 
 
@@ -109,6 +118,7 @@ void PhysicsSystem::update() {
 		if (cc->ceilingHit)
 		{
 			vecY = 5;
+			posY += 10;
 			cc->ceilingHit = false;
 		}
 		if (!cc->alive)
@@ -117,7 +127,7 @@ void PhysicsSystem::update() {
 		}
 	}
 
-	std::cout << "Vel :" << vecX<< std::endl;
+	//std::cout << "Vel :" << vecX<< std::endl;
 
 }
 void PhysicsSystem::speedUp(Entity * entity) {
@@ -136,6 +146,8 @@ void PhysicsSystem::moveLeft() {
 		posX += vecX;
 
 		pc->setPosition(posX, posY);
+		//Jamie
+		cc->jump = 0;
 	}
 }
 void PhysicsSystem::moveRight() {
@@ -148,6 +160,9 @@ void PhysicsSystem::moveRight() {
 		vecX = 7;
 		posX += vecX;
 		pc->setPosition(posX, posY);
+
+		//jamie
+		cc->jump = 0;
 	}
 
 

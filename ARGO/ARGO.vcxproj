@@ -21,16 +21,19 @@
   <ItemGroup>
     <ClCompile Include="AISystem.cpp" />
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Assets.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
+    <ClCompile Include="Credits.cpp" />
     <ClCompile Include="Die.cpp" />
     <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GoToNode.cpp" />
+    <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="Idle.cpp" />
     <ClCompile Include="JumpLeft.cpp" />
     <ClCompile Include="JumpRight.cpp" />
@@ -42,6 +45,7 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LTexture.cpp" />
     <ClCompile Include="AIComponent.cpp" />
+    <ClCompile Include="Options.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="Projectile.cpp" />
@@ -54,13 +58,16 @@
     <ClInclude Include="AIComponent.h" />
     <ClInclude Include="AIState.h" />
     <ClInclude Include="GoToNode.h" />
+    <ClInclude Include="Assets.h" />
+    <ClInclude Include="Credits.h" />
+    <ClInclude Include="Options.h" />
+    <ClInclude Include="GameScreen.h" />
     <ClInclude Include="VelComponent.h" />
     <ClInclude Include="AISystem.h" />
     <ClInclude Include="AmmoComponent.h" />
     <ClInclude Include="AmmoSystem.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="Assets.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="CollisionComp.h" />
     <ClInclude Include="CollisionSystem.h" />
@@ -68,13 +75,13 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControlComponent.h" />
     <ClInclude Include="ControlSystem.h" />
-    <ClInclude Include="credits.h" />
     <ClInclude Include="Die.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="FlagComponent.h" />
     <ClInclude Include="Fuzzy.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="Idle.h" />
     <ClInclude Include="JumpLeft.h" />
     <ClInclude Include="JumpRight.h" />
@@ -238,7 +245,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -260,7 +267,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

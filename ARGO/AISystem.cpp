@@ -131,7 +131,7 @@ void AISystem::update(level &m_level) {
 					cc->moveLeft = 1;
 				}
 				if (cc->collision == 1) {
-					nodeCollision(ai->closestNode, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight(), 2);
+					nodeCollision(ai->closestNode, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight());
 				}
 
 			}
@@ -154,7 +154,7 @@ void AISystem::update(level &m_level) {
 				}
 
 				if (cc->collision == 1) {
-					nodeCollision(ai->closestNode, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight(), 1);
+					nodeCollision(ai->closestNode, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight());
 				}
 
 
@@ -323,7 +323,7 @@ bool AISystem::AABB(float x1, float y1, float x2, float y2, float width1, float 
 		(abs(y1 - y2) * 2 < (height1 + height2));
 }
 
-void AISystem::nodeCollision(NodeObjects closestNode, float x, float y, float width, float height, int type)
+void AISystem::nodeCollision(NodeObjects closestNode, float x, float y, float width, float height)
 {
 
 

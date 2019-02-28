@@ -10,7 +10,7 @@ class CollisionComponent :public Component
 public:
 	bool squareCollided = false;
 	bool crclCollided = false;
-
+	bool m_Invincible = false;
 
 	CollisionComponent() {};
 
@@ -30,10 +30,12 @@ public:
 		return crclCollided;
 	}
 
+
+
 	std::string getID() { return id; }
 	
 private:
 	std::string id = "Collision";
-
+	
 	
 };

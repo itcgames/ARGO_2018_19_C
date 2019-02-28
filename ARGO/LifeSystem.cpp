@@ -23,9 +23,8 @@ void LifeSystem::removeEntity(std::vector<Entity>&entities, std::string ID) {
 }
 
 
-void LifeSystem::update( float dt) {
+void LifeSystem::update() {
 
-	time = time + dt;
 
 	for (Entity & entity : entities) {
 

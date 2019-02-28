@@ -36,6 +36,7 @@ public:
 			break;
 		}
 	};
+
 	~PowerUp() {};
 	virtual void draw(SDL_Renderer *m_renderer) = 0;
 	bool pickedUp(float x, float y, float w1, float h1)
@@ -91,6 +92,7 @@ public:
 			}
 		}
 	};
+
 	void update() {
 		//std::cout << "Timer: " << std::to_string(m_timer) << std::endl;
 		if (m_headLeft)
@@ -155,8 +157,11 @@ public:
 	};
 	int getID() { return m_id; };
 	bool getAlive() { return m_alive; };
+	void setAlive(bool a) { m_alive = a; };
 	float getX() { return m_x; };
 	float getY() { return m_y; };
+	void setX(int x) { m_x = x; };
+	void setY(int y) { m_y = y; };
 	int getWidth() { return m_texture.getWidth(); };
 	int getHeight() { return m_texture.getHeight(); };
 
@@ -173,26 +178,26 @@ protected:
 
 };
 
-class HealthUp : public PowerUp
+class NoDamage : public PowerUp
 {
 public:
-	HealthUp(SDL_Renderer *m_renderer) {
+	NoDamage(SDL_Renderer *m_renderer)
+	{
 		m_id = 1;
-		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		if (!m_texture.loadFromFile("assets/img/noDamage.png", m_renderer, 1))
 		{
-			printf("Failed to load dot texture!\n");
-
+			printf("Failed to load noDamage Txt");
 		}
 		m_timer = 0;
 	};
-	~HealthUp()
-	{
-	};
+	~NoDamage()
+	{};
 	void draw(SDL_Renderer *m_renderer)
 	{
 		m_texture.render(m_x, m_y, m_renderer, 1, 1);
 	}
 };
+
 
 class SpeedUp : public PowerUp
 {
@@ -200,7 +205,7 @@ public:
 	SpeedUp(SDL_Renderer *m_renderer)
 	{
 		m_id = 2;
-		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		if (!m_texture.loadFromFile("assets/dot1.bmp", m_renderer, 1))
 		{
 			printf("Failed to load dot texture!\n");
 
@@ -215,13 +220,14 @@ public:
 		m_texture.render(m_x, m_y, m_renderer, 1, 1);
 	}
 };
+
 class AmmoUp : public PowerUp
 {
 public:
 	AmmoUp(SDL_Renderer *m_renderer)
 	{
 		m_id = 3;
-		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		if (!m_texture.loadFromFile("assets/img/projectile.png", m_renderer, 1))
 		{
 			printf("Failed to load dot texture!\n");
 
@@ -236,13 +242,14 @@ public:
 		m_texture.render(m_x, m_y, m_renderer,  1, 1);
 	}
 };
+
 class SeekerAmmoUp : public PowerUp
 {
 public:
 	SeekerAmmoUp(SDL_Renderer *m_renderer)
 	{
 		m_id = 4;
-		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		if (!m_texture.loadFromFile("assets/img/seekerprojectile.png", m_renderer, 1))
 		{
 			printf("Failed to load dot texture!\n");
 
@@ -257,15 +264,16 @@ public:
 		m_texture.render(m_x, m_y, m_renderer,  1, 1);
 	}
 };
+
 class ResetUp : public PowerUp
 {
 public:
 	ResetUp(SDL_Renderer *m_renderer)
 	{
 		m_id = 5;
-		if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+		if (!m_texture.loadFromFile("assets/img/noScore.png", m_renderer, 1))
 		{
-			printf("Failed to load dot texture!\n");
+			printf("Failed to load noScore texture!\n");
 
 		}
 		m_timer = 0;
@@ -278,4 +286,7 @@ public:
 		m_texture.render(m_x, m_y, m_renderer,  1, 1);
 	}
 };
+
+
+
 

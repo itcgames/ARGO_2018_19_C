@@ -31,6 +31,8 @@ public:
 
 	float getPositionY();
 
+	int life = 200;
+
 private:
 
 	//The X and Y offsets of the dot

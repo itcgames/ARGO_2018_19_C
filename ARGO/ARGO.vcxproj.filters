@@ -10,9 +10,6 @@
     <ClCompile Include="Animation.cpp">
       <Filter>src\FSM</Filter>
     </ClCompile>
-    <ClCompile Include="Assets.cpp">
-      <Filter>src\Art</Filter>
-    </ClCompile>
     <ClCompile Include="AudioManager.cpp">
       <Filter>src\Art</Filter>
     </ClCompile>
@@ -90,6 +87,20 @@
     </ClCompile>
     <ClCompile Include="GoToNode.cpp">
       <Filter>src\FSM\AIFSM</Filter>
+    <ClCompile Include="Credits.cpp">
+      <Filter>src\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>src\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Options.cpp">
+      <Filter>src\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScreen.cpp">
+      <Filter>src\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets.cpp">
+      <Filter>src\Art</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -183,9 +194,6 @@
     <ClInclude Include="RenderSystem.h">
       <Filter>Header\System</Filter>
     </ClInclude>
-    <ClInclude Include="credits.h">
-      <Filter>Header\Screens</Filter>
-    </ClInclude>
     <ClInclude Include="splash.h">
       <Filter>Header\Screens</Filter>
     </ClInclude>
@@ -203,9 +211,6 @@
     </ClInclude>
     <ClInclude Include="PowerUp.h">
       <Filter>Header\PowerUps</Filter>
-    </ClInclude>
-    <ClInclude Include="Assets.h">
-      <Filter>Header\Art</Filter>
     </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>Header\Art</Filter>
@@ -239,9 +244,23 @@
     </ClInclude>
     <ClInclude Include="AIState.h">
       <Filter>Header\FSM\AIFSM</Filter>
+    <ClInclude Include="GameOver.h">
+      <Filter>Header\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="GoToNode.h">
-      <Filter>Header\FSM\AIFSM</Filter>
+    <ClInclude Include="Credits.h">
+      <Filter>Header\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Options.h">
+      <Filter>Header\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScreen.h">
+      <Filter>Header\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="AIComponent.h">
+      <Filter>Header\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets.h">
+      <Filter>Header\Art</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -304,12 +323,6 @@
     </Filter>
     <Filter Include="Header\LevelLoader">
       <UniqueIdentifier>{59ff70fd-7a1f-4a21-8a78-09c35495934e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\FSM\AIFSM">
-      <UniqueIdentifier>{46140b6d-cbe9-49dd-8f50-b1b559ab7156}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\FSM\AIFSM">
-      <UniqueIdentifier>{01c2bf45-cd18-42bc-b12c-aad3523e83c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

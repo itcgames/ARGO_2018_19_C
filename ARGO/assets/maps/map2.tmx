@@ -50,7 +50,7 @@
   <object id="102" name="Ceiling" x="360" y="410" width="300" height="10"/>
   <object id="103" name="Wall" x="650" y="370" width="10" height="40"/>
   <object id="104" name="Wall" x="359.697" y="370" width="10" height="40"/>
-  <object id="105" name="Ceiling" x="840.151" y="409.667" width="300" height="10"/>
+  <object id="105" name="Ceiling" x="840.151" y="408" width="300" height="11.667"/>
   <object id="106" name="Wall" x="1130.15" y="369.667" width="10" height="40"/>
   <object id="107" name="Wall" x="839.848" y="369.667" width="10" height="40"/>
   <object id="108" name="Ceiling" x="600" y="230" width="300" height="10"/>
@@ -63,6 +63,7 @@
   <object id="117" name="Ceiling" x="0" y="230" width="300" height="10"/>
   <object id="118" name="Wall" x="290" y="190" width="10" height="40"/>
   <object id="119" name="Ceiling" x="40" y="50" width="1415" height="10"/>
+
   <object id="120" name="Node" type="JumpRight" x="141.458" y="796.208" width="25" height="25">
    <properties>
     <property name="Level" type="int" value="1"/>
@@ -156,5 +157,6 @@
   <object id="151" name="Node" type="Edge" x="1046" y="132" width="28" height="44"/>
   <object id="152" name="Node" type="Edge" x="442" y="134" width="34" height="42"/>
   <object id="153" name="Node" type="Edge" x="1158" y="435" width="36" height="42"/>
+
  </objectgroup>
 </map>
