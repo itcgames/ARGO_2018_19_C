@@ -97,6 +97,7 @@ std::string Lobby::sendMsg(int index)
 
 void Lobby::update(int index, int mouseX, int mouseY, GameState & gs)
 {
+	m_playerIndex = index;
 	// On Button click
 	// Ready, UnReady
 
@@ -372,4 +373,15 @@ void Lobby::updateNetwork(Client * client, int pIndex, std::string s)
 	}
 
 
+}
+
+
+void Lobby::setReadyButton(bool ru)
+{
+	m_playerReady[m_playerIndex] = ru;
+}
+
+bool Lobby::getReadyButton()
+{
+	return m_playerReady[m_playerIndex];
 }

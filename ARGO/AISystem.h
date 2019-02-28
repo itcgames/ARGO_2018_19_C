@@ -40,6 +40,8 @@ class AISystem
 public:
 	AISystem();
 	void addEntity(Entity e);
+	int getEntityIndex(std::string e);
+	void removeEntityByIndex(int i);
 	void update(level &level);
 	void checkNearest(float dis, Entity * entity, float c_y);
 	NodeObjects nearestNode(level &level, std::string type);

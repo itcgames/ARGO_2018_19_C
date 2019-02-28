@@ -1,11 +1,22 @@
 #pragma once
-#pragma once
 #include "Command.h"
 class JumpCommand : public Command
 {
 public:
-	virtual void execute()
+	JumpCommand() {};
+	~JumpCommand() {}
+	void execute(Entity * e, Client & client)
 	{
-		std::cout << "jump" << std::endl;
-	}
+		ControlComponent * controlComp = (ControlComponent*)e->getCompByType("Control");
+		controlComp->setDirection(controlComp->Up);
+		AudioManager::Instance()->PlaySFX("Jump", 0);
+	};
+
+	void stop(Entity * e)
+	{
+		
+	};
+
+protected:
 };
+

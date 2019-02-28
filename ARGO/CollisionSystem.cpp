@@ -181,7 +181,10 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 
 					if (ticksPerFrame < time)
 					{
-						score->setScore(score->getScore() + 1);
+						if (score != NULL)
+						{
+							score->setScore(score->getScore() + 1);
+						}
 
 						time = 0;
 					}
