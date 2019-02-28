@@ -52,7 +52,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	flag.addComponent(new PickUpComponent());
 	flag.addComponent(new PositionComponent(1000, 600));
 
-	player.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, ren, 3, 5));
+	player.addComponent(new SpriteComponent("assets/img/playerSheet1.png", 0.5, ren, 3, 5));
 	player.addComponent(new AmmoComponent(ren));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
@@ -62,7 +62,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player.addComponent(new LifeComponent(4, 1, ren, 1));
 	player.addComponent(new VelocityComponent());
 
-	player2.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, ren, 3, 5));
+	player2.addComponent(new SpriteComponent("assets/img/playerSheet2.png", 0.5, ren, 3, 5));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
 	player2.addComponent(new ControlComponent());
@@ -72,7 +72,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player2.addComponent(new LifeComponent(5, 2, ren, 1));
 	player2.addComponent(new VelocityComponent());
 
-	player3.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, ren, 3, 5));
+	player3.addComponent(new SpriteComponent("assets/img/playerSheet3.png", 0.5, ren, 3, 5));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
 	player3.addComponent(new ControlComponent());
@@ -83,7 +83,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player3.addComponent(new VelocityComponent());
 
 
-	player4.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, ren, 3, 5));
+	player4.addComponent(new SpriteComponent("assets/img/playerSheet4.png", 0.5, ren, 3, 5));
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 	player4.addComponent(new ControlComponent());
@@ -192,7 +192,7 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 	if (*m_playerIndex == 0)
 	{
 		//Update all ai
-		ais.update(*m_level);
+		//ais.update(*m_level);
 	}
 	if (m_countdownMinute <= 0  && m_countdownSec > 20000)
 	{
@@ -1271,7 +1271,7 @@ void GameScreen::playerAI(int pIndex, bool ai)
 		switch (pIndex)
 		{
 		case 0:
-			
+        
 			for (int i = 0; i < cs.getEntityIds().size(); i++)
 			{
 				if (cs.getEntityIds()[i] == "Player")

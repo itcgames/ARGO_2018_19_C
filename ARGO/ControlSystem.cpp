@@ -272,6 +272,7 @@ void ControlSystem::keyUp(SDL_Event &e) {
 		{
 			pressed = false;
 		}
+
 	}
 }
 
