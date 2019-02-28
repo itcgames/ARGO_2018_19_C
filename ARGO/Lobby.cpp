@@ -62,6 +62,11 @@ Lobby::Lobby(SDL_Renderer *ren, Game * game):m_game(game)
 		printf("Failed to load ready texture!\n");
 	}
 
+	if (!m_youImg.loadFromFile("assets/img/youImg.png", ren, 1))
+	{
+		printf("Failed to laod YOU arrow!\n");
+	}
+
 	if (!m_player2Texture.loadFromFile("assets/img/lobbyPlayer2.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
@@ -134,6 +139,26 @@ void Lobby::update(int index, int mouseX, int mouseY, GameState & gs)
 			gs = GameState::MainMenu;
 			m_playerInLobby[index] = false;
 		}
+
+		switch (index)
+		{
+		case 0:
+			m_youImgX = 120;
+			m_youImgY = 100;
+			break;
+		case 1:
+			m_youImgX = 520;
+			m_youImgY = 100;
+			break;
+		case 2:
+			m_youImgX = 870;
+			m_youImgY = 100;
+			break;
+		case 3:
+			m_youImgX = 1450;
+			m_youImgY = 100;
+			break;
+		}
 	}
 
 }
@@ -185,6 +210,8 @@ void Lobby::render(SDL_Renderer * ren)
 
 	//Back button
 	m_backTexture.render(m_backX, m_backY, ren, 1, 1);
+
+	m_youImg.render(m_youImgX, m_youImgY, ren, 1, 1);
 
 	// Player one
 	if (m_playerReady[0])

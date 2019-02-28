@@ -48,7 +48,10 @@ private:
 	LTexture m_player3Texture;
 	LTexture m_player4Texture;
 	LTexture m_bg;
+	LTexture m_youImg;
 	int m_playerIndex;
+	int m_youImgX, m_youImgY;
+
 
 	// Count down
 	int m_countdown;
