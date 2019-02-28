@@ -57,7 +57,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
 	player.addComponent(new ControlComponent());
-	player.addComponent(new ScoreComponent(0));
+	player.addComponent(new ScoreComponent(40));
 	player.addComponent(new PositionComponent(300, 100));
 	player.addComponent(new LifeComponent(4, 1, ren, 1));
 	player.addComponent(new VelocityComponent());
@@ -67,7 +67,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player2.addComponent(new CollisionComponent());
 	player2.addComponent(new ControlComponent());
 	player2.addComponent(new AmmoComponent(ren));
-	player2.addComponent(new ScoreComponent(0));
+	player2.addComponent(new ScoreComponent(15));
 	player2.addComponent(new PositionComponent(500, 100));
 	player2.addComponent(new LifeComponent(5, 2, ren, 1));
 	player2.addComponent(new VelocityComponent());
@@ -76,7 +76,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
 	player3.addComponent(new ControlComponent());
-	player3.addComponent(new ScoreComponent(0));
+	player3.addComponent(new ScoreComponent(20));
 	player3.addComponent(new AmmoComponent(ren));
 	player3.addComponent(new PositionComponent(300, 600));
 	player3.addComponent(new LifeComponent(6, 3, ren, 1));
@@ -87,7 +87,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 	player4.addComponent(new ControlComponent());
-	player4.addComponent(new ScoreComponent(0));
+	player4.addComponent(new ScoreComponent(5));
 	player4.addComponent(new AmmoComponent(ren));
 	player4.addComponent(new PositionComponent(500, 500));
 	player4.addComponent(new LifeComponent(3, 4, ren, 1));

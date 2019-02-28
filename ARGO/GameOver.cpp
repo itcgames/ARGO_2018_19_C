@@ -18,13 +18,38 @@ GameOverScreen::GameOverScreen(SDL_Renderer* ren)
 	m_mainMenuW = m_mainMenubtn.getWidth();
 	m_mainMenuH = m_mainMenubtn.getHeight();
 
+
+
 	for (int i = 0; i < 4; i++)
 	{
 		m_scores.push_back(-1);
 		m_scoresIncreasing.push_back(0);
 	}
+
+	m_scores[0] = 200;
+	m_scores[1] = 0;
+	m_scores[2] = 0;
+	m_scores[3] = 150;
+
+	if (!m_first.loadFromFile("assets/img/first.png", ren, 1))
+	{
+		printf("error loading first png!\n");
+	}
+	if (!m_second.loadFromFile("assets/img/second.png", ren, 1))
+	{
+		printf("error loading third png!\n");
+	}
+	if (!m_third.loadFromFile("assets/img/third.png", ren, 1))
+	{
+		printf("error loading third png!\n");
+	}
+	if (!m_fourth.loadFromFile("assets/img/fourth.png", ren, 1))
+	{
+		printf("error loading fourth png!\n");
+	}
+
 	//Open the font
-	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf", 22);
+	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf", 18);
 };
 
 GameOverScreen::~GameOverScreen()
@@ -43,6 +68,7 @@ void GameOverScreen::init()
 void GameOverScreen::addPlayerScore(int index, int score)
 {
 	m_scores[index] = score;
+
 }
 
 void GameOverScreen::update()
@@ -54,12 +80,111 @@ void GameOverScreen::update()
 			m_scoresIncreasing[i]++;
 		}
 	}
+	winnerScore();
 };
+
+void GameOverScreen::winnerScore()
+{
+	m_winnerOrder = m_scores;
+	std::sort(m_winnerOrder.rbegin(), m_winnerOrder.rend());
+
+	for (int i = 0; i < m_winnerOrder.size();i++)
+	{
+		
+		if (m_winnerOrder[0] == m_scores[i] && m_scores[i] != 0)
+		{
+			switch (i) {
+			case 0:
+				m_firstX = 120;
+				m_firstY = 700;
+				break;
+			case 1:
+				m_firstX = 520;
+				m_firstY = 700;
+				break;
+			case 2:
+				m_firstX = 870;
+				m_firstY = 700;
+				break;
+			case 3:
+				m_firstX = 1250;
+				m_firstY = 700;
+			}
+
+		}
+		if (m_winnerOrder[1] == m_scores[i] && m_scores[i] != 0)
+		{
+			switch (i) {
+			case 0:
+				m_secondX = 120;
+				m_secondY = 700;
+				break;
+			case 1:
+				m_secondX = 520;
+				m_secondY = 700;
+				break;
+			case 2:
+				m_secondX = 870;
+				m_secondY = 700;
+				break;
+			case 3:
+				m_secondX = 1250;
+				m_secondY = 700;
+			}
+
+		}
+		if (m_winnerOrder[2] == m_scores[i] && m_scores[i] != 0)
+		{
+			switch (i) {
+			case 0:
+				m_thirdX = 120;
+				m_thirdY = 700;
+				break;
+			case 1:
+				m_thirdX = 520;
+				m_thirdY = 700;
+				break;
+			case 2:
+				m_thirdX = 870;
+				m_thirdY = 700;
+				break;
+			case 3:
+				m_thirdX = 1250;
+				m_thirdY = 700;
+			}
+
+		}
+		if (m_winnerOrder[3] == m_scores[i] && m_scores[i] != 0)
+		{
+			switch (i) {
+			case 0:
+				m_fourthX = 120;
+				m_fourthY = 750;
+				break;
+			case 1:
+				m_fourthX = 520;
+				m_fourthY = 750;
+				break;
+			case 2:
+				m_fourthX = 870;
+				m_fourthY = 750;
+				break;
+			case 3:
+				m_fourthX = 1250;
+				m_fourthY = 750;
+			}
+
+		}
+	}
+}
 
 void GameOverScreen::render(SDL_Renderer * ren)
 {
 	m_bg.render(m_bgX, m_bgY, ren, 1, 1);
-
+	m_first.render(m_firstX, m_firstY, ren, 1, 1);
+	m_second.render(m_secondX, m_secondY, ren, 1, 1);
+	m_third.render(m_thirdX, m_thirdY, ren, 1, 1);
+	m_fourth.render(m_fourthX, m_fourthY, ren, 1, 1);
 	m_mainMenubtn.render(m_mainMenuX, m_mainMenuY, ren, 1, 1);
 	if (m_font == NULL)
 	{

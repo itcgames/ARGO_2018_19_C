@@ -155,7 +155,7 @@ void Lobby::update(int index, int mouseX, int mouseY, GameState & gs)
 			m_youImgY = 100;
 			break;
 		case 3:
-			m_youImgX = 1450;
+			m_youImgX = 1250;
 			m_youImgY = 100;
 			break;
 		}
