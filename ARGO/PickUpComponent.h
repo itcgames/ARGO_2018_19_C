@@ -13,7 +13,6 @@ public:
 		return id;
 	}
 
-
 	enum PickUp {
 		Collectable,
 		NotCollectable

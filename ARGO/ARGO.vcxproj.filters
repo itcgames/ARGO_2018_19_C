@@ -97,6 +97,9 @@
     <ClCompile Include="Assets.cpp">
       <Filter>src\Art</Filter>
     </ClCompile>
+    <ClCompile Include="AIComponent.cpp">
+      <Filter>src\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -251,6 +254,9 @@
     </ClInclude>
     <ClInclude Include="Assets.h">
       <Filter>Header\Art</Filter>
+    </ClInclude>
+    <ClInclude Include="AIState.h">
+      <Filter>Header\FSM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

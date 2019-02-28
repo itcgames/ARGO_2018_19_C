@@ -6,6 +6,6 @@ class GoToFlag : public AIState
 public:
 	GoToFlag() {};
 	~GoToFlag() {};
-	void goToNode(NoFlag* nf);
-	void goToPowerUp(NoFlag* nf);
+	void goToNode(AIState* nf);
+	void goToPowerUp(AIState* nf);
 };

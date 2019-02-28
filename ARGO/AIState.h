@@ -1,21 +1,21 @@
 #pragma once
-#include "NoFlag.h"
+#include "AiComponent.h"
 #include "SDL.h"
 #include <iostream>
 
 class AIState
 {
 public:
-	virtual void goToFlag(NoFlag* nf)
+	virtual void goToFlag(AiComponent* nf)
 	{
 		std::cout << "State::goToFlag" << std::endl;
 	}
-	virtual void goToNode(NoFlag* nf)
+	virtual void goToNode(AiComponent* nf)
 	{
 		std::cout << "State::goToNode" << std::endl;
 	}
 
-	virtual void goToPowerUp(NoFlag* nf)
+	virtual void goToPowerUp(AiComponent* nf)
 	{
 		std::cout << "State::goToPowerUp" << std::endl;
 

@@ -64,6 +64,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player2.addComponent(new PositionComponent(500, 100));
 	player2.addComponent(new LifeComponent(5, 2, ren, 1));
 	player2.addComponent(new VelocityComponent());
+	player2.addComponent(new AiComponent());
 
 	player3.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, ren, 3, 5));
 	player3.addComponent(new AnimationComponent());
@@ -74,6 +75,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player3.addComponent(new PositionComponent(300, 600));
 	player3.addComponent(new LifeComponent(6, 3, ren, 1));
 	player3.addComponent(new VelocityComponent());
+	player3.addComponent(new AiComponent());
 
 
 	player4.addComponent(new SpriteComponent("assets/img/playerSheet.png", 0.5, ren, 3, 5));
@@ -85,6 +87,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player4.addComponent(new PositionComponent(500, 500));
 	player4.addComponent(new LifeComponent(3, 4, ren, 1));
 	player4.addComponent(new VelocityComponent());
+	player4.addComponent(new AiComponent());
 
 	ammos.addEntity(player);
 	ammos.addEntity(player2);
@@ -249,7 +252,7 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 			}
 		}
 	}
-	getDistance();
+	//getDistance();
 }
 
 void GameScreen::render(SDL_Renderer * ren, float dt)
@@ -260,11 +263,11 @@ void GameScreen::render(SDL_Renderer * ren, float dt)
 	//ps.update(m_renderer);
 	m_level->draw(ren);
 	ammos.render(ren);
-	for (int i = m_powerUps.size() - 1; i >= 0; i--)
+	/*for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{
 		m_powerUps[i]->draw(ren);
 	}
-
+*/
 	if (m_font == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());

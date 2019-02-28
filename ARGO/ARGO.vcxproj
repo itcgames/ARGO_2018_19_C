@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AIComponent.cpp" />
     <ClCompile Include="AISystem.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Assets.cpp" />
@@ -54,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="AIState.h" />
     <ClInclude Include="Assets.h" />
     <ClInclude Include="Credits.h" />
     <ClInclude Include="Options.h" />
