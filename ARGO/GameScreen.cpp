@@ -136,7 +136,6 @@ void GameScreen::input(SDL_Event * e, Client * client, GameState & gs, bool & ch
 	m_changeAi = -1;
 	cs.input(*e, *client, gs, changeReady, m_changeAi);
 
-	std::cout << m_changeAi << std::endl;
 	if (m_changeAi == 0)
 	{
 		playerAI((*m_playerIndex), false);
@@ -262,12 +261,12 @@ void GameScreen::render(SDL_Renderer * ren, float dt)
 	}
 	else
 	{
-		m_countdownSec += dt / 2;
 		if (m_countdownSec > 30000)
 		{
 			m_countdownSec = 0;
 			m_countdownMinute--;
 		}
+		m_countdownSec += dt / 2;
 		
 		drawText(ren, std::to_string(m_countdownMinute) + ":" + std::to_string((30000 - m_countdownSec) / 500), 50, 50);
 	}
