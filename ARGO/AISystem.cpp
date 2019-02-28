@@ -45,7 +45,22 @@ float AISystem::setDistance(float dis) {
 	return distance;
 }
 
+int AISystem::getEntityIndex(std::string e)
+{
+	for (int i = 0; i < entities.size(); i++)
+	{
+		if (entities[i].getName() == e)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
 
+void AISystem::removeEntityByIndex(int i)
+{
+	entities.erase(entities.begin() + i);
+}
 
 void AISystem::update(level &m_level) {
 

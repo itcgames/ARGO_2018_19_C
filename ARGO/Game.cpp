@@ -40,7 +40,7 @@ Game::Game()
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::MainMenu);
+		m_currentGameState = (GameState::GameOverScreen);
 
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
@@ -86,9 +86,10 @@ void Game::initialise()
 	m_creditsScreen = new Credits(m_renderer);
 	m_gameScreen = new GameScreen(m_renderer, this);
 	m_gameScreen->init(m_renderer, &m_playerIndex);
-	m_gameoverScreen = new GameOverScreen();
+	m_gameoverScreen = new GameOverScreen(m_renderer);
 	m_menuScreen = new MenuScreen(m_renderer);
 	m_optionsScreen = new optionsScreen(m_renderer);
+	m_changeReady = false;
 
 }
 
@@ -130,7 +131,7 @@ void Game::processEvents()
 {
 
 	while (SDL_PollEvent(&event)) {
-		m_gameScreen->input(&event, m_client);
+		m_gameScreen->input(&event, m_client, m_currentGameState, m_changeReady);
 		switch (event.type) {
 
 		case SDL_QUIT:
@@ -150,6 +151,15 @@ void Game::processEvents()
 	}
 }
 
+void Game::readyButton()
+{
+	if (m_changeReady)
+	{
+		m_lobbyScreen->setReadyButton(!m_lobbyScreen->getReadyButton());
+		m_changeReady = false;
+	}
+}
+
 void Game::setGameState(GameState gameState)
 {
 	m_currentGameState = gameState;
@@ -166,6 +176,7 @@ void Game::update(float dt)
 	case GameState::Splash:
 		break;
 	case GameState::Lobby:
+		readyButton();
 		m_lobbyScreen->update(m_playerIndex, mouseX, mouseY, m_currentGameState);
 		mouseX = -1;
 		mouseY = -1;

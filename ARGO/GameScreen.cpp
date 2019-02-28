@@ -37,9 +37,16 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	{
 		printf("Failed to load wall texture!\n");
 	}
+
+	if (!m_bg.loadFromFile("assets/img/Background.png", ren, 1))
+	{
+		printf("Failed to load game background");
+	}
+	m_bgX = 0;
+	m_bgY = 0;
 	
 	//Open the font
-	m_font = TTF_OpenFont("assets/Fonts/Amatic-Bold.ttf", 28);
+	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf", 18);
 
 	flag.addComponent(new SpriteComponent("assets/img/flag.png", 0.3, ren, 8, 2));
 	flag.addComponent(new PickUpComponent());
@@ -64,7 +71,6 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player2.addComponent(new PositionComponent(500, 100));
 	player2.addComponent(new LifeComponent(5, 2, ren, 1));
 	player2.addComponent(new VelocityComponent());
-	player2.addComponent(new AiComponent());
 
 	player3.addComponent(new SpriteComponent("assets/img/playerSheet3.png", 0.5, ren, 3, 5));
 	player3.addComponent(new AnimationComponent());
@@ -75,7 +81,6 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player3.addComponent(new PositionComponent(300, 600));
 	player3.addComponent(new LifeComponent(6, 3, ren, 1));
 	player3.addComponent(new VelocityComponent());
-	player3.addComponent(new AiComponent());
 
 
 	player4.addComponent(new SpriteComponent("assets/img/playerSheet4.png", 0.5, ren, 3, 5));
@@ -87,7 +92,6 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player4.addComponent(new PositionComponent(500, 500));
 	player4.addComponent(new LifeComponent(3, 4, ren, 1));
 	player4.addComponent(new VelocityComponent());
-	player4.addComponent(new AiComponent());
 
 	ammos.addEntity(player);
 	ammos.addEntity(player2);
@@ -136,29 +140,21 @@ void GameScreen::init(SDL_Renderer * ren, int * pIndex)
 
 	//Initialise player with all the Components and systems they need (AI or Player)
 
-	/*player.addComponent(new PositionComponent(300, 100));
-	player.addComponent(new LifeComponent(4, 1, ren, 1));
-	player.addComponent(new VelocityComponent());
-	
-
-	player2.addComponent(new PositionComponent(500, 100));
-	player2.addComponent(new LifeComponent(5, 2, ren, 1));
-	player2.addComponent(new VelocityComponent());
-	
-
-	player3.addComponent(new PositionComponent(300, 600));
-	player3.addComponent(new LifeComponent(6, 3, ren, 1));
-	player3.addComponent(new VelocityComponent());
-
-	player4.addComponent(new PositionComponent(500, 500));
-	player4.addComponent(new LifeComponent(3, 4, ren, 1));
-	player4.addComponent(new VelocityComponent());
-*/
 }
 
-void GameScreen::input(SDL_Event * e, Client * client)
+void GameScreen::input(SDL_Event * e, Client * client, GameState & gs, bool & changeReady)
 {
-	cs.input(*e, *client);
+	m_changeAi = -1;
+	cs.input(*e, *client, gs, changeReady, m_changeAi);
+
+	if (m_changeAi == 0)
+	{
+		playerAI((*m_playerIndex), false);
+	}
+	else if (m_changeAi == 1)
+	{
+		playerAI((*m_playerIndex), true);
+	}
 
 	if (e->type == SDL_KEYUP)
 	{
@@ -186,6 +182,8 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 	Colls.CheckCollision(*m_level, dt, playerID);
 	ammos.update();
 
+	
+	
 	// Network
 	powerUpSpawn(ren, client);
 	sendPUToNetwork(client);
@@ -259,7 +257,9 @@ void GameScreen::render(SDL_Renderer * ren, float dt)
 {
 	//Jamie
 	SDL_RenderSetLogicalSize(ren, SCREEN_WIDTH, SCREEN_HEIGHT);
+	m_bg.render(m_bgX, m_bgY, ren, 1, 1);
 	rs.update(ren, dt);
+	
 	//ps.update(m_renderer);
 	m_level->draw(ren);
 	ammos.render(ren);
@@ -274,14 +274,14 @@ void GameScreen::render(SDL_Renderer * ren, float dt)
 	}
 	else
 	{
-		m_countdownSec += dt / 2;
 		if (m_countdownSec > 30000)
 		{
 			m_countdownSec = 0;
 			m_countdownMinute--;
 		}
+		m_countdownSec += dt / 2;
 		
-		drawText(ren, std::to_string(m_countdownMinute) + ":" + std::to_string((30000 - m_countdownSec) / 500), 50, 50);
+		drawText(ren, std::to_string(m_countdownMinute) + ":" + std::to_string((30000 - m_countdownSec) / 500), 600, 0);
 	}
 }
 
@@ -514,7 +514,6 @@ void GameScreen::getDistance() {
 
 }
 
-
 void GameScreen::rumble()
 {
 	//random number between 1-3
@@ -548,7 +547,7 @@ void GameScreen::resetCamera()
 void GameScreen::drawText(SDL_Renderer * ren, std::string s, int x, int y)
 {
 	//Render text
-	SDL_Color textColor = { 255, 0, 0 };
+	SDL_Color textColor = { 255, 255,0 };
 	if (!m_textTexture.loadFromRenderedText(s, textColor, ren, m_font))
 	{
 		printf("Failed to render text texture!\n");
@@ -828,14 +827,14 @@ void GameScreen::powerUpSpawn(SDL_Renderer * ren, Client * client)
 				case 5: // Reset
 					for (int j = 0; j < Colls.getEntityID().size(); j++)
 					{
-						if (Colls.getEntityID()[j + 1] == "Player")
-							Colls.resetScore(Colls.getEntityID()[j + 1]);
-						if (Colls.getEntityID()[j + 1] == "Player2")
-							Colls.resetScore(Colls.getEntityID()[j + 1]);
-						if (Colls.getEntityID()[j + 1] == "Player3")
-							Colls.resetScore(Colls.getEntityID()[j + 1]);
-						if (Colls.getEntityID()[j + 1] == "Player4")
-							Colls.resetScore(Colls.getEntityID()[j + 1]);
+						if (Colls.getEntityID()[j] == "Player")
+							Colls.resetScore(Colls.getEntityID()[j]);
+						if (Colls.getEntityID()[j] == "Player2")
+							Colls.resetScore(Colls.getEntityID()[j]);
+						if (Colls.getEntityID()[j] == "Player3")
+							Colls.resetScore(Colls.getEntityID()[j]);
+						if (Colls.getEntityID()[j] == "Player4")
+							Colls.resetScore(Colls.getEntityID()[j]);
 					}
 					break;
 
@@ -967,11 +966,8 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 
 	if (msg.length() > 0)
 	{
-		int indexPlayer = msg.find("Player");
-
 		// Setting other player positions
-		char firstChar = msg.at(0);
-		//if (firstChar == 'S' && msg.substr(13, 3) != "IP:")
+		int indexPlayer = msg.find("Player");
 		if (indexPlayer >= 0)
 		{
 			// Update first player
@@ -1049,8 +1045,6 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 				}
 			}
 		}
-
-		
 
 		index = msg.find("Flag");
 		if (index >= 0)
@@ -1192,37 +1186,162 @@ void GameScreen::playerAI(int pIndex, bool ai)
 {
 	if (ai)
 	{
+		bool change = true;
 		switch (pIndex)
 		{
 		case 0:
-			ais.addEntity(player);
+			
+			for (int i = 0; i < ais.getEntityIds().size(); i++)
+			{
+				if (ais.getEntityIds()[i] == "Player")
+				{
+					change = false;
+				}
+			}
+			if (change)
+			{
+				player.addComponent(new AiComponent());
+				ais.addEntity(player);
+				if (cs.getEntityIndex("Player") != -1)
+				{
+					cs.removeEntityByIndex(cs.getEntityIndex("Player"));
+				}
+			}
 			break;
 		case 1:
-			ais.addEntity(player2);
+			for (int i = 0; i < ais.getEntityIds().size(); i++)
+			{
+				if (ais.getEntityIds()[i] == "Player2")
+				{
+					change = false;
+				}
+			}
+			if (change)
+			{
+				player2.addComponent(new AiComponent());
+				ais.addEntity(player2);
+				if (cs.getEntityIndex("Player2") != -1)
+				{
+					cs.removeEntityByIndex(cs.getEntityIndex("Player2"));
+				}
+			}
 			break;
 		case 2:
-			ais.addEntity(player3);
+			for (int i = 0; i < ais.getEntityIds().size(); i++)
+			{
+				if (ais.getEntityIds()[i] == "Player3")
+				{
+					change = false;
+				}
+			}
+			if (change)
+			{
+				player3.addComponent(new AiComponent());
+				ais.addEntity(player3);
+				if (cs.getEntityIndex("Player3") != -1)
+				{
+					cs.removeEntityByIndex(cs.getEntityIndex("Player3"));
+				}
+			}
 			break;
 		case 3:
-			ais.addEntity(player4);
+			for (int i = 0; i < ais.getEntityIds().size(); i++)
+			{
+				if (ais.getEntityIds()[i] == "Player4")
+				{
+					change = false;
+				}
+			}
+			if (change)
+			{
+				player4.addComponent(new AiComponent());
+				ais.addEntity(player4);
+				//player4.addComponent()
+				if (cs.getEntityIndex("Player4") != -1)
+				{
+					cs.removeEntityByIndex(cs.getEntityIndex("Player4"));
+				}
+			}
 			break;
 		}
 	}
 	else
 	{
+		bool change = true;
 		switch (pIndex)
 		{
 		case 0:
-			player.removeComponent(player.getCompByType("Ai"));
+        
+			for (int i = 0; i < cs.getEntityIds().size(); i++)
+			{
+				if (cs.getEntityIds()[i] == "Player")
+				{
+					change = false;
+				}
+			}
+			if (change)
+			{
+				cs.addEntity(player);
+				if (ais.getEntityIndex("Player") != -1)
+				{
+					player.removeComponent(player.getCompByType("Ai"));
+					ais.removeEntityByIndex(ais.getEntityIndex("Player"));
+				}
+			}
 			break;
 		case 1:
-			player2.removeComponent(player.getCompByType("Ai"));
+			for (int i = 0; i < cs.getEntityIds().size(); i++)
+			{
+				if (cs.getEntityIds()[i] == "Player2")
+				{
+					change = false;
+				}
+			}
+			if (change)
+			{
+				cs.addEntity(player2);
+				if (ais.getEntityIndex("Player2") != -1)
+				{
+					player2.removeComponent(player.getCompByType("AI"));
+					ais.removeEntityByIndex(ais.getEntityIndex("Player2"));
+				}
+			}
 			break;
 		case 2:
-			player3.removeComponent(player.getCompByType("Ai"));
+			for (int i = 0; i < cs.getEntityIds().size(); i++)
+			{
+				if (cs.getEntityIds()[i] == "Player3")
+				{
+					change = false;
+				}
+			}
+			if (change)
+			{
+				cs.addEntity(player3);
+				if (ais.getEntityIndex("Player3") != -1)
+				{
+					player3.removeComponent(player.getCompByType("AI"));
+					ais.removeEntityByIndex(ais.getEntityIndex("Player3"));
+				}
+			}
 			break;
 		case 3:
-			player4.removeComponent(player.getCompByType("Ai"));
+			for (int i = 0; i < cs.getEntityIds().size(); i++)
+			{
+				if (cs.getEntityIds()[i] == "Player4")
+				{
+					change = false;
+				}
+			}
+			if (change)
+			{
+				cs.addEntity(player4);
+				if (ais.getEntityIndex("Player4") != -1)
+				{
+					player4.removeComponent(player.getCompByType("AI"));
+					ais.removeEntityByIndex(ais.getEntityIndex("Player4"));
+				}
+			}
 			break;
 		}
 	}
@@ -1232,6 +1351,8 @@ void GameScreen::setPlayer(int pIndex)
 {
 	PositionComponent * p = (PositionComponent *)player.getCompByType("Position");
 	*m_playerIndex = pIndex;
+	bool addCS = true;
+
 	switch (pIndex)
 	{
 	case 0:
@@ -1239,7 +1360,24 @@ void GameScreen::setPlayer(int pIndex)
 	
 		//player.addComponent(new LifeComponent(6, 1, m_renderer, 1));
 
-		cs.addEntity(player);
+		if (cs.getEntityIds().size() > 0)
+		{
+			for (int i = 0; i < cs.getEntityIds().size(); i++)
+			{
+				if (cs.getEntityIds()[i] == "Player")
+				{
+					addCS = false;
+				}
+			}
+			if (addCS)
+			{
+				cs.addEntity(player);
+			}
+		}
+		else
+		{
+			cs.addEntity(player);
+		}
 		Colls.addEntity(player);
 		Colls.addEntity(player2);
 		Colls.addEntity(player3);

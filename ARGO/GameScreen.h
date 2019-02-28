@@ -28,7 +28,7 @@ public:
 	~GameScreen();
 	void init(SDL_Renderer * ren, int * pIndex);
 	void update(Client * client, float dt, SDL_Renderer * ren);
-	void input(SDL_Event * e, Client * client);
+	void input(SDL_Event * e, Client * client, GameState & gs, bool & changeReady);
 	void render(SDL_Renderer * ren, float dt);
 	void playerAI(int pIndex, bool ai);
 	void updateNetwork(Client * client, std::string msg, SDL_Renderer * ren);
@@ -53,6 +53,7 @@ private:
 	PhysicsSystem phs;
 	LifeSystem ls;
 
+	int m_changeAi;
 
 	LTexture m_texture, wallTxt;
 
@@ -100,5 +101,7 @@ private:
 	int m_countdownMinute;
 	TTF_Font *m_font;
 	LTexture m_textTexture;
+	LTexture m_bg;
+	int m_bgX, m_bgY;
 	void drawText(SDL_Renderer * ren, std::string s, int x, int y);
 };

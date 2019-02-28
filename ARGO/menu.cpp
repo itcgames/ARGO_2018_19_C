@@ -44,6 +44,8 @@ MenuScreen::MenuScreen(SDL_Renderer * ren)
 	m_CreditsY = 200;
 	m_CreditsW = m_Credits.getWidth();
 	m_CreditsH = m_Credits.getHeight();
+
+	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf",8);
 }
 
 
@@ -77,8 +79,20 @@ void MenuScreen::update(int mouseX, int mouseY, GameState & gs)
 
 void MenuScreen::render(SDL_Renderer * renderer)
 {
+
 	//Background Image
 	m_bg.render(m_bgX, m_bgY, renderer, 1, 1);
+
+	if (m_font == NULL)
+	{
+		printf("Failed to load Velekom font! SDL_ttf error: %s\n", TTF_GetError());
+	}
+	else
+	{
+		drawText(renderer, std::string("[A]"), 200, 350);
+		drawText(renderer, std::string("[X]"), 725, 350);
+		drawText(renderer, std::string("[B]"), 1150, 350);
+	}
 
 	//Title Image
 	m_title.render(m_titleX, m_titleY, renderer, 1, 1);
@@ -92,4 +106,17 @@ void MenuScreen::render(SDL_Renderer * renderer)
 	//Options button
 	m_options.render(m_optionsX, m_optionsY, renderer, 1, 1);
 
+}
+
+void MenuScreen::drawText(SDL_Renderer * ren, std::string s, int x, int y)
+{
+	//Render text
+
+
+	SDL_Color textColor = { 255, 255, 255 };
+	if (!m_textTxt.loadFromRenderedText(s, textColor, ren, m_font))
+	{
+		printf("Failed to render text texture!\n");
+	}
+	m_textTxt.render(x, y, ren, 1, 1);
 }

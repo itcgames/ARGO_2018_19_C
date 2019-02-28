@@ -181,15 +181,19 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 
 					if (ticksPerFrame < time)
 					{
-						score->setScore(score->getScore() + 1);
+						if (score != NULL)
+						{
+							score->setScore(score->getScore() + 1);
+						}
 
 						time = 0;
 					}
 				}
-
+				
 			}
 			else
 				FloatFlag(posComp2);
+			
 		}
 	}
 }
@@ -326,7 +330,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			y <= m_tiles.m_wall[i].y + m_tiles.m_wall[i].height)
 		{
 			cc->moveRight = 0;
-			posComp1->setPosition(m_tiles.m_wall[i].x - width, y);
+			posComp1->setPosition(m_tiles.m_wall[i].x - 60, y);
 		}
 	}
 
@@ -379,7 +383,7 @@ void CollisionSystem::Teleport(float x, float y, float width, float height, leve
 			y + height >= m_tiles.m_teleport[i].y &&
 			y <= m_tiles.m_teleport[i].y + m_tiles.m_teleport[i].height)
 		{
-			posComp1->setPosition(m_tiles.m_teleport[1].x - width, m_tiles.m_teleport[1].y);
+			posComp1->setPosition(m_tiles.m_teleport[0].x - width, m_tiles.m_teleport[0].y);
 		}
 
 		//left of tile
@@ -388,7 +392,7 @@ void CollisionSystem::Teleport(float x, float y, float width, float height, leve
 			y + height >= m_tiles.m_teleport[i].y &&
 			y <= m_tiles.m_teleport[i].y + m_tiles.m_teleport[i].height)
 		{
-			posComp1->setPosition(m_tiles.m_teleport[0].x + width, m_tiles.m_teleport[0].y);
+			posComp1->setPosition(m_tiles.m_teleport[1].x + width, m_tiles.m_teleport[1].y);
 		}
 	}
 }

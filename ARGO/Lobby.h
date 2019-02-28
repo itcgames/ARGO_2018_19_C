@@ -23,6 +23,9 @@ public:
 	void render(SDL_Renderer * ren);
 	void updateNetwork(Client * client, int pIndex, std::string s);
 	std::string sendMsg(int index);
+	void setReadyButton(bool ru);
+	bool getReadyButton();
+
 
 private:
 	Game * m_game;
@@ -44,12 +47,16 @@ private:
 	LTexture m_player2Texture;
 	LTexture m_player3Texture;
 	LTexture m_player4Texture;
+	LTexture m_bg;
+	int m_playerIndex;
 
 	// Count down
 	int m_countdown;
 	TTF_Font *m_font;
 	LTexture m_textTexture;
 	void drawText(SDL_Renderer * ren, std::string s, int x, int y);
+
+	int m_bgX, m_bgY;
 
 	// Network 
 	int m_stateTimer;
