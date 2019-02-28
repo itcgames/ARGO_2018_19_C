@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="AiTakeOverCommand.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Credits.h" />
     <ClInclude Include="BombCommand.h" />

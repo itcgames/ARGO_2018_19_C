@@ -53,6 +53,7 @@ private:
 	PhysicsSystem phs;
 	LifeSystem ls;
 
+	int m_changeAi;
 
 	LTexture m_texture, wallTxt;
 

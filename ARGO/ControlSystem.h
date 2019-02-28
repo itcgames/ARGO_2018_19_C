@@ -19,8 +19,11 @@ public:
 	ControlSystem();
 	void init();
 	void addEntity(Entity e);
+	int getEntityIndex(std::string entity);
+	void removeEntityByIndex(int i);
+	std::vector<std::string> getEntityIds();
 	void idle();
-	void input(SDL_Event &e, Client & client, GameState & gs, bool & changeReady);
+	void input(SDL_Event &e, Client & client, GameState & gs, bool & changeReady, int & changeAi);
 	void keyUp(SDL_Event & e);
 private:
 	std::vector<Entity> entities;
@@ -44,15 +47,16 @@ private:
 	bool AButton;
 	bool BButton;
 	bool XButton;
-	bool YButton;
+	bool YButton; 
+	bool Up;
+	bool Down;
 	int StickLeftX;
 
 	bool AButtonPrevious;
 	bool BButtonPrevious;
 
 
-	/*bool Up;
-	bool Down;
+	/*
 	bool Left;
 	bool Right;
 	bool Start;

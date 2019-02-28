@@ -46,7 +46,7 @@ void bb(std::string s)
 
 }
 
-void ControlSystem::input(SDL_Event &e, Client & client, GameState & gs, bool & changeReady) {
+void ControlSystem::input(SDL_Event &e, Client & client, GameState & gs, bool & changeReady, int & changeAi) {
 
 
 
@@ -64,11 +64,12 @@ void ControlSystem::input(SDL_Event &e, Client & client, GameState & gs, bool & 
 			BButton = SDL_GameControllerGetButton(ControllerHandles[ControllerIndex], SDL_CONTROLLER_BUTTON_B);
 			XButton = SDL_GameControllerGetButton(ControllerHandles[ControllerIndex], SDL_CONTROLLER_BUTTON_X);
 			YButton = SDL_GameControllerGetButton(ControllerHandles[ControllerIndex], SDL_CONTROLLER_BUTTON_Y);
+			Up = SDL_GameControllerGetButton(ControllerHandles[ControllerIndex], SDL_CONTROLLER_BUTTON_DPAD_UP);
+			Down = SDL_GameControllerGetButton(ControllerHandles[ControllerIndex], SDL_CONTROLLER_BUTTON_DPAD_DOWN);
 			StickLeftX = SDL_GameControllerGetAxis(ControllerHandles[ControllerIndex], SDL_CONTROLLER_AXIS_LEFTX);
 
 			// Don't use these (yet)
-			/*Up = SDL_GameControllerGetButton(ControllerHandles[ControllerIndex], SDL_CONTROLLER_BUTTON_DPAD_UP);
-			Down = SDL_GameControllerGetButton(ControllerHandles[ControllerIndex], SDL_CONTROLLER_BUTTON_DPAD_DOWN);
+			/*
 			Left = SDL_GameControllerGetButton(ControllerHandles[ControllerIndex], SDL_CONTROLLER_BUTTON_DPAD_LEFT);
 			Right = SDL_GameControllerGetButton(ControllerHandles[ControllerIndex], SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
 			Start = SDL_GameControllerGetButton(ControllerHandles[ControllerIndex], SDL_CONTROLLER_BUTTON_START);
@@ -79,7 +80,8 @@ void ControlSystem::input(SDL_Event &e, Client & client, GameState & gs, bool & 
 			StickRightX = SDL_GameControllerGetAxis(ControllerHandles[ControllerIndex], SDL_CONTROLLER_AXIS_RIGHTX);
 			StickRightY = SDL_GameControllerGetAxis(ControllerHandles[ControllerIndex], SDL_CONTROLLER_AXIS_RIGHTY);
 			StickLT = SDL_GameControllerGetAxis(ControllerHandles[ControllerIndex], SDL_CONTROLLER_AXIS_TRIGGERLEFT);
-			StickRT = SDL_GameControllerGetAxis(ControllerHandles[ControllerIndex], SDL_CONTROLLER_AXIS_TRIGGERRIGHT);*/
+			StickRT = SDL_GameControllerGetAxis(ControllerHandles[ControllerIndex], SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+			*/
 		}
 		else
 		{
@@ -119,6 +121,16 @@ void ControlSystem::input(SDL_Event &e, Client & client, GameState & gs, bool & 
 		break;
 
 	case GameState::GameScreen:
+
+		if (Up)
+		{
+			changeAi = 0;
+		}
+		if (Down)
+		{
+			changeAi = 1;
+		}
+
 		for (Entity& entity : entities)
 		{
 
@@ -141,6 +153,7 @@ void ControlSystem::input(SDL_Event &e, Client & client, GameState & gs, bool & 
 
 			switch (e.type)
 			{
+			
 
 			case SDL_JOYBUTTONDOWN:
 				if (AButton)
@@ -165,6 +178,8 @@ void ControlSystem::input(SDL_Event &e, Client & client, GameState & gs, bool & 
 
 					buttonY->execute(&entity, client);
 				}
+
+				
 
 				
 				break;
@@ -268,4 +283,31 @@ void ControlSystem::idle() {
 		controlComp->setDirection(controlComp->Idle);
 
 	}
+}
+
+
+int ControlSystem::getEntityIndex(std::string entity)
+{
+	for (int i = 0; i < entities.size(); i++)
+	{
+		if (entities[i].getName() == entity)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+void ControlSystem::removeEntityByIndex(int i)
+{
+	entities.erase(entities.begin() + i);
+}
+
+std::vector<std::string> ControlSystem::getEntityIds() {
+	//only reurns first name
+	std::vector<std::string> v;
+	for (Entity & entity : entities) {
+		v.push_back(entity.getName());
+	}
+	return v;
 }

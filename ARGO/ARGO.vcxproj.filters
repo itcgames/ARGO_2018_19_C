@@ -267,6 +267,9 @@
     <ClInclude Include="BombCommand.h">
       <Filter>Header\Command</Filter>
     </ClInclude>
+    <ClInclude Include="AiTakeOverCommand.h">
+      <Filter>Header\Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Left.bmp" />
