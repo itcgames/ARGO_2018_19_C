@@ -26,10 +26,10 @@ void CombatSystem::CheckCollision(std::string playerID, Client & client)
 
 	for (Entity& entity : entities)
 	{
-
 		
 		if (entity.getName() == playerID)
 		{
+
 
 			LifeComponent * lc = (LifeComponent*)entity.getCompByType("Life");
 
@@ -140,10 +140,107 @@ void CombatSystem::CheckCollision(std::string playerID, Client & client)
 		}
 
 	}
+	if (playerID == "Player") {
+
+		updateAI();
+
+	}
+			
 
 }
 
+void CombatSystem::updateAI() {
 
+
+	for (Entity& entity1 : entities)
+	{
+		AiComponent* ai = (AiComponent*)entity1.getCompByType("Ai");
+
+		m_currentAIName = entity1.getName();
+
+		if (ai != nullptr)
+		{
+			LifeComponent * lc = (LifeComponent*)entity1.getCompByType("Life");
+
+			if (lc->getLife() != 0) {
+
+				posComp = (PositionComponent *)entity1.getCompByType("Position");
+				cc = (ControlComponent *)entity1.getCompByType("Control");
+				spriteComp = (SpriteComponent *)entity1.getCompByType("Sprite");
+				score = (ScoreComponent*)entity1.getCompByType("Score");
+			}
+
+			for (Entity& entity2 : entities)
+			{
+
+				if (entity2.getName() != "Flag" && entity2.getName() != m_currentAIName)
+				{
+
+					LifeComponent * lc = (LifeComponent*)entity2.getCompByType("Life");
+
+					if (lc->getLife() != 0) {
+
+						posComp2 = (PositionComponent *)entity2.getCompByType("Position");
+						spriteComp2 = (SpriteComponent *)entity2.getCompByType("Sprite");
+						cc2 = (ControlComponent *)entity2.getCompByType("Control");
+						vel = (VelocityComponent*)entity2.getCompByType("Vel");
+						ai2 = (AiComponent*)entity2.getCompByType("Ai");
+					}
+
+					if (AABB(posComp->getPositionX(), posComp->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
+						spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight()) && cc2->hasFlag) {
+
+
+						if (cc2->hasFlag && pickup->getState() == pickup->NotCollectable)
+						{
+							cc2->hasFlag = false;
+							pickup->setState(pickup->Collectable);
+						}
+
+						if (posComp->getPositionX() > posComp2->getPositionX())
+						{
+							/*	vel->setVelX(- 10);
+							vel->setVelY(- 50);*/
+							if (ai2 != NULL)
+							{
+								posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() - 100, posComp2->getPositionY() + vel->getVelY() - 90);
+							}
+							else
+							{
+								posComp2->setPosition(posComp2->getPositionX() - 100, posComp2->getPositionY() - 90);
+							}
+							
+
+						}
+						else {
+							/*	vel->setVelX(+10);
+							vel->setVelY(-50);*/
+							if (ai2 != NULL)
+							{
+								posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() + 100, posComp2->getPositionY() + vel->getVelY() - 90);
+							}
+							else
+							{
+								posComp2->setPosition(posComp2->getPositionX() + 100, posComp2->getPositionY() - 90);
+							}
+							
+						}
+
+						cc->attack = false;
+					}
+
+				}
+
+			}
+		}
+
+		
+	}
+
+	
+
+
+}
 bool CombatSystem::AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2)
 {
 	return(abs(x1 - x2) * 2 < (width1 + width2)) &&

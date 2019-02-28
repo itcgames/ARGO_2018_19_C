@@ -1,26 +1,38 @@
 #pragma once
 #include "Component.h"
-class HasFlag : public Component
+#include "Level.h"
+class AiComponent: public Component 
 {
 	class AIState* m_current;
 public:
-	HasFlag() {};
+	AiComponent();
 	void setCurrent(AIState* s);
 	AIState* getCurrent();
 
-	void nearestNode();
+	void goToNode();
 
 	void goToFlag();
 
-	void powerUp();
+	void goToPowerUp();
 
 	std::string getID()
 	{
 		return id;
 	}
 
+	enum AiStateS {
+		goToNodeS,
+		goToFlagS,
+		goToPowerupS
+	};
+	AiStateS m_currentState;
 
+	float closestN = 10000;
+	float temp;
 
+	NodeObjects closestNode;
+
+	void setCurrentState(AiStateS a);
 private:
-	std::string  id = "AI";
+	std::string  id = "Ai";
 };

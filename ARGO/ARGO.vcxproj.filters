@@ -82,6 +82,11 @@
     <ClCompile Include="AISystem.cpp">
       <Filter>src\System</Filter>
     </ClCompile>
+    <ClCompile Include="AIComponent.cpp">
+      <Filter>src\FSM\AIFSM</Filter>
+    </ClCompile>
+    <ClCompile Include="GoToNode.cpp">
+      <Filter>src\FSM\AIFSM</Filter>
     <ClCompile Include="Credits.cpp">
       <Filter>src\Screens</Filter>
     </ClCompile>
@@ -234,6 +239,11 @@
     <ClInclude Include="VelComponent.h">
       <Filter>Header\Components</Filter>
     </ClInclude>
+    <ClInclude Include="AIComponent.h">
+      <Filter>Header\FSM\AIFSM</Filter>
+    </ClInclude>
+    <ClInclude Include="AIState.h">
+      <Filter>Header\FSM\AIFSM</Filter>
     <ClInclude Include="GameOver.h">
       <Filter>Header\Screens</Filter>
     </ClInclude>

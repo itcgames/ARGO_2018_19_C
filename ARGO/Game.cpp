@@ -76,7 +76,6 @@ void Game::initialise()
 
 	m_client->run();
 
-
 	AudioManager::Instance()->load("africa-toto.wav", "song1", SOUND_MUSIC);
 	AudioManager::Instance()->loadSFX("Jumping.wav", "Jump", SOUND_SFX);
 	AudioManager::Instance()->PlayMusic("song1", -1);
