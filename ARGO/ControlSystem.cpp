@@ -108,6 +108,14 @@ void ControlSystem::input(SDL_Event &e, Client & client, GameState & gs, bool & 
 		}
 		break;
 
+	case GameState::Options:
+	{
+		if (BButton)
+		{
+			gs = GameState::MainMenu;
+		}
+	}
+
 	case GameState::Lobby:
 		if (AButton && !AButtonPrevious)
 		{

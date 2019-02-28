@@ -35,7 +35,7 @@ private:
 	SDL_Renderer * m_renderer;
 
 	bool m_muteSFX, m_muteSound;
-
+	ControlComponent* cc;
 	int m_bgX, m_bgY;
 	int m_controllerX, m_controllerY;
 	int m_keysX, m_keysY;

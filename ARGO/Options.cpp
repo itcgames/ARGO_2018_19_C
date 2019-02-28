@@ -1,15 +1,15 @@
 #include "Options.h"
 
 optionsScreen::optionsScreen(SDL_Renderer * renderer):m_renderer(renderer)
-{
-	if (!m_bg.loadFromFile("assets/img/optionsBG.png",renderer,1))
+{ 
+	if (!m_bg.loadFromFile("assets/argot/assets/art/optionsBG.png",renderer,1))
 	{
 		printf("Error loading options BG Image!\n");
 	}
 	m_bgX = 0;
 	m_bgY = 0;
 
-	if (!m_backButton.loadFromFile("assets/img/backButton.png",renderer,1))
+	if (!m_backButton.loadFromFile("assets/argot/assets/art/backButton.png",renderer,1))
 	{
 		printf("Error loading back button!\n");
 	}
@@ -18,7 +18,7 @@ optionsScreen::optionsScreen(SDL_Renderer * renderer):m_renderer(renderer)
 	m_backW = m_backButton.getWidth();
 	m_backH = m_backButton.getHeight();
 
-	if (!m_SFXSpeaker.loadFromFile("assets/img/SFXOn.png",renderer,1))
+	if (!m_SFXSpeaker.loadFromFile("assets/argot/assets/art/SFXOn.png",renderer,1))
 	{
 		printf("Error loading SFX speaker image!\n");
 	}
@@ -27,7 +27,7 @@ optionsScreen::optionsScreen(SDL_Renderer * renderer):m_renderer(renderer)
 	m_sfxW = m_SFXSpeaker.getWidth();
 	m_sfxH = m_SFXSpeaker.getHeight();
 
-	if (m_SoundSpeaker.loadFromFile("assets/img/musicOn.png", renderer, 1))
+	if (m_SoundSpeaker.loadFromFile("assets/argot/assets/art/musicOn.png", renderer, 1))
 	{
 		printf("Error loading SFX speaker image!\n");
 	}
@@ -36,7 +36,7 @@ optionsScreen::optionsScreen(SDL_Renderer * renderer):m_renderer(renderer)
 	m_soundW = m_SoundSpeaker.getWidth();
 	m_soundH = m_SoundSpeaker.getHeight();
 
-	if (!m_ControllerImg.loadFromFile("assets/img/controller.png", renderer, 1))
+	if (!m_ControllerImg.loadFromFile("assets/argot/assets/art/controller.png", renderer, 1))
 	{
 		printf("Error loading controller Image!\n");
 	}
@@ -53,18 +53,19 @@ void optionsScreen::update(int mouseX, int mouseY, GameState & gs)
 		gs = GameState::MainMenu;
 	}
 
-	if (m_sfxX <= mouseX && m_sfxY <= mouseY && m_sfxX + m_sfxW >= mouseX && m_sfxY + m_sfxH >= mouseY)
+	if (m_sfxX <= mouseX && m_sfxY <= mouseY && m_sfxX + m_sfxW >= mouseX && m_sfxY + m_sfxH >= mouseY ||
+		cc)
 	{
 		if (!m_muteSFX)
 		{
 			AudioManager::Instance()->muteSFX(-10);
-			m_SFXSpeaker.loadFromFile("assets/img/SFXOff.png",m_renderer,1);
+			m_SFXSpeaker.loadFromFile("assets/argot/assets/art/SFXOff.png",m_renderer,1);
 			m_muteSFX = true;
 		}
 		else if (m_muteSFX)
 		{
 			AudioManager::Instance()->unmuteSFX(0);
-			m_SFXSpeaker.loadFromFile("assets/img/SFXOn.png", m_renderer, 1);
+			m_SFXSpeaker.loadFromFile("assets/argot/assets/art/SFXOn.png", m_renderer, 1);
 			m_muteSFX = false;
 		}
 	}
@@ -74,13 +75,13 @@ void optionsScreen::update(int mouseX, int mouseY, GameState & gs)
 		if (!m_muteSound)
 		{
 			AudioManager::Instance()->PauseMusic();
-			m_SoundSpeaker.loadFromFile("assets/img/musicOFF.png", m_renderer, 1);
+			m_SoundSpeaker.loadFromFile("assets/argot/assets/art/musicOFF.png", m_renderer, 1);
 			m_muteSound = true;
 		}
 		else if (m_muteSound)
 		{
 			AudioManager::Instance()->ResumeMusic();
-			m_SoundSpeaker.loadFromFile("assets/img/musicOn.png", m_renderer, 1);
+			m_SoundSpeaker.loadFromFile("assets/argot/assets/art/musicOn.png", m_renderer, 1);
 			m_muteSound = false;
 		}
 	}

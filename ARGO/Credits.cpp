@@ -4,12 +4,12 @@
 Credits::Credits(SDL_Renderer *ren)
 {
 
-	if (!m_texture.loadFromFile("assets/img/optionsBG.png", ren, 1))
+	if (!m_texture.loadFromFile("assets/argot/assets/art/optionsBG.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
 
-	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf", 10);
+	m_font = TTF_OpenFont("assets/argot/assets/Fonts/Velekom.ttf", 14);
 
 	read();
 

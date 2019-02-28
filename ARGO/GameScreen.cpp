@@ -29,16 +29,12 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 {
 	m_factory = new PowerUpFactory;
 
-	const auto MAP_PATH = "assets/maps/map2.tmx";
+	const auto MAP_PATH = "assets/argot/assets/maps/map2.tmx";
 	m_level = new level("Main Level");
 	m_level->load(MAP_PATH, ren);
 	
-	if (!wallTxt.loadFromFile("wall.bmp", ren, 1))
-	{
-		printf("Failed to load wall texture!\n");
-	}
-
-	if (!m_bg.loadFromFile("assets/img/Background.png", ren, 1))
+	
+	if (!m_bg.loadFromFile("assets/argot/assets/art/Background.png", ren, 1))
 	{
 		printf("Failed to load game background");
 	}
@@ -46,13 +42,13 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	m_bgY = 0;
 	
 	//Open the font
-	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf", 18);
+	m_font = TTF_OpenFont("assets/argot/assets/Fonts/Velekom.ttf", 18);
 
-	flag.addComponent(new SpriteComponent("assets/img/flag.png", 0.3, ren, 8, 2));
+	flag.addComponent(new SpriteComponent("assets/argot/assets/art/flag.png", 0.3, ren, 8, 2));
 	flag.addComponent(new PickUpComponent());
 	flag.addComponent(new PositionComponent(1000, 600));
 
-	player.addComponent(new SpriteComponent("assets/img/playerSheet1.png", 0.5, ren, 3, 5));
+	player.addComponent(new SpriteComponent("assets/argot/assets/character/playerSheet1.png", 0.5, ren, 3, 5));
 	player.addComponent(new AmmoComponent(ren));
 	player.addComponent(new AnimationComponent());
 	player.addComponent(new CollisionComponent());
@@ -62,7 +58,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player.addComponent(new LifeComponent(4, 1, ren, 1));
 	player.addComponent(new VelocityComponent());
 
-	player2.addComponent(new SpriteComponent("assets/img/playerSheet2.png", 0.5, ren, 3, 5));
+	player2.addComponent(new SpriteComponent("assets/argot/assets/character/playerSheet2.png", 0.5, ren, 3, 5));
 	player2.addComponent(new AnimationComponent());
 	player2.addComponent(new CollisionComponent());
 	player2.addComponent(new ControlComponent());
@@ -72,7 +68,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player2.addComponent(new LifeComponent(5, 2, ren, 1));
 	player2.addComponent(new VelocityComponent());
 
-	player3.addComponent(new SpriteComponent("assets/img/playerSheet3.png", 0.5, ren, 3, 5));
+	player3.addComponent(new SpriteComponent("assets/argot/assets/character/playerSheet3.png", 0.5, ren, 3, 5));
 	player3.addComponent(new AnimationComponent());
 	player3.addComponent(new CollisionComponent());
 	player3.addComponent(new ControlComponent());
@@ -83,7 +79,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player3.addComponent(new VelocityComponent());
 
 
-	player4.addComponent(new SpriteComponent("assets/img/playerSheet4.png", 0.5, ren, 3, 5));
+	player4.addComponent(new SpriteComponent("assets/argot/assets/character/playerSheet4.png", 0.5, ren, 3, 5));
 	player4.addComponent(new AnimationComponent());
 	player4.addComponent(new CollisionComponent());
 	player4.addComponent(new ControlComponent());

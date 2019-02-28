@@ -2,7 +2,7 @@
 
 MenuScreen::MenuScreen(SDL_Renderer * ren)
 {
-	if (!m_bg.loadFromFile("assets/img/bg.png", ren, 1))
+	if (!m_bg.loadFromFile("assets/argot/assets/art/bg.png", ren, 1))
 	{
 		printf("Failed to load BG texture!\n");
 	}
@@ -11,14 +11,14 @@ MenuScreen::MenuScreen(SDL_Renderer * ren)
 	m_bgW = m_bg.getWidth();
 	m_bgH = m_bg.getHeight();
 
-	if (m_title.loadFromFile("assets/img/title.png", ren, 1))
+	if (m_title.loadFromFile("assets/argot/assets/art/Title.png", ren, 1))
 	{
 		printf("Error loading title Image!\n");
 	}
 	m_titleX = 100;
 	m_titleY = 0;
 
-	if (!m_playTexture.loadFromFile("assets/img/play.png",ren,1))
+	if (!m_playTexture.loadFromFile("assets/argot/assets/art/play.png",ren,1))
 	{
 		printf("Failed to load play texture!\n");
 	}
@@ -27,7 +27,7 @@ MenuScreen::MenuScreen(SDL_Renderer * ren)
 	m_playW = m_playTexture.getWidth();
 	m_playH = m_playTexture.getHeight();
 
-	if (!m_options.loadFromFile("assets/img/options.png", ren, 1))
+	if (!m_options.loadFromFile("assets/argot/assets/art/options.png", ren, 1))
 	{
 		printf("Failed to load options texture!\n");
 	}
@@ -36,7 +36,7 @@ MenuScreen::MenuScreen(SDL_Renderer * ren)
 	m_optionsW = m_options.getWidth();
 	m_optionsH = m_options.getHeight();
 
-	if (!m_Credits.loadFromFile("assets/img/Credits.png", ren, 1))
+	if (!m_Credits.loadFromFile("assets/argot/assets/art/Credits.png", ren, 1))
 	{
 		printf("Failed to load Credits texture!\n");
 	}
@@ -45,7 +45,7 @@ MenuScreen::MenuScreen(SDL_Renderer * ren)
 	m_CreditsW = m_Credits.getWidth();
 	m_CreditsH = m_Credits.getHeight();
 
-	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf",8);
+	m_font = TTF_OpenFont("assets/argot/assets/Fonts/Velekom.ttf",8);
 }
 
 

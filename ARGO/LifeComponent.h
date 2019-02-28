@@ -84,42 +84,42 @@ public:
 	void initTextures(float scale, SDL_Renderer *m_renderer, int playerID) {
 
 
-		if (!m_texture.loadFromFile("assets/img/health3_0p" + std::to_string(playerID)+ ".png", m_renderer, scale))
+		if (!m_texture.loadFromFile("assets/argot/assets/character/health3_0p" + std::to_string(playerID)+ ".png", m_renderer, scale))
 		{
 			printf("Failed to load dot texture!\n");
 
 		}
-		if (!life3_0txt.loadFromFile("assets/img/health3_0p" + std::to_string(playerID) + ".png", m_renderer, scale))
+		if (!life3_0txt.loadFromFile("assets/argot/assets/character/health3_0p" + std::to_string(playerID) + ".png", m_renderer, scale))
 		{
 			printf("Failed to load dot texture!\n");
 
 		}
-		if (!life2_5txt.loadFromFile("assets/img/health2_5p" + std::to_string(playerID) + ".png", m_renderer, scale))
+		if (!life2_5txt.loadFromFile("assets/argot/assets/character/health2_5p" + std::to_string(playerID) + ".png", m_renderer, scale))
 		{
 			printf("Failed to load dot texture!\n");
 
 		}
-		if (!life2_0txt.loadFromFile("assets/img/health2_0p" + std::to_string(playerID) + ".png", m_renderer, scale))
+		if (!life2_0txt.loadFromFile("assets/argot/assets/character/health2_0p" + std::to_string(playerID) + ".png", m_renderer, scale))
 		{
 			printf("Failed to load dot texture!\n");
 
 		}
-		if (!life1_5txt.loadFromFile("assets/img/health1_5p" + std::to_string(playerID) + ".png", m_renderer, scale))
+		if (!life1_5txt.loadFromFile("assets/argot/assets/character/health1_5p" + std::to_string(playerID) + ".png", m_renderer, scale))
 		{
 			printf("Failed to load dot texture!\n");
 
 		}
-		if (!life1_0txt.loadFromFile("assets/img/health1_0p" + std::to_string(playerID) + ".png", m_renderer, scale))
+		if (!life1_0txt.loadFromFile("assets/argot/assets/character/health1_0p" + std::to_string(playerID) + ".png", m_renderer, scale))
 		{
 			printf("Failed to load dot texture!\n");
 
 		}
-		if (!life0_5txt.loadFromFile("assets/img/health0_5p" + std::to_string(playerID) + ".png", m_renderer, scale))
+		if (!life0_5txt.loadFromFile("assets/argot/assets/character/health0_5p" + std::to_string(playerID) + ".png", m_renderer, scale))
 		{
 			printf("Failed to load dot texture!\n");
 
 		}
-		if (!life0_0txt.loadFromFile("assets/img/health0_0.png", m_renderer, scale))
+		if (!life0_0txt.loadFromFile("assets/argot/assets/character/health0_0.png", m_renderer, scale))
 		{
 			printf("Failed to load dot texture!\n");
 

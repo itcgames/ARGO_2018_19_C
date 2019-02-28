@@ -1,20 +1,20 @@
 #include "GameOver.h"
 
-GameOverScreen::GameOverScreen(SDL_Renderer* ren)
+GameOverScreen::GameOverScreen(SDL_Renderer* ren):renderer(ren)
 {
-	if (!m_bg.loadFromFile("assets/img/LobbyBG.png", ren, 1))
+	if (!m_bg.loadFromFile("assets/argot/assets/art/LobbyBG.png", ren, 1))
 	{
 		printf("Failed to load gameover background!\n");
 	}
 	m_bgX = 0;
 	m_bgY = 0;
 
-	if (!m_mainMenubtn.loadFromFile("assets/img/MainMenu.png",ren,1))
+	if (!m_mainMenubtn.loadFromFile("assets/argot/assets/art/MainMenu.png",ren,1))
 	{
 		printf("Failed to load main menu button");
 	}
 	m_mainMenuX = 625;
-	m_mainMenuY = 850;
+	m_mainMenuY = 875;
 	m_mainMenuW = m_mainMenubtn.getWidth();
 	m_mainMenuH = m_mainMenubtn.getHeight();
 
@@ -26,30 +26,30 @@ GameOverScreen::GameOverScreen(SDL_Renderer* ren)
 		m_scoresIncreasing.push_back(0);
 	}
 
-	m_scores[0] = 200;
-	m_scores[1] = 0;
-	m_scores[2] = 0;
+	m_scores[0] = 2;
+	m_scores[1] = 15;
+	m_scores[2] = 10;
 	m_scores[3] = 150;
 
-	if (!m_first.loadFromFile("assets/img/first.png", ren, 1))
+	if (!m_first.loadFromFile("assets/argot/assets/art/first.png", ren, 1))
 	{
 		printf("error loading first png!\n");
 	}
-	if (!m_second.loadFromFile("assets/img/second.png", ren, 1))
+	if (!m_second.loadFromFile("assets/argot/assets/art/second.png", ren, 1))
 	{
 		printf("error loading third png!\n");
 	}
-	if (!m_third.loadFromFile("assets/img/third.png", ren, 1))
+	if (!m_third.loadFromFile("assets/argot/assets/art/third.png", ren, 1))
 	{
 		printf("error loading third png!\n");
 	}
-	if (!m_fourth.loadFromFile("assets/img/fourth.png", ren, 1))
+	if (!m_fourth.loadFromFile("assets/argot/assets/art/fourth.png", ren, 1))
 	{
 		printf("error loading fourth png!\n");
 	}
 
 	//Open the font
-	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf", 18);
+	m_font = TTF_OpenFont("assets/argot/assets/Fonts/Velekom.ttf", 14);
 };
 
 GameOverScreen::~GameOverScreen()
@@ -97,16 +97,20 @@ void GameOverScreen::winnerScore()
 			case 0:
 				m_firstX = 120;
 				m_firstY = 700;
+				player1Win = true;
 				break;
 			case 1:
+				player2Win = true;
 				m_firstX = 520;
 				m_firstY = 700;
 				break;
 			case 2:
+				player3Win = true;
 				m_firstX = 870;
 				m_firstY = 700;
 				break;
 			case 3:
+				player4Win = true;
 				m_firstX = 1250;
 				m_firstY = 700;
 			}
@@ -175,6 +179,35 @@ void GameOverScreen::winnerScore()
 			}
 
 		}
+
+		if (player1Win)
+		{
+			m_player1.loadFromFile("assets/argot/assets/character/lobbyPlayer1.png", renderer,1);
+			m_player2.loadFromFile("assets/argot/assets/character/player2Sad.png", renderer, 1);
+			m_player3.loadFromFile("assets/argot/assets/character/player3Sad.png", renderer, 1);
+			m_player4.loadFromFile("assets/argot/assets/character/player4Sad.png", renderer, 1);
+		}
+		else if (player2Win)
+		{
+			m_player1.loadFromFile("assets/argot/assets/character/player1Sad.png", renderer, 1);
+			m_player2.loadFromFile("assets/argot/assets/character/lobbyPlayer2.png", renderer, 1);
+			m_player3.loadFromFile("assets/argot/assets/character/player3Sad.png", renderer, 1);
+			m_player4.loadFromFile("assets/argot/assets/character/player4Sad.png", renderer, 1);
+		}
+		else if (player3Win)
+		{
+			m_player1.loadFromFile("assets/argot/assets/character/player1Sad.png", renderer, 1);
+			m_player2.loadFromFile("assets/argot/assets/character/player2Sad.png", renderer, 1);
+			m_player3.loadFromFile("assets/argot/assets/character/lobbyPlayer3.png", renderer, 1);
+			m_player4.loadFromFile("assets/argot/assets/character/player4Sad.png", renderer, 1);
+		}
+		else if (player4Win)
+		{
+			m_player1.loadFromFile("assets/argot/assets/character/player1Sad.png", renderer, 1);
+			m_player2.loadFromFile("assets/argot/assets/character/player2Sad.png", renderer, 1);
+			m_player3.loadFromFile("assets/argot/assets/character/player3Sad.png", renderer, 1);
+			m_player4.loadFromFile("assets/argot/assets/character/lobbyPlayer4.png", renderer, 1);
+		}
 	}
 }
 
@@ -186,6 +219,12 @@ void GameOverScreen::render(SDL_Renderer * ren)
 	m_third.render(m_thirdX, m_thirdY, ren, 1, 1);
 	m_fourth.render(m_fourthX, m_fourthY, ren, 1, 1);
 	m_mainMenubtn.render(m_mainMenuX, m_mainMenuY, ren, 1, 1);
+
+	m_player1.render(100, 400, ren, 1, 1);
+	m_player2.render(500, 400, ren, 1, 1);
+	m_player3.render(850, 400, ren, 1, 1);
+	m_player4.render(1250, 400, ren, 1, 1);
+
 	if (m_font == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
@@ -196,6 +235,7 @@ void GameOverScreen::render(SDL_Renderer * ren)
 		drawText(ren, std::to_string(m_scoresIncreasing[1]), 375, 50);
 		drawText(ren, std::to_string(m_scoresIncreasing[2]), 745, 50);
 		drawText(ren, std::to_string(m_scoresIncreasing[3]), 1120, 50);
+		drawText(ren,std::string("[A]"), 900, 900);
 	}
 };
 

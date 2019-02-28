@@ -28,16 +28,16 @@ std::vector<float> Lobby::msgToPos(std::string s)
 Lobby::Lobby(SDL_Renderer *ren, Game * game):m_game(game)
 {
 	//Open the font
-	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf", 16);
+	m_font = TTF_OpenFont("assets/argot/assets/Fonts/Velekom.ttf", 16);
 
-	if (!m_bg.loadFromFile("assets/img/LobbyBG.png", ren, 1))
+	if (!m_bg.loadFromFile("assets/argot/assets/art/LobbyBG.png", ren, 1))
 	{
 		printf("error loading lobby background! \n");
 	}
 	m_bgX = 0;
 	m_bgY = 0;
 
-	if (!m_readyTexture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
+	if (!m_readyTexture.loadFromFile("assets/argot/assets/art/ReadyButton.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
@@ -47,7 +47,7 @@ Lobby::Lobby(SDL_Renderer *ren, Game * game):m_game(game)
 	m_readyW = m_readyTexture.getWidth();
 	m_readyH = m_readyTexture.getHeight();
 
-	if (!m_backTexture.loadFromFile("assets/img/BackMenu.png", ren, 1))
+	if (!m_backTexture.loadFromFile("assets/argot/assets/art/BackMenu.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
@@ -57,27 +57,27 @@ Lobby::Lobby(SDL_Renderer *ren, Game * game):m_game(game)
 	m_backW = m_backTexture.getWidth();
 	m_backH = m_backTexture.getHeight();
 
-	if (!m_playerTexture.loadFromFile("assets/img/lobbyPlayer1.png", ren, 1))
+	if (!m_playerTexture.loadFromFile("assets/argot/assets/character/lobbyPlayer1.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
 
-	if (!m_youImg.loadFromFile("assets/img/youImg.png", ren, 1))
+	if (!m_youImg.loadFromFile("assets/argot/assets/art/youImg.png", ren, 1))
 	{
 		printf("Failed to laod YOU arrow!\n");
 	}
 
-	if (!m_player2Texture.loadFromFile("assets/img/lobbyPlayer2.png", ren, 1))
+	if (!m_player2Texture.loadFromFile("assets/argot/assets/character/lobbyPlayer2.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
 
-	if (!m_player3Texture.loadFromFile("assets/img/lobbyPlayer3.png", ren, 1))
+	if (!m_player3Texture.loadFromFile("assets/argot/assets/character/lobbyPlayer3.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
 
-	if (!m_player4Texture.loadFromFile("assets/img/lobbyPlayer4.png", ren, 1))
+	if (!m_player4Texture.loadFromFile("assets/argot/assets/character/lobbyPlayer4.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}

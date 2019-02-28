@@ -31,7 +31,7 @@ private:
 	LTexture m_bg;
 	LTexture m_mainMenubtn;
 	LTexture m_first, m_second, m_third, m_fourth;
-
+	bool player1Win = false, player2Win = false, player3Win = false, player4Win = false;
 
 	LTexture m_player1, player1sad, player1Display;
 	LTexture m_player2;
@@ -42,4 +42,5 @@ private:
 	int m_firstX = -500, m_firstY, m_secondX=-500, m_secondY, m_thirdX=-500, m_thirdY, m_fourthX=-500, m_fourthY;
 	int m_bgX, m_bgY;
 	void drawText(SDL_Renderer * ren, std::string s, int x, int y);
+	SDL_Renderer * renderer;
 };

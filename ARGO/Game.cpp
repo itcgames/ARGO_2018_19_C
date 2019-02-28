@@ -40,7 +40,7 @@ Game::Game()
 		m_window = SDL_CreateWindow("ARGO Team C", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-		m_currentGameState = (GameState::GameOverScreen);
+		m_currentGameState = (GameState::MainMenu);
 
 
 		int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
