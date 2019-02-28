@@ -122,11 +122,11 @@ void ControlSystem::input(SDL_Event &e, Client & client, GameState & gs, bool & 
 
 	case GameState::GameScreen:
 
-		if (Up)
+		if (Up || e.key.keysym.sym == SDLK_z)
 		{
 			changeAi = 0;
 		}
-		if (Down)
+		if (Down || e.key.keysym.sym == SDLK_x)
 		{
 			changeAi = 1;
 		}
