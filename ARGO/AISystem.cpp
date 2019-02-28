@@ -78,7 +78,19 @@ void AISystem::update(level &m_level) {
 			posX = pc->getPositionX();
 			posY = pc->getPositionY();
 			
-			//nodeCollision(m_level, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight(), threat_Y);
+			if (cc->hasFlag == true) {
+				if (threat_Y <= 0)
+				{
+					nearestNode(m_level, "Edge");
+					nodeCollision(ai->closestNode, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight(), threat_Y);
+				}
+				else {
+					nearestNode(m_level, "Jump");
+					nodeCollision(ai->closestNode, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight(), threat_Y);
+				}
+				
+			}
+			
 
 			if (!cc->stopFall && !cc->OnPlatform) {
 
@@ -134,14 +146,14 @@ void AISystem::update(level &m_level) {
 				}
 				else if (checkFlagInRange() == false && pc->getPositionY() < pcFlag->getPositionY()) {
 
+					nearestNode(m_level, "Edge");
 
-
-					if (nearestNode(m_level, "Edge").x >= pc->getPositionX() && cc->collision == 1)
+					if (ai->closestNode.x >= pc->getPositionX() && cc->collision == 1)
 					{
 						cc->moveRight = 1;
 						cc->moveLeft = 0;
 					}
-					else if (nearestNode(m_level, "Edge").x <= pc->getPositionX() && cc->collision == 1)
+					else if (ai->closestNode.x <= pc->getPositionX() && cc->collision == 1)
 					{
 						cc->moveRight = 0;
 						cc->moveLeft = 1;
@@ -151,19 +163,19 @@ void AISystem::update(level &m_level) {
 					}
 
 				}
-				else if (checkFlagInRange() == false && pc->getPositionY() - sc->getHeight() > pcFlag->getPositionY())
+				else if (checkFlagInRange() == false && pc->getPositionY() > pcFlag->getPositionY())
 				{
 
 					//ai->goToNode();
+					nearestNode(m_level, "Jump");
 
 
-
-					if (nearestNode(m_level, "Jump").x >= pc->getPositionX() && cc->collision == 1)
+					if (ai->closestNode.x >= pc->getPositionX() && cc->collision == 1)
 					{
 						cc->moveRight = 1;
 						cc->moveLeft = 0;
 					}
-					else if (nearestNode(m_level, "Jump").x <= pc->getPositionX() && cc->collision == 1)
+					else if (ai->closestNode.x <= pc->getPositionX() && cc->collision == 1)
 					{
 						cc->moveRight = 0;
 						cc->moveLeft = 1;
@@ -356,7 +368,7 @@ void AISystem::moveLeft(float fuzz) {
 		if (vel->getVelX() > -maxX)
 		{
 			ac->left();
-			vel->setVelX(-4);
+			vel->setVelX(-6);
 		}
 	}
 	else {
@@ -371,7 +383,7 @@ void AISystem::moveRight(float fuzz) {
 		if (vecX < maxX)
 		{
 			ac->right();
-			vel->setVelX(4);
+			vel->setVelX(6);
 		}
 	}
 	else {
@@ -384,7 +396,7 @@ void AISystem::moveUp() {
 
 	if (cc->jump == 0 && cc->collision == 1)
 	{
-		vel->setVelY(vel->getVelY() - 15);
+		vel->setVelY(vel->getVelY() - 20);
 		cc->stopFall = false;
 		cc->OnPlatform = false;
 		cc->jump = 1;
@@ -397,7 +409,7 @@ bool AISystem::checkFlagInRange() {
 	if (pcFlag->getPositionY() < pc->getPositionY() &&
 		pcFlag->getPositionY() > pc->getPositionY() - sc->getHeight() * 1)
 	{
-		if (pc->getPositionX() >= pcFlag->getPositionX() &&
+		/*if (pc->getPositionX() >= pcFlag->getPositionX() &&
 			pc->getPositionX() < pcFlag->getPositionX() + sc->getWidth()
 			&& pickup->getState() == pickup->Collectable) {
 
@@ -407,7 +419,7 @@ bool AISystem::checkFlagInRange() {
 
 			pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
 
-		}
+		}*/
 		return true;
 	}
 	else

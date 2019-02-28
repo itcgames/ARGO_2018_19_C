@@ -135,6 +135,7 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 				score = (ScoreComponent*)entity.getCompByType("Score");
 				ac = (AnimationComponent*)entity.getCompByType("Animation");
 				collide = (CollisionComponent*)entity.getCompByType("Collision");
+				//life = (LifeComponent*)entity.getCompByType("Collision");
 				x1 = posComp1->getPositionX();
 				y1 = posComp1->getPositionY();
 				width1 = spriteComp->getWidth();

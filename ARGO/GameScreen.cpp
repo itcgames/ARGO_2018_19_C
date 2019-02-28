@@ -192,7 +192,7 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 	if (*m_playerIndex == 0)
 	{
 		//Update all ai
-		//ais.update(*m_level);
+		ais.update(*m_level);
 	}
 	if (m_countdownMinute <= 0  && m_countdownSec > 20000)
 	{
@@ -250,7 +250,7 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 			}
 		}
 	}
-	//getDistance();
+	getDistance();
 }
 
 void GameScreen::render(SDL_Renderer * ren, float dt)
@@ -1219,6 +1219,7 @@ void GameScreen::playerAI(int pIndex, bool ai)
 			if (change)
 			{
 				player2.addComponent(new AiComponent());
+				comsystem.addEntity(player2);
 				ais.addEntity(player2);
 				if (cs.getEntityIndex("Player2") != -1)
 				{
@@ -1238,6 +1239,7 @@ void GameScreen::playerAI(int pIndex, bool ai)
 			{
 				player3.addComponent(new AiComponent());
 				ais.addEntity(player3);
+				comsystem.addEntity(player3);
 				if (cs.getEntityIndex("Player3") != -1)
 				{
 					cs.removeEntityByIndex(cs.getEntityIndex("Player3"));
@@ -1256,6 +1258,7 @@ void GameScreen::playerAI(int pIndex, bool ai)
 			{
 				player4.addComponent(new AiComponent());
 				ais.addEntity(player4);
+				comsystem.addEntity(player4);
 				//player4.addComponent()
 				if (cs.getEntityIndex("Player4") != -1)
 				{
