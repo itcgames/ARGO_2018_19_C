@@ -12,7 +12,7 @@
 #include "PickUpComponent.h"
 #include "Velcomponent.h"
 #include "AmmoComponent.h"
-#include "AIComponent.h"
+#include "AiComponent.h"
 #include <string>
 #include <iostream>
 #include <algorithm>
@@ -33,6 +33,7 @@ public:
 				return comp;
 			}
 		}
+		return nullptr;
 	}
 	void removeComponent(Component* c) {
 		/*TBI*/

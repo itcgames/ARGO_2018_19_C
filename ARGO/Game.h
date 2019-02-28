@@ -1,4 +1,3 @@
-#pragma once
 #ifndef GAME
 #define GAME
 
@@ -68,6 +67,8 @@ private:
 
 	std::vector<float> msgToPos(std::string s);
 
+	void readyButton();
+	bool m_changeReady;
 
 	SDL_Window *m_window;
 	int SCREEN_WIDTH = 1500;

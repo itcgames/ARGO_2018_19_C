@@ -21,6 +21,11 @@ public:
 		Up,
 		Down
 	};
+
+	void kick()
+	{
+		attack = true;
+	}
 	
 
 	void setDirection(Direction state) {

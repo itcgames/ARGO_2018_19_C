@@ -6,6 +6,8 @@
 #include "LTexture.h"
 #include "Animation.h"
 #include "Client.h"
+#include "Command.h"
+#include "menu.h"
 
 #define MAX_CONTROLLERS 4
 
@@ -17,8 +19,11 @@ public:
 	ControlSystem();
 	void init();
 	void addEntity(Entity e);
+	int getEntityIndex(std::string entity);
+	void removeEntityByIndex(int i);
+	std::vector<std::string> getEntityIds();
 	void idle();
-	void input(SDL_Event & e, Client & client);
+	void input(SDL_Event &e, Client & client, GameState & gs, bool & changeReady, int & changeAi);
 	void keyUp(SDL_Event & e);
 private:
 	std::vector<Entity> entities;
@@ -42,35 +47,33 @@ private:
 	bool AButton;
 	bool BButton;
 	bool XButton;
-	bool YButton;
+	bool YButton; 
 	bool Up;
 	bool Down;
+	int StickLeftX;
+
+	bool AButtonPrevious;
+	bool BButtonPrevious;
+
+
+	/*
 	bool Left;
 	bool Right;
 	bool Start;
 	bool Back;
 	bool LeftShoulder;
 	bool RightShoulder;
-	int StickLeftX;
 	int StickLeftY;
 	int StickRightX;
 	int StickRightY;
 	int StickLT;
-	int StickRT;
+	int StickRT;*/
 
-	void(*buttonUp_)();
-	void(*buttonDown_)();
-	void(*buttonRight_)();
-	void(*buttonLeft_)();
-	void(*buttonLB_)();
-	void(*buttonRB_)();
-	void(*buttonLT_)();
-	void(*buttonRT_)();
-	void(*buttonStart_)();
-	void(*buttonBack_)();
-	void(*buttonRSX_)(int);
-	void(*buttonRSY_)(int);
-	void(*buttonLSX_)(int);
-	void(*buttonLSY_)(int);
+	Command * stickLeft;
+	Command * stickRight;
+	Command * buttonA;
+	Command * buttonB;
+	Command * buttonX;
+	Command * buttonY;
 
 };
