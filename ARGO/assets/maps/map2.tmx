@@ -41,7 +41,6 @@
   <object id="87" name="Danger" x="781" y="722" width="58" height="58"/>
   <object id="93" name="Ceiling" x="240" y="710" width="240" height="10"/>
   <object id="94" name="Wall" x="470" y="670" width="10" height="40"/>
-  <object id="95" name="Wall" x="240" y="670" width="10" height="40"/>
   <object id="96" name="Ceiling" x="1019.33" y="709.667" width="240" height="10"/>
   <object id="97" name="Wall" x="1249.33" y="669.667" width="10" height="40"/>
   <object id="98" name="Wall" x="1019.33" y="669.667" width="10" height="40"/>
@@ -64,7 +63,7 @@
   <object id="117" name="Ceiling" x="0" y="230" width="300" height="10"/>
   <object id="118" name="Wall" x="290" y="190" width="10" height="40"/>
   <object id="119" name="Ceiling" x="40" y="50" width="1415" height="10"/>
-  <object id="120" name="Node" type="JumpRight" x="165.458" y="794.208" width="25" height="25">
+  <object id="120" name="Node" type="JumpRight" x="141.458" y="796.208" width="25" height="25">
    <properties>
     <property name="Level" type="int" value="1"/>
    </properties>

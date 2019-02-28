@@ -120,7 +120,6 @@ void AISystem::update(level &m_level) {
 			else if (checkFlagInRange() == false && pc->getPositionY() < pcFlag->getPositionY()) {
 
 				
-
 				if (nearestNode(m_level, "Edge").x >= pc->getPositionX() && cc->collision == 1)
 				{
 					cc->moveRight = 1;
@@ -424,7 +423,7 @@ bool AISystem::checkFlagInRange() {
 	if (pcFlag->getPositionY() < pc->getPositionY() &&
 		pcFlag->getPositionY() > pc->getPositionY() - sc->getHeight() * 1)
 	{
-		if (pc->getPositionX() >= pcFlag->getPositionX() &&
+		/*if (pc->getPositionX() >= pcFlag->getPositionX() &&
 			pc->getPositionX() < pcFlag->getPositionX() + sc->getWidth()
 			&& pickup->getState() == pickup->Collectable) {
 
@@ -433,8 +432,8 @@ bool AISystem::checkFlagInRange() {
 
 
 			pc->setPosition(pc->getPositionX() + vel->getVelX(), pc->getPositionY() + vel->getVelY());
-
-		}
+*/
+		//}
 		return true;
 	}
 	else
@@ -448,7 +447,7 @@ void AISystem::moveLeft() {
 	if (vel->getVelX() > -maxX)
 	{
 		ac->left();
-		vel->setVelX(-5);
+		vel->setVelX(-4);
 	}
 }
 void AISystem::moveRight() {
@@ -456,7 +455,7 @@ void AISystem::moveRight() {
 	if (vecX < maxX)
 	{
 		ac->right();
-		vel->setVelX(5);
+		vel->setVelX(4);
 	}
 }
 void AISystem::moveUp() {
