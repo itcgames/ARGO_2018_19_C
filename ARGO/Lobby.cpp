@@ -30,6 +30,12 @@ Lobby::Lobby(SDL_Renderer *ren, Game * game):m_game(game)
 	//Open the font
 	m_font = TTF_OpenFont("assets/Fonts/Amatic-Bold.ttf", 28);
 
+	if (!m_bg.loadFromFile("assets/img/LobbyBG.png", ren, 1))
+	{
+		printf("error loading lobby background! \n");
+	}
+	m_bgX = 0;
+	m_bgY = 0;
 
 	if (!m_readyTexture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
 	{
@@ -51,22 +57,22 @@ Lobby::Lobby(SDL_Renderer *ren, Game * game):m_game(game)
 	m_backW = m_backTexture.getWidth();
 	m_backH = m_backTexture.getHeight();
 
-	if (!m_playerTexture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
+	if (!m_playerTexture.loadFromFile("assets/img/lobbyPlayer1.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
 
-	if (!m_player2Texture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
+	if (!m_player2Texture.loadFromFile("assets/img/lobbyPlayer2.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
 
-	if (!m_player3Texture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
+	if (!m_player3Texture.loadFromFile("assets/img/lobbyPlayer3.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
 
-	if (!m_player4Texture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
+	if (!m_player4Texture.loadFromFile("assets/img/lobbyPlayer4.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
@@ -171,6 +177,8 @@ bool Lobby::everyoneReady(int countdown)
 
 void Lobby::render(SDL_Renderer * ren)
 {
+	m_bg.render(m_bgX, m_bgY, ren, 1, 1);
+
 	// Ready button
 	m_readyTexture.render(m_readyX, m_readyY, ren, 1, 1);
 
@@ -185,17 +193,17 @@ void Lobby::render(SDL_Renderer * ren)
 	// Player two
 	if (m_playerReady[1])
 	{
-		m_player2Texture.render(350, 400, ren, 1, 1);
+		m_player2Texture.render(500, 400, ren, 1, 1);
 	}
 	// Player three
 	if (m_playerReady[2])
 	{
-		m_player3Texture.render(700, 400, ren, 1, 1);
+		m_player3Texture.render(850, 400, ren, 1, 1);
 	}
 	// Player four
 	if (m_playerReady[3])
 	{
-		m_player4Texture.render(950, 400, ren, 1, 1);
+		m_player4Texture.render(1250, 400, ren, 1, 1);
 	}
 
 	if (m_font == NULL)

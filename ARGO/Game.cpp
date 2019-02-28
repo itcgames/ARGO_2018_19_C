@@ -86,7 +86,7 @@ void Game::initialise()
 	m_creditsScreen = new Credits(m_renderer);
 	m_gameScreen = new GameScreen(m_renderer, this);
 	m_gameScreen->init(m_renderer, &m_playerIndex);
-	m_gameoverScreen = new GameOverScreen();
+	m_gameoverScreen = new GameOverScreen(m_renderer);
 	m_menuScreen = new MenuScreen(m_renderer);
 	m_optionsScreen = new optionsScreen(m_renderer);
 

@@ -37,9 +37,16 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	{
 		printf("Failed to load wall texture!\n");
 	}
+
+	if (!m_bg.loadFromFile("assets/img/Background.png", ren, 1))
+	{
+		printf("Failed to load game background");
+	}
+	m_bgX = 0;
+	m_bgY = 0;
 	
 	//Open the font
-	m_font = TTF_OpenFont("assets/Fonts/Amatic-Bold.ttf", 28);
+	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf", 18);
 
 	flag.addComponent(new SpriteComponent("assets/img/flag.png", 0.3, ren, 8, 2));
 	flag.addComponent(new PickUpComponent());
@@ -256,7 +263,9 @@ void GameScreen::render(SDL_Renderer * ren, float dt)
 {
 	//Jamie
 	SDL_RenderSetLogicalSize(ren, SCREEN_WIDTH, SCREEN_HEIGHT);
+	m_bg.render(m_bgX, m_bgY, ren, 1, 1);
 	rs.update(ren, dt);
+	
 	//ps.update(m_renderer);
 	m_level->draw(ren);
 	ammos.render(ren);
@@ -278,7 +287,7 @@ void GameScreen::render(SDL_Renderer * ren, float dt)
 			m_countdownMinute--;
 		}
 		
-		drawText(ren, std::to_string(m_countdownMinute) + ":" + std::to_string((30000 - m_countdownSec) / 500), 50, 50);
+		drawText(ren, std::to_string(m_countdownMinute) + ":" + std::to_string((30000 - m_countdownSec) / 500), 600, 0);
 	}
 }
 
@@ -545,7 +554,7 @@ void GameScreen::resetCamera()
 void GameScreen::drawText(SDL_Renderer * ren, std::string s, int x, int y)
 {
 	//Render text
-	SDL_Color textColor = { 255, 0, 0 };
+	SDL_Color textColor = { 255, 255,0 };
 	if (!m_textTexture.loadFromRenderedText(s, textColor, ren, m_font))
 	{
 		printf("Failed to render text texture!\n");

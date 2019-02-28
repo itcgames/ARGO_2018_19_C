@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include "LTexture.h"
 
 enum class
@@ -28,6 +29,8 @@ public:
 	void update(int mouseX, int mouseY, GameState & gs);
 	void render(SDL_Renderer * renderer);
 
+	void drawText(SDL_Renderer * ren, std::string s, int x, int y);
+
 private:
 	//Title button
 	LTexture m_title;
@@ -36,7 +39,7 @@ private:
 	LTexture m_playTexture;
 	
 	// Exit button
-	LTexture m_Credits;;
+	LTexture m_Credits;
 
 	//background Image
 	LTexture m_bg;
@@ -46,6 +49,10 @@ private:
 
 	//Cursor Image
 	LTexture m_cursor;
+
+	//Font
+	TTF_Font *m_font;
+	LTexture m_textTxt;
 
 	int m_playX, m_playY, m_playW, m_playH;
 	int m_CreditsX, m_CreditsY, m_CreditsW, m_CreditsH;

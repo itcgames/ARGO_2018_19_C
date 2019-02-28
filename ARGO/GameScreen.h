@@ -100,5 +100,7 @@ private:
 	int m_countdownMinute;
 	TTF_Font *m_font;
 	LTexture m_textTexture;
+	LTexture m_bg;
+	int m_bgX, m_bgY;
 	void drawText(SDL_Renderer * ren, std::string s, int x, int y);
 };
