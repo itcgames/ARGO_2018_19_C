@@ -131,7 +131,7 @@ void AISystem::update(level &m_level) {
 					cc->moveLeft = 1;
 				}
 				if (cc->collision == 1) {
-					nodeCollision(ai->closestNode, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight(), 2);
+					nodeCollision(ai->closestNode, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight());
 				}
 
 			}
@@ -154,7 +154,7 @@ void AISystem::update(level &m_level) {
 				}
 
 				if (cc->collision == 1) {
-					nodeCollision(ai->closestNode, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight(), 1);
+					nodeCollision(ai->closestNode, pc->getPositionX(), pc->getPositionY(), sc->getWidth(), sc->getHeight());
 				}
 
 

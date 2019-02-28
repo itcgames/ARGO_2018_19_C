@@ -55,7 +55,7 @@ public:
 	std::vector<std::string> getEntityIds();
 	float setDistance(float dis);
 	void leftOrRight(float fx, float fy, float px, float py);
-	void nodeCollision(NodeObjects closestNode, float x, float y, float width, float height, int type);
+	void nodeCollision(NodeObjects closestNode, float x, float y, float width, float height);
 	bool AABB(float x1, float y1, float x2, float y2, float width1, float height1, float width2, float height2);
 
 
