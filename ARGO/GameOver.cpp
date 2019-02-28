@@ -2,7 +2,7 @@
 
 GameOverScreen::GameOverScreen(SDL_Renderer* ren)
 {
-	if (!m_bg.loadFromFile("assets/img/Background.png", ren, 1))
+	if (!m_bg.loadFromFile("assets/img/LobbyBG.png", ren, 1))
 	{
 		printf("Failed to load gameover background!\n");
 	}
@@ -13,8 +13,8 @@ GameOverScreen::GameOverScreen(SDL_Renderer* ren)
 	{
 		printf("Failed to load main menu button");
 	}
-	m_mainMenuX = 700;
-	m_mainMenuY = 800;
+	m_mainMenuX = 625;
+	m_mainMenuY = 850;
 	m_mainMenuW = m_mainMenubtn.getWidth();
 	m_mainMenuH = m_mainMenubtn.getHeight();
 
@@ -24,7 +24,7 @@ GameOverScreen::GameOverScreen(SDL_Renderer* ren)
 		m_scoresIncreasing.push_back(0);
 	}
 	//Open the font
-	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf", 28);
+	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf", 22);
 };
 
 GameOverScreen::~GameOverScreen()
@@ -67,10 +67,10 @@ void GameOverScreen::render(SDL_Renderer * ren)
 	}
 	else
 	{
-		drawText(ren, std::to_string(m_scoresIncreasing[0]), 150, 50);
-		drawText(ren, std::to_string(m_scoresIncreasing[1]), 500, 50);
-		drawText(ren, std::to_string(m_scoresIncreasing[2]), 800, 50);
-		drawText(ren, std::to_string(m_scoresIncreasing[3]), 1100, 50);
+		drawText(ren, std::to_string(m_scoresIncreasing[0]), 20, 50);
+		drawText(ren, std::to_string(m_scoresIncreasing[1]), 375, 50);
+		drawText(ren, std::to_string(m_scoresIncreasing[2]), 745, 50);
+		drawText(ren, std::to_string(m_scoresIncreasing[3]), 1120, 50);
 	}
 };
 

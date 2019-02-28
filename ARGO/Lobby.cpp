@@ -28,7 +28,7 @@ std::vector<float> Lobby::msgToPos(std::string s)
 Lobby::Lobby(SDL_Renderer *ren, Game * game):m_game(game)
 {
 	//Open the font
-	m_font = TTF_OpenFont("assets/Fonts/Amatic-Bold.ttf", 28);
+	m_font = TTF_OpenFont("assets/Fonts/Velekom.ttf", 16);
 
 	if (!m_bg.loadFromFile("assets/img/LobbyBG.png", ren, 1))
 	{
@@ -42,18 +42,18 @@ Lobby::Lobby(SDL_Renderer *ren, Game * game):m_game(game)
 		printf("Failed to load ready texture!\n");
 	}
 
-	m_readyX = 400;
-	m_readyY = 800;
+	m_readyX = 450;
+	m_readyY = 850;
 	m_readyW = m_readyTexture.getWidth();
 	m_readyH = m_readyTexture.getHeight();
 
-	if (!m_backTexture.loadFromFile("assets/img/ReadyButton.png", ren, 1))
+	if (!m_backTexture.loadFromFile("assets/img/BackMenu.png", ren, 1))
 	{
 		printf("Failed to load ready texture!\n");
 	}
 
-	m_backX = 800;
-	m_backY = 800;
+	m_backX = 850;
+	m_backY = 850;
 	m_backW = m_backTexture.getWidth();
 	m_backH = m_backTexture.getHeight();
 
@@ -216,6 +216,8 @@ void Lobby::render(SDL_Renderer * ren)
 		{
 			drawText(ren, std::to_string((200 - m_countdown) / 50), 50, 50);
 		}
+		drawText(ren, std::string("[A]"), 475, 925);
+		drawText(ren, std::string("[B]"), 875, 925);
 
 	}
 
@@ -224,7 +226,7 @@ void Lobby::render(SDL_Renderer * ren)
 void Lobby::drawText(SDL_Renderer * ren, std::string s, int x, int y)
 {
 	//Render text
-	SDL_Color textColor = { 255, 0, 0 };
+	SDL_Color textColor = { 255, 255, 255 };
 	if (!m_textTexture.loadFromRenderedText(s, textColor, ren, m_font))
 	{
 		printf("Failed to render text texture!\n");
