@@ -47,6 +47,7 @@ private:
 	LTexture m_player2Texture;
 	LTexture m_player3Texture;
 	LTexture m_player4Texture;
+	LTexture m_bg;
 	int m_playerIndex;
 
 	// Count down
@@ -54,6 +55,8 @@ private:
 	TTF_Font *m_font;
 	LTexture m_textTexture;
 	void drawText(SDL_Renderer * ren, std::string s, int x, int y);
+
+	int m_bgX, m_bgY;
 
 	// Network 
 	int m_stateTimer;

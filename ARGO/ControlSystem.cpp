@@ -272,8 +272,6 @@ void ControlSystem::keyUp(SDL_Event &e) {
 		{
 			pressed = false;
 		}
-
-
 	}
 }
 
@@ -281,7 +279,6 @@ void ControlSystem::idle() {
 	if (controlComp->alive)
 	{
 		controlComp->setDirection(controlComp->Idle);
-
 	}
 }
 
