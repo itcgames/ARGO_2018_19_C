@@ -7,10 +7,7 @@ Projectile::Projectile(int x, int y, SDL_Renderer* m_renderer)
 	//Initialize the offsets
 	m_posX = x;
 	m_posY = y;
-
-	//width = 20;
-	//height = 20;
-
+	
 	if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
 	{
 		printf("Failed to load dot texture!\n");
@@ -27,7 +24,6 @@ void Projectile::setPosition(float x, float y)
 {
 	m_posX = x; 
 	m_posY = y;
-
 }
 
 
@@ -42,7 +38,6 @@ bool Projectile::checkCollision(int centerX, int centerY)
 {
 	//insert square collision
 		return false;
-	
 }
 
 float Projectile::getWidth() {

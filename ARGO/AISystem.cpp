@@ -165,11 +165,11 @@ void AISystem::update(level &m_level) {
 
 		if (cc->moveLeft == 1)
 		{
-			moveLeft();
+			moveLeft(velX);
 		}
 		if (cc->moveRight == 1)
 		{
-			moveRight();
+			moveRight(velX);
 		}
 
 		if (cc->getDirection() == cc->Up) {
@@ -442,22 +442,36 @@ bool AISystem::checkFlagInRange() {
 	}
 
 }
-void AISystem::moveLeft() {
-
-	if (vel->getVelX() > -maxX)
-	{
+void AISystem::moveLeft(float fuzz) {
+	if (cc->hasFlag != true) {
+		if (vel->getVelX() > -maxX)
+		{
+			ac->left();
+			vel->setVelX(-4);
+		}
+	}
+	else {
+		//add code to move player using fuzzy velocity
 		ac->left();
-		vel->setVelX(-4);
+		vel->setVelX(-fuzz);
+	}
+	
+}
+void AISystem::moveRight(float fuzz) {
+	if (cc->hasFlag != true) {
+		if (vecX < maxX)
+		{
+			ac->right();
+			vel->setVelX(4);
+		}
+	}
+	else {
+		//add code to move player using fuzzy velocity
+		ac->left();
+		vel->setVelX(fuzz);
 	}
 }
-void AISystem::moveRight() {
 
-	if (vecX < maxX)
-	{
-		ac->right();
-		vel->setVelX(4);
-	}
-}
 void AISystem::moveUp() {
 
 	if (cc->jump == 0 && cc->collision == 1)
@@ -468,4 +482,41 @@ void AISystem::moveUp() {
 		cc->jump = 1;
 	}
 
+}
+void AISystem::checkNearest(float dis, Entity * entity, float c_y) {
+
+	//Loop through all entities 
+	for (Component* component : entity->getComponents()) {
+
+		cc = (ControlComponent*)entity->getCompByType("Control");
+		if (cc->hasFlag == true) {
+			//call fuzzy update 
+			m_fuzzy->update(dis);
+
+			//update the ai position
+			pc = (PositionComponent*)entity->getCompByType("Position");
+
+			posX = pc->getPositionX();
+			posY = pc->getPositionY();
+			// get vec from fuzy logic
+			velX = m_fuzzy->runAway();
+			//std::cout << velX << std::endl;
+			threat_Y = c_y;
+			//instead of moving th pos here use the phys class
+
+			//determine which side the player is on
+			if (dis < 0) {
+				moveLeft(-velX);
+			}
+			if (dis > 0) {
+				moveRight(velX);
+			}
+
+
+			//set position 
+			pc->setPosition(posX, posY);
+
+		}
+		
+	}
 }

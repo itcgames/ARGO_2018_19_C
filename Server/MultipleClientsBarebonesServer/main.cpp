@@ -28,6 +28,14 @@ void main()
 	std::vector<std::string> lobby;
 	std::vector<std::string> lobbyBuf;
 	std::vector<SOCKET> lobbySocks;
+	std::vector<std::vector<int>> lobbies;
+	
+	std::vector<int> temp;
+	for (int i = 0; i < 4; i++)
+	{
+		temp.push_back(-1);
+	}
+	lobbies.push_back(temp);
 
 	int wsOk = WSAStartup(ver, &wsData);
 	if (wsOk != 0)
@@ -140,7 +148,15 @@ void main()
 					}
 					std::string message = buf;
 					// Tell player if they are the host or a client
-					if (message.substr(0, 3) == "IP:")
+					int indexIP = message.find("IP:");
+					int indexQ = message.find("What is my Index");
+					int indexPlayer = message.find("Player");
+					int indexLobby = message.find("Lobby");
+					int indexPU = message.find("Power Ups");
+					int indexFlag = message.find("Flag");
+					int indexPUC = message.find("Collected");
+					int indexPlant = message.find("Planted");
+					if (indexIP > 0)
 					{
 						std::cout << message << std::endl;
 						if (lobby.size() == 0)
@@ -183,7 +199,7 @@ void main()
 
 						}
 					}
-					else if (message == "What is my Index")
+					else if (indexQ >= 0)
 					{
 						for (int i = 0; i < lobbySocks.size(); i++)
 						{
@@ -200,7 +216,7 @@ void main()
 							}
 						}
 					}// Send message to other clients, and definiately NOT the listening socket
-					else if (buf[0] == 'X')
+					else if (indexPlayer >= 0) // || buf[0] == 'X')
 					{
 						std::cout << buf << std::endl;
 
@@ -217,9 +233,28 @@ void main()
 							}
 						}
 					}
-					else if (buf[0] == 'i')
+					else if (indexLobby >= 0 || buf[6] == 'i')
 					{
 						std::cout << buf << std::endl;
+
+						if (buf[17] == '0')
+						{
+							// Left lobby
+							int leftIndex = (int)buf[3] - 48;
+							std::cout << "Left lobby: ";
+							std::cout << buf[3] << std::endl;
+
+							for (int i = 0; i < lobbySocks.size(); i++)
+							{
+								if (sock == lobbySocks[i])
+								{
+									std::cout << "Index: " << std::to_string(i) << std::endl;
+								}
+							}
+							
+
+						}
+
 						lobbyBuf.push_back(buf);
 
 						bool ready = true;
@@ -254,35 +289,6 @@ void main()
 										{
 											ready = false;
 										}
-										// If they are all ready
-										if (ready&& false)
-										{
-											// start game (TODO: send it to all players)
-											for (int i = 0; i < master.fd_count; i++)
-											{
-												SOCKET outSock = master.fd_array[i];
-												if (outSock != listening && outSock != sock)
-												{
-													ostringstream ss;
-													ss << "Begin Game" << "\r\n";
-													string strOut = ss.str();
-
-													NetworkMessage netMsg;
-													//netMsg.type = "Begin";
-													netMsg.type = 2; // Begin
-													netMsg.playerIndex = 0;
-													netMsg.hostIndex = i;
-
-													send(lobbySocks[i], strOut.c_str(), strOut.size() + 1, 0);
-													netMsg.playerIndex = 1;
-													send(lobbySocks[i + 1], strOut.c_str(), strOut.size() + 1, 0);
-													netMsg.playerIndex = 2;
-													send(lobbySocks[i + 2], strOut.c_str(), strOut.size() + 1, 0);
-													netMsg.playerIndex = 3;
-													send(lobbySocks[i + 3], strOut.c_str(), strOut.size() + 1, 0);
-												}
-											}
-										}
 									}
 								}
 								i = i + 4;
@@ -302,6 +308,53 @@ void main()
 
 									send(outSock, strOut.c_str(), strOut.size() + 1, 0);
 								}
+							}
+						}
+					}
+					else if (indexPU >= 0 || message.substr(0, 9) == "Power Ups")
+					{
+						std::cout << buf << std::endl;
+
+						for (int i = 0; i < master.fd_count; i++)
+						{
+							SOCKET outSock = master.fd_array[i];
+							if (outSock != listening && outSock != sock)
+							{
+								ostringstream ss;
+								ss << buf;
+								string strOut = ss.str();
+
+								send(outSock, strOut.c_str(), strOut.size() + 1, 0);
+							}
+						}
+					}
+					else if (indexPUC >= 0 || indexPlant >= 0)
+					{
+						for (int i = 0; i < master.fd_count; i++)
+						{
+							SOCKET outSock = master.fd_array[i];
+							if (outSock != listening && outSock != sock)
+							{
+								ostringstream ss;
+								ss << buf;
+								string strOut = ss.str();
+
+								send(outSock, strOut.c_str(), strOut.size() + 1, 0);
+							}
+						}
+					}
+					else if (indexFlag >= 0 || message.substr(0, 5) == "Flag ")
+					{
+						for (int i = 0; i < master.fd_count; i++)
+						{
+							SOCKET outSock = master.fd_array[i];
+							if (outSock != listening && outSock != sock)
+							{
+								ostringstream ss;
+								ss << buf;
+								string strOut = ss.str();
+
+								send(outSock, strOut.c_str(), strOut.size() + 1, 0);
 							}
 						}
 					}

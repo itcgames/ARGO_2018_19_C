@@ -1,8 +1,14 @@
 #include "Level.h"
 #include "Assets.h"
 
-tile::tile(SDL_Texture* tset, int x, int y, int tx, int ty, int w, int h)
-	: sheet(tset), x(x), y(y), tx(tx), ty(ty), width(w), height(h) {
+tileProp::tileProp(SDL_Texture * tileSet, int tx, int ty, int width, int height)
+	:tset(tileSet),tx(tx), ty(ty), width(width), height(height)
+{
+
+}
+
+tile::tile( int x, int y, tileProp*tp)
+	:sheet(tp->tset) ,x(x), y(y),tx(tp->tx),ty(tp->ty),width(tp->width), height(tp->height)  {
 
 }
 
@@ -17,8 +23,6 @@ NodeObjects::NodeObjects(float x, float y, float width, float height, std::strin
 {
 
 }
-
-
 void tile::draw(SDL_Renderer* ren) {
 	if (!ren || !sheet)
 		return;
@@ -130,14 +134,11 @@ void level::load(const std::string& path, SDL_Renderer* ren) {
 				{
 					float x, y, width, height;
 					std::string type;
-				
 					x = object.getPosition().x;
 					y = object.getPosition().y;
 					width = object.getAABB().width;
 					height = object.getAABB().height;
 					type = object.getType();
-				
-				
 
 					NodeObjects n(x, y, width, height, type);
 					m_nodes.push_back(n);
@@ -212,9 +213,9 @@ void level::load(const std::string& path, SDL_Renderer* ren) {
 				auto x_pos = x * tile_width;
 				auto y_pos = y * tile_height;
 
-				// Phew, all done. 
-				tile t(tilesets[tset_gid], x_pos, y_pos,
-					region_x, region_y, tile_width, tile_height);
+				// Phew, all done.
+				tileProp tp(tilesets[tset_gid], region_x, region_y, tile_width, tile_height);
+				tile t( x_pos, y_pos, &tp);
 				tiles.push_back(t);
 			}
 		}

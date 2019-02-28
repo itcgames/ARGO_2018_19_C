@@ -22,6 +22,7 @@ public:
 	void speedUp(Entity * entity);
 	std::string getEntity();
 	Entity * getEntityById(std::string s);
+	std::vector<std::string> getEntityIds();
 
 private:
 	int vecX, vecY;
@@ -35,6 +36,5 @@ private:
 	SpriteComponent * sc;
 
 	CollisionComponent * Coll;
-	VelocityComponent *vel;
 
 };

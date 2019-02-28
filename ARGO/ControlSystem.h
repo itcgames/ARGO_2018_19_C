@@ -5,6 +5,7 @@
 #include "SDL.h"
 #include "LTexture.h"
 #include "Animation.h"
+#include "Client.h"
 
 #define MAX_CONTROLLERS 4
 
@@ -17,7 +18,7 @@ public:
 	void init();
 	void addEntity(Entity e);
 	void idle();
-	void input(SDL_Event & e);
+	void input(SDL_Event & e, Client & client);
 	void keyUp(SDL_Event & e);
 private:
 	std::vector<Entity> entities;
@@ -30,6 +31,8 @@ private:
 	int windowWidth = 1280;
 	int windowHeight = 720;
 	bool pressed = false;
+
+	std::string msg; // Message to be sent to the network
 
 	// Controller
 	SDL_GameController *ControllerHandles[MAX_CONTROLLERS];
