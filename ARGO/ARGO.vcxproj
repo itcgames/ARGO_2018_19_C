@@ -251,8 +251,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
-</Command>
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -273,8 +272,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)assets"
-</Command>
+      <Command>xcopy /y /e "$(OneDrive)" "$(SolutionDir)ARGO\assets"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

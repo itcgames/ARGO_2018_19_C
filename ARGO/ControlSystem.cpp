@@ -179,11 +179,7 @@ void ControlSystem::input(SDL_Event &e, Client & client, GameState & gs, bool & 
 				}
 				if (XButton)
 				{
-					if (!pressed)
-					{
-						buttonX->execute(&entity, client);
-						pressed = true;
-					}
+					buttonX->execute(&entity, client);
 				}
 				if (YButton)
 				{

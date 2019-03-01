@@ -55,7 +55,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player.addComponent(new ControlComponent());
 	player.addComponent(new ScoreComponent(40));
 	player.addComponent(new PositionComponent(300, 100));
-	player.addComponent(new LifeComponent(4, 1, ren, 1));
+	player.addComponent(new LifeComponent(6, 1, ren, 1));
 	player.addComponent(new VelocityComponent());
 
 	player2.addComponent(new SpriteComponent("assets/argot/assets/character/playerSheet2.png", 0.5, ren, 3, 5));
@@ -65,7 +65,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player2.addComponent(new AmmoComponent(ren));
 	player2.addComponent(new ScoreComponent(15));
 	player2.addComponent(new PositionComponent(500, 100));
-	player2.addComponent(new LifeComponent(5, 2, ren, 1));
+	player2.addComponent(new LifeComponent(6, 2, ren, 1));
 	player2.addComponent(new VelocityComponent());
 
 	player3.addComponent(new SpriteComponent("assets/argot/assets/character/playerSheet3.png", 0.5, ren, 3, 5));
@@ -86,7 +86,7 @@ GameScreen::GameScreen(SDL_Renderer * ren, Game * game) : m_game(game),player("P
 	player4.addComponent(new ScoreComponent(5));
 	player4.addComponent(new AmmoComponent(ren));
 	player4.addComponent(new PositionComponent(500, 500));
-	player4.addComponent(new LifeComponent(3, 4, ren, 1));
+	player4.addComponent(new LifeComponent(6, 4, ren, 1));
 	player4.addComponent(new VelocityComponent());
 
 	ammos.addEntity(player);
