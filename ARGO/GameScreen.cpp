@@ -190,7 +190,7 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 		//Update all ai
 		ais.update(*m_level);
 	}
-	if (m_countdownMinute <= 0  && m_countdownSec > 20000)
+	if (m_countdownMinute <= 0  && m_countdownSec > 30000)
 	{
 		ScoreComponent * sc = (ScoreComponent *)player.getCompByType("Score");
 		switch (*m_playerIndex)
@@ -224,6 +224,7 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 				{
 				case 1:
 					sc = (ScoreComponent *)player2.getCompByType("Score");
+					m_game->addPlayerScore(i, sc->getScore());
 					msg = "Score s: " + std::to_string((int)sc->getScore()) + " i: " + std::to_string(i);
 					client->sendMsg(msg);
 					std::cout << "Ai 2 sent" << std::endl;
@@ -231,6 +232,7 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 
 				case 2:
 					sc = (ScoreComponent *)player3.getCompByType("Score");
+					m_game->addPlayerScore(i, sc->getScore());
 					msg = "Score s: " + std::to_string((int)sc->getScore()) + " i: " + std::to_string(i);
 					client->sendMsg(msg);
 					std::cout << "Ai 3 sent" << std::endl;
@@ -238,6 +240,7 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 
 				case 3:
 					sc = (ScoreComponent *)player4.getCompByType("Score");
+					m_game->addPlayerScore(i, sc->getScore());
 					msg = "Score s: " + std::to_string((int)sc->getScore()) + " i: " + std::to_string(i);
 					client->sendMsg(msg);
 					std::cout << "Ai 4 sent" << std::endl;

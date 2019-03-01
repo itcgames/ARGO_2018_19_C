@@ -181,7 +181,7 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 					
 
 				}
-				if (cc->hasFlag == true )
+				if (cc->hasFlag == true)
 				{
 					posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 6, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
 					int fps = 1;

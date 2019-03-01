@@ -127,7 +127,11 @@ void ControlSystem::input(SDL_Event &e, Client & client, GameState & gs, bool & 
 			gs = GameState::MainMenu;
 		}
 		break;
-
+	case GameState::GameOverScreen:
+		if (AButton && !AButtonPrevious)
+		{
+			gs = GameState::MainMenu;
+		}
 	case GameState::GameScreen:
 
 		if (Up || e.key.keysym.sym == SDLK_z)

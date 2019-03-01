@@ -86,7 +86,7 @@ void GameOverScreen::winnerScore()
 	for (int i = 0; i < m_winnerOrder.size();i++)
 	{
 		
-		if (m_winnerOrder[0] == m_scores[i] && m_scores[i] != 0)
+		if (m_winnerOrder[0] == m_scores[i] && m_scores[i] > 0)
 		{
 			switch (i) {
 			case 0:
@@ -111,7 +111,7 @@ void GameOverScreen::winnerScore()
 			}
 
 		}
-		if (m_winnerOrder[1] == m_scores[i] && m_scores[i] != 0)
+		if (m_winnerOrder[1] == m_scores[i] && m_scores[i] > 0)
 		{
 			switch (i) {
 			case 0:
@@ -132,7 +132,7 @@ void GameOverScreen::winnerScore()
 			}
 
 		}
-		if (m_winnerOrder[2] == m_scores[i] && m_scores[i] != 0)
+		if (m_winnerOrder[2] == m_scores[i] && m_scores[i] > 0)
 		{
 			switch (i) {
 			case 0:
@@ -153,7 +153,7 @@ void GameOverScreen::winnerScore()
 			}
 
 		}
-		if (m_winnerOrder[3] == m_scores[i] && m_scores[i] != 0)
+		if (m_winnerOrder[3] == m_scores[i] && m_scores[i] > 0)
 		{
 			switch (i) {
 			case 0:
