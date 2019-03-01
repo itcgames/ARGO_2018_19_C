@@ -224,26 +224,6 @@ void CombatSystem::updateAI(Client & client) {
 								{
 									posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() - 100, posComp2->getPositionY() + vel->getVelY() - 90);
 
-									if (entity2.getName() == "Player")
-									{
-										std::cout << "Left: " << 0 << std::endl;
-										client.sendMsg("Kicked I: 0 D: 0 F:" + std::to_string(1));
-									}
-									else if (entity2.getName() == "Player2")
-									{
-										std::cout << "Left: " << 1 << std::endl;
-										client.sendMsg("Kicked I: 1 D: 0 F:" + std::to_string(1));
-									}
-									else if (entity2.getName() == "Player3")
-									{
-										std::cout << "Left: " << 2 << std::endl;
-										client.sendMsg("Kicked I: 2 D: 0 F:" + std::to_string(1));
-									}
-									else if (entity2.getName() == "Player4")
-									{
-										std::cout << "Left: " << 3 << std::endl;
-										client.sendMsg("Kicked I: 3 D: 0 F:" + std::to_string(1));
-									}
 								}
 								else
 								{
@@ -279,26 +259,6 @@ void CombatSystem::updateAI(Client & client) {
 								if (ai2 != NULL)
 								{
 									posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() + 100, posComp2->getPositionY() + vel->getVelY() - 90);
-									if (entity2.getName() == "Player")
-									{
-										std::cout << "Right: " << 0 << std::endl;
-										client.sendMsg("Kicked I: 0 D: 1 F:" + std::to_string(1));
-									}
-									else if (entity2.getName() == "Player2")
-									{
-										std::cout << "Right: " << 1 << std::endl;
-										client.sendMsg("Kicked I: 1 D: 1 F:" + std::to_string(1));
-									}
-									else if (entity2.getName() == "Player3 F:" + std::to_string(1))
-									{
-										std::cout << "Right: " << 2 << std::endl;
-										client.sendMsg("Kicked I: 2 D: 1 F:" + std::to_string(1));
-									}
-									else if (entity2.getName() == "Player4")
-									{
-										std::cout << "Right: " << 3 << std::endl;
-										client.sendMsg("Kicked I: 3 D: 1 F:" + std::to_string(1));
-									}
 								}
 								else
 								{
