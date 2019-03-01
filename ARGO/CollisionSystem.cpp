@@ -135,7 +135,7 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 				score = (ScoreComponent*)entity.getCompByType("Score");
 				ac = (AnimationComponent*)entity.getCompByType("Animation");
 				collide = (CollisionComponent*)entity.getCompByType("Collision");
-				//life = (LifeComponent*)entity.getCompByType("Collision");
+				life = (LifeComponent*)entity.getCompByType("Life");
 				x1 = posComp1->getPositionX();
 				y1 = posComp1->getPositionY();
 				width1 = spriteComp->getWidth();
@@ -165,37 +165,50 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 		
 
 		if (posComp1 != NULL && posComp2 != NULL) {
-			if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
-				spriteComp->getWidth() + 20, spriteComp->getHeight() + 20, spriteComp2->getWidth() + 20, spriteComp2->getHeight() + 20)) {
+			if (life->getLife() > 0)
+			{
+				if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
+					spriteComp->getWidth() + 20, spriteComp->getHeight() + 20, spriteComp2->getWidth() + 20, spriteComp2->getHeight() + 20)) {
 
-				if (pickup->getState() == pickup->Collectable)
-				{
-					cc->hasFlag = true;
-					pickup->setState(pickup->NotCollectable);
-				}
-
-				if (cc->hasFlag == true && pickup->getState() == pickup->NotCollectable)
-				{
-					posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 6, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
-					int fps = 1;
-					int ticksPerFrame = 1000 / fps;
-
-					if (ticksPerFrame < time)
+					if (pickup->getState() == pickup->Collectable)
 					{
-						if (score != NULL)
-						{
-							score->setScore(score->getScore() + 1);
-						}
-
-						time = 0;
+						cc->hasFlag = true;
+						pickup->setState(pickup->NotCollectable);
 					}
+
+					if (cc->hasFlag == true && pickup->getState() == pickup->NotCollectable)
+					{
+						posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 6, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
+						int fps = 1;
+						int ticksPerFrame = 1000 / fps;
+
+						if (ticksPerFrame < time)
+						{
+							if (score != NULL)
+							{
+								score->setScore(score->getScore() + 1);
+							}
+
+							time = 0;
+						}
+					}
+
+				}
+				if (pickup->getState() == pickup->Collectable) {
+
+					FloatFlag(posComp2);
+				}
+			}
+			else
+			{
+				if (cc->hasFlag == true)
+				{
+					cc->hasFlag = false;
+					pickup->setState(pickup->Collectable);
 				}
 				
 			}
-			if (pickup->getState() == pickup->Collectable) {
-
-				FloatFlag(posComp2);
-			}
+			
 			
 		}
 	}
