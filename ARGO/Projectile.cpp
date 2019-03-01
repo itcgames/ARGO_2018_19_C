@@ -8,7 +8,7 @@ Projectile::Projectile(int x, int y, SDL_Renderer* m_renderer)
 	m_posX = x;
 	m_posY = y;
 	
-	if (!m_texture.loadFromFile("dot1.bmp", m_renderer, 1))
+	if (!m_texture.loadFromFile("assets/argot/assets/powerUps/mine1.png", m_renderer, 1))
 	{
 		printf("Failed to load dot texture!\n");
 

@@ -11,7 +11,7 @@ Seeker::Seeker(int x, int y, SDL_Renderer* m_renderer)
 	//width = 20;
 	//height = 20;
 
-	if (!m_texture.loadFromFile("dotRed.bmp", m_renderer, 1))
+	if (!m_texture.loadFromFile("assets/argot/assets/powerUps/mine.png", m_renderer, 1))
 	{
 		printf("Failed to load dot texture!\n");
 

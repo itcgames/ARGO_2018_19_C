@@ -30,6 +30,7 @@ private:
 	PositionComponent * posComp;
 	PositionComponent * posComp1;
 	PositionComponent * posComp2;
+	PositionComponent * pcFlag;
 	SpriteComponent * spriteComp;
 	SpriteComponent * spriteComp2;
 	ControlComponent* cc;

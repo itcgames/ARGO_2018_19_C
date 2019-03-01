@@ -214,7 +214,7 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 		// change state
 		m_game->setGameState(GameState::GameOverScreen);
 		m_game->addPlayerScore(*m_playerIndex, sc->getScore());
-		std::string msg = "Score s: " + std::to_string(sc->getScore()) + " i: " + std::to_string(*m_playerIndex);
+		std::string msg = "Score s: " + std::to_string((int)sc->getScore()) + " i: " + std::to_string(*m_playerIndex);
 		client->sendMsg(msg);
 		if(*m_playerIndex == 0)
 		{
@@ -224,21 +224,21 @@ void GameScreen::update(Client * client, float dt, SDL_Renderer * ren)
 				{
 				case 1:
 					sc = (ScoreComponent *)player2.getCompByType("Score");
-					msg = "Score s: " + std::to_string(sc->getScore()) + " i: " + std::to_string(i);
+					msg = "Score s: " + std::to_string((int)sc->getScore()) + " i: " + std::to_string(i);
 					client->sendMsg(msg);
 					std::cout << "Ai 2 sent" << std::endl;
 					break;
 
 				case 2:
 					sc = (ScoreComponent *)player3.getCompByType("Score");
-					msg = "Score s: " + std::to_string(sc->getScore()) + " i: " + std::to_string(i);
+					msg = "Score s: " + std::to_string((int)sc->getScore()) + " i: " + std::to_string(i);
 					client->sendMsg(msg);
 					std::cout << "Ai 3 sent" << std::endl;
 					break;
 
 				case 3:
 					sc = (ScoreComponent *)player4.getCompByType("Score");
-					msg = "Score s: " + std::to_string(sc->getScore()) + " i: " + std::to_string(i);
+					msg = "Score s: " + std::to_string((int)sc->getScore()) + " i: " + std::to_string(i);
 					client->sendMsg(msg);
 					std::cout << "Ai 4 sent" << std::endl;
 					break;
@@ -259,11 +259,11 @@ void GameScreen::render(SDL_Renderer * ren, float dt)
 	//ps.update(m_renderer);
 	m_level->draw(ren);
 	ammos.render(ren);
-	/*for (int i = m_powerUps.size() - 1; i >= 0; i--)
+	for (int i = m_powerUps.size() - 1; i >= 0; i--)
 	{
 		m_powerUps[i]->draw(ren);
 	}
-*/
+
 	if (m_font == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());

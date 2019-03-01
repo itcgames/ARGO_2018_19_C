@@ -44,12 +44,13 @@ void CombatSystem::CheckCollision(std::string playerID, Client & client)
 		}
 		else if (entity.getName() == "Flag")
 		{
-			pickup = (PickUpComponent *)entity.getCompByType("PickUp");
+			pickup = (PickUpComponent *)entity.getCompByType("PickUp"); 
+			pcFlag = (PositionComponent *)entity.getCompByType("Position");
 		}
 	
 	}
 
-	if (cc != NULL && cc->attack) {
+	if (cc != NULL && cc->attack && !cc->hasFlag) {
 		cc->attack = false;
 		for (Entity& entity : entities)
 		{
@@ -75,6 +76,8 @@ void CombatSystem::CheckCollision(std::string playerID, Client & client)
 							cc2->hasFlag = false;
 							pickup->setState(pickup->Collectable);
 							hadFlag = 1;
+							pcFlag->setPosition(750, 400);
+							
 						}
 
 						if (posComp->getPositionX() > posComp2->getPositionX())
@@ -210,6 +213,7 @@ void CombatSystem::updateAI() {
 							{
 								cc2->hasFlag = false;
 								pickup->setState(pickup->Collectable);
+								pcFlag->setPosition(750, 400);
 							}
 
 							if (posComp->getPositionX() > posComp2->getPositionX())
