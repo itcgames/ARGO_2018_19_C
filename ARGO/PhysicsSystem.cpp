@@ -125,7 +125,30 @@ void PhysicsSystem::update() {
 		{
 			ac->die();
 		}
+
+		if (pc != nullptr)
+		{
+			if (pc->getPositionX() < 0)
+			{
+				pc->setPosition(70, pc->getPositionY());
+			}
+			else if (pc->getPositionX() > 1470)
+			{
+				pc->setPosition(1400, pc->getPositionY());
+			}
+
+			if (pc->getPositionY() < 0)
+			{
+				pc->setPosition(pc->getPositionX(), 70);
+			}
+			else if (pc->getPositionX() > 1470)
+			{
+				pc->setPosition(pc->getPositionY(), 1400);
+			}
+		}
 	}
+
+
 
 	//std::cout << "Vel :" << vecX<< std::endl;
 

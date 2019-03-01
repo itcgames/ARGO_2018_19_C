@@ -386,7 +386,10 @@ void CollisionSystem::Teleport(float x, float y, float width, float height, leve
 			y + height >= m_tiles.m_teleport[i].y &&
 			y <= m_tiles.m_teleport[i].y + m_tiles.m_teleport[i].height)
 		{
-			posComp1->setPosition(m_tiles.m_teleport[0].x - width, m_tiles.m_teleport[0].y);
+			posComp1->setPosition(m_tiles.m_teleport[0].x - 60, m_tiles.m_teleport[0].y);
+			if(cc->hasFlag)
+				posComp2->setPosition(posComp1->getPositionX(), posComp1->getPositionY());
+
 		}
 
 		//left of tile
@@ -395,7 +398,9 @@ void CollisionSystem::Teleport(float x, float y, float width, float height, leve
 			y + height >= m_tiles.m_teleport[i].y &&
 			y <= m_tiles.m_teleport[i].y + m_tiles.m_teleport[i].height)
 		{
-			posComp1->setPosition(m_tiles.m_teleport[1].x + width, m_tiles.m_teleport[1].y);
+			posComp1->setPosition(m_tiles.m_teleport[1].x + 60, m_tiles.m_teleport[1].y);
+			if (cc->hasFlag)
+				posComp2->setPosition(posComp1->getPositionX(), posComp1->getPositionY());
 		}
 	}
 }

@@ -26,11 +26,6 @@ GameOverScreen::GameOverScreen(SDL_Renderer* ren):renderer(ren)
 		m_scoresIncreasing.push_back(0);
 	}
 
-	m_scores[0] = 2;
-	m_scores[1] = 15;
-	m_scores[2] = 10;
-	m_scores[3] = 150;
-
 	if (!m_first.loadFromFile("assets/argot/assets/art/first.png", ren, 1))
 	{
 		printf("error loading first png!\n");

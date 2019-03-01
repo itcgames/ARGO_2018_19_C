@@ -66,6 +66,7 @@ void AISystem::update(level &m_level) {
 
 	for (Entity & entity : entities) {
 
+
 		//for (Component* component : entity.getComponents()) {
 		if (entity.getName() != "Flag") {
 			cc = (ControlComponent*)entity.getCompByType("Control");
@@ -230,9 +231,28 @@ void AISystem::update(level &m_level) {
 		}
 		
 
+		if (pc != nullptr)
+		{
+			if (pc->getPositionX() < 0)
+			{
+				pc->setPosition(70, pc->getPositionY());
+			}
+			else if (pc->getPositionX() > 1470)
+			{
+				pc->setPosition(1400, pc->getPositionY());
+			}
+
+			if (pc->getPositionY() < 0)
+			{
+				pc->setPosition(pc->getPositionX(), 70);
+			}
+			else if (pc->getPositionX() > 1470)
+			{
+				pc->setPosition(pc->getPositionY(), 1400);
+			}
+		}
 
 		
-
 		//Gravity
 
 		//Coll = (CollisionComponent *)entity.getCompByType("Collision");
@@ -270,7 +290,27 @@ void AISystem::update(level &m_level) {
 		//}
 
 	}
-	
+
+	if (pcFlag != nullptr)
+	{
+		if (pcFlag->getPositionX() < 0)
+		{
+			pcFlag->setPosition(70, pcFlag->getPositionY());
+		}
+		else if (pcFlag->getPositionX() > 1470)
+		{
+			pcFlag->setPosition(1400, pcFlag->getPositionY());
+		}
+
+		if (pcFlag->getPositionY() < 0)
+		{
+			pcFlag->setPosition(pcFlag->getPositionX(), 70);
+		}
+		else if (pcFlag->getPositionX() > 1470)
+		{
+			pcFlag->setPosition(pcFlag->getPositionY(), 1400);
+		}
+	}
 }
 
 NodeObjects AISystem::nearestNode(level &level, std::string type) {

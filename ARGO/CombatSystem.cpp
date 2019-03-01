@@ -50,6 +50,7 @@ void CombatSystem::CheckCollision(std::string playerID, Client & client)
 	}
 
 	if (cc != NULL && cc->attack) {
+		cc->attack = false;
 		for (Entity& entity : entities)
 		{
 
@@ -141,6 +142,11 @@ void CombatSystem::CheckCollision(std::string playerID, Client & client)
 
 							posComp2->setPosition(1390, posComp2->getPositionY());
 						}
+
+						if (posComp2->getPositionY() < 50)
+						{
+							posComp2->setPosition(posComp2->getPositionX(), 70);
+						}
 					}
 				}
 
@@ -195,46 +201,49 @@ void CombatSystem::updateAI() {
 						cc2 = (ControlComponent *)entity2.getCompByType("Control");
 						vel = (VelocityComponent*)entity2.getCompByType("Vel");
 						ai2 = (AiComponent*)entity2.getCompByType("Ai");
+
+						if (AABB(posComp->getPositionX(), posComp->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
+							spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight()) && cc2->hasFlag) {
+
+
+							if (cc2->hasFlag && pickup->getState() == pickup->NotCollectable)
+							{
+								cc2->hasFlag = false;
+								pickup->setState(pickup->Collectable);
+							}
+
+							if (posComp->getPositionX() > posComp2->getPositionX())
+							{
+								/*	vel->setVelX(- 10);
+								vel->setVelY(- 50);*/
+								if (ai2 != NULL)
+								{
+									posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() - 100, posComp2->getPositionY() + vel->getVelY() - 90);
+								}
+								else
+								{
+									posComp2->setPosition(posComp2->getPositionX() - 100, posComp2->getPositionY() - 90);
+								}
+
+
+							}
+							else {
+								/*	vel->setVelX(+10);
+								vel->setVelY(-50);*/
+								if (ai2 != NULL)
+								{
+									posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() + 100, posComp2->getPositionY() + vel->getVelY() - 90);
+								}
+								else
+								{
+									posComp2->setPosition(posComp2->getPositionX() + 100, posComp2->getPositionY() - 90);
+								}
+
+							}
+
 					}
 
-					if (AABB(posComp->getPositionX(), posComp->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
-						spriteComp->getWidth(), spriteComp->getHeight(), spriteComp2->getWidth(), spriteComp2->getHeight()) && cc2->hasFlag) {
-
-
-						if (cc2->hasFlag && pickup->getState() == pickup->NotCollectable)
-						{
-							cc2->hasFlag = false;
-							pickup->setState(pickup->Collectable);
-						}
-
-						if (posComp->getPositionX() > posComp2->getPositionX())
-						{
-							/*	vel->setVelX(- 10);
-							vel->setVelY(- 50);*/
-							if (ai2 != NULL)
-							{
-								posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() - 100, posComp2->getPositionY() + vel->getVelY() - 90);
-							}
-							else
-							{
-								posComp2->setPosition(posComp2->getPositionX() - 100, posComp2->getPositionY() - 90);
-							}
-
-
-						}
-						else {
-							/*	vel->setVelX(+10);
-							vel->setVelY(-50);*/
-							if (ai2 != NULL)
-							{
-								posComp2->setPosition(posComp2->getPositionX() + vel->getVelX() + 100, posComp2->getPositionY() + vel->getVelY() - 90);
-							}
-							else
-							{
-								posComp2->setPosition(posComp2->getPositionX() + 100, posComp2->getPositionY() - 90);
-							}
-
-						}
+					
 
 						cc->attack = false;
 
@@ -242,9 +251,14 @@ void CombatSystem::updateAI() {
 						{
 							posComp2->setPosition(65, posComp2->getPositionY());
 						}
-						else if (posComp2->getPositionX() > 1440) {
+						else if (posComp2->getPositionX() > 1420) {
 
 							posComp2->setPosition(1390, posComp2->getPositionY());
+						}
+
+						if (posComp2->getPositionY() < 50)
+						{
+							posComp2->setPosition(posComp2->getPositionX(), 70);
 						}
 					}
 

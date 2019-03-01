@@ -263,22 +263,24 @@ void ControlSystem::keyUp(SDL_Event &e) {
 	{
 
 	case SDL_KEYUP:
-
-		if (e.key.keysym.sym == SDLK_UP)
+		for (Entity& entity : entities)
 		{
-			controlComp->jump = 0;
-		}
-		if (e.key.keysym.sym == SDLK_RIGHT)
-		{
-			controlComp->moveRight = 0;
-		}
-		if (e.key.keysym.sym == SDLK_LEFT)
-		{
-			controlComp->moveLeft = 0;
-		}
-		if (e.key.keysym.sym == SDLK_s)
-		{
-			pressed = false;
+			if (e.key.keysym.sym == SDLK_UP)
+			{
+				controlComp->jump = 0;
+			}
+			if (e.key.keysym.sym == SDLK_RIGHT)
+			{
+				stickRight->stop(&entity);
+			}
+			if (e.key.keysym.sym == SDLK_LEFT)
+			{
+				stickLeft->stop(&entity);
+			}
+			if (e.key.keysym.sym == SDLK_s)
+			{
+				pressed = false;
+			}
 		}
 
 	}
