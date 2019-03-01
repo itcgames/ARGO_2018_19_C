@@ -1047,7 +1047,16 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 		{
 			// Set flag position and if it can be taken
 			PositionComponent * fp = (PositionComponent *)flag.getCompByType("Position");
+			PickUpComponent * pickup = (PickUpComponent *)flag.getCompByType("PickUp");
 			fp->setPosition((int)msgToPos(msg.substr(index))[0], (int)msgToPos(msg.substr(index))[1]);
+
+			if ((int)msgToPos(msg.substr(index))[2] == 0)
+			{
+				pickup->setState(pickup->NotCollectable);
+			}
+			else {
+				pickup->setState(pickup->Collectable);
+			}
 			
 		}
 

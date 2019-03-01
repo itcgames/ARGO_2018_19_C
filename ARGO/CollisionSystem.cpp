@@ -168,7 +168,7 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 			if (life->getLife() > 0)
 			{
 				if (AABB(posComp1->getPositionX(), posComp1->getPositionY(), posComp2->getPositionX(), posComp2->getPositionY(),
-					spriteComp->getWidth() + 20, spriteComp->getHeight() + 20, spriteComp2->getWidth() + 20, spriteComp2->getHeight() + 20)) {
+					spriteComp->getWidth() + 40, spriteComp->getHeight() + 40, spriteComp2->getWidth() + 40, spriteComp2->getHeight() + 40)) {
 
 					if (pickup->getState() == pickup->Collectable)
 					{
@@ -176,28 +176,29 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 						pickup->setState(pickup->NotCollectable);
 					}
 
-					if (cc->hasFlag == true && pickup->getState() == pickup->NotCollectable)
+					
+
+				}
+				if (cc->hasFlag == true )
+				{
+					posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 6, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
+					int fps = 1;
+					int ticksPerFrame = 1000 / fps;
+
+					if (ticksPerFrame < time)
 					{
-						posComp2->setPosition(posComp1->getPositionX() + spriteComp2->getHeight() / 6, posComp1->getPositionY() - spriteComp2->getHeight() / 2);
-						int fps = 1;
-						int ticksPerFrame = 1000 / fps;
-
-						if (ticksPerFrame < time)
+						if (score != NULL)
 						{
-							if (score != NULL)
-							{
-								score->setScore(score->getScore() + 1);
-							}
-
-							time = 0;
+							score->setScore(score->getScore() + 1);
 						}
+						time = 0;
 					}
-
 				}
-				if (pickup->getState() == pickup->Collectable) {
+	
+			//	if (pickup->getState() == pickup->Collectable && playerID == "Player") {
 
-					FloatFlag(posComp2);
-				}
+					//FloatFlag(posComp2);
+				//}
 			}
 			else
 			{
@@ -382,6 +383,7 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			std::cout << "KILL TILES COLLIDE" << std::endl;
 			ac->die();
 			cc->alive = false;
+			cc->hasFlag = false;
 			posComp1->setPosition(1000, 300);
 			lc->setLifes(lc->getLife() - 1);
 		}
