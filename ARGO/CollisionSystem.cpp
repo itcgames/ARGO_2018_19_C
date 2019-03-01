@@ -160,6 +160,7 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 			spriteComp2 = (SpriteComponent *)entity.getCompByType("Sprite");
 			pickup = (PickUpComponent *)entity.getCompByType("PickUp");
 
+
 		}
 
 		
@@ -385,6 +386,12 @@ void CollisionSystem::tileCollision(float x, float y, float width, float height,
 			std::cout << "KILL TILES COLLIDE" << std::endl;
 			ac->die();
 			cc->alive = false;
+
+			if (cc->hasFlag)
+			{
+				posComp2->setPosition(750, 400);
+				pickup->setState(pickup->Collectable);
+			}
 			cc->hasFlag = false;
 			posComp1->setPosition(1000, 300);
 			lc->setLifes(lc->getLife() - 1);
