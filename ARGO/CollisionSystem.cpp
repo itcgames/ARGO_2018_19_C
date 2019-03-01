@@ -174,6 +174,8 @@ void CollisionSystem::CheckCollision(level &level, float dt, std::string playerI
 					{
 						cc->hasFlag = true;
 						pickup->setState(pickup->NotCollectable);
+
+
 					}
 
 					

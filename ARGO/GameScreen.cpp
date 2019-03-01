@@ -1050,12 +1050,13 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 			PickUpComponent * pickup = (PickUpComponent *)flag.getCompByType("PickUp");
 			fp->setPosition((int)msgToPos(msg.substr(index))[0], (int)msgToPos(msg.substr(index))[1]);
 
-			if ((int)msgToPos(msg.substr(index))[2] == 0)
+			if ((int)msgToPos(msg.substr(index))[2] == -1)
 			{
-				pickup->setState(pickup->NotCollectable);
+				pickup->setState(pickup->Collectable);
+
 			}
 			else {
-				pickup->setState(pickup->Collectable);
+				pickup->setState(pickup->NotCollectable);
 			}
 			
 		}
@@ -1131,6 +1132,9 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 
 			PickUpComponent * pickup = (PickUpComponent *)flag.getCompByType("PickUp");
 
+			PositionComponent * pcFlag = (PositionComponent *)flag.getCompByType("Position");
+			AiComponent* ai = (AiComponent*)player.getCompByType("Ai");
+
 			switch ((int)msgToPos(msg.substr(index))[0])
 			{
 			case 0:
@@ -1138,6 +1142,7 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 				v = (VelocityComponent*)player.getCompByType("Vel");
 				p = (PositionComponent*)player.getCompByType("Position");
 				cc = (ControlComponent*)player.getCompByType("Control");
+				ai = (AiComponent*)player.getCompByType("Ai");
 				break;
 
 			case 1:
@@ -1145,6 +1150,7 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 				v = (VelocityComponent*)player2.getCompByType("Vel");
 				p = (PositionComponent*)player2.getCompByType("Position");
 				cc = (ControlComponent*)player2.getCompByType("Control");
+				ai = (AiComponent*)player2.getCompByType("Ai");
 				break;
 
 			case 2:
@@ -1152,6 +1158,7 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 				v = (VelocityComponent*)player3.getCompByType("Vel");
 				p = (PositionComponent*)player3.getCompByType("Position");
 				cc = (ControlComponent*)player3.getCompByType("Control");
+				ai = (AiComponent*)player3.getCompByType("Ai");
 				break;
 
 			case 3:
@@ -1159,6 +1166,7 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 				v = (VelocityComponent*)player4.getCompByType("Vel");
 				p = (PositionComponent*)player4.getCompByType("Position");
 				cc = (ControlComponent*)player4.getCompByType("Control");
+			    ai = (AiComponent*)player4.getCompByType("Ai");
 				break;
 			}
 
@@ -1168,18 +1176,33 @@ void GameScreen::updateNetwork(Client * client, std::string msg, SDL_Renderer * 
 			{
 				// Left
 				std::cout << "Kicked left" << std::endl;
-				p->setPosition(p->getPositionX() + v->getVelX() - 100, p->getPositionY() + v->getVelY() - 90);
+			
+				if (ai != NULL) {
+					p->setPosition(p->getPositionX() + v->getVelX() - 100, p->getPositionY() + v->getVelY() - 90);
+				}
+				else {
+					p->setPosition(p->getPositionX() - 100, p->getPositionY() - 90);
+				}
+				
 			}
 			else
 			{
 				// Right
 				std::cout << "Kicked right" << std::endl;
-				p->setPosition(p->getPositionX() + v->getVelX() + 100, p->getPositionY() + v->getVelY() - 90);
+				//pcFlag->setPosition(750, 400);
+				if (ai != NULL) {
+					p->setPosition(p->getPositionX() + v->getVelX() + 100, p->getPositionY() + v->getVelY() - 90);
+				}
+				else {
+					p->setPosition(p->getPositionX() + 100, p->getPositionY() - 90);
+				}
+				
 			}
 
 			if ((int)msgToPos(msg.substr(index))[2] == 1)
 			{
 				cc->hasFlag = false;
+				
 				pickup->setState(pickup->Collectable);
 			}
 		}
